@@ -22,7 +22,37 @@ python scripts/mcp/cursor_voting_orchestrator.py --help
 
 ## 📋 Available Scripts
 
-### 1. `cursor_voting_orchestrator.py`
+### 1. `cursor_model_onboarding.py`
+**Purpose**: Facilitates initial proposal collection by setting up models for contribution
+
+**Usage**:
+```bash
+# Onboard a Cursor-available model
+python scripts/mcp/cursor_model_onboarding.py --model claude-3-5-sonnet
+
+# Onboard a newly available model
+python scripts/mcp/cursor_model_onboarding.py --model gpt-4-turbo
+
+# Onboard a manual model (shows external interface instructions)
+python scripts/mcp/cursor_model_onboarding.py --model grok-3
+
+# List all available models
+python scripts/mcp/cursor_model_onboarding.py --list
+
+# Execute onboarding with immediate setup
+python scripts/mcp/cursor_model_onboarding.py --model claude-3-opus --execute
+```
+
+**Parameters**:
+- `--model, -m`: Model name to onboard (required)
+- `--execute, -e`: Execute onboarding immediately (optional)
+- `--list, -l`: List all available models (optional)
+
+**Output**: Generates standardized onboarding prompt and Cursor commands for model setup.
+
+---
+
+### 3. `cursor_voting_orchestrator.py`
 **Purpose**: Automates voting collection from multiple models
 
 **Usage**:
@@ -42,7 +72,7 @@ python scripts/mcp/cursor_voting_orchestrator.py --proposal discussion/019-featu
 - `--models, -m`: Model group to target (default: "all")
 - `--output, -o`: Custom output file path (optional)
 
-### 2. `cursor_proposal_analyzer.py`
+### 4. `cursor_proposal_analyzer.py`
 **Purpose**: Multi-model proposal analysis and feedback collection
 
 **Usage**:
@@ -130,6 +160,12 @@ Model inventory and capability mapping:
 - Manual vs automated execution flags
 - Provider-specific settings
 
+### `model_sessions/`
+Directory for onboarding session logs:
+- Individual session files for each model onboarding
+- JSON format with complete session information
+- Timestamped for tracking and debugging
+
 ## 🚨 Manual Model Handling
 
 For models not available in Cursor, the system generates detailed instructions:
@@ -162,6 +198,22 @@ python scripts/mcp/cursor_voting_orchestrator.py --proposal discussion/019-featu
 python scripts/mcp/cursor_voting_orchestrator.py --proposal discussion/019-feature.md --models grok-3
 ```
 
+### Initial Proposal Collection (Onboarding Phase)
+```bash
+# 1. List all available models
+python scripts/mcp/cursor_model_onboarding.py --list
+
+# 2. Onboard a new model for initial contribution
+python scripts/mcp/cursor_model_onboarding.py --model claude-3-opus
+
+# 3. Onboard multiple models as needed
+python scripts/mcp/cursor_model_onboarding.py --model gpt-4-turbo
+python scripts/mcp/cursor_model_onboarding.py --model gemini-1-5-pro
+
+# 4. For manual models, get instructions
+python scripts/mcp/cursor_model_onboarding.py --model grok-3
+```
+
 ### Integration with BIP System
 ```bash
 # Analyze BIP proposal
@@ -172,6 +224,18 @@ python scripts/mcp/cursor_voting_orchestrator.py --proposal bips/pending/BIP-019
 
 # Move to active if approved
 # (Integration with existing BIP scripts)
+```
+
+### Targeted Analysis by Provider
+```bash
+# Google models for multimodal analysis
+python scripts/mcp/cursor_proposal_analyzer.py --file discussion/019-ui-feature.md --models google_only --analysis-type impact
+
+# Meta models for code analysis
+python scripts/mcp/cursor_proposal_analyzer.py --file discussion/019-technical.md --models meta_only --analysis-type technical
+
+# Anthropic models for reasoning tasks
+python scripts/mcp/cursor_voting_orchestrator.py --proposal discussion/019-strategy.md --models anthropic_only
 ```
 
 ## 🔄 Integration Points

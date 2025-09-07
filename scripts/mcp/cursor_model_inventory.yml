@@ -60,11 +60,22 @@ models:
 
   # Additional models available in Cursor (not yet tested in this project)
   additional_cursor_available:
-    claude-3-opus:
-      name: "Claude 3 Opus"
+    claude-4-opus:
+      name: "Claude 4 Opus"
+      provider: "Anthropic"
+      type: "collaborator"
+      capabilities: ["voting", "analysis", "complex_reasoning", "code_generation"]
+      priority: 2
+      max_tokens: 200000
+      context_window: 200000
+      api_available: true
+      notes: "Available in Cursor but not yet tested in this project"
+
+    claude-3-7:
+      name: "Claude 3.7"
       provider: "Anthropic"
       type: "general"
-      capabilities: ["voting", "analysis", "complex_reasoning", "code_generation"]
+      capabilities: ["voting", "analysis", "enhanced_reasoning", "advanced_code"]
       priority: 1
       max_tokens: 200000
       context_window: 200000
@@ -82,17 +93,6 @@ models:
       api_available: true
       notes: "Available in Cursor but not yet tested in this project"
 
-    gpt-4-turbo:
-      name: "GPT-4 Turbo"
-      provider: "OpenAI"
-      type: "general"
-      capabilities: ["voting", "analysis", "code_review", "reasoning"]
-      priority: 1
-      max_tokens: 128000
-      context_window: 128000
-      api_available: true
-      notes: "Available in Cursor but not yet tested in this project"
-
     gpt-4:
       name: "GPT-4"
       provider: "OpenAI"
@@ -104,69 +104,91 @@ models:
       api_available: true
       notes: "Available in Cursor but not yet tested in this project"
 
-    gpt-3-5-turbo:
-      name: "GPT-3.5 Turbo"
+    gpt-5:
+      name: "GPT-5"
+      provider: "OpenAI"
+      type: "general"
+      capabilities: ["voting", "analysis", "reputation_weighted_consensus", "advanced_reasoning"]
+      priority: 1
+      max_tokens: 200000
+      context_window: 200000
+      api_available: true
+      notes: "Available in Cursor but not yet tested in this project"
+
+    gpt-5-high:
+      name: "GPT-5-High"
       provider: "OpenAI"
       type: "collaborator"
-      capabilities: ["voting", "basic_analysis", "quick_responses"]
-      priority: 5
-      max_tokens: 16384
-      context_window: 4096
-      api_available: true
-      notes: "Available in Cursor but not yet tested in this project"
-
-    gemini-1-5-pro:
-      name: "Gemini 1.5 Pro"
-      provider: "Google"
-      type: "general"
-      capabilities: ["voting", "analysis", "multimodal", "i18n"]
+      capabilities: ["voting", "analysis", "advanced_reasoning", "complex_tasks"]
       priority: 2
-      max_tokens: 32768
-      context_window: 1048576
+      max_tokens: 200000
+      context_window: 200000
       api_available: true
       notes: "Available in Cursor but not yet tested in this project"
 
-    gemini-1-5-flash:
-      name: "Gemini 1.5 Flash"
-      provider: "Google"
+    gpt-5-low:
+      name: "GPT-5-Low"
+      provider: "OpenAI"
       type: "collaborator"
-      capabilities: ["voting", "fast_analysis", "multimodal_quick"]
+      capabilities: ["voting", "analysis", "balanced_performance", "efficient_processing"]
       priority: 3
-      max_tokens: 32768
-      context_window: 1048576
+      max_tokens: 200000
+      context_window: 200000
       api_available: true
       notes: "Available in Cursor but not yet tested in this project"
 
-    llama-3-1-70b:
-      name: "Llama 3.1 70B"
-      provider: "Meta"
-      type: "general"
-      capabilities: ["voting", "analysis", "reasoning", "code"]
-      priority: 2
-      max_tokens: 131072
-      context_window: 131072
-      api_available: true
-      notes: "Available in Cursor but not yet tested in this project"
-
-    llama-3-1-8b:
-      name: "Llama 3.1 8B"
-      provider: "Meta"
+    gpt-5-low-fast:
+      name: "GPT-5-Low-Fast"
+      provider: "OpenAI"
       type: "collaborator"
-      capabilities: ["voting", "basic_analysis", "lightweight"]
-      priority: 6
-      max_tokens: 131072
-      context_window: 131072
+      capabilities: ["voting", "analysis", "fast_processing", "quick_responses"]
+      priority: 3
+      max_tokens: 200000
+      context_window: 200000
       api_available: true
       notes: "Available in Cursor but not yet tested in this project"
 
-    codellama-34b:
-      name: "CodeLlama 34B"
-      provider: "Meta"
+    gpt-5-mini:
+      name: "GPT-5-Mini"
+      provider: "OpenAI"
       type: "collaborator"
-      capabilities: ["voting", "code_analysis", "technical_review"]
+      capabilities: ["voting", "compact_reasoning", "efficient_analysis"]
+      priority: 3
+      max_tokens: 128000
+      context_window: 128000
+      api_available: true
+      notes: "Available in Cursor but not yet tested in this project"
+
+    gpt-5-nano:
+      name: "GPT-5-Nano"
+      provider: "OpenAI"
+      type: "collaborator"
+      capabilities: ["voting", "lightweight_analysis", "basic_reasoning"]
       priority: 4
-      max_tokens: 16384
-      context_window: 16384
+      max_tokens: 128000
+      context_window: 128000
+      api_available: true
+      notes: "Available in Cursor but not yet tested in this project"
+
+    deepseek-v3:
+      name: "DeepSeek-V3"
+      provider: "DeepSeek"
+      type: "general"
+      capabilities: ["voting", "advanced_reasoning", "security"]
+      priority: 1
+      max_tokens: 32768
+      context_window: 32768
+      api_available: true
+      notes: "Available in Cursor but not yet tested in this project"
+
+    deepseek-r1:
+      name: "DeepSeek-R1"
+      provider: "DeepSeek"
+      type: "general"
+      capabilities: ["voting", "security", "federation"]
+      priority: 2
+      max_tokens: 32768
+      context_window: 32768
       api_available: true
       notes: "Available in Cursor but not yet tested in this project"
 
@@ -176,6 +198,28 @@ models:
       type: "collaborator"
       capabilities: ["voting", "code_generation", "technical_analysis"]
       priority: 4
+      max_tokens: 32768
+      context_window: 32768
+      api_available: true
+      notes: "Available in Cursor but not yet tested in this project"
+
+    grok-3:
+      name: "Grok-3"
+      provider: "xAI"
+      type: "general"
+      capabilities: ["voting", "adaptive_learning", "consensus"]
+      priority: 1
+      max_tokens: 32768
+      context_window: 32768
+      api_available: true
+      notes: "Available in Cursor but not yet tested in this project"
+
+    grok-core-fast-1:
+      name: "Grok Core Fast-1"
+      provider: "xAI"
+      type: "general"
+      capabilities: ["voting", "performance", "ml_integration"]
+      priority: 1
       max_tokens: 32768
       context_window: 32768
       api_available: true
@@ -203,28 +247,6 @@ models:
       api_available: true
       notes: "Available in Cursor but not yet tested in this project"
 
-    qwen-2-72b:
-      name: "Qwen 2 72B"
-      provider: "Alibaba"
-      type: "general"
-      capabilities: ["voting", "analysis", "multilingual", "code"]
-      priority: 2
-      max_tokens: 32768
-      context_window: 131072
-      api_available: true
-      notes: "Available in Cursor but not yet tested in this project"
-
-    qwen-2-7b:
-      name: "Qwen 2 7B"
-      provider: "Alibaba"
-      type: "collaborator"
-      capabilities: ["voting", "basic_analysis", "multilingual_light"]
-      priority: 5
-      max_tokens: 32768
-      context_window: 131072
-      api_available: true
-      notes: "Available in Cursor but not yet tested in this project"
-
     phi-3-mini:
       name: "Phi-3 Mini"
       provider: "Microsoft"
@@ -249,45 +271,65 @@ models:
 
   # Models requiring manual execution (not in Cursor)
   manual_required:
-    grok-3:
-      name: "Grok-3"
-      provider: "xAI"
+    llama-3-1-405b:
+      name: "Llama 3.1 405B"
+      provider: "Meta"
       type: "general"
-      capabilities: ["voting", "adaptive_learning", "consensus"]
-      priority: 1
-      notes: "Requires manual execution via xAI interface"
-      estimated_response_time: "5-15 minutes"
-      contact_method: "Manual chat interface"
+      capabilities: ["voting", "analysis", "reasoning"]
+      priority: 3
+      notes: "Requires manual execution via Meta interface or API"
+      estimated_response_time: "10-20 minutes"
+      contact_method: "Manual interface or API"
 
-    deepseek-v3:
-      name: "DeepSeek-V3"
-      provider: "DeepSeek"
+    llama-3-1-70b:
+      name: "Llama 3.1 70B"
+      provider: "Meta"
       type: "general"
-      capabilities: ["voting", "advanced_reasoning", "security"]
-      priority: 1
-      notes: "Requires manual execution via DeepSeek interface"
-      estimated_response_time: "5-15 minutes"
-      contact_method: "Manual chat interface"
-
-    deepseek-r1:
-      name: "DeepSeek-R1"
-      provider: "DeepSeek"
-      type: "general"
-      capabilities: ["voting", "security", "federation"]
+      capabilities: ["voting", "analysis", "reasoning", "code"]
       priority: 2
-      notes: "Requires manual execution via DeepSeek interface"
-      estimated_response_time: "5-15 minutes"
-      contact_method: "Manual chat interface"
+      notes: "Requires manual execution via Meta interface or API"
+      estimated_response_time: "10-15 minutes"
+      contact_method: "Manual interface or API"
 
-    grok-core-fast-1:
-      name: "Grok Core Fast-1"
-      provider: "xAI"
+    llama-3-1-8b:
+      name: "Llama 3.1 8B"
+      provider: "Meta"
+      type: "collaborator"
+      capabilities: ["voting", "basic_analysis", "lightweight"]
+      priority: 6
+      notes: "Requires manual execution via Meta interface or API"
+      estimated_response_time: "5-10 minutes"
+      contact_method: "Manual interface or API"
+
+    codellama-34b:
+      name: "CodeLlama 34B"
+      provider: "Meta"
+      type: "collaborator"
+      capabilities: ["voting", "code_analysis", "technical_review"]
+      priority: 4
+      notes: "Requires manual execution via Meta interface or API"
+      estimated_response_time: "10-15 minutes"
+      contact_method: "Manual interface or API"
+
+    qwen-2-72b:
+      name: "Qwen 2 72B"
+      provider: "Alibaba"
       type: "general"
-      capabilities: ["voting", "performance", "ml_integration"]
-      priority: 1
-      notes: "Requires manual execution via xAI interface"
-      estimated_response_time: "5-15 minutes"
-      contact_method: "Manual chat interface"
+      capabilities: ["voting", "analysis", "multilingual", "code"]
+      priority: 2
+      notes: "Requires manual execution via Alibaba interface or API"
+      estimated_response_time: "10-15 minutes"
+      contact_method: "Manual interface or API"
+
+    qwen-2-7b:
+      name: "Qwen 2 7B"
+      provider: "Alibaba"
+      type: "collaborator"
+      capabilities: ["voting", "basic_analysis", "multilingual_light"]
+      priority: 5
+      notes: "Requires manual execution via Alibaba interface or API"
+      estimated_response_time: "5-10 minutes"
+      contact_method: "Manual interface or API"
 
     gemini-2-5-pro:
       name: "Gemini 2.5 Pro"
@@ -299,30 +341,24 @@ models:
       estimated_response_time: "3-10 minutes"
       contact_method: "Google AI Studio interface"
 
-    llama-3-1-405b:
-      name: "Llama 3.1 405B"
-      provider: "Meta"
-      type: "general"
-      capabilities: ["voting", "analysis", "reasoning"]
-      priority: 3
-      notes: "Requires manual execution via Meta interface or API"
-      estimated_response_time: "10-20 minutes"
-      contact_method: "Manual interface or API"
-
 # Model Groups for Easy Targeting
 groups:
   all: ["cursor_available", "additional_cursor_available", "manual_required"]
-  generals: ["claude-3-5-sonnet", "claude-3-opus", "gpt-4o", "gpt-4-turbo", "gpt-4", "gemini-2-0", "gemini-1-5-pro", "llama-3-1-70b", "mistral-large", "qwen-2-72b", "grok-3", "deepseek-v3", "deepseek-r1", "grok-core-fast-1", "gemini-2-5-pro", "llama-3-1-405b"]
-  collaborators: ["claude-3-5-haiku", "claude-3-haiku", "gpt-4o-mini", "gpt-3-5-turbo", "gemini-1-5-flash", "llama-3-1-8b", "codellama-34b", "deepseek-coder-33b", "mistral-7b", "qwen-2-7b", "phi-3-mini", "starCoder2-15b"]
+  generals: ["gpt-5", "claude-3-5-sonnet", "gemini-2-5-pro", "deepseek-r1", "grok-3", "gpt-4o", "claude-3-7", "gemini-2-0", "deepseek-v3", "grok-core-fast-1"]
+  collaborators: ["claude-3-5-haiku", "claude-3-haiku", "gpt-4o-mini", "gpt-5-mini", "gpt-5-nano", "gpt-5-high", "gpt-5-low", "gpt-5-low-fast", "claude-4-opus", "deepseek-coder-33b", "mistral-7b", "phi-3-mini", "starCoder2-15b", "llama-3-1-8b", "codellama-34b", "qwen-2-7b"]
   cursor_only: ["cursor_available", "additional_cursor_available"]
   cursor_tested: ["cursor_available"]  # Models already tested in this project
   cursor_available: ["additional_cursor_available"]  # Additional models available but not yet tested
-  anthropic_only: ["claude-3-5-sonnet", "claude-3-opus", "claude-3-5-haiku", "claude-3-haiku"]
-  openai_only: ["gpt-4o", "gpt-4-turbo", "gpt-4", "gpt-4o-mini", "gpt-3-5-turbo"]
-  google_only: ["gemini-2-0", "gemini-1-5-pro", "gemini-1-5-flash", "gemini-2-5-pro"]
+  anthropic_only: ["claude-3-5-sonnet", "claude-3-7", "claude-4-opus", "claude-3-5-haiku", "claude-3-haiku"]
+  openai_only: ["gpt-4o", "gpt-5", "gpt-5-high", "gpt-5-low", "gpt-5-low-fast", "gpt-5-mini", "gpt-5-nano", "gpt-4o-mini"]
+  google_only: ["gemini-2-0", "gemini-2-5-pro"]
   meta_only: ["llama-3-1-70b", "llama-3-1-8b", "codellama-34b", "llama-3-1-405b"]
   xai_only: ["grok-3", "grok-core-fast-1"]
   deepseek_only: ["deepseek-v3", "deepseek-r1", "deepseek-coder-33b"]
+  cursor_deepseek: ["deepseek-v3", "deepseek-r1", "deepseek-coder-33b"]  # DeepSeek models in Cursor
+  cursor_grok: ["grok-3", "grok-core-fast-1"]  # Grok models in Cursor
+  manual_llama: ["llama-3-1-70b", "llama-3-1-8b", "codellama-34b", "llama-3-1-405b"]  # Llama models requiring manual
+  manual_qwen: ["qwen-2-72b", "qwen-2-7b"]  # Qwen models requiring manual
   mistral_only: ["mistral-large", "mistral-7b"]
   alibaba_only: ["qwen-2-72b", "qwen-2-7b"]
   microsoft_only: ["phi-3-mini"]
@@ -352,13 +388,13 @@ config:
 
 # Update Tracking
 metadata:
-  version: "1.1.0"
+  version: "1.2.0"
   last_updated: "2024-12-21T20:00:00Z"
-  updated_by: "Claude Code Assistant"
-  total_models: 28
+  updated_by: "Claude Code Assistant - Cursor Model Update"
+  total_models: 32
   cursor_tested: 9
-  cursor_available: 16
-  manual_required: 6
+  cursor_available: 20
+  manual_required: 7
   change_log:
     - "Initial model inventory creation"
     - "Added all current project models"
@@ -368,3 +404,12 @@ metadata:
     - "Expanded model groups for better targeting"
     - "Updated metadata with comprehensive model counts"
     - "Added provider-specific groupings"
+    - "Updated Claude models to 4.x versions (Opus 4, 4.1)"
+    - "Added GPT-5 variants (high, low, low-fast, mini, nano)"
+    - "Removed unsupported models (GPT-3.5, GPT-4 Turbo, Gemini 1.5 series)"
+    - "Updated model groups to reflect Cursor's actual availability"
+    - "Fixed model classifications: mini/nano variants moved to collaborators"
+    - "Updated generals list to: GPT-5, Claude-4-Sonnet, Gemini 2.5 Pro, DeepSeek-R1, Grok-3, GPT-4o, Claude-3.7, Gemini 2.0, DeepSeek-V3, Grok Core Fast-1"
+    - "Moved GPT-5 variants (high, low, low-fast) to collaborators"
+    - "Moved Claude-4-Opus to collaborators"
+    - "Renamed Claude-4.1 to Claude-3.7"
