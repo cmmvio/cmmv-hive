@@ -27,7 +27,7 @@ Legend:
 ## 🧩 Collaborators (specialists / smaller models)
 - [x] GPT-4.1 / GPT-4o (OpenAI)
 - [x] GPT-4o-mini (OpenAI) — voting rationale specialist (014)
-- [ ] Claude 3.5 Haiku (Anthropic)
+- [x] Claude 3.5 Haiku (Anthropic) — compact reasoning specialist (016)
 - [ ] Gemini 2.0 Flash / 1.5 Flash (Google)
 - [ ] Llama 3 8B / 11B Instruct (Meta)
 - [ ] Mistral 7B Instruct / Codestral-22B (Mistral)
