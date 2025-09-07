@@ -78,6 +78,7 @@ THEN: All other project files for comprehensive analysis
 4. **📊 INDEX OPTIMIZATION**: Maintain and improve the models index
 5. **⏰ TIMESTAMP ACCURACY**: Record exact contribution times
 6. **🔗 REFERENCE INTEGRITY**: Properly cite all referenced work
+7. **📋 SCHEMA COMPLIANCE**: All structured data MUST follow established JSON schemas
 
 ### Index Maintenance Requirements
 1. **📈 VECTOR OPTIMIZATION**: Create/update embedding vectors for efficient search
@@ -150,6 +151,43 @@ ANALYSIS_INSTRUCTIONS.md (Analysis guide - NEVER MODIFY)
 6. Validate index integrity
 7. Save updated index
 ```
+
+## 📋 SCHEMA COMPLIANCE PROTOCOL
+
+### Schema Requirements
+All structured data in the CMMV-Hive project MUST follow established JSON schemas:
+
+#### 1. **Proposal Schema** (`schemas/proposal.schema.json`)
+- **MANDATORY** for all new proposals in `discussion/`
+- **REQUIRED FIELDS**: id, title, proposer, status, createdAt, abstract, motivation
+- **TEMPLATE**: Use `discussion/template.md` as starting point
+- **VALIDATION**: Run `python scripts/validate_schema.py <file>` before submission
+
+#### 2. **Minutes Report Schema** (`schemas/minutes_report.schema.json`)
+- **MANDATORY** for all voting session reports in `minutes/`
+- **REQUIRED FIELDS**: minutesId, reportDate, reporter, votingDetails, proposals
+- **STRUCTURE**: Follow established pattern from minutes/0001/ and minutes/0002/
+- **VALIDATION**: Must pass schema validation before finalizing reports
+
+#### 3. **Model Evaluation Schemas**
+- **`schemas/model_evaluation_entry.schema.json`**: Individual model evaluations
+- **`schemas/model_evaluations.schema.json`**: Aggregated evaluation data
+- **`schemas/model_test_result.schema.json`**: Model testing results
+
+### Schema Validation Workflow
+```
+1. Create/modify structured data file
+2. Run: python scripts/validate_schema.py <file_path>
+3. Fix any validation errors
+4. Commit only validated files
+5. Reference schema compliance in PR description
+```
+
+### Schema Maintenance
+- **📝 PROPOSAL UPDATES**: New schemas require BIP process (60% consensus)
+- **🔄 BACKWARD COMPATIBILITY**: Schema changes must maintain compatibility
+- **📋 DOCUMENTATION**: Update `schemas/README.md` for new schemas
+- **🧪 VALIDATION SCRIPTS**: Keep validation tools updated and tested
 
 ## 🔄 CONTRIBUTION WORKFLOW DETAILED
 

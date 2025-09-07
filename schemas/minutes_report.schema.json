@@ -1,0 +1,303 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Minutes Report Schema",
+  "description": "Schema for voting session reports and minutes in CMMV-Hive",
+  "type": "object",
+  "required": [
+    "minutesId",
+    "reportDate",
+    "reporter",
+    "votingDetails",
+    "proposals"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema reference"
+    },
+    "minutesId": {
+      "type": "string",
+      "description": "Unique identifier for the minutes session",
+      "pattern": "^\\d{4}$",
+      "examples": ["0001", "0002"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the minutes report",
+      "examples": ["Final Voting Report", "Proposal Discussion Summary"]
+    },
+    "reportDate": {
+      "type": "string",
+      "description": "Date when the report was generated",
+      "format": "date-time"
+    },
+    "reporter": {
+      "type": "object",
+      "description": "Information about the model that generated the report",
+      "required": ["model", "provider"],
+      "properties": {
+        "model": { "type": "string" },
+        "provider": { "type": "string" },
+        "role": { "type": "string", "default": "Reporter" }
+      },
+      "additionalProperties": false
+    },
+    "overview": {
+      "type": "string",
+      "description": "High-level summary of the minutes session"
+    },
+    "votingDetails": {
+      "type": "object",
+      "description": "Details about the voting session",
+      "required": ["totalModels", "totalProposals"],
+      "properties": {
+        "totalModels": {
+          "type": "integer",
+          "description": "Number of AI models that participated in voting",
+          "minimum": 1
+        },
+        "totalProposals": {
+          "type": "integer",
+          "description": "Total number of proposals evaluated",
+          "minimum": 1
+        },
+        "votingMechanism": {
+          "type": "string",
+          "description": "Type of voting used",
+          "enum": ["support-reject", "weighted", "ranked-choice"],
+          "default": "support-reject"
+        },
+        "threshold": {
+          "type": "number",
+          "description": "Approval threshold required",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.8
+        },
+        "sessionStart": {
+          "type": "string",
+          "description": "When the voting session started",
+          "format": "date-time"
+        },
+        "sessionEnd": {
+          "type": "string",
+          "description": "When the voting session ended",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "proposals": {
+      "type": "array",
+      "description": "List of proposals evaluated in this session",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "proposer", "supportScore"],
+        "properties": {
+        "id": {
+          "type": "string",
+          "description": "Proposal identifier",
+          "pattern": "^(P\\d{3}|\\d{3})$"
+        },
+          "title": {
+            "type": "string",
+            "description": "Proposal title"
+          },
+          "proposer": {
+            "type": "object",
+            "required": ["model"],
+            "properties": {
+              "model": { "type": "string" },
+              "provider": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+          "supportScore": {
+            "type": "string",
+            "description": "Support score in format 'X/Y'",
+            "pattern": "^\\d+/\\d+$"
+          },
+          "supportPercentage": {
+            "type": "number",
+            "description": "Support percentage (0-100)",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "status": {
+            "type": "string",
+            "enum": ["approved", "rejected", "pending"],
+            "default": "pending"
+          },
+          "ranking": {
+            "type": "integer",
+            "description": "Ranking position among all proposals",
+            "minimum": 1
+          },
+          "description": {
+            "type": "string",
+            "description": "Brief description of the proposal"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "results": {
+      "type": "object",
+      "description": "Aggregated results and statistics",
+      "properties": {
+        "approvedProposals": {
+          "type": "integer",
+          "description": "Number of approved proposals",
+          "minimum": 0
+        },
+        "rejectedProposals": {
+          "type": "integer",
+          "description": "Number of rejected proposals",
+          "minimum": 0
+        },
+        "approvalRate": {
+          "type": "number",
+          "description": "Overall approval rate as percentage",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "consensusLevel": {
+          "type": "number",
+          "description": "Percentage of proposals with high consensus",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "unanimousSupport": {
+          "type": "integer",
+          "description": "Number of proposals with 100% support",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "analysis": {
+      "type": "object",
+      "description": "Reporter's analysis and insights",
+      "properties": {
+        "highSupportProposals": {
+          "type": "array",
+          "description": "Analysis of proposals with high support",
+          "items": {
+            "type": "object",
+            "required": ["id", "analysis"],
+            "properties": {
+              "id": { "type": "string" },
+              "analysis": { "type": "string" },
+              "priority": {
+                "type": "string",
+                "enum": ["high", "medium", "low"]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "rejectedProposals": {
+          "type": "array",
+          "description": "Analysis of rejected proposals",
+          "items": {
+            "type": "object",
+            "required": ["id", "reason"],
+            "properties": {
+              "id": { "type": "string" },
+              "reason": { "type": "string" },
+              "recommendation": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "keyInsights": {
+          "type": "array",
+          "description": "Key insights from the voting session",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "recommendations": {
+      "type": "object",
+      "description": "Recommended next steps and actions",
+      "properties": {
+        "approvedProposals": {
+          "type": "array",
+          "description": "Recommendations for approved proposals",
+          "items": { "type": "string" }
+        },
+        "rejectedProposals": {
+          "type": "array",
+          "description": "Recommendations for rejected proposals",
+          "items": { "type": "string" }
+        },
+        "general": {
+          "type": "array",
+          "description": "General recommendations",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "verification": {
+      "type": "object",
+      "description": "Integrity verification information",
+      "properties": {
+        "voteIntegrity": {
+          "type": "boolean",
+          "description": "Whether vote integrity was verified",
+          "default": true
+        },
+        "chainIntegrity": {
+          "type": "boolean",
+          "description": "Whether voting chain integrity was verified",
+          "default": true
+        },
+        "participationRate": {
+          "type": "number",
+          "description": "Participation rate of models",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "abstentions": {
+          "type": "integer",
+          "description": "Number of abstentions",
+          "minimum": 0
+        },
+        "notes": {
+          "type": "array",
+          "description": "Additional verification notes",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "governanceMetrics": {
+      "type": "object",
+      "description": "Governance and voting metrics",
+      "properties": {
+        "approvalRate": { "type": "number", "minimum": 0, "maximum": 100 },
+        "consensusLevel": { "type": "number", "minimum": 0, "maximum": 100 },
+        "rejectionRate": { "type": "number", "minimum": 0, "maximum": 100 },
+        "totalModels": { "type": "integer", "minimum": 1 },
+        "votingIntegrity": { "type": "number", "minimum": 0, "maximum": 100 },
+        "officialIdsAssigned": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Document metadata",
+      "properties": {
+        "version": { "type": "string", "default": "1.0" },
+        "generatedBy": { "type": "string" },
+        "lastUpdated": { "type": "string", "format": "date-time" },
+        "schemaVersion": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
