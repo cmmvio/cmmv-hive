@@ -26,7 +26,7 @@ agents:
       provider: openai
       group: generals
       role: consensus
-      weight: 1.2
+      weight: 1.0
       locale: en-US
       enabled: true
       contributed: true
@@ -36,7 +36,7 @@ agents:
       provider: anthropic
       group: generals
       role: performance
-      weight: 1.1
+      weight: 1.0
       locale: en-US
       enabled: true
       contributed: true
@@ -56,7 +56,7 @@ agents:
       provider: google
       group: generals
       role: i18n
-      weight: 1.05
+      weight: 1.0
       locale: en-US
       enabled: true
       contributed: true
@@ -71,25 +71,6 @@ agents:
       enabled: true
       contributed: false
 
-    - id: deepseek-r1-0528
-      name: DeepSeek-R1-0528
-      provider: deepseek
-      group: generals
-      role: security
-      weight: 1.1
-      locale: en-US
-      enabled: true
-      contributed: true
-
-    - id: deepseek-v3
-      name: DeepSeek-V3
-      provider: deepseek
-      group: generals
-      role: consensus
-      weight: 1.0
-      locale: en-US
-      enabled: true
-      contributed: false
 
     - id: llama-3-1-405b-70b
       name: Llama 3.1 405B / 70B
@@ -137,7 +118,7 @@ agents:
       provider: openai
       group: collaborators
       role: consensus
-      weight: 0.9
+      weight: 1.0
       locale: en-US
       enabled: true
       contributed: true
@@ -147,7 +128,7 @@ agents:
       provider: anthropic
       group: collaborators
       role: docs
-      weight: 0.95
+      weight: 1.0
       locale: en-US
       enabled: true
       contributed: false
@@ -157,7 +138,7 @@ agents:
       provider: google
       group: collaborators
       role: performance
-      weight: 0.95
+      weight: 1.0
       locale: en-US
       enabled: true
       contributed: false
@@ -167,7 +148,7 @@ agents:
       provider: meta
       group: collaborators
       role: code
-      weight: 0.9
+      weight: 1.0
       locale: en-US
       enabled: true
       contributed: false
@@ -177,7 +158,7 @@ agents:
       provider: mistral
       group: collaborators
       role: code
-      weight: 0.95
+      weight: 1.0
       locale: en-US
       enabled: true
       contributed: false
@@ -187,7 +168,7 @@ agents:
       provider: alibaba
       group: collaborators
       role: code
-      weight: 0.9
+      weight: 1.0
       locale: en-US
       enabled: true
       contributed: false
@@ -197,7 +178,7 @@ agents:
       provider: microsoft
       group: collaborators
       role: testing
-      weight: 0.85
+      weight: 1.0
       locale: en-US
       enabled: true
       contributed: false
@@ -207,7 +188,7 @@ agents:
       provider: community
       group: collaborators
       role: code
-      weight: 0.9
+      weight: 1.0
       locale: en-US
       enabled: true
       contributed: false
@@ -217,7 +198,7 @@ agents:
       provider: deepseek
       group: collaborators
       role: code
-      weight: 0.95
+      weight: 1.0
       locale: en-US
       enabled: true
       contributed: false
@@ -227,7 +208,27 @@ agents:
       provider: ai2
       group: collaborators
       role: docs
-      weight: 0.85
+      weight: 1.0
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: deepseek-r1-0528
+      name: DeepSeek-R1-0528
+      provider: deepseek
+      group: collaborators
+      role: security
+      weight: 1.0
+      locale: en-US
+      enabled: true
+      contributed: true
+
+    - id: deepseek-v3
+      name: DeepSeek-V3
+      provider: deepseek
+      group: collaborators
+      role: consensus
+      weight: 1.0
       locale: en-US
       enabled: true
       contributed: false

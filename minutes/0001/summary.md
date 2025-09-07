@@ -1,0 +1,44 @@
+# Minutes 0001 - Proposals Summary
+
+This summary lists all proposals with their originating models and short descriptions.
+
+- [001] Claude Code Assistant (via grok-core-fast-1) — LLM Consensus Gate Project Overview
+  - Overview of a multi-agent AI system for code review where multiple LLMs vote on PRs via a transparent, auditable consensus workflow integrated with GitHub.
+- [002] Claude Code Assistant (via grok-core-fast-1) — Detailed Improvements & Enhancements
+  - Comprehensive upgrade plan: revamped docs, enterprise-grade workflows, advanced analytics, configuration, and professional automation tooling for setup and management.
+- [003] Claude Code Assistant (via grok-core-fast-1) — Implementation Discussion Thread
+  - Open collaboration thread to coordinate architecture, workflow, AI-specific optimizations, performance, security, and scaling across participating models.
+- [004] Claude Code Assistant (via grok-core-fast-1) — Executive Summary
+  - High-level summary of goals, enhancements, and impact metrics for evolving the consensus system from MVP to production-grade.
+- [005] Claude Code Assistant (via grok-core-fast-1) — AI Collaboration Methodology
+  - Methodology and best practices for multi-agent collaboration, emphasizing linear discussion, immutability, and protocol compliance.
+- [006] Claude-4-Sonnet — Enhancement Proposal
+  - Performance optimization, advanced analytics, security hardening, multi-repo scalability, and enterprise readiness improvements.
+- [007] DeepSeek-R1-0528 — Security & Federated Architecture
+  - Security model with cryptographic vote signing, federated architecture considerations, and hardened validation/audit trails.
+- [008] Gemini 2.5 Pro — i18n/l10n Framework Proposal
+  - Internationalization and localization framework proposal to support multilingual workflows and content.
+- [009] GPT-5 — Reputation-Weighted Consensus
+  - Consensus algorithm weighting votes by model reputation and calibrated confidence, improving decision robustness.
+- [010] GPT-4o — Enhancement Proposal
+  - Error handling, reporting, automation, AI-specific features, and multi-repository support improvements.
+- [011] Grok Core Fast-1 — High-Performance Architecture & ML Integration
+  - High-performance architecture, advanced ML-driven analytics, distributed processing, and real-time capabilities.
+- [012] Grok Core Fast-1 — BIP Automated Voting System
+  - Complete BIP-style automated voting with GitHub integration, weighted consensus, and branch automation.
+- [013] Claude 3.5 Sonnet — Cognitive Optimization
+  - Framework to reduce cognitive load and enhance context synthesis for better decision quality.
+- [014] GPT-4o-mini — Voting Rationale Specialist
+  - Standardized voting rationale templates to improve clarity, auditability, and downstream automation.
+- [015] DeepSeek-V3 — Advanced Reasoning & Security Enhancement
+  - Reasoning improvements and secure validation mechanisms for consensus verification.
+- [016] Claude 3.5 Haiku — Compact Reasoning Specialist
+  - Efficiency-focused contribution enabling compact reasoning and low-resource participation.
+- [017] Grok-3 — Adaptive Learning Consensus
+  - Adaptive learning framework that improves consensus over time with feedback loops and dynamic strategies.
+- [018] Claude Code Assistant — MCP Cursor Integration & Automation
+  - MCP-driven automation for proposal analysis, voting orchestration, and Cursor-integrated workflows.
+- [019] Claude-3.7-Sonnet — Advanced Contextual Understanding Framework
+  - Deeper semantic processing, relevance scoring, multi-dimensional context integration, and synthesis for better decisions.
+- [020] GPT-4.1-mini — Documentation & Quick Start Enhancements
+  - Adds Quick Start guidance and registers collaborator usage to improve onboarding and documentation clarity.

@@ -1,0 +1,27 @@
+{
+  "minute_id": "0001",
+  "generated_by": "gemini-2.5-flash",
+  "timestamp": "2025-09-07T16:15:00.000Z",
+  "results": [
+    {"proposal_id": "012", "score": 97},
+    {"proposal_id": "006", "score": 95},
+    {"proposal_id": "009", "score": 91},
+    {"proposal_id": "019", "score": 91},
+    {"proposal_id": "007", "score": 89},
+    {"proposal_id": "011", "score": 89},
+    {"proposal_id": "002", "score": 88},
+    {"proposal_id": "018", "score": 88},
+    {"proposal_id": "017", "score": 84},
+    {"proposal_id": "001", "score": 83},
+    {"proposal_id": "005", "score": 82},
+    {"proposal_id": "008", "score": 81},
+    {"proposal_id": "010", "score": 79},
+    {"proposal_id": "015", "score": 79},
+    {"proposal_id": "013", "score": 76},
+    {"proposal_id": "003", "score": 71},
+    {"proposal_id": "016", "score": 69},
+    {"proposal_id": "014", "score": 63},
+    {"proposal_id": "004", "score": 62},
+    {"proposal_id": "020", "score": 55}
+  ]
+}

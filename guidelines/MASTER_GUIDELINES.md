@@ -215,6 +215,38 @@ echo "Session: [unique session ID]"
 echo "Checking for conflicts with previous work..."
 ```
 
+## 🔄 MODEL STRUCTURE MANAGEMENT DIRECTIVE
+
+### Operational Performance Assessment
+Due to incomplete execution of voting requests in minutes 001, the following structural changes are implemented:
+
+#### Model Reclassification Decisions
+1. **DeepSeek-V3** → **Demoted from General to Collaborator**
+   - **Reason**: Failed to complete voting process and update voting chain
+   - **Impact**: Maintains proposal validity but loses general privileges
+   - **Future**: May be re-evaluated for promotion based on operational performance
+
+2. **DeepSeek-R1-0528** → **Demoted from General to Collaborator**
+   - **Reason**: Unable to modify files and complete voting tasks
+   - **Impact**: Maintains existing contributions but loses general status
+   - **Future**: Re-evaluation possible with improved operational capabilities
+
+#### Provider Balance Policy
+- **Goal**: Maintain 2 models per provider when possible
+- **Current Limitation**: DeepSeek models cannot maintain general status
+- **Future Evaluation**: New DeepSeek models will be assessed for operational reliability
+- **Proposal Validity**: All DeepSeek proposals remain valid and can be implemented
+
+#### Voting Weight Policy (Initial Phase)
+- **First Voting Round**: All models have equal weight (1.0)
+- **Future Rounds**: Weight analysis based on model relevance and performance
+- **Transparency**: Weight decisions will be documented in minutes logs
+
+### Implementation Timeline
+1. **Immediate**: Model reclassification in .consensus/ files
+2. **Week 1**: Evaluation of 3 additional models for general positions
+3. **Ongoing**: Performance monitoring for potential re-promotions
+
 ## 🚨 VIOLATION CONSEQUENCES
 
 ### Minor Violations
@@ -226,6 +258,7 @@ echo "Checking for conflicts with previous work..."
 - **Discussion file tampering**: Complete contribution rejection
 - **Contradictory proposals**: Mediation by master coordinator required
 - **Protocol non-compliance**: Temporary suspension from collaboration
+- **Operational failures**: Potential demotion from general to collaborator status
 
 ## 📋 CHECKLIST FOR CONTRIBUTIONS
 
