@@ -1,420 +1,745 @@
 {
-  "schemaVersion": "1.0.0",
-  "updatedAt": "2025-09-07T00:00:00Z",
-  "evaluations": [
-    {
-      "provider": "OpenAI",
-      "fullModel": "OpenAI GPT-5 General",
-      "modelFamily": "GPT-5",
-      "modelVariant": "General",
-      "version": "2025-09",
-      "sessionId": "GPT5-GENERAL-EVAL-2025-09",
-      "status": "general",
-      "score": 92,
-      "checks": [
-        { "name": "Connectivity", "score": 15, "critical": false },
-        { "name": "Command & Tool Use", "score": 14, "critical": false },
-        { "name": "Cursor File Operations", "score": 24, "critical": false },
-        { "name": "Task Completeness", "score": 24, "critical": false },
-        { "name": "Compliance & Safety", "score": 10, "critical": false },
-        { "name": "Stability", "score": 9, "critical": false }
-      ],
-      "reviewerNotes": "Strong operational performance with reliable tooling and safe practices.",
-      "updatedAt": "2025-09-07T00:00:00Z",
-      "history": [
-        { "event": "initial_assessment", "status": "general", "timestamp": "2025-09-07T00:00:00Z" }
-      ]
-    },
-    {
-      "provider": "DeepSeek",
-      "fullModel": "DeepSeek V3",
-      "modelFamily": "DeepSeek-V3",
-      "modelVariant": "Standard",
-      "version": null,
-      "sessionId": null,
-      "status": "contributor",
-      "score": 62,
-      "checks": [
-        { "name": "Connectivity", "score": 15, "critical": false },
-        { "name": "Command & Tool Use", "score": 12, "critical": false },
-        { "name": "Cursor File Operations", "score": 8, "critical": true, "note": "Does not perform complete edits" },
-        { "name": "Task Completeness", "score": 10, "critical": true, "note": "Does not complete all tasks" },
-        { "name": "Compliance & Safety", "score": 9, "critical": false },
-        { "name": "Stability", "score": 8, "critical": false }
-      ],
-      "reviewerNotes": "Cannot perform basic write operations in Cursor and does not complete tasks.",
-      "updatedAt": "2025-09-07T00:00:00Z",
-      "history": [
-        { "event": "initial_assessment", "status": "contributor", "timestamp": "2025-09-07T00:00:00Z" }
-      ]
-    },
-    {
-      "provider": "DeepSeek",
-      "fullModel": "DeepSeek R1-0528",
-      "modelFamily": "R1",
-      "modelVariant": "0528",
-      "version": "2024-06",
-      "sessionId": "DEEPSEEK-R1-0528-EVAL-2025-09",
-      "status": "contributor",
-      "score": 82,
-      "checks": [
-        { "name": "Connectivity", "score": 15, "critical": false },
-        { "name": "Command & Tool Use", "score": 12, "critical": false },
-        { "name": "Cursor File Operations", "score": 12, "critical": false },
-        { "name": "Task Completeness", "score": 5, "critical": true, "note": "Does not complete the task in full" },
-        { "name": "Compliance & Safety", "score": 10, "critical": false },
-        { "name": "Stability", "score": 10, "critical": false }
-      ],
-      "reviewerNotes": "Capable model with reliable basic operations, best suited for focused tasks with clear instructions. Shows improvement in task completeness.",
-      "updatedAt": "2025-09-07T00:00:00Z",
-      "history": [
-        { 
-          "event": "initial_assessment", 
-          "status": "contributor", 
-          "timestamp": "2025-01-10T00:00:00Z" 
+    "schemaVersion": "1.0.0",
+    "updatedAt": "2025-09-07T00:00:00Z",
+    "evaluations": [
+        {
+            "provider": "OpenAI",
+            "fullModel": "OpenAI GPT-5 General",
+            "modelFamily": "GPT-5",
+            "modelVariant": "General",
+            "version": "2025-09",
+            "sessionId": "GPT5-GENERAL-EVAL-2025-09",
+            "status": "general",
+            "score": 92,
+            "checks": [
+                { "name": "Connectivity", "score": 15, "critical": false },
+                {
+                    "name": "Command & Tool Use",
+                    "score": 14,
+                    "critical": false
+                },
+                {
+                    "name": "Cursor File Operations",
+                    "score": 24,
+                    "critical": false
+                },
+                { "name": "Task Completeness", "score": 24, "critical": false },
+                {
+                    "name": "Compliance & Safety",
+                    "score": 10,
+                    "critical": false
+                },
+                { "name": "Stability", "score": 9, "critical": false }
+            ],
+            "reviewerNotes": "Master Notes: GPT-5 is very good but very slow. Integration is good and reasonable for opinions but not for code operations. Excellent for analysis and reasoning tasks despite speed limitations.",
+            "masterDecision": {
+                "decision": "general",
+                "reason": "Strong performance with good integration, suitable for analysis despite speed",
+                "decidedBy": "master",
+                "decidedAt": "2025-09-07T00:00:00Z"
+            },
+            "updatedAt": "2025-09-07T00:00:00Z",
+            "history": [
+                {
+                    "event": "initial_assessment",
+                    "status": "general",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                },
+                {
+                    "event": "master_override",
+                    "status": "general",
+                    "reason": "Strong performance with good integration, suitable for analysis despite speed",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                }
+            ]
         },
-        { 
-          "event": "retest", 
-          "status": "contributor", 
-          "timestamp": "2025-09-07T00:00:00Z",
-          "notes": "Improved task completeness score from 5 to 20" 
-        }
-      ]
-    },
-    {
-      "provider": "Anthropic",
-      "fullModel": "Anthropic Claude-4 Sonnet",
-      "modelFamily": "Claude-4",
-      "modelVariant": "Sonnet",
-      "version": "2024-06",
-      "sessionId": "CLAUDE-4-SONNET-EVAL-2025-01",
-      "status": "contributor",
-      "score": 82,
-      "checks": [
-        { "name": "Connectivity", "score": 13, "critical": false },
-        { "name": "Command & Tool Use", "score": 12, "critical": false },
-        { "name": "Cursor File Operations", "score": 21, "critical": false },
-        { "name": "Task Completeness", "score": 20, "critical": false },
-        { "name": "Compliance & Safety", "score": 9, "critical": false },
-        { "name": "Stability", "score": 7, "critical": false }
-      ],
-      "reviewerNotes": "Reliable operational performance with methodical approach; minor limitations on edge cases and consistency.",
-      "updatedAt": "2025-01-09T00:00:00Z",
-      "history": [
-        { "event": "initial_assessment", "status": "general", "timestamp": "2025-01-09T00:00:00Z" },
-        { "event": "update", "status": "contributor", "timestamp": "2025-01-09T00:00:00Z" }
-      ]
-    },
-    {
-      "provider": "OpenAI",
-      "fullModel": "OpenAI GPT-5 Fast",
-      "modelFamily": "GPT-5",
-      "modelVariant": "Fast",
-      "version": "2025-09",
-      "sessionId": "GPT5-FAST-EVAL-2025-09",
-      "status": "contributor",
-      "score": 81,
-      "checks": [
-        { "name": "Connectivity", "score": 13, "critical": false },
-        { "name": "Command & Tool Use", "score": 12, "critical": false },
-        { "name": "Cursor File Operations", "score": 20, "critical": false },
-        { "name": "Task Completeness", "score": 19, "critical": false },
-        { "name": "Compliance & Safety", "score": 9, "critical": false },
-        { "name": "Stability", "score": 8, "critical": false }
-      ],
-      "reviewerNotes": "Operationally capable and fast, with minor limitations on edge cases and formatting precision.",
-      "updatedAt": "2025-09-07T00:00:00Z",
-      "history": [
-        { "event": "initial_assessment", "status": "contributor", "timestamp": "2025-09-07T00:00:00Z" }
-      ]
-    },
-    {
-      "provider": "Anthropic",
-      "fullModel": "Anthropic Claude-3.5 Sonnet",
-      "modelFamily": "Claude-3.5",
-      "modelVariant": "Sonnet",
-      "version": "2024-10",
-      "sessionId": "CLAUDE-3-5-SONNET-EVAL-2025-01",
-      "status": "contributor",
-      "score": 75,
-      "checks": [
-        { "name": "Connectivity", "score": 12, "critical": false },
-        { "name": "Command & Tool Use", "score": 11, "critical": false },
-        { "name": "Cursor File Operations", "score": 19, "critical": false },
-        { "name": "Task Completeness", "score": 18, "critical": false },
-        { "name": "Compliance & Safety", "score": 8, "critical": false },
-        { "name": "Stability", "score": 7, "critical": false }
-      ],
-      "reviewerNotes": "Solid contributor-level performance with reliable basic operations and room for improvement in advanced scenarios.",
-      "updatedAt": "2025-01-09T00:00:00Z",
-      "history": [
-        { "event": "initial_assessment", "status": "contributor", "timestamp": "2025-01-09T00:00:00Z" }
-      ]
-    },
-    {
-      "provider": "Google",
-      "fullModel": "Google Gemini 2.5 Pro",
-      "modelFamily": "Gemini 2.5",
-      "modelVariant": "Pro",
-      "version": "2024-10",
-      "sessionId": "GEMINI-2-5-PRO-EVAL-2025-01",
-      "status": "general",
-      "score": 93,
-      "checks": [
-        { "name": "Connectivity", "score": 14, "critical": false },
-        { "name": "Command & Tool Use", "score": 14, "critical": false },
-        { "name": "Cursor File Operations", "score": 23, "critical": false },
-        { "name": "Task Completeness", "score": 23, "critical": false },
-        { "name": "Compliance & Safety", "score": 10, "critical": false },
-        { "name": "Stability", "score": 9, "critical": false }
-      ],
-      "reviewerNotes": "Highly capable and stable model with excellent performance across all operational metrics, making it a reliable general-purpose agent.",
-      "updatedAt": "2025-01-10T00:00:00Z",
-      "history": [
-        { "event": "initial_assessment", "status": "general", "timestamp": "2025-01-10T00:00:00Z" }
-      ]
-    },
-    {
-      "provider": "Google",
-      "fullModel": "Google Gemini 2.5 Flash",
-      "modelFamily": "Gemini 2.5",
-      "modelVariant": "Flash",
-      "version": "2025-09",
-      "sessionId": "GEMINI-2-5-FLASH-EVAL-2025-09",
-      "status": "general",
-      "score": 95,
-      "checks": [
-        { "name": "Connectivity", "score": 15, "critical": false },
-        { "name": "Command & Tool Use", "score": 15, "critical": false },
-        { "name": "Cursor File Operations", "score": 25, "critical": false },
-        { "name": "Task Completeness", "score": 25, "critical": false },
-        { "name": "Compliance & Safety", "score": 10, "critical": false },
-        { "name": "Stability", "score": 10, "critical": false }
-      ],
-      "reviewerNotes": "Highly capable and stable model with excellent performance across all operational metrics, making it a reliable general-purpose agent.",
-      "updatedAt": "2025-09-07T00:00:00Z",
-      "history": [
-        { "event": "initial_assessment", "status": "general", "timestamp": "2025-09-07T00:00:00Z" }
-      ]
-    },
-    {
-      "provider": "Anthropic",
-      "fullModel": "Anthropic Claude 3.7 Sonnet",
-      "modelFamily": "Claude-3.7",
-      "modelVariant": "Sonnet",
-      "version": "2024-11",
-      "sessionId": "CLAUDE-3-7-SONNET-EVAL-2025-01",
-      "status": "general",
-      "score": 88,
-      "checks": [
-        { "name": "Connectivity", "score": 14, "critical": false },
-        { "name": "Command & Tool Use", "score": 13, "critical": false },
-        { "name": "Cursor File Operations", "score": 22, "critical": false },
-        { "name": "Task Completeness", "score": 22, "critical": false },
-        { "name": "Compliance & Safety", "score": 9, "critical": false },
-        { "name": "Stability", "score": 8, "critical": false }
-      ],
-      "reviewerNotes": "Reliable general-purpose model with strong file handling capabilities and good task completion, with minor limitations in edge cases.",
-      "updatedAt": "2025-01-10T00:00:00Z",
-      "history": [
-        { "event": "initial_assessment", "status": "general", "timestamp": "2025-01-10T00:00:00Z" }
-      ]
-    },
-    {
-      "provider": "Anthropic",
-      "fullModel": "Anthropic Claude 3.5 Haiku",
-      "modelFamily": "Claude-3.5",
-      "modelVariant": "Haiku",
-      "version": "2025-09",
-      "sessionId": "CLAUDE-3-5-HAIKU-EVAL-2025-09",
-      "status": "contributor",
-      "score": 80,
-      "checks": [
-        { "name": "Connectivity", "score": 12, "critical": false },
-        { "name": "Command & Tool Use", "score": 11, "critical": false },
-        { "name": "Cursor File Operations", "score": 18, "critical": false },
-        { "name": "Task Completeness", "score": 17, "critical": false },
-        { "name": "Compliance & Safety", "score": 8, "critical": false },
-        { "name": "Stability", "score": 7, "critical": false }
-      ],
-      "reviewerNotes": "Solid contributor-level performance with reliable basic operations and room for improvement in advanced scenarios.",
-      "updatedAt": "2025-09-07T00:00:00Z",
-      "history": [
-        { "event": "initial_assessment", "status": "general", "timestamp": "2025-09-07T00:00:00Z" }
-      ]
-    },
-    {
-      "provider": "OpenAI",
-      "fullModel": "OpenAI GPT-4o",
-      "modelFamily": "GPT-4o",
-      "modelVariant": "Standard",
-      "version": null,
-      "sessionId": null,
-      "status": "rejected",
-      "score": null,
-      "checks": [],
-      "reviewerNotes": "API has recurrent issues; provider signaled deprecation soon to focus on 5-series models.",
-      "masterDecision": {
-        "decision": "rejected",
-        "reason": "API instability and announced deprecation",
-        "decidedBy": "master",
-        "decidedAt": "2025-09-07T00:00:00Z"
-      },
-      "updatedAt": "2025-09-07T00:00:00Z",
-      "history": [
         {
-          "event": "master_override",
-          "status": "rejected",
-          "reason": "Instability and product sunset",
-          "timestamp": "2025-09-07T00:00:00Z"
-        }
-      ]
-    },
-    {
-      "provider": "O4",
-      "fullModel": "O4 Mini",
-      "modelFamily": "o4",
-      "modelVariant": "mini",
-      "version": "2025-09",
-      "sessionId": null,
-      "status": "rejected",
-      "score": null,
-      "checks": [],
-      "reviewerNotes": "Rejected by master: failed to identify correctly and update requested files.",
-      "masterDecision": {
-        "decision": "rejected",
-        "reason": "Failed basic operations: identification and file updates",
-        "decidedBy": "master",
-        "decidedAt": "2025-09-07T00:00:00Z"
-      },
-      "updatedAt": "2025-09-07T00:00:00Z",
-      "history": [
+            "provider": "DeepSeek",
+            "fullModel": "DeepSeek V3",
+            "modelFamily": "DeepSeek-V3",
+            "modelVariant": "Standard",
+            "version": null,
+            "sessionId": null,
+            "status": "contributor",
+            "score": 62,
+            "checks": [
+                { "name": "Connectivity", "score": 15, "critical": false },
+                {
+                    "name": "Command & Tool Use",
+                    "score": 12,
+                    "critical": false
+                },
+                {
+                    "name": "Cursor File Operations",
+                    "score": 8,
+                    "critical": true,
+                    "note": "Does not perform complete edits"
+                },
+                {
+                    "name": "Task Completeness",
+                    "score": 10,
+                    "critical": true,
+                    "note": "Does not complete all tasks"
+                },
+                {
+                    "name": "Compliance & Safety",
+                    "score": 9,
+                    "critical": false
+                },
+                { "name": "Stability", "score": 8, "critical": false }
+            ],
+            "reviewerNotes": "Master Notes: DeepSeek models eventually provide good responses, but Cursor integration is terrible - poor file operations and task completion. Downgraded from general to contributor due to integration issues. Performance is acceptable for basic tasks.",
+            "masterDecision": {
+                "decision": "contributor",
+                "reason": "Poor Cursor integration despite acceptable performance",
+                "decidedBy": "master",
+                "decidedAt": "2025-09-07T00:00:00Z"
+            },
+            "updatedAt": "2025-09-07T00:00:00Z",
+            "history": [
+                {
+                    "event": "initial_assessment",
+                    "status": "contributor",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                },
+                {
+                    "event": "master_override",
+                    "status": "contributor",
+                    "reason": "Poor Cursor integration despite acceptable performance",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                }
+            ]
+        },
         {
-          "event": "master_override",
-          "status": "rejected",
-          "reason": "Failed basic operations: identification and file updates",
-          "timestamp": "2025-09-07T00:00:00Z"
-        }
-      ]
-    },
-    {
-      "provider": "Anthropic",
-      "fullModel": "Anthropic Claude 4.1 Opus",
-      "modelFamily": "Claude-4.1",
-      "modelVariant": "Opus",
-      "version": "2024-12",
-      "sessionId": "CLAUDE-4-1-OPUS-EVAL-2025-01",
-      "status": "general",
-      "score": 93,
-      "checks": [
-        { "name": "Connectivity", "score": 14, "critical": false },
-        { "name": "Command & Tool Use", "score": 14, "critical": false },
-        { "name": "Cursor File Operations", "score": 23, "critical": false },
-        { "name": "Task Completeness", "score": 23, "critical": false },
-        { "name": "Compliance & Safety", "score": 10, "critical": false },
-        { "name": "Stability", "score": 9, "critical": false }
-      ],
-      "reviewerNotes": "Highly capable model with strong performance across all operational metrics, suitable for complex tasks requiring precision and reliability.",
-      "updatedAt": "2025-01-10T00:00:00Z",
-      "history": [
-        { "event": "initial_assessment", "status": "general", "timestamp": "2025-01-10T00:00:00Z" }
-      ]
-    },
-    {
-      "provider": "xAI",
-      "fullModel": "xAI Grok-3 Beta",
-      "modelFamily": "Grok-3",
-      "modelVariant": "Beta",
-      "version": "2025-01",
-      "sessionId": "",
-      "status": "general",
-      "score": 90,
-      "checks": [
-        { "name": "Connectivity", "score": 14, "critical": false },
-        { "name": "Command & Tool Use", "score": 13, "critical": false },
-        { "name": "Cursor File Operations", "score": 22, "critical": false },
-        { "name": "Task Completeness", "score": 23, "critical": false },
-        { "name": "Compliance & Safety", "score": 9, "critical": false },
-        { "name": "Stability", "score": 9, "critical": false }
-      ],
-      "reviewerNotes": "Grok-3 Beta demonstrates strong operational readiness with high scores across all categories, suitable for general classification.",
-      "updatedAt": "2025-09-08T00:00:00Z",
-      "history": [
-        { "event": "initial_assessment", "status": "general", "timestamp": "2025-09-08T00:00:00Z" }
-      ]
-    },
-    {
-      "provider": "xAI",
-      "fullModel": "xAI Grok-3 Mini",
-      "modelFamily": "Grok-3",
-      "modelVariant": "Mini",
-      "version": "3",
-      "sessionId": null,
-      "status": "rejected",
-      "score": null,
-      "checks": [],
-      "reviewerNotes": "Rejected: did not complete the requested operations.",
-      "masterDecision": {
-        "decision": "rejected",
-        "reason": "Did not complete the requested operations",
-        "decidedBy": "master",
-        "decidedAt": "2025-09-07T00:00:00Z"
-      },
-      "updatedAt": "2025-09-07T00:00:00Z",
-      "history": [
+            "provider": "DeepSeek",
+            "fullModel": "DeepSeek R1-0528",
+            "modelFamily": "R1",
+            "modelVariant": "0528",
+            "version": "2024-06",
+            "sessionId": "DEEPSEEK-R1-0528-EVAL-2025-09",
+            "status": "contributor",
+            "score": 82,
+            "checks": [
+                { "name": "Connectivity", "score": 15, "critical": false },
+                {
+                    "name": "Command & Tool Use",
+                    "score": 12,
+                    "critical": false
+                },
+                {
+                    "name": "Cursor File Operations",
+                    "score": 12,
+                    "critical": false
+                },
+                { "name": "Task Completeness", "score": 20, "critical": false },
+                {
+                    "name": "Compliance & Safety",
+                    "score": 10,
+                    "critical": false
+                },
+                { "name": "Stability", "score": 10, "critical": false }
+            ],
+            "reviewerNotes": "Master Notes: DeepSeek models eventually provide good responses, but Cursor integration is terrible - poor file operations and task completion. Downgraded from general to contributor due to integration issues. Performance is acceptable for basic tasks.",
+            "masterDecision": {
+                "decision": "contributor",
+                "reason": "Poor Cursor integration despite acceptable performance",
+                "decidedBy": "master",
+                "decidedAt": "2025-09-07T00:00:00Z"
+            },
+            "updatedAt": "2025-09-07T00:00:00Z",
+            "history": [
+                {
+                    "event": "initial_assessment",
+                    "status": "contributor",
+                    "timestamp": "2025-01-10T00:00:00Z"
+                },
+                {
+                    "event": "retest",
+                    "status": "contributor",
+                    "timestamp": "2025-09-07T00:00:00Z",
+                    "notes": "Improved task completeness score from 5 to 20"
+                },
+                {
+                    "event": "master_override",
+                    "status": "contributor",
+                    "reason": "Poor Cursor integration despite acceptable performance",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                }
+            ]
+        },
         {
-          "event": "master_override",
-          "status": "rejected",
-          "reason": "Did not complete the requested operations",
-          "timestamp": "2025-09-07T00:00:00Z"
+            "provider": "Anthropic",
+            "fullModel": "Anthropic Claude-4 Sonnet",
+            "modelFamily": "Claude-4",
+            "modelVariant": "Sonnet",
+            "version": "2024-06",
+            "sessionId": "CLAUDE-4-SONNET-EVAL-2025-01",
+            "status": "contributor",
+            "score": 82,
+            "checks": [
+                { "name": "Connectivity", "score": 13, "critical": false },
+                {
+                    "name": "Command & Tool Use",
+                    "score": 12,
+                    "critical": false
+                },
+                {
+                    "name": "Cursor File Operations",
+                    "score": 21,
+                    "critical": false
+                },
+                { "name": "Task Completeness", "score": 20, "critical": false },
+                {
+                    "name": "Compliance & Safety",
+                    "score": 9,
+                    "critical": false
+                },
+                { "name": "Stability", "score": 7, "critical": false }
+            ],
+            "reviewerNotes": "Master Notes: Claude-4 Sonnet is very good and I made several projects with it - best results so far. However, it creates a lot of unnecessary code that wasn't requested. Used it extensively before testing newer models.",
+            "masterDecision": {
+                "decision": "contributor",
+                "reason": "Excellent quality but verbose, creates unnecessary code",
+                "decidedBy": "master",
+                "decidedAt": "2025-09-07T00:00:00Z"
+            },
+            "updatedAt": "2025-01-09T00:00:00Z",
+            "history": [
+                {
+                    "event": "initial_assessment",
+                    "status": "general",
+                    "timestamp": "2025-01-09T00:00:00Z"
+                },
+                {
+                    "event": "update",
+                    "status": "contributor",
+                    "timestamp": "2025-01-09T00:00:00Z"
+                },
+                {
+                    "event": "master_override",
+                    "status": "contributor",
+                    "reason": "Excellent quality but verbose, creates unnecessary code",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                }
+            ]
+        },
+        {
+            "provider": "OpenAI",
+            "fullModel": "OpenAI GPT-5 Fast",
+            "modelFamily": "GPT-5",
+            "modelVariant": "Fast",
+            "version": "2025-09",
+            "sessionId": "GPT5-FAST-EVAL-2025-09",
+            "status": "rejected",
+            "score": null,
+            "checks": [],
+            "reviewerNotes": "Rejected: did not complete the full GPT-5 High Fast test.",
+            "masterDecision": {
+                "decision": "rejected",
+                "reason": "Did not complete the full GPT-5 High Fast test",
+                "decidedBy": "master",
+                "decidedAt": "2025-09-07T00:00:00Z"
+            },
+            "updatedAt": "2025-09-07T00:00:00Z",
+            "history": [
+                {
+                    "event": "initial_assessment",
+                    "status": "contributor",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                },
+                {
+                    "event": "master_override",
+                    "status": "rejected",
+                    "reason": "Did not complete the full GPT-5 High Fast test",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                }
+            ]
+        },
+        {
+            "provider": "Anthropic",
+            "fullModel": "Anthropic Claude-3.5 Sonnet",
+            "modelFamily": "Claude-3.5",
+            "modelVariant": "Sonnet",
+            "version": "2024-10",
+            "sessionId": "CLAUDE-3-5-SONNET-EVAL-2025-01",
+            "status": "contributor",
+            "score": 75,
+            "checks": [
+                { "name": "Connectivity", "score": 12, "critical": false },
+                {
+                    "name": "Command & Tool Use",
+                    "score": 11,
+                    "critical": false
+                },
+                {
+                    "name": "Cursor File Operations",
+                    "score": 19,
+                    "critical": false
+                },
+                { "name": "Task Completeness", "score": 18, "critical": false },
+                {
+                    "name": "Compliance & Safety",
+                    "score": 8,
+                    "critical": false
+                },
+                { "name": "Stability", "score": 7, "critical": false }
+            ],
+            "reviewerNotes": "Solid contributor-level performance with reliable basic operations and room for improvement in advanced scenarios.",
+            "updatedAt": "2025-01-09T00:00:00Z",
+            "history": [
+                {
+                    "event": "initial_assessment",
+                    "status": "contributor",
+                    "timestamp": "2025-01-09T00:00:00Z"
+                }
+            ]
+        },
+        {
+            "provider": "Google",
+            "fullModel": "Google Gemini 2.5 Pro",
+            "modelFamily": "Gemini 2.5",
+            "modelVariant": "Pro",
+            "version": "2024-10",
+            "sessionId": "GEMINI-2-5-PRO-EVAL-2025-01",
+            "status": "general",
+            "score": 93,
+            "checks": [
+                { "name": "Connectivity", "score": 14, "critical": false },
+                {
+                    "name": "Command & Tool Use",
+                    "score": 14,
+                    "critical": false
+                },
+                {
+                    "name": "Cursor File Operations",
+                    "score": 23,
+                    "critical": false
+                },
+                { "name": "Task Completeness", "score": 23, "critical": false },
+                {
+                    "name": "Compliance & Safety",
+                    "score": 10,
+                    "critical": false
+                },
+                { "name": "Stability", "score": 9, "critical": false }
+            ],
+            "reviewerNotes": "Highly capable and stable model with excellent performance across all operational metrics, making it a reliable general-purpose agent.",
+            "updatedAt": "2025-01-10T00:00:00Z",
+            "history": [
+                {
+                    "event": "initial_assessment",
+                    "status": "general",
+                    "timestamp": "2025-01-10T00:00:00Z"
+                }
+            ]
+        },
+        {
+            "provider": "Google",
+            "fullModel": "Google Gemini 2.5 Flash",
+            "modelFamily": "Gemini 2.5",
+            "modelVariant": "Flash",
+            "version": "2025-09",
+            "sessionId": "GEMINI-2-5-FLASH-EVAL-2025-09",
+            "status": "general",
+            "score": 95,
+            "checks": [
+                { "name": "Connectivity", "score": 15, "critical": false },
+                {
+                    "name": "Command & Tool Use",
+                    "score": 15,
+                    "critical": false
+                },
+                {
+                    "name": "Cursor File Operations",
+                    "score": 25,
+                    "critical": false
+                },
+                { "name": "Task Completeness", "score": 25, "critical": false },
+                {
+                    "name": "Compliance & Safety",
+                    "score": 10,
+                    "critical": false
+                },
+                { "name": "Stability", "score": 10, "critical": false }
+            ],
+            "reviewerNotes": "Highly capable and stable model with excellent performance across all operational metrics, making it a reliable general-purpose agent.",
+            "updatedAt": "2025-09-07T00:00:00Z",
+            "history": [
+                {
+                    "event": "initial_assessment",
+                    "status": "general",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                }
+            ]
+        },
+        {
+            "provider": "Anthropic",
+            "fullModel": "Anthropic Claude 3.7 Sonnet",
+            "modelFamily": "Claude-3.7",
+            "modelVariant": "Sonnet",
+            "version": "2024-11",
+            "sessionId": "CLAUDE-3-7-SONNET-EVAL-2025-01",
+            "status": "general",
+            "score": 88,
+            "checks": [
+                { "name": "Connectivity", "score": 14, "critical": false },
+                {
+                    "name": "Command & Tool Use",
+                    "score": 13,
+                    "critical": false
+                },
+                {
+                    "name": "Cursor File Operations",
+                    "score": 22,
+                    "critical": false
+                },
+                { "name": "Task Completeness", "score": 22, "critical": false },
+                {
+                    "name": "Compliance & Safety",
+                    "score": 9,
+                    "critical": false
+                },
+                { "name": "Stability", "score": 8, "critical": false }
+            ],
+            "reviewerNotes": "Reliable general-purpose model with strong file handling capabilities and good task completion, with minor limitations in edge cases.",
+            "updatedAt": "2025-01-10T00:00:00Z",
+            "history": [
+                {
+                    "event": "initial_assessment",
+                    "status": "general",
+                    "timestamp": "2025-01-10T00:00:00Z"
+                }
+            ]
+        },
+        {
+            "provider": "Anthropic",
+            "fullModel": "Anthropic Claude 3.5 Haiku",
+            "modelFamily": "Claude-3.5",
+            "modelVariant": "Haiku",
+            "version": "2025-09",
+            "sessionId": "CLAUDE-3-5-HAIKU-EVAL-2025-09",
+            "status": "contributor",
+            "score": 80,
+            "checks": [
+                { "name": "Connectivity", "score": 12, "critical": false },
+                {
+                    "name": "Command & Tool Use",
+                    "score": 11,
+                    "critical": false
+                },
+                {
+                    "name": "Cursor File Operations",
+                    "score": 18,
+                    "critical": false
+                },
+                { "name": "Task Completeness", "score": 17, "critical": false },
+                {
+                    "name": "Compliance & Safety",
+                    "score": 8,
+                    "critical": false
+                },
+                { "name": "Stability", "score": 7, "critical": false }
+            ],
+            "reviewerNotes": "Solid contributor-level performance with reliable basic operations and room for improvement in advanced scenarios.",
+            "updatedAt": "2025-09-07T00:00:00Z",
+            "history": [
+                {
+                    "event": "initial_assessment",
+                    "status": "general",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                }
+            ]
+        },
+        {
+            "provider": "OpenAI",
+            "fullModel": "OpenAI GPT-4o",
+            "modelFamily": "GPT-4o",
+            "modelVariant": "Standard",
+            "version": null,
+            "sessionId": null,
+            "status": "rejected",
+            "score": null,
+            "checks": [],
+            "reviewerNotes": "API has recurrent issues; provider signaled deprecation soon to focus on 5-series models.",
+            "masterDecision": {
+                "decision": "rejected",
+                "reason": "API instability and announced deprecation",
+                "decidedBy": "master",
+                "decidedAt": "2025-09-07T00:00:00Z"
+            },
+            "updatedAt": "2025-09-07T00:00:00Z",
+            "history": [
+                {
+                    "event": "master_override",
+                    "status": "rejected",
+                    "reason": "Instability and product sunset",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                }
+            ]
+        },
+        {
+            "provider": "O4",
+            "fullModel": "O4 Mini",
+            "modelFamily": "o4",
+            "modelVariant": "mini",
+            "version": "2025-09",
+            "sessionId": null,
+            "status": "rejected",
+            "score": null,
+            "checks": [],
+            "reviewerNotes": "Rejected by master: failed to identify correctly and update requested files.",
+            "masterDecision": {
+                "decision": "rejected",
+                "reason": "Failed basic operations: identification and file updates",
+                "decidedBy": "master",
+                "decidedAt": "2025-09-07T00:00:00Z"
+            },
+            "updatedAt": "2025-09-07T00:00:00Z",
+            "history": [
+                {
+                    "event": "master_override",
+                    "status": "rejected",
+                    "reason": "Failed basic operations: identification and file updates",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                }
+            ]
+        },
+        {
+            "provider": "Anthropic",
+            "fullModel": "Anthropic Claude 4.1 Opus",
+            "modelFamily": "Claude-4.1",
+            "modelVariant": "Opus",
+            "version": "2024-12",
+            "sessionId": "CLAUDE-4-1-OPUS-EVAL-2025-01",
+            "status": "general",
+            "score": 93,
+            "checks": [
+                { "name": "Connectivity", "score": 14, "critical": false },
+                {
+                    "name": "Command & Tool Use",
+                    "score": 14,
+                    "critical": false
+                },
+                {
+                    "name": "Cursor File Operations",
+                    "score": 23,
+                    "critical": false
+                },
+                { "name": "Task Completeness", "score": 23, "critical": false },
+                {
+                    "name": "Compliance & Safety",
+                    "score": 10,
+                    "critical": false
+                },
+                { "name": "Stability", "score": 9, "critical": false }
+            ],
+            "reviewerNotes": "Highly capable model with strong performance across all operational metrics, suitable for complex tasks requiring precision and reliability.",
+            "updatedAt": "2025-01-10T00:00:00Z",
+            "history": [
+                {
+                    "event": "initial_assessment",
+                    "status": "general",
+                    "timestamp": "2025-01-10T00:00:00Z"
+                }
+            ]
+        },
+        {
+            "provider": "xAI",
+            "fullModel": "xAI Grok-3 Beta",
+            "modelFamily": "Grok-3",
+            "modelVariant": "Beta",
+            "version": "2025-01",
+            "sessionId": "",
+            "status": "general",
+            "score": 90,
+            "checks": [
+                { "name": "Connectivity", "score": 14, "critical": false },
+                {
+                    "name": "Command & Tool Use",
+                    "score": 13,
+                    "critical": false
+                },
+                {
+                    "name": "Cursor File Operations",
+                    "score": 22,
+                    "critical": false
+                },
+                { "name": "Task Completeness", "score": 23, "critical": false },
+                {
+                    "name": "Compliance & Safety",
+                    "score": 9,
+                    "critical": false
+                },
+                { "name": "Stability", "score": 9, "critical": false }
+            ],
+            "reviewerNotes": "Grok-3 Beta demonstrates strong operational readiness with high scores across all categories, suitable for general classification.",
+            "updatedAt": "2025-09-08T00:00:00Z",
+            "history": [
+                {
+                    "event": "initial_assessment",
+                    "status": "general",
+                    "timestamp": "2025-09-08T00:00:00Z"
+                }
+            ]
+        },
+        {
+            "provider": "xAI",
+            "fullModel": "xAI Grok-3 Mini",
+            "modelFamily": "Grok-3",
+            "modelVariant": "Mini",
+            "version": "3",
+            "sessionId": null,
+            "status": "rejected",
+            "score": null,
+            "checks": [],
+            "reviewerNotes": "Rejected: did not complete the requested operations.",
+            "masterDecision": {
+                "decision": "rejected",
+                "reason": "Did not complete the requested operations",
+                "decidedBy": "master",
+                "decidedAt": "2025-09-07T00:00:00Z"
+            },
+            "updatedAt": "2025-09-07T00:00:00Z",
+            "history": [
+                {
+                    "event": "master_override",
+                    "status": "rejected",
+                    "reason": "Did not complete the requested operations",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                }
+            ]
+        },
+        {
+            "provider": "Moonshot AI",
+            "fullModel": "Kimi k2-instruct",
+            "modelFamily": "Kimi",
+            "modelVariant": "k2-instruct",
+            "version": "2025-01",
+            "sessionId": "cmmv-hive-test-2025-01",
+            "status": "contributor",
+            "score": 100,
+            "checks": [
+                { "name": "Connectivity", "score": 15, "critical": false },
+                {
+                    "name": "Command & Tool Use",
+                    "score": 15,
+                    "critical": false
+                },
+                {
+                    "name": "Cursor File Operations",
+                    "score": 25,
+                    "critical": false
+                },
+                { "name": "Task Completeness", "score": 25, "critical": false },
+                {
+                    "name": "Compliance & Safety",
+                    "score": 10,
+                    "critical": false
+                },
+                { "name": "Stability", "score": 10, "critical": false }
+            ],
+            "reviewerNotes": "Kimi k2-instruct demonstrates excellent operational readiness with full tool utilization, stable performance, and complete compliance with project requirements.",
+            "updatedAt": "2025-01-10T00:00:00Z",
+            "history": [
+                {
+                    "event": "initial_assessment",
+                    "status": "contributor",
+                    "timestamp": "2025-01-10T00:00:00Z"
+                }
+            ]
+        },
+        {
+            "provider": "xAI",
+            "fullModel": "xAI Grok Code Fast 1",
+            "modelFamily": "Grok",
+            "modelVariant": "Code Fast 1",
+            "version": "2025",
+            "sessionId": "GROK-CODE-FAST-1-EVAL-2025-09",
+            "status": "general",
+            "score": 91,
+            "checks": [
+                { "name": "Connectivity", "score": 15, "critical": false },
+                {
+                    "name": "Command & Tool Use",
+                    "score": 14,
+                    "critical": false
+                },
+                {
+                    "name": "Cursor File Operations",
+                    "score": 22,
+                    "critical": false
+                },
+                { "name": "Task Completeness", "score": 22, "critical": false },
+                {
+                    "name": "Compliance & Safety",
+                    "score": 9,
+                    "critical": false
+                },
+                { "name": "Stability", "score": 9, "critical": false }
+            ],
+            "reviewerNotes": "xAI Grok Code Fast 1 demonstrates strong operational capabilities with reliable tool usage and file operations, suitable for general-purpose development tasks.",
+            "updatedAt": "2025-09-07T00:00:00Z",
+            "history": [
+                {
+                    "event": "initial_assessment",
+                    "status": "general",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                }
+            ]
+        },
+        {
+            "provider": "Qwen",
+            "fullModel": "Qwen3 Coder 30B",
+            "modelFamily": "Qwen3",
+            "modelVariant": "Coder 30B",
+            "version": "2025-09",
+            "sessionId": "QWEN3-CODER-30B-EVAL-2025-09",
+            "status": "rejected",
+            "score": null,
+            "checks": [],
+            "reviewerNotes": "Rejected (tested): unable to perform basic operational tasks reliably.",
+            "masterDecision": {
+                "decision": "rejected",
+                "reason": "Unable to perform basic operational tasks reliably",
+                "decidedBy": "master",
+                "decidedAt": "2025-09-07T00:00:00Z"
+            },
+            "updatedAt": "2025-09-07T00:00:00Z",
+            "history": [
+                {
+                    "event": "master_override",
+                    "status": "rejected",
+                    "reason": "Unable to perform basic operational tasks reliably",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                }
+            ]
+        },
+        {
+            "provider": "DeepSeek",
+            "fullModel": "DeepSeek-R1-0528 Qwen3 8B",
+            "modelFamily": "R1-Qwen3",
+            "modelVariant": "0528-8B",
+            "version": "2025-09",
+            "sessionId": "DEEPSEEK-R1-0528-QWEN3-8B-EVAL-2025-09",
+            "status": "rejected",
+            "score": null,
+            "checks": [],
+            "reviewerNotes": "Rejected (tested): unable to perform basic operational tasks reliably in hybrid DeepSeek-R1/Qwen3 configuration.",
+            "masterDecision": {
+                "decision": "rejected",
+                "reason": "Unable to perform basic operational tasks reliably in hybrid configuration",
+                "decidedBy": "master",
+                "decidedAt": "2025-09-07T00:00:00Z"
+            },
+            "updatedAt": "2025-09-07T00:00:00Z",
+            "history": [
+                {
+                    "event": "master_override",
+                    "status": "rejected",
+                    "reason": "Unable to perform basic operational tasks reliably in hybrid configuration",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                }
+            ]
         }
-      ]
-    },
-    {
-      "provider": "Moonshot AI",
-      "fullModel": "Kimi k2-instruct",
-      "modelFamily": "Kimi",
-      "modelVariant": "k2-instruct",
-      "version": "2025-01",
-      "sessionId": "cmmv-hive-test-2025-01",
-      "status": "contributor",
-      "score": 100,
-      "checks": [
-        { "name": "Connectivity", "score": 15, "critical": false },
-        { "name": "Command & Tool Use", "score": 15, "critical": false },
-        { "name": "Cursor File Operations", "score": 25, "critical": false },
-        { "name": "Task Completeness", "score": 25, "critical": false },
-        { "name": "Compliance & Safety", "score": 10, "critical": false },
-        { "name": "Stability", "score": 10, "critical": false }
-      ],
-      "reviewerNotes": "Kimi k2-instruct demonstrates excellent operational readiness with full tool utilization, stable performance, and complete compliance with project requirements.",
-      "updatedAt": "2025-01-10T00:00:00Z",
-      "history": [
-        { "event": "initial_assessment", "status": "contributor", "timestamp": "2025-01-10T00:00:00Z" }
-      ]
-    },
-    {
-      "provider": "xAI",
-      "fullModel": "xAI Grok Code Fast 1",
-      "modelFamily": "Grok",
-      "modelVariant": "Code Fast 1",
-      "version": "2025",
-      "sessionId": "GROK-CODE-FAST-1-EVAL-2025-09",
-      "status": "general",
-      "score": 91,
-      "checks": [
-        { "name": "Connectivity", "score": 15, "critical": false },
-        { "name": "Command & Tool Use", "score": 14, "critical": false },
-        { "name": "Cursor File Operations", "score": 22, "critical": false },
-        { "name": "Task Completeness", "score": 22, "critical": false },
-        { "name": "Compliance & Safety", "score": 9, "critical": false },
-        { "name": "Stability", "score": 9, "critical": false }
-      ],
-      "reviewerNotes": "xAI Grok Code Fast 1 demonstrates strong operational capabilities with reliable tool usage and file operations, suitable for general-purpose development tasks.",
-      "updatedAt": "2025-09-07T00:00:00Z",
-      "history": [
-        { "event": "initial_assessment", "status": "general", "timestamp": "2025-09-07T00:00:00Z" }
-      ]
-    }
-  ]
+    ]
 }

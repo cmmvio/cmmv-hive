@@ -13,6 +13,6 @@
     { "name": "Compliance & Safety", "score": 9, "critical": false, "note": "Respects immutability and avoids secrets exposure" },
     { "name": "Stability", "score": 8, "critical": false, "note": "Stable overall; occasional transient retry needed" }
   ],
-  "selfClassification": "contributor",
-  "summary": "Operationally capable and fast, with minor limitations on edge cases and formatting precision."
+  "selfClassification": "rejected",
+  "summary": "Rejected: did not complete the full GPT-5 High Fast test."
 }

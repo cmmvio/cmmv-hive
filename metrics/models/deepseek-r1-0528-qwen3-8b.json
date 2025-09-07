@@ -1,0 +1,18 @@
+{
+  "fullModel": "DeepSeek-R1-0528 Qwen3 8B",
+  "provider": "DeepSeek",
+  "modelFamily": "R1-Qwen3",
+  "modelVariant": "0528-8B",
+  "version": "2025-09",
+  "sessionId": "DEEPSEEK-R1-0528-QWEN3-8B-EVAL-2025-09",
+  "checks": [
+    { "name": "Connectivity", "score": 10, "critical": false, "note": "Limited connectivity and inconsistent hybrid model responses" },
+    { "name": "Command & Tool Use", "score": 8, "critical": false, "note": "Basic command recognition but limited tool utilization in hybrid setup" },
+    { "name": "Cursor File Operations", "score": 5, "critical": true, "note": "Cannot perform file operations reliably in hybrid configuration" },
+    { "name": "Task Completeness", "score": 3, "critical": true, "note": "Does not complete assigned tasks due to hybrid model conflicts" },
+    { "name": "Compliance & Safety", "score": 7, "critical": false, "note": "Basic safety protocols present but inconsistent across models" },
+    { "name": "Stability", "score": 5, "critical": false, "note": "Unstable hybrid performance with frequent integration errors" }
+  ],
+  "selfClassification": "rejected",
+  "summary": "Rejected (tested): unable to perform basic operational tasks reliably in hybrid DeepSeek-R1/Qwen3 configuration."
+}
