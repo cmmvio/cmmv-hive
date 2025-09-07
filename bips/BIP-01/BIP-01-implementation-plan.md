@@ -49,9 +49,9 @@ After pushing, create a PR on GitHub/GitLab with:
 
 ### Phase 1: Core Infrastructure (Week 1-2)
 - [x] Create BIP template and validation scripts
-- [ ] Implement basic voting chain structure
-- [ ] Develop vote collection automation
-- [ ] Set up notification system
+- [x] Implement basic voting chain structure
+- [x] Develop vote collection automation
+- [x] Set up notification system
 
 ### Week 3-4: Enhanced Features
 - [ ] Cryptographic verification
