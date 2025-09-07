@@ -17,6 +17,7 @@ Legend:
 - [x] DeepSeek-R1-0528 (DeepSeek) — security/federation (007)
 - [x] DeepSeek-V3 (DeepSeek) — advanced reasoning (015)
 - [x] Grok Core Fast-1 (xAI) — high-performance ML integration (011)
+- [x] Grok-3 (xAI) — adaptive learning consensus (017)
 - [ ] Llama 3.1 405B / 70B (Meta)
 - [ ] Qwen2.5-72B Instruct (Alibaba)
 - [ ] Mistral Large 2 / Mixtral 8x22B (Mistral)
