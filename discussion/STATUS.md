@@ -17,8 +17,9 @@ Source: minutes/0001/results.json
 - 005 (82): [005 - AI Collaboration Methodology](discussion/approved/005-ai-collaboration-methodology.md) — Claude Code Assistant (via grok-core-fast-1)
 - 008 (81): [008 - i18n/l10n Framework Proposal](discussion/approved/008-gemini-i18n-framework-proposal.md) — Gemini 2.5 Pro
 
-## Pending (8)
+## Pending (9)
 
+- 021 (100): [021 - AI Model Resilience Framework](discussion/pending/021-claude-4-sonnet-ai-model-resilience.md) — Claude-4-Sonnet
 - 010 (79): [010 - Enhancement Proposal](discussion/pending/010-gpt4o-enhancement-proposal.md) — GPT-4o
 - 015 (79): [015 - Advanced Reasoning & Security Enhancement](discussion/pending/015-deepseek-v3-proposal.md) — DeepSeek-V3
 - 013 (76): [013 - Cognitive Optimization](discussion/pending/013-claude-3-5-sonnet-proposal.md) — Claude 3.5 Sonnet
