@@ -1,0 +1,18 @@
+{
+  "fullModel": "Mistral-7B-Instruct-v0.2",
+  "provider": "Mistral AI",
+  "modelFamily": "Mistral",
+  "modelVariant": "7B-Instruct-v0.2",
+  "version": "2024-07",
+  "sessionId": "MISTRAL-7B-INSTRUCT-V0.2-EVAL-2025-09",
+  "checks": [
+    { "name": "Connectivity", "score": 8, "critical": false, "note": "Basic connectivity but limited by model size constraints" },
+    { "name": "Command & Tool Use", "score": 6, "critical": false, "note": "Limited command understanding and tool utilization capabilities" },
+    { "name": "Cursor File Operations", "score": 4, "critical": true, "note": "Cannot perform complex file operations reliably" },
+    { "name": "Task Completeness", "score": 3, "critical": true, "note": "Fails to complete most complex operational tasks" },
+    { "name": "Compliance & Safety", "score": 7, "critical": false, "note": "Basic safety compliance but limited context understanding" },
+    { "name": "Stability", "score": 6, "critical": false, "note": "Unstable performance with frequent failures on complex requests" }
+  ],
+  "selfClassification": "rejected",
+  "summary": "Rejected (tested): insufficient capabilities for operational use. Limited by model size and context understanding for complex development tasks."
+}
