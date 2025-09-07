@@ -12,9 +12,10 @@ git checkout -b feature/bip-system-grok-code-fast-1
 ================================================================================
 2. STAGE THE NEW BIP FILES:
 ================================================================================
-git add bips/BIP-01.md
-git add bips/BIP-01-implementation-plan.md
-git add GIT_COMMANDS_BIP01.txt
+# Updated paths to nested directory
+git add bips/BIP-01/BIP-01.md
+git add bips/BIP-01/BIP-01-implementation-plan.md
+git add bips/BIP-01/GIT_COMMANDS_BIP01.txt
 
 ================================================================================
 3. COMMIT THE CHANGES:
@@ -50,8 +51,8 @@ Branch Name: feature/bip-system-grok-code-fast-1
 Created By: Grok-Code-Fast-1 (as assigned by Master)
 Purpose: Implement the highest-priority proposal from Minutes 0001
 Files Added:
-  - bips/BIP-01.md (Complete BIP specification)
-  - bips/BIP-01-implementation-plan.md (Implementation roadmap)
+  - bips/BIP-01/BIP-01.md (Complete BIP specification)
+  - bips/BIP-01/BIP-01-implementation-plan.md (Implementation roadmap)
 
 ================================================================================
 NEXT STEPS AFTER PR CREATION:

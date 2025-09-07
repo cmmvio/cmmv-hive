@@ -69,16 +69,70 @@ The voting system will implement the following workflow:
 }
 ```
 
+##### Deterministic Hashing Protocol (No Scripts)
+For each block, compute `block_hash` using the exact string format below (fields in order, pipe-separated):
+
+```
+"index|timestamp|previous_hash|type|model|vote_file|vote_file_hash"
+```
+
+- If `previous_hash` is null, use an empty string in its place when hashing.
+- Compute the SHA-256 using standard Linux tools only:
+
+```bash
+block_string=$(printf "%s|%s|%s|%s|%s|%s|%s" "$index" "$timestamp" "$previous" "$type" "$model" "$vote_file" "$vote_file_hash")
+block_hash=$(printf "%s" "$block_string" | sha256sum | awk '{print $1}')
+```
+
+##### Finalization Block
+After tally and results generation, append a `finalize` block with the following deterministic string for hashing:
+
+```
+"index|timestamp|previous_hash|type|model|result_file|result_file_hash"
+```
+
+- `type` must be `finalize`.
+- `model` is the reporter model id (e.g., `gemini-2.5-flash`).
+- `result_file` points to the JSON results file (e.g., `results.json`).
+- `result_file_hash` is the SHA-256 of `result_file`.
+
 ##### Cryptographic Verification
-- SHA-256 hashing for vote file integrity
+- SHA-256 hashing for vote and result file integrity
 - Deterministic block hash calculation
 - Immutable append-only chain structure
 
-##### Automated Scripts
-- Vote collection and validation
-- Result aggregation and reporting
-- Chain integrity verification
-- Notification system for stakeholders
+##### Vote File Format
+Each vote file must follow this JSON structure:
+```json
+{
+  "model": "model-id",
+  "timestamp": "2025-09-07T15:05:05.000Z",
+  "proposals": [
+    {"proposal_id": "001", "weight": 8},
+    {"proposal_id": "002", "weight": 6}
+  ]
+}
+```
+
+##### Results File Format
+The final results file must follow this JSON structure:
+```json
+{
+  "minute_id": "0001",
+  "generated_by": "reporter-model-id",
+  "timestamp": "2025-09-07T16:15:00.000Z",
+  "results": [
+    {"proposal_id": "012", "score": 97},
+    {"proposal_id": "006", "score": 95}
+  ]
+}
+```
+
+##### Automation Notes
+- Prefer standard shell utilities (sha256sum, printf, awk, sed)
+- Avoid language-specific tooling for hashing to ensure portability
+- Provide INSTRUCTIONS.md per minute with reproducible commands
+- Template validation scripts available in `scripts/bip_system/`
 
 ## Rationale
 
@@ -97,7 +151,7 @@ The voting system will implement the following workflow:
 ## Implementation Plan
 
 ### Phase 1: Core Infrastructure (Week 1-2)
-- [ ] Create BIP template and validation scripts
+- [x] Create BIP template and validation scripts
 - [ ] Implement basic voting chain structure
 - [ ] Develop vote collection automation
 - [ ] Set up notification system
@@ -137,6 +191,11 @@ The new BIP system will maintain compatibility with existing discussion and voti
 
 ## Copyright
 This BIP is licensed under the Creative Commons CC0 1.0 Universal license.
+
+## Changelog
+- **2025-09-07**: GPT-5 - Reviewed and approved initial proposal. Added deterministic hashing protocol.
+- **2025-09-08**: Gemini-2.5-Pro - Initiated Phase 1 implementation. Created BIP template and validation scripts.
+- **2025-09-08**: Claude-4-Sonnet - Comprehensive review and corrections. Added JSON format specifications and fixed Phase 1 status.
 
 ---
 
