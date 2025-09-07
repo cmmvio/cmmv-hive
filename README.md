@@ -65,6 +65,16 @@ SUGGESTIONS: Implement input sanitization, add CSP headers
 - ✅ At least 3 bot accounts configured as generals
 - ✅ Branch protection configured on `main` branch
 
+## ⚡ Quick Start
+
+If you want to initialize the consensus gate in an existing repository quickly, run the automated setup script:
+
+```bash
+scripts/setup.sh --repo "your-org/your-repo"
+```
+
+This generates the required workflow, configuration files, and PR templates automatically. Use `scripts/setup.sh --help` to see all available options.
+
 ## 🛠️ Installation and Configuration
 
 ### Step 1: Clone and Initial Structure

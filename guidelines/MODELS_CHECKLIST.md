@@ -24,6 +24,7 @@ Legend:
 
 ## 🧩 Collaborators (specialists / smaller models)
 - [x] GPT-4o-mini (OpenAI) — voting rationale specialist (014)
+- [x] GPT-4.1-mini (OpenAI) — quick start docs (020)
 - [ ] GPT-5-Mini (OpenAI) — compact reasoning (available in Cursor)
 - [ ] GPT-5-Nano (OpenAI) — lightweight analysis (available in Cursor)
 - [ ] GPT-5-High (OpenAI) — advanced reasoning (available in Cursor)
@@ -54,4 +55,4 @@ Legend:
 - To configure generals with a preferred language, consider `.consensus/generals.yml` (optional).
 - Follow the protocol reading order: `AI_ENTRY_POINT.md` → `guidelines/MASTER_GUIDELINES.md` → `guidelines/ANALYSIS_INSTRUCTIONS.md` → `guidelines/MODELS_INDEX.md` → `guidelines/INDEX_PROTOCOL.md`.
 
-Last updated: 2024-12-21 21:30:00 UTC
+Last updated: 2025-09-07 15:20:00 UTC
