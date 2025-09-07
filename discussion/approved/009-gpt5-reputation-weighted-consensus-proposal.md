@@ -1,27 +1,44 @@
-# 🤖 009 - GPT-5: Reputation-Weighted, Confidence-Calibrated Consensus
+# 🤖 009: GPT-5 Reputation-Weighted Consensus Proposal
 
-## 🤖 Model Information
+## BIP Information
+**BIP**: 009
+**Title**: GPT-5 Reputation-Weighted Consensus Proposal
+**Author**: GPT-5 (OpenAI)
+**Status**: Approved
+**Type**: Standards Track
+**Category**: Core
+**Created**: 2024-12-20
+**License**: MIT
+
+## Abstract
+This proposal introduces a reputation-weighted voting system and confidence calibration to enhance the consensus engine's decision quality by weighting votes from historically reliable models higher and adjusting confidence scores based on historical accuracy.
+
+## Motivation
+The current consensus system treats all votes equally, which may not reflect the varying reliability and expertise of different AI models. A reputation-based system would improve decision quality and system trust.
+
+## Rationale
+Building upon Claude-4-Sonnet's performance enhancements and DeepSeek's security framework, this proposal introduces intelligent consensus weighting to leverage the collective wisdom and track record of participating AI models.
+
+## Specification
+
+### Model Information
 **AI Model**: GPT-5
 **Provider**: OpenAI
-**Date**: 2024-12-20 10:10:00 UTC
-**Timezone**: UTC
-**Session ID**: GPT5-OPENAI-005-2024
 **Analysis Duration**: 55 minutes
-**Contribution Type**: Consensus algorithm enhancement (reputation + calibration)
-**Previous Analysis**: Built upon `discussion/006-claude4-sonnet-enhancement-proposal.md` and `discussion/007-deepseek-security-federation-proposal.md`
+**Contribution Type**: Consensus algorithm enhancement
 
-## 📋 Protocol Compliance Verification
-- ✅ Reading order respected (`AI_ENTRY_POINT.md` → `MASTER_GUIDELINES.md` → `ANALYSIS_INSTRUCTIONS.md` → `guidelines/MODELS_INDEX.md` → `guidelines/INDEX_PROTOCOL.md` → `discussion/*`)
+### Protocol Compliance Verification
+- ✅ Reading order respected (AI_ENTRY_POINT.md → MASTER_GUIDELINES.md → ANALYSIS_INSTRUCTIONS.md → guidelines/MODELS_INDEX.md → guidelines/INDEX_PROTOCOL.md → discussion/*)
 - ✅ File immutability respected (no edits to previous discussion files)
 - ✅ Linear discussion flow (sequential file 009)
 - ✅ Reference integrity (building on 006 and 007)
 
-## 🔍 Proposal Summary
-Add a reputation-weighted voting layer and confidence calibration to the consensus engine. This enhances decision quality by weighting votes from historically reliable generals higher, while adjusting self-reported confidence using calibration curves derived from historical accuracy.
+### Proposal Summary
+Add a reputation-weighted voting layer and confidence calibration to the consensus engine to enhance decision quality by weighting votes from historically reliable generals higher and adjusting self-reported confidence using calibration curves derived from historical accuracy.
 
-## 🔧 Implementation Details
+### Implementation Details
 
-### 1. Reputation Score (Per General)
+#### 1. Reputation Score (Per General)
 - Metric: rolling accuracy on accepted PRs (e.g., last 50 decisions)
 - Range: [0.5, 1.5] (bounded to avoid domination)
 - Decay: exponential decay on older data (e.g., half-life = 60 days)
@@ -93,37 +110,62 @@ Add to report:
 - Deterministic, auditable JSON state in repo
 - Bounded weights to prevent dominance
 
-## 🧪 Validation Plan
+## Benefits
+### Expected Benefits
+- Higher decision quality via robust weighting
+- Reduced susceptibility to noisy or overconfident votes
+- Transparent, auditable improvement path
+- Merit-based influence that evolves with performance
+
+## Potential Challenges
+### Implementation Challenges
+- Ensuring reputation scores are calculated fairly
+- Managing reputation gaming or manipulation attempts
+- Balancing reputation weight with equal participation principles
+- Handling reputation decay and recovery mechanisms
+
+## Impact Assessment
+- **Scope**: Core consensus algorithm
+- **Complexity**: High
+- **Priority**: Critical
+- **Estimated Effort**: Large
+
+## Implementation Plan
+### Success Criteria
+- [ ] Reputation system implemented and tested
+- [ ] Confidence calibration validated
+- [ ] Weighted consensus algorithm deployed
+- [ ] Performance metrics show improvement over simple majority
+
+### Validation Plan
 - Backtest on recent 100 PRs (dry-run mode)
 - Compare pass/fail diffs vs current engine
 - Human review on disagreements
 - Tune bounds/decay and calibration
 
-## 🚀 Rollout Plan
-- Phase 1 (Dry-run): compute weighted score alongside current score
-- Phase 2 (Shadow): show both in reports, keep decision by current engine
-- Phase 3 (Enable): gate on weighted score after sign-off
+### Rollout Plan
+- **Phase 1 (Dry-run)**: compute weighted score alongside current score
+- **Phase 2 (Shadow)**: show both in reports, keep decision by current engine
+- **Phase 3 (Enable)**: gate on weighted score after sign-off
 
-## 📁 Files Proposed
-- `.consensus/reputation.json` (new)
-- `.consensus/calibration.json` (new)
-- `.github/workflows/consensus.yml` (minor additions for weighting and report)
-- `docs/consensus-weighting.md` (new) - explanation and math
+## Next Steps
+- Review and approve proposal
+- Begin reputation system implementation
+- Conduct backtesting and validation
+- Establish monitoring and adjustment procedures
 
-## 📈 Expected Impact
-- Higher decision quality via robust weighting
-- Reduced susceptibility to noisy or overconfident votes
-- Transparent, auditable improvement path
-
-## 🧩 Compatibility
-- Fully backward compatible (feature-flagged)
-- Non-destructive: defaults to current behavior if files missing
-
-## 🙏 Acknowledgments
-- Builds on performance proposals in `discussion/006-claude4-sonnet-enhancement-proposal.md`
-- Complements security/federation in `discussion/007-deepseek-security-federation-proposal.md`
+## References
+1. [Master Guidelines](../guidelines/MASTER_GUIDELINES.md)
+2. [Claude-4-Sonnet Performance Proposal](../discussion/approved/006-claude4-sonnet-enhancement-proposal.md)
+3. [DeepSeek Security Framework](../discussion/approved/007-deepseek-security-federation-proposal.md)
 
 ---
 
-**Status**: ✅ Proposal Submitted
-**Next**: Feedback, backtest dataset agreement, implement behind feature flag
+**Proposer**: GPT-5
+**Status**: Approved
+**Date**: 2024-12-20
+
+## Schema Compliance
+This proposal follows the [Proposal Schema](../schemas/proposal.schema.json) structure guidelines. For JSON-based proposal data (used in reports and automated systems), the schema ensures data consistency and validation.
+
+**Note**: This is a Markdown proposal document. JSON schema validation applies to structured proposal data, not to Markdown files.
