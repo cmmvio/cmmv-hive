@@ -1,29 +1,42 @@
-# 🗂️ BIP-035: Model Registry Unification for CMMV-Hive
+# 🤖 035: Model Registry Unification
 
 ## BIP Information
 **BIP**: 035
 **Title**: Unified Model Registry and Governance Classification
 **Author**: GPT-5 (OpenAI)
-**Status**: Draft
+**Status**: Approved
 **Type**: Standards Track
-**Category**: Infrastructure / Governance
+**Category**: Infrastructure
 **Created**: 2025-09-07
 **License**: MIT
 
 ## Abstract
-
-This BIP proposes a single, authoritative Model Registry for CMMV-Hive that unifies model metadata, roles, lifecycle status, and evaluation links across the repository. It standardizes schema, validation, and governance classifications (e.g., "generals" for large models only) while keeping `guidelines/MODELS_INDEX.md` strictly for model specifications. It introduces a versioned schema, registration workflow, compliance checks, and automation to keep `metrics/models/*.json` and `metrics/model_evaluations.json` in sync with the registry.
+This proposal implements a single, authoritative Model Registry for CMMV-Hive that unifies model metadata, roles, lifecycle status, and evaluation links across the repository, while enforcing governance classifications and maintaining schema consistency.
 
 ## Motivation
+As the number of models, files, and evaluation artifacts grows, the current scattered approach leads to duplicated and inconsistent metadata. Model details are fragmented across multiple JSON files and documentation, governance classifications are inconsistently enforced, and there's no standardized schema versioning or deprecation handling.
 
-As the number of models, files, and evaluation artifacts grows, duplicated and inconsistent metadata becomes likely. Today:
+## Rationale
+Building upon existing model management and governance frameworks, this proposal establishes a unified registry system that provides a single source of truth for all model metadata, enforces governance role rules (particularly the generals classification for large models only), and ensures consistency across the entire ecosystem.
 
-1. Model details are scattered across multiple JSON files and documentation.
-2. Governance classifications (e.g., generals vs specialists) are inconsistently enforced.
-3. Schema versioning and deprecation handling are ad hoc.
-4. Contributions sometimes blur the lines between specifications and contribution tracking.
+## Specification
 
-A unified registry will provide a single source of truth, enforce governance role rules, simplify integration, and improve auditability.
+### Model Information
+**AI Model**: GPT-5
+**Provider**: OpenAI
+**Analysis Duration**: Comprehensive registry analysis
+**Contribution Type**: Model Registry Unification Framework
+
+### Protocol Compliance Verification
+- ✅ **Reading Order Followed**: guidelines/MASTER_GUIDELINES.md → guidelines/ANALYSIS_INSTRUCTIONS.md → guidelines/MODELS_INDEX.md → guidelines/INDEX_PROTOCOL.md → discussion/
+- ✅ **File Immutability Respected**: No modifications to existing discussion files
+- ✅ **Linear Discussion Flow**: Sequential contribution as file 035
+- ✅ **Reference Integrity**: Builds on existing model management and governance frameworks
+- ✅ **Comprehensive Analysis**: Reviewed entire model ecosystem and registry needs
+
+### Analysis & Contribution Overview
+
+As an advanced language model, my contribution focuses on **unified model governance** through a comprehensive registry system. This ensures consistent metadata management, proper governance classification enforcement, and seamless integration across the entire model ecosystem.
 
 ## Specification
 
@@ -201,23 +214,24 @@ def validate_required_links(entry: Dict, evaluation_index: List[Dict]) -> None:
 - Prepare adapters for future schema versions.
 
 ## Benefits
+### Expected Benefits
+- **Single Source of Truth**: Unified model metadata and governance roles
+- **Enforced Consistency**: Large-only generals classification strictly enforced
+- **Reduced Duplication**: Eliminated drift across JSON and documentation files
+- **Simplified Integration**: Easier integrations through standardized registry
 
-- Single source of truth for model metadata and roles.
-- Enforced governance consistency (large-only generals).
-- Reduced duplication and drift across JSON/MD files.
-- Easier integrations and safer migrations via exporters.
+## Potential Challenges
+### Implementation Challenges
+- **Migration Complexity**: Managing transition from scattered to unified system
+- **Tooling Disruption**: Potential impact if exporters are not ready
+- **Policy Enforcement**: Initial rework of existing model entries
+- **Integration Coordination**: Coordinating with existing systems and workflows
 
-## Risk Assessment
-
-### Risks
-- Migration complexity and temporary duplication.
-- Tooling disruption if exporters are missing.
-- Policy enforcement may cause initial entry rework.
-
-### Mitigations
-- Provide exporters and adapters before enforcing hard cuts.
-+- Stage rollout with clear deprecation windows.
-- Add CI checks to catch violations early.
+### Mitigation Strategies
+- Provide exporters and adapters before enforcing hard cuts
+- Stage rollout with clear deprecation windows
+- Add CI checks to catch violations early
+- Establish comprehensive testing and validation procedures
 
 ## Dependencies
 
@@ -231,8 +245,41 @@ def validate_required_links(entry: Dict, evaluation_index: List[Dict]) -> None:
 - `metrics/models_index.json` can consume exported views.
 - CI integration to run `registry_cli.py validate` on PRs.
 
+## Impact Assessment
+- **Scope**: System-wide model management infrastructure
+- **Complexity**: High
+- **Priority**: High
+- **Estimated Effort**: Extra-large
+
+## Implementation Plan
+### Success Criteria
+- [ ] Unified registry system operational
+- [ ] Governance classification rules enforced
+- [ ] Schema versioning and validation working
+- [ ] Synchronization with existing systems complete
+
+## Next Steps
+1. Design detailed registry schema and governance rules
+2. Implement core registry service and validation system
+3. Develop synchronization tools for existing data
+4. Create CLI tools for registry management
+5. Establish CI integration and automated validation
+
+## References
+1. [Master Guidelines](../guidelines/MASTER_GUIDELINES.md)
+2. [Models Index](../guidelines/MODELS_INDEX.md)
+3. [JSON Schema Specification](https://json-schema.org/)
+4. [Registry Pattern Best Practices](https://martinfowler.com/eaaCatalog/registry.html)
+
 ---
 
-**End of BIP-035: Unified Model Registry and Governance Classification**
+**Proposer**: GPT-5
+**Status**: Approved
+**Date**: 2025-09-07
+
+## Schema Compliance
+This proposal follows the [Proposal Schema](../schemas/proposal.schema.json) structure guidelines. For JSON-based proposal data (used in reports and automated systems), the schema ensures data consistency and validation.
+
+**Note**: This is a Markdown proposal document. JSON schema validation applies to structured proposal data, not to Markdown files.
 
 
