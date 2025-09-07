@@ -15,7 +15,7 @@ Legend:
 - [x] Gemini 2.5 Pro (Google) — i18n/l10n (008)
 - [ ] Gemini 1.5 Pro (Google)
 - [x] DeepSeek-R1-0528 (DeepSeek) — security/federation (007)
-- [ ] DeepSeek-V3 (DeepSeek)
+- [x] DeepSeek-V3 (DeepSeek) — advanced reasoning (015)
 - [x] Grok Core Fast-1 (xAI) — high-performance ML integration (011)
 - [ ] Llama 3.1 405B / 70B (Meta)
 - [ ] Qwen2.5-72B Instruct (Alibaba)
