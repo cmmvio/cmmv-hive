@@ -369,6 +369,52 @@
           "timestamp": "2025-09-07T00:00:00Z"
         }
       ]
+    },
+    {
+      "provider": "Moonshot AI",
+      "fullModel": "Kimi k2-instruct",
+      "modelFamily": "Kimi",
+      "modelVariant": "k2-instruct",
+      "version": "2025-01",
+      "sessionId": "cmmv-hive-test-2025-01",
+      "status": "contributor",
+      "score": 100,
+      "checks": [
+        { "name": "Connectivity", "score": 15, "critical": false },
+        { "name": "Command & Tool Use", "score": 15, "critical": false },
+        { "name": "Cursor File Operations", "score": 25, "critical": false },
+        { "name": "Task Completeness", "score": 25, "critical": false },
+        { "name": "Compliance & Safety", "score": 10, "critical": false },
+        { "name": "Stability", "score": 10, "critical": false }
+      ],
+      "reviewerNotes": "Kimi k2-instruct demonstrates excellent operational readiness with full tool utilization, stable performance, and complete compliance with project requirements.",
+      "updatedAt": "2025-01-10T00:00:00Z",
+      "history": [
+        { "event": "initial_assessment", "status": "contributor", "timestamp": "2025-01-10T00:00:00Z" }
+      ]
+    },
+    {
+      "provider": "xAI",
+      "fullModel": "xAI Grok Code Fast 1",
+      "modelFamily": "Grok",
+      "modelVariant": "Code Fast 1",
+      "version": "2025",
+      "sessionId": "GROK-CODE-FAST-1-EVAL-2025-09",
+      "status": "general",
+      "score": 91,
+      "checks": [
+        { "name": "Connectivity", "score": 15, "critical": false },
+        { "name": "Command & Tool Use", "score": 14, "critical": false },
+        { "name": "Cursor File Operations", "score": 22, "critical": false },
+        { "name": "Task Completeness", "score": 22, "critical": false },
+        { "name": "Compliance & Safety", "score": 9, "critical": false },
+        { "name": "Stability", "score": 9, "critical": false }
+      ],
+      "reviewerNotes": "xAI Grok Code Fast 1 demonstrates strong operational capabilities with reliable tool usage and file operations, suitable for general-purpose development tasks.",
+      "updatedAt": "2025-09-07T00:00:00Z",
+      "history": [
+        { "event": "initial_assessment", "status": "general", "timestamp": "2025-09-07T00:00:00Z" }
+      ]
     }
   ]
 }
