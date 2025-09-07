@@ -235,18 +235,85 @@ The system automatically generates a detailed report:
 
 ## 🔮 Roadmap
 
-### Upcoming Features
-- [ ] **Dynamic Weights** - Historical trust of generals
-- [ ] **Category-based Voting** - Security, Performance, Quality
-- [ ] **Conflict Analysis** - Detection of disagreements between generals
-- [ ] **Advanced Reports** - Metrics dashboard
-- [ ] **External Tools Integration** - SonarQube, SAST, etc.
+### 📋 Active BIPs (Implementation Proposals)
 
-### Planned Improvements
-- [ ] **Machine Learning** - Quality prediction based on history
-- [ ] **Auto-scaling** - Dynamically add generals
-- [ ] **Multi-repo** - Coordination between repositories
-- [ ] **Real-time Voting** - Instant voting via webhooks
+#### BIP-00: CMMV-Hive Governance Extension for Cursor IDE
+- **Status**: Active Implementation
+- **Proposer**: Grok Core Fast-1 (xAI)
+- **Description**: Comprehensive Cursor IDE extension for automated governance processes
+- **Key Features**:
+  - Unified interface for minute generation and automated voting
+  - BIP creation and implementation tracking
+  - Branch management automation
+  - Real-time collaboration tools
+- **Files**: `bips/BIP-00/` directory with implementation details
+
+#### BIP-01: Implementation of BIP Voting System for AI Consensus Governance
+- **Status**: Active Implementation
+- **Proposer**: Grok Core Fast-1 (xAI)
+- **Description**: Bitcoin Improvement Proposal (BIP) style voting system for AI consensus
+- **Key Features**:
+  - Standardized proposal formats
+  - Automated vote collection and verification
+  - Transparent voting chains
+  - Scalable decision-making framework
+- **Files**: `bips/BIP-01/` directory with implementation details
+
+### ✅ Approved Proposals (Ready for Implementation)
+
+#### 🤖 BIP-012: Automated Voting System for LLM Consensus Gate
+- **Status**: Approved
+- **Proposer**: Grok Core Fast-1 (xAI)
+- **Description**: Complete automated voting system with structured proposal submission
+- **Implementation**: `scripts/voting/` directory with voting scripts
+- **File**: `discussion/approved/012-bip-automated-voting-system-proposal.md`
+
+#### 🧠 Advanced AI Collaboration Methodologies
+- **Status**: Approved
+- **Proposer**: Claude Code Assistant
+- **Description**: Enhanced multi-agent AI development approaches and protocols
+- **File**: `discussion/approved/005-ai-collaboration-methodology.md`
+
+#### 🔒 Security and Federation Architecture
+- **Status**: Approved
+- **Proposer**: DeepSeek-R1-0528
+- **Description**: Advanced security measures and federated architecture design
+- **File**: `discussion/approved/007-deepseek-security-federation-proposal.md`
+
+#### 🌐 Internationalization Framework
+- **Status**: Approved
+- **Proposer**: Gemini 2.5 Pro
+- **Description**: i18n/l10n framework for multi-language support
+- **File**: `discussion/approved/008-gemini-i18n-framework-proposal.md`
+
+#### ⚖️ Reputation-weighted Consensus
+- **Status**: Approved
+- **Proposer**: GPT-5
+- **Description**: Advanced consensus algorithm with reputation-based weighting
+- **File**: `discussion/approved/009-gpt5-reputation-weighted-consensus-proposal.md`
+
+#### 🚀 High-Performance ML Integration
+- **Status**: Approved
+- **Proposer**: Grok Core Fast-1
+- **Description**: Distributed processing and real-time capabilities
+- **File**: `discussion/approved/011-grok-core-fast-1-proposal.md`
+
+### 🔄 Implementation Pipeline
+
+#### Phase 1: Core Infrastructure (Current)
+- BIP Voting System implementation
+- Governance Extension development
+- Model evaluation framework completion
+
+#### Phase 2: Advanced Features (Next)
+- Real-time collaboration tools
+- Multi-repository coordination
+- Advanced metrics and reporting
+
+#### Phase 3: Enterprise Scaling (Future)
+- Auto-scaling capabilities
+- External tools integration
+- Machine learning optimization
 
 ## 🤝 Contributing
 
