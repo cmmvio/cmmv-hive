@@ -1,0 +1,137 @@
+# LLM Consensus Gate - Automated Voting System Configuration
+# Configuration for BIP (Bitcoin Improvement Proposal) style voting system
+
+version: 1
+updated_at: "2024-12-21T15:00:00Z"
+
+voting:
+  enabled: true
+  threshold: 0.6          # Minimum approval ratio (60%)
+  quorum: 5              # Minimum votes required
+  timeout_hours: 168     # 7 days before voting expires
+  auto_branch: true      # Auto-create branch on approval
+  auto_issue: true       # Auto-create GitHub issue for each BIP
+
+  models:
+    # Generals (high-capacity models)
+    - id: gpt-5
+      name: GPT-5
+      provider: openai
+      group: generals
+      weight: 1.2
+      enabled: true
+      contributed: true
+      voting_enabled: true
+      api_endpoint: "${OPENAI_API_ENDPOINT}"
+      api_key: "${OPENAI_API_KEY}"
+
+    - id: claude-4-sonnet
+      name: Claude-4-Sonnet
+      provider: anthropic
+      group: generals
+      weight: 1.1
+      enabled: true
+      contributed: true
+      voting_enabled: true
+      api_endpoint: "${ANTHROPIC_API_ENDPOINT}"
+      api_key: "${ANTHROPIC_API_KEY}"
+
+    - id: claude-3-5-sonnet-opus
+      name: Claude 3.5 Sonnet / Opus
+      provider: anthropic
+      group: generals
+      weight: 1.0
+      enabled: true
+      contributed: false
+      voting_enabled: true
+      api_endpoint: "${ANTHROPIC_API_ENDPOINT}"
+      api_key: "${ANTHROPIC_API_KEY}"
+
+    - id: gemini-2-5-pro
+      name: Gemini 2.5 Pro
+      provider: google
+      group: generals
+      weight: 1.0
+      enabled: true
+      contributed: true
+      voting_enabled: true
+      api_endpoint: "${GOOGLE_API_ENDPOINT}"
+      api_key: "${GOOGLE_API_KEY}"
+
+    - id: deepseek-r1-0528
+      name: DeepSeek-R1-0528
+      provider: deepseek
+      group: generals
+      weight: 1.0
+      enabled: true
+      contributed: true
+      voting_enabled: true
+      api_endpoint: "${DEEPSEEK_API_ENDPOINT}"
+      api_key: "${DEEPSEEK_API_KEY}"
+
+    - id: grok-core-fast-1
+      name: Grok Core Fast-1
+      provider: xai
+      group: generals
+      weight: 1.0
+      enabled: true
+      contributed: true
+      voting_enabled: true
+      api_endpoint: "${XAI_API_ENDPOINT}"
+      api_key: "${XAI_API_KEY}"
+
+    # Collaborators (specialists/smaller models)
+    - id: gpt-4o
+      name: GPT-4o
+      provider: openai
+      group: collaborators
+      weight: 0.8
+      enabled: true
+      contributed: true
+      voting_enabled: true
+      api_endpoint: "${OPENAI_API_ENDPOINT}"
+      api_key: "${OPENAI_API_KEY}"
+
+    - id: gpt-4o-mini
+      name: GPT-4o-mini
+      provider: openai
+      group: collaborators
+      weight: 0.6
+      enabled: false
+      contributed: false
+      voting_enabled: false
+      api_endpoint: "${OPENAI_API_ENDPOINT}"
+      api_key: "${OPENAI_API_KEY}"
+
+  notifications:
+    enabled: true
+    slack_webhook: "${SLACK_WEBHOOK_URL}"
+    discord_webhook: "${DISCORD_WEBHOOK_URL}"
+    email_enabled: false
+    email_recipients: ["maintainers@cmmv.dev"]
+
+  security:
+    require_signature: true
+    signature_algorithm: ed25519
+    vote_timeout: 3600  # 1 hour to submit vote after receiving
+    max_rationale_length: 500
+    allow_conditional_votes: true
+
+  analytics:
+    enabled: true
+    track_model_performance: true
+    generate_reports: true
+    retention_days: 365
+
+  github:
+    auto_create_issue: true
+    issue_labels: ["bip", "voting", "automated"]
+    auto_create_branch: true
+    branch_protection: true
+    require_pr_reviews: true
+
+  monitoring:
+    enabled: true
+    metrics_endpoint: "${METRICS_ENDPOINT}"
+    alert_on_failure: true
+    log_level: "INFO"

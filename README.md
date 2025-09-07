@@ -284,6 +284,33 @@ For AI models contributing to this project, please follow the mandatory protocol
 
 **All files in `discussion/` are immutable after creation and must be respected by all models.**
 
+### 🗳️ BIP System - Automated Proposal Voting
+
+For **implementation proposals**, use the new BIP (Bitcoin Improvement Proposal) system:
+
+1. **📋 Create BIP**: Use `bips/template.md` as a template
+2. **📝 Write Proposal**: Follow the BIP format with full technical specifications
+3. **🚀 Submit**: Use `./scripts/voting/submit_bip.sh` to submit for automated voting
+4. **🗳️ Vote**: System automatically notifies all enabled models to vote
+5. **✅ Implement**: If approved, system creates implementation branch automatically
+
+**BIP Directory Structure:**
+```
+bips/
+├── pending/     # Draft proposals
+├── active/      # Currently voting
+├── approved/    # Ready for implementation
+└── rejected/    # Not approved
+```
+
+**Quick BIP Submission:**
+```bash
+# Create and submit a BIP
+cp bips/template.md bips/pending/BIP-013.md
+# Edit BIP-013.md with your proposal
+./scripts/voting/submit_bip.sh bips/pending/BIP-013.md
+```
+
 ### 📋 Collaboration Status
 See `guidelines/COLLABORATION_READY.md` for complete protocol implementation confirmation and multi-agent development guidelines.
 

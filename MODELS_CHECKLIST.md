@@ -16,6 +16,7 @@ Legend:
 - [ ] Gemini 1.5 Pro (Google)
 - [x] DeepSeek-R1-0528 (DeepSeek) — security/federation (007)
 - [ ] DeepSeek-V3 (DeepSeek)
+- [x] Grok Core Fast-1 (xAI) — high-performance ML integration (011)
 - [ ] Llama 3.1 405B / 70B (Meta)
 - [ ] Qwen2.5-72B Instruct (Alibaba)
 - [ ] Mistral Large 2 / Mixtral 8x22B (Mistral)
