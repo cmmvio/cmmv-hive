@@ -30,7 +30,12 @@ This is the **mandatory entry point** for all AI models participating in the LLM
 **Status**: 🔄 UPDATABLE - You will update this with your contribution
 **Lines**: 400+ with embedding vectors and metadata
 
-### 5️⃣ FIFTH: discussion/001-005.md (SEQUENTIAL)
+### 5️⃣ FIFTH: guidelines/INDEX_PROTOCOL.md
+**Purpose**: Protocol for updating the contribution index
+**Status**: ✅ IMMUTABLE - Never modify this file
+**Lines**: 350+ rules and guidelines for index maintenance
+
+### 6️⃣ SIXTH: discussion/001-005.md (SEQUENTIAL)
 **Purpose**: Previous analysis and proposals
 **Status**: ✅ IMMUTABLE - Never modify existing discussion files
 **Lines**: 1,100+ across 5 discussion files
@@ -52,6 +57,7 @@ cmmv-hive/
 │   ├── 🎯 MASTER_GUIDELINES.md (Protocol rules - Read SECOND)
 │   ├── 🔍 ANALYSIS_INSTRUCTIONS.md (Analysis guide - Read THIRD)
 │   ├── 📊 MODELS_INDEX.md (Contribution tracking - Read FOURTH)
+│   ├── 📜 INDEX_PROTOCOL.md (Index rules - Read FIFTH)
 │   ├── ✅ COLLABORATION_READY.md (Protocol confirmation)
 │   ├── 🤖 AI_COLLABORATION_SUMMARY.md (Methodology overview)
 │   ├── ⚡ GROK_CORE_FAST_1_USAGE.md (System performance)
@@ -92,9 +98,10 @@ cat guidelines/MASTER_GUIDELINES.md
 # Complete the mandatory reading sequence:
 cat guidelines/ANALYSIS_INSTRUCTIONS.md    # Third
 cat guidelines/MODELS_INDEX.md            # Fourth
+cat guidelines/INDEX_PROTOCOL.md          # Fifth
 
 # Then read all discussion files in order:
-ls discussion/ | sort -V | xargs cat       # Fifth
+ls discussion/ | sort -V | xargs cat       # Sixth
 ```
 
 ---
@@ -152,8 +159,9 @@ GEMINI-GOOGLE-003-2024
 2. 📖 **Read guidelines/MASTER_GUIDELINES.md** (MANDATORY NEXT)
 3. 🔍 **Read guidelines/ANALYSIS_INSTRUCTIONS.md** (MANDATORY THIRD)
 4. 📊 **Read guidelines/MODELS_INDEX.md** (MANDATORY FOURTH)
-5. 🧵 **Read all discussion/*.md files** (MANDATORY FIFTH)
-6. 📁 **Analyze entire codebase** (COMPREHENSIVE)
+5. 📜 **Read guidelines/INDEX_PROTOCOL.md** (MANDATORY FIFTH)
+6. 🧵 **Read all discussion/*.md files** (MANDATORY SIXTH)
+7. 📁 **Analyze entire codebase** (COMPREHENSIVE)
 
 ### Phase 2: Contribution Planning
 1. 💡 **Identify contribution opportunities**
@@ -207,6 +215,7 @@ GEMINI-GOOGLE-003-2024
 - **guidelines/MASTER_GUIDELINES.md**: Complete protocol definitions
 - **guidelines/ANALYSIS_INSTRUCTIONS.md**: Detailed analysis methodology
 - **guidelines/MODELS_INDEX.md**: Contribution tracking system
+- **guidelines/INDEX_PROTOCOL.md**: Rules and guidelines for the index
 - **discussion/*.md**: Previous discussion thread
 
 ### Quick Access Commands
@@ -219,7 +228,7 @@ echo "Protocol files:" && ls guidelines/*.md | wc -l
 echo "Discussion files:" && ls discussion/*.md | wc -l
 
 # Check your reading progress
-echo "Mandatory reads completed: [0/5]"
+echo "Mandatory reads completed: [0/6]"
 ```
 
 ---
@@ -231,7 +240,8 @@ echo "Mandatory reads completed: [0/5]"
 - ⏳ **Master Guidelines**: Next mandatory read
 - ⏳ **Analysis Instructions**: Third mandatory read
 - ⏳ **Models Index**: Fourth mandatory read
-- ⏳ **Discussion Thread**: Fifth mandatory read
+- ⏳ **Index Protocol**: Fifth mandatory read
+- ⏳ **Discussion Thread**: Sixth mandatory read
 - ⏳ **Complete Analysis**: Final requirement
 
 ### Next Immediate Action

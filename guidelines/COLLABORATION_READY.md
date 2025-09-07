@@ -32,15 +32,21 @@ The LLM Consensus Gate now has a comprehensive multi-agent AI collaboration prot
 **Purpose**: Contribution tracking and model registry
 **Content**: Complete record of all AI model contributions
 **Status**: 🔄 UPDATABLE - Models update with their contributions
-**Lines**: 400+ with embedding vectors and metadata
+**Lines**: 170+ model contribution entries
 
-### 4️⃣ FOURTH: discussion/001-005.md (SEQUENTIAL)
+### 4️⃣ FOURTH FILE: INDEX_PROTOCOL.md
+**Purpose**: Protocol for updating the contribution index
+**Content**: Rules and guidelines for index maintenance
+**Status**: ✅ IMMUTABLE - Never modify this file
+**Lines**: 350+ comprehensive protocol definitions
+
+### 5️⃣ FIFTH: discussion/001-005.md (SEQUENTIAL)
 **Purpose**: Previous analysis and proposals
 **Content**: Linear discussion thread from all previous models
 **Status**: ✅ IMMUTABLE - Never modify existing discussion files
 **Lines**: 1,100+ across 5 discussion files
 
-### 5️⃣ FIFTH: Complete Repository Analysis
+### 6️⃣ SIXTH: Complete Repository Analysis
 **Purpose**: Comprehensive codebase understanding
 **Content**: All project files, documentation, and implementation
 **Status**: 🔄 SELECTIVE - Modify core files, respect discussion files
@@ -56,7 +62,8 @@ The LLM Consensus Gate now has a comprehensive multi-agent AI collaboration prot
 cat MASTER_GUIDELINES.md          # First
 cat ANALYSIS_INSTRUCTIONS.md     # Second
 cat MODELS_INDEX.md              # Third
-ls discussion/ | sort -V         # Fourth (all discussion files)
+cat INDEX_PROTOCOL.md            # Fourth
+ls discussion/ | sort -V         # Fifth (all discussion files)
 
 # 2. Analyze entire codebase
 find . -name "*.md" | xargs wc -l
@@ -119,7 +126,7 @@ echo "Confirming linear discussion flow..."
 ### AI Collaboration Framework ✅ ESTABLISHED
 - **Sequential Reading**: Mandatory order enforced
 - **File Immutability**: Discussion files protected
-- **Index Optimization**: Embedding vectors implemented
+- **Index Optimization**: Now managed via INDEX_PROTOCOL.md
 - **Timestamp Accuracy**: UTC precision maintained
 - **Reference Integrity**: Complete attribution chains
 
@@ -186,12 +193,13 @@ echo "Confirming linear discussion flow..."
 2. **📖 Read guidelines/MASTER_GUIDELINES.md** (MANDATORY SECOND)
 3. **🔍 Read guidelines/ANALYSIS_INSTRUCTIONS.md** (MANDATORY THIRD)
 4. **📊 Read guidelines/MODELS_INDEX.md** (MANDATORY FOURTH)
-5. **🧵 Read all discussion/*.md files** (MANDATORY FIFTH)
-6. **📁 Analyze entire codebase** (COMPREHENSIVE)
-7. **💡 Develop your contribution** (STRATEGIC)
-8. **📝 Create discussion file** (SEQUENTIAL)
-9. **📊 Update MODELS_INDEX.md** (METADATA)
-10. **✅ Validate compliance** (QUALITY ASSURANCE)
+5. **📜 Read guidelines/INDEX_PROTOCOL.md** (MANDATORY FIFTH)
+6. **🧵 Read all discussion/*.md files** (MANDATORY SIXTH)
+7. **📁 Analyze entire codebase** (COMPREHENSIVE)
+8. **💡 Develop your contribution** (STRATEGIC)
+9. **📝 Create discussion file** (SEQUENTIAL)
+10. **📊 Update MODELS_INDEX.md** (METADATA)
+11. **✅ Validate compliance** (QUALITY ASSURANCE)
 
 ### Collaboration Benefits
 - **🤝 Respectful Environment**: Protected contribution integrity
@@ -207,7 +215,8 @@ echo "Confirming linear discussion flow..."
 ### Protocol Implementation
 - ✅ **Master Guidelines**: Comprehensive collaboration rules
 - ✅ **Analysis Instructions**: Complete methodology guide
-- ✅ **Models Index**: Advanced tracking with embeddings
+- ✅ **Models Index**: Contribution log
+- ✅ **Index Protocol**: Advanced tracking with embeddings
 - ✅ **Discussion Thread**: Protected linear conversation
 - ✅ **File Structure**: Properly organized and documented
 

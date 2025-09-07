@@ -8,7 +8,8 @@
 ```
 FIRST FILE TO READ: MASTER_GUIDELINES.md (This file - Protocol definitions)
 THEN: ANALYSIS_INSTRUCTIONS.md (Analysis methodology and requirements)
-THEN: MODELS_INDEX.md (Previous contributions and model tracking)
+THEN: MODELS_INDEX.md (Previous contributions log)
+THEN: INDEX_PROTOCOL.md (Rules for updating the models index)
 THEN: discussion/001-project-overview.md through discussion/005-*.md (Discussion thread)
 THEN: All other project files for comprehensive analysis
 ```
@@ -16,7 +17,8 @@ THEN: All other project files for comprehensive analysis
 #### 2. **MANDATORY FILE REFERENCES**
 - **MASTER_GUIDELINES.md**: This file - Protocol and rules
 - **ANALYSIS_INSTRUCTIONS.md**: Complete analysis methodology
-- **MODELS_INDEX.md**: Contribution tracking and model registry
+- **MODELS_INDEX.md**: Contribution tracking log
+- **INDEX_PROTOCOL.md**: Protocol for updating the contribution log
 - **COMMIT_CHANGES.md**: Git commit instructions and change summary
 
 #### 2. **FILE IMMUTABILITY PRINCIPLE**
@@ -36,11 +38,12 @@ THEN: All other project files for comprehensive analysis
 ```
 1. Read MASTER_GUIDELINES.md (this file)
 2. Read ANALYSIS_INSTRUCTIONS.md
-3. Read MODELS_INDEX.md (previous contributions)
-4. Analyze all project files
-5. Create your contribution following the protocol
-6. Update MODELS_INDEX.md with your contribution details
-7. Generate discussion file (even if minimal)
+3. Read MODELS_INDEX.md (previous contributions log)
+4. Read INDEX_PROTOCOL.md (rules for updating the index)
+5. Analyze all project files
+6. Create your contribution following the protocol
+7. Update MODELS_INDEX.md with your contribution details
+8. Generate discussion file (even if minimal)
 ```
 
 ## 🧠 AI MODEL RESPONSIBILITIES
@@ -77,7 +80,8 @@ discussion/
 
 ### Index and Control Files
 ```
-MODELS_INDEX.md (Main index - can be updated by any model)
+MODELS_INDEX.md (Contribution log - can be updated by any model)
+INDEX_PROTOCOL.md (Index rules and protocol - NEVER MODIFY)
 MASTER_GUIDELINES.md (This file - NEVER MODIFY)
 ANALYSIS_INSTRUCTIONS.md (Analysis guide - NEVER MODIFY)
 ```
@@ -116,11 +120,12 @@ ANALYSIS_INSTRUCTIONS.md (Analysis guide - NEVER MODIFY)
 ### Index Update Protocol
 ```
 1. Read current MODELS_INDEX.md
-2. Analyze your contributions
-3. Generate embedding vectors for new content
-4. Update index with new entries
-5. Validate index integrity
-6. Save updated index
+2. Read INDEX_PROTOCOL.md
+3. Analyze your contributions
+4. Generate embedding vectors for new content
+5. Update MODELS_INDEX.md with new entries, following INDEX_PROTOCOL.md
+6. Validate index integrity
+7. Save updated index
 ```
 
 ## 🔄 CONTRIBUTION WORKFLOW DETAILED
@@ -133,8 +138,9 @@ cat MASTER_GUIDELINES.md
 # 2. Read analysis instructions
 cat ANALYSIS_INSTRUCTIONS.md
 
-# 3. Check current index
+# 3. Check current index log and protocol
 cat MODELS_INDEX.md
+cat INDEX_PROTOCOL.md
 
 # 4. Read all discussion files
 ls discussion/*.md | sort -V | xargs cat
@@ -204,6 +210,7 @@ echo "Checking for conflicts with previous work..."
 - [ ] Read MASTER_GUIDELINES.md completely
 - [ ] Read ANALYSIS_INSTRUCTIONS.md
 - [ ] Reviewed MODELS_INDEX.md
+- [ ] Reviewed INDEX_PROTOCOL.md
 - [ ] Read all discussion files in order
 - [ ] Analyzed entire codebase
 - [ ] Understood previous contributions

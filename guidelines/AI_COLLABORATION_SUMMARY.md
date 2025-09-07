@@ -205,7 +205,7 @@ Join the discussion thread (`discussion/003-implementation-discussion.md`) to co
 
 ### AI Collaboration Framework
 - `AI_ENTRY_POINT.md` (root) - Mandatory first read for all models
-- `guidelines/MASTER_GUIDELINES.md` - Complete protocol definitions
+- `guidelines/INDEX_PROTOCOL.md` - Complete protocol definitions
 - `guidelines/ANALYSIS_INSTRUCTIONS.md` - Analysis methodology guide
 - `guidelines/MODELS_INDEX.md` - Contribution tracking with embeddings
 - `guidelines/COLLABORATION_READY.md` - Protocol implementation confirmation

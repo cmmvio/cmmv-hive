@@ -32,8 +32,9 @@
 /
 ├── 📖 MASTER_GUIDELINES.md (Read FIRST - Protocol definitions)
 ├── 🔍 ANALYSIS_INSTRUCTIONS.md (Read SECOND - This file)
-├── 📊 MODELS_INDEX.md (Read THIRD - Contribution tracking)
-├── 🧵 discussion/ (Read FOURTH - Previous discussions)
+├── 📊 MODELS_INDEX.md (Read THIRD - Contribution tracking log)
+├── 📜 INDEX_PROTOCOL.md (Read FOURTH - Indexing rules)
+├── 🧵 discussion/ (Read FIFTH - Previous discussions)
 │   ├── 001-project-overview.md
 │   ├── 002-detailed-improvements.md
 │   ├── 003-implementation-discussion.md
@@ -127,6 +128,7 @@ done
 ```bash
 # Analyze contribution index
 cat MODELS_INDEX.md
+cat INDEX_PROTOCOL.md
 echo "=== Index Statistics ==="
 grep -c "AI Model:" MODELS_INDEX.md
 grep -c "Files Created:" MODELS_INDEX.md
@@ -273,13 +275,14 @@ grep -r "extend\|Extend\|plugin\|Plugin\|API" --include="*.md" . | head -5
 1. **📖 Read MASTER_GUIDELINES.md** (MANDATORY FIRST)
 2. **🔍 Read ANALYSIS_INSTRUCTIONS.md** (MANDATORY SECOND)
 3. **📊 Read MODELS_INDEX.md** (MANDATORY THIRD)
-4. **🧵 Read all discussion/ files** (MANDATORY FOURTH)
-5. **📁 Analyze entire codebase** (COMPREHENSIVE)
-6. **💡 Develop contribution strategy** (STRATEGIC)
-7. **📝 Create discussion file** (SEQUENTIAL NUMBERING)
-8. **📊 Update MODELS_INDEX.md** (METADATA ACCURATE)
-9. **🔗 Validate references** (INTEGRITY CHECK)
-10. **✅ Verify compliance** (PROTOCOL CONFIRMATION)
+4. **📜 Read INDEX_PROTOCOL.md** (MANDATORY FOURTH)
+5. **🧵 Read all discussion/ files** (MANDATORY FIFTH)
+6. **📁 Analyze entire codebase** (COMPREHENSIVE)
+7. **💡 Develop contribution strategy** (STRATEGIC)
+8. **📝 Create discussion file** (SEQUENTIAL NUMBERING)
+9. **📊 Update MODELS_INDEX.md** (METADATA ACCURATE)
+10. **🔗 Validate references** (INTEGRITY CHECK)
+11. **✅ Verify compliance** (PROTOCOL CONFIRMATION)
 
 ### Success Metrics
 - ✅ **Protocol Compliance**: All guidelines followed
@@ -297,6 +300,7 @@ grep -r "extend\|Extend\|plugin\|Plugin\|API" --include="*.md" . | head -5
 - [ ] Understood all protocol requirements
 - [ ] Confirmed file immutability principles
 - [ ] Reviewed linear discussion requirements
+- [ ] Reviewed INDEX_PROTOCOL.md
 
 ### Analysis Checklist
 - [ ] Analyzed all project directories
@@ -320,6 +324,7 @@ grep -r "extend\|Extend\|plugin\|Plugin\|API" --include="*.md" . | head -5
 ### Reference Materials
 - **MASTER_GUIDELINES.md**: Protocol definitions and requirements
 - **MODELS_INDEX.md**: Previous contribution tracking
+- **INDEX_PROTOCOL.md**: Rules and guidelines for the index
 - **discussion/*.md**: Previous analysis and proposals
 - **docs/**: Technical documentation and guides
 

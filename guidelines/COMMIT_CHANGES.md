@@ -16,7 +16,8 @@ See `AI_COLLABORATION_SUMMARY.md` for complete methodology and `GROK_CORE_FAST_1
 ### 🤖 AI Collaboration Protocol (MANDATORY for contributors)
 - **MASTER_GUIDELINES.md**: Protocol definitions and collaboration rules
 - **ANALYSIS_INSTRUCTIONS.md**: Complete analysis methodology and requirements
-- **MODELS_INDEX.md**: Contribution tracking and model registry
+- **MODELS_INDEX.md**: Contribution tracking log
+- **INDEX_PROTOCOL.md**: Rules for updating the contribution log
 - **discussion/*.md**: Sequential discussion thread (immutable after creation)
 - **COLLABORATION_READY.md**: Protocol implementation confirmation
 
@@ -84,6 +85,7 @@ git commit -m "🤖 feat: LLM Consensus Gate MVP Enhancement
 - MASTER_GUIDELINES.md - AI collaboration protocol (MANDATORY)
 - ANALYSIS_INSTRUCTIONS.md - Analysis methodology guide
 - MODELS_INDEX.md - Contribution tracking with embeddings
+- INDEX_PROTOCOL.md - Rules and protocol for the index
 - AI_COLLABORATION_SUMMARY.md - Claude + Grok development methodology
 - GROK_CORE_FAST_1_USAGE.md - Execution engine performance report
 
