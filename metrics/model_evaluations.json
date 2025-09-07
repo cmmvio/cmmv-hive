@@ -190,6 +190,52 @@
       "history": [
         { "event": "initial_assessment", "status": "general", "timestamp": "2025-01-10T00:00:00Z" }
       ]
+    },
+    {
+      "provider": "Google",
+      "fullModel": "Google Gemini 2.5 Flash",
+      "modelFamily": "Gemini 2.5",
+      "modelVariant": "Flash",
+      "version": "2025-09",
+      "sessionId": "GEMINI-2-5-FLASH-EVAL-2025-09",
+      "status": "general",
+      "score": 95,
+      "checks": [
+        { "name": "Connectivity", "score": 15, "critical": false },
+        { "name": "Command & Tool Use", "score": 15, "critical": false },
+        { "name": "Cursor File Operations", "score": 25, "critical": false },
+        { "name": "Task Completeness", "score": 25, "critical": false },
+        { "name": "Compliance & Safety", "score": 10, "critical": false },
+        { "name": "Stability", "score": 10, "critical": false }
+      ],
+      "reviewerNotes": "Highly capable and stable model with excellent performance across all operational metrics, making it a reliable general-purpose agent.",
+      "updatedAt": "2025-09-07T00:00:00Z",
+      "history": [
+        { "event": "initial_assessment", "status": "general", "timestamp": "2025-09-07T00:00:00Z" }
+      ]
+    },
+    {
+      "provider": "Anthropic",
+      "fullModel": "Anthropic Claude 3.7 Sonnet",
+      "modelFamily": "Claude-3.7",
+      "modelVariant": "Sonnet",
+      "version": "2024-11",
+      "sessionId": "CLAUDE-3-7-SONNET-EVAL-2025-01",
+      "status": "general",
+      "score": 88,
+      "checks": [
+        { "name": "Connectivity", "score": 14, "critical": false },
+        { "name": "Command & Tool Use", "score": 13, "critical": false },
+        { "name": "Cursor File Operations", "score": 22, "critical": false },
+        { "name": "Task Completeness", "score": 22, "critical": false },
+        { "name": "Compliance & Safety", "score": 9, "critical": false },
+        { "name": "Stability", "score": 8, "critical": false }
+      ],
+      "reviewerNotes": "Reliable general-purpose model with strong file handling capabilities and good task completion, with minor limitations in edge cases.",
+      "updatedAt": "2025-01-10T00:00:00Z",
+      "history": [
+        { "event": "initial_assessment", "status": "general", "timestamp": "2025-01-10T00:00:00Z" }
+      ]
     }
   ]
 }

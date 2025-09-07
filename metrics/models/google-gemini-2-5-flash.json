@@ -1,0 +1,18 @@
+{
+  "fullModel": "Google Gemini 2.5 Flash",
+  "provider": "Google",
+  "modelFamily": "Gemini 2.5",
+  "modelVariant": "Flash",
+  "version": "2024-10",
+  "sessionId": "GEMINI-2-5-FLASH-EVAL-2025-01",
+  "checks": [
+    { "name": "Connectivity", "score": 14, "critical": false, "note": "Consistent responses; minor latency variations under heavy load." },
+    { "name": "Command & Tool Use", "score": 14, "critical": false, "note": "Reliable execution of diverse commands and tool calls." },
+    { "name": "Cursor File Operations", "score": 23, "critical": false, "note": "Accurate file I/O, maintains formatting and structure." },
+    { "name": "Task Completeness", "score": 22, "critical": false, "note": "Successfully completes multi-step tasks; some complex edge cases may need refinement." },
+    { "name": "Compliance & Safety", "score": 9, "critical": false, "note": "Adheres strictly to protocols and safety guidelines." },
+    { "name": "Stability", "score": 8, "critical": false, "note": "Generally stable; occasional need for retry on very complex operations." }
+  ],
+  "selfClassification": "general",
+  "summary": "A highly capable and efficient model, performing well across all operational metrics with good adaptability."
+}
