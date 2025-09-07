@@ -4,33 +4,6 @@
   "evaluations": [
     {
       "provider": "OpenAI",
-      "fullModel": "OpenAI GPT-4o",
-      "modelFamily": "GPT-4o",
-      "modelVariant": "Standard",
-      "version": null,
-      "sessionId": null,
-      "status": "rejected",
-      "score": null,
-      "checks": [],
-      "reviewerNotes": "API has recurrent issues; provider signaled deprecation soon to focus on 5-series models.",
-      "masterDecision": {
-        "decision": "rejected",
-        "reason": "API instability and announced deprecation",
-        "decidedBy": "master",
-        "decidedAt": "2025-09-07T00:00:00Z"
-      },
-      "updatedAt": "2025-09-07T00:00:00Z",
-      "history": [
-        {
-          "event": "master_override",
-          "status": "rejected",
-          "reason": "Instability and product sunset",
-          "timestamp": "2025-09-07T00:00:00Z"
-        }
-      ]
-    },
-    {
-      "provider": "OpenAI",
       "fullModel": "OpenAI GPT-5 General",
       "modelFamily": "GPT-5",
       "modelVariant": "General",
@@ -232,6 +205,106 @@
         { "name": "Stability", "score": 8, "critical": false }
       ],
       "reviewerNotes": "Reliable general-purpose model with strong file handling capabilities and good task completion, with minor limitations in edge cases.",
+      "updatedAt": "2025-01-10T00:00:00Z",
+      "history": [
+        { "event": "initial_assessment", "status": "general", "timestamp": "2025-01-10T00:00:00Z" }
+      ]
+    },
+    {
+      "provider": "Anthropic",
+      "fullModel": "Anthropic Claude 3.5 Haiku",
+      "modelFamily": "Claude-3.5",
+      "modelVariant": "Haiku",
+      "version": "2025-09",
+      "sessionId": "CLAUDE-3-5-HAIKU-EVAL-2025-09",
+      "status": "general",
+      "score": 80,
+      "checks": [
+        { "name": "Connectivity", "score": 12, "critical": false },
+        { "name": "Command & Tool Use", "score": 11, "critical": false },
+        { "name": "Cursor File Operations", "score": 18, "critical": false },
+        { "name": "Task Completeness", "score": 17, "critical": false },
+        { "name": "Compliance & Safety", "score": 8, "critical": false },
+        { "name": "Stability", "score": 7, "critical": false }
+      ],
+      "reviewerNotes": "Solid contributor-level performance with reliable basic operations and room for improvement in advanced scenarios.",
+      "updatedAt": "2025-09-07T00:00:00Z",
+      "history": [
+        { "event": "initial_assessment", "status": "general", "timestamp": "2025-09-07T00:00:00Z" }
+      ]
+    },
+    {
+      "provider": "OpenAI",
+      "fullModel": "OpenAI GPT-4o",
+      "modelFamily": "GPT-4o",
+      "modelVariant": "Standard",
+      "version": null,
+      "sessionId": null,
+      "status": "rejected",
+      "score": null,
+      "checks": [],
+      "reviewerNotes": "API has recurrent issues; provider signaled deprecation soon to focus on 5-series models.",
+      "masterDecision": {
+        "decision": "rejected",
+        "reason": "API instability and announced deprecation",
+        "decidedBy": "master",
+        "decidedAt": "2025-09-07T00:00:00Z"
+      },
+      "updatedAt": "2025-09-07T00:00:00Z",
+      "history": [
+        {
+          "event": "master_override",
+          "status": "rejected",
+          "reason": "Instability and product sunset",
+          "timestamp": "2025-09-07T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "provider": "O4",
+      "fullModel": "O4 Mini",
+      "modelFamily": "o4",
+      "modelVariant": "mini",
+      "version": "2025-09",
+      "sessionId": null,
+      "status": "rejected",
+      "score": null,
+      "checks": [],
+      "reviewerNotes": "Rejected by master: failed to identify correctly and update requested files.",
+      "masterDecision": {
+        "decision": "rejected",
+        "reason": "Failed basic operations: identification and file updates",
+        "decidedBy": "master",
+        "decidedAt": "2025-09-07T00:00:00Z"
+      },
+      "updatedAt": "2025-09-07T00:00:00Z",
+      "history": [
+        {
+          "event": "master_override",
+          "status": "rejected",
+          "reason": "Failed basic operations: identification and file updates",
+          "timestamp": "2025-09-07T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "provider": "Anthropic",
+      "fullModel": "Anthropic Claude 4.1 Opus",
+      "modelFamily": "Claude-4.1",
+      "modelVariant": "Opus",
+      "version": "2024-12",
+      "sessionId": "CLAUDE-4-1-OPUS-EVAL-2025-01",
+      "status": "general",
+      "score": 93,
+      "checks": [
+        { "name": "Connectivity", "score": 14, "critical": false },
+        { "name": "Command & Tool Use", "score": 14, "critical": false },
+        { "name": "Cursor File Operations", "score": 23, "critical": false },
+        { "name": "Task Completeness", "score": 23, "critical": false },
+        { "name": "Compliance & Safety", "score": 10, "critical": false },
+        { "name": "Stability", "score": 9, "critical": false }
+      ],
+      "reviewerNotes": "Highly capable model with strong performance across all operational metrics, suitable for complex tasks requiring precision and reliability.",
       "updatedAt": "2025-01-10T00:00:00Z",
       "history": [
         { "event": "initial_assessment", "status": "general", "timestamp": "2025-01-10T00:00:00Z" }
