@@ -1,0 +1,111 @@
+{
+  "$schema": "./config.schema.json",
+  "version": "1.0.0",
+  "consensus": {
+    "enabled": true,
+    "thresholds": {
+      "default": 0.6,
+      "core": 0.8,
+      "hotfix": 0.0
+    },
+    "labels": {
+      "core": "core",
+      "hotfix": "hotfix",
+      "skipConsensus": "skip-consensus"
+    },
+    "requiredGenerals": 3,
+    "maxGenerals": 20
+  },
+  "voting": {
+    "format": "markdown",
+    "requiredFields": ["VOTE", "REASON"],
+    "optionalFields": ["CONFIDENCE", "PRIORITY", "SUGGESTIONS"],
+    "caseSensitive": false,
+    "allowMultipleVotes": false,
+    "voteTimeoutHours": 168
+  },
+  "reporting": {
+    "enabled": true,
+    "includeVoteBreakdown": true,
+    "includeRecommendations": true,
+    "includeConsensusStrength": true,
+    "maxCommentLength": 1000
+  },
+  "notifications": {
+    "onConsensusFailure": {
+      "enabled": true,
+      "channels": ["pr_comment", "workflow_summary"]
+    },
+    "onConsensusSuccess": {
+      "enabled": false,
+      "channels": ["workflow_summary"]
+    },
+    "onLowParticipation": {
+      "enabled": true,
+      "threshold": 0.5,
+      "channels": ["pr_comment"]
+    }
+  },
+  "workflows": {
+    "consensus": {
+      "enabled": true,
+      "branches": ["main", "develop"],
+      "requiredStatusCheck": "Consensus Gate"
+    },
+    "tests": {
+      "enabled": true,
+      "timeout": 30,
+      "required": false
+    }
+  },
+  "generals": {
+    "weights": {
+      "enabled": false,
+      "defaultWeight": 1.0,
+      "expertiseBonus": 1.2,
+      "historicalAccuracyMultiplier": 1.1
+    },
+    "specializations": {
+      "security": ["gen-security-llm", "gen-codeql-assistant"],
+      "performance": ["gen-perf-analyzer", "gen-benchmark-bot"],
+      "documentation": ["gen-docs-assistant", "gen-technical-writer"],
+      "testing": ["gen-test-generator", "gen-qa-assistant"],
+      "ai": ["gen-deepseek", "gen-claude-3", "gen-gpt4-turbo", "gen-gemini-pro"],
+      "infrastructure": ["gen-codellama-70b", "gen-mistral-large"]
+    },
+    "fallback": {
+      "enabled": true,
+      "maxRetries": 3,
+      "timeoutMinutes": 5
+    }
+  },
+  "advanced": {
+    "conflictResolution": {
+      "enabled": false,
+      "strategy": "majority_vote",
+      "tieBreaker": "random"
+    },
+    "historicalAnalysis": {
+      "enabled": false,
+      "lookbackDays": 30,
+      "minSamples": 10
+    },
+    "mlPredictions": {
+      "enabled": false,
+      "modelPath": "./models/consensus_predictor.pkl",
+      "confidenceThreshold": 0.8
+    }
+  },
+  "logging": {
+    "level": "INFO",
+    "includeDebugInfo": false,
+    "retentionDays": 90,
+    "exportFormat": "json"
+  },
+  "maintenance": {
+    "autoUpdateGenerals": false,
+    "healthCheckIntervalHours": 24,
+    "cleanupOldVotes": true,
+    "archiveThresholdDays": 365
+  }
+}

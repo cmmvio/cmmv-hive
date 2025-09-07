@@ -1,4 +1,127 @@
-# Example ownership mappings
-/core/** @general-arq-1 @general-arq-2 @general-sec-1
-/net/**  @general-perf-1 @general-perf-2
-/docs/** @doc-lead
+# =================================================================================
+# 🤖 LLM HIVE - CODEOWNERS CONFIGURATION
+# =================================================================================
+# This file defines automatic ownership rules for different project areas
+# Each line follows the format: <path> <@user1> <@user2> ...
+#
+# Approval rules:
+# - Critical files: require approval from all listed generals
+# - Normal files: require approval from majority of generals
+# - Order: more specific rules take priority over general ones
+#
+# =================================================================================
+
+# 🎯 SYSTEM CRITICAL FILES (Requires approval from all generals)
+# =================================================================================
+
+# Consensus configurations and maximum security
+.consensus/**         @gen-deepseek @gen-claude-3 @gen-gpt4-turbo @gen-codellama-70b
+.github/workflows/**  @gen-deepseek @gen-claude-3 @gen-gpt4-turbo @gen-codellama-70b
+CODEOWNERS           @gen-deepseek @gen-claude-3 @gen-gpt4-turbo @gen-codellama-70b
+
+# Critical configuration files
+package.json         @gen-deepseek @gen-claude-3 @gen-gpt4-turbo
+tsconfig.json        @gen-deepseek @gen-claude-3 @gen-gpt4-turbo
+Dockerfile*          @gen-deepseek @gen-claude-3 @gen-gpt4-turbo
+docker-compose.yml   @gen-deepseek @gen-claude-3 @gen-gpt4-turbo
+
+# Automation and deployment scripts
+scripts/**           @gen-deepseek @gen-claude-3 @gen-gpt4-turbo @gen-mistral-large
+
+# =================================================================================
+# 🏗️ MAIN SOURCE CODE (Majority approval)
+# =================================================================================
+
+# System core - all generals
+/src/core/**         @gen-deepseek @gen-claude-3 @gen-gpt4-turbo @gen-codellama-70b @gen-mistral-large @gen-gemini-pro
+/src/lib/**          @gen-deepseek @gen-claude-3 @gen-gpt4-turbo @gen-codellama-70b @gen-mistral-large @gen-gemini-pro
+
+# Specific modules - appropriate specialists
+/src/modules/ai/**       @gen-deepseek @gen-claude-3 @gen-gpt4-turbo @gen-gemini-pro
+/src/modules/security/** @gen-deepseek @gen-claude-3 @gen-codellama-70b @gen-mistral-large
+/src/modules/api/**      @gen-gpt4-turbo @gen-codellama-70b @gen-mistral-large
+
+# Utilities and helpers
+/src/utils/**        @gen-claude-3 @gen-gpt4-turbo @gen-codellama-70b
+
+# =================================================================================
+# 🧪 TESTS AND QUALITY (2+ generals approval)
+# =================================================================================
+
+# Unit and integration tests
+/test/**             @gen-claude-3 @gen-gpt4-turbo @gen-codellama-70b
+/tests/**            @gen-claude-3 @gen-gpt4-turbo @gen-codellama-70b
+/spec/**             @gen-claude-3 @gen-gpt4-turbo @gen-codellama-70b
+__tests__/**         @gen-claude-3 @gen-gpt4-turbo @gen-codellama-70b
+
+# Performance and load tests
+/benchmark/**        @gen-deepseek @gen-codellama-70b @gen-mistral-large
+/performance/**      @gen-deepseek @gen-codellama-70b @gen-mistral-large
+
+# Security tests
+/test/security/**    @gen-deepseek @gen-claude-3 @gen-codellama-70b
+
+# =================================================================================
+# 📚 DOCUMENTATION AND EXAMPLES (Light approval)
+# =================================================================================
+
+# Main documentation
+README.md           @gen-deepseek @gen-claude-3
+/docs/**            @gen-deepseek @gen-claude-3
+*.md                @gen-deepseek @gen-claude-3
+
+# Examples and templates
+/examples/**        @gen-claude-3 @gen-gpt4-turbo
+/templates/**       @gen-claude-3 @gen-gpt4-turbo
+/samples/**         @gen-claude-3 @gen-gpt4-turbo
+
+# =================================================================================
+# ⚙️ CONFIGURATIONS AND INFRASTRUCTURE (Specific specialists)
+# =================================================================================
+
+# CI/CD configurations
+/.github/**         @gen-deepseek @gen-codellama-70b
+/.circleci/**       @gen-deepseek @gen-codellama-70b
+/.travis.yml        @gen-deepseek @gen-codellama-70b
+
+# Linting and quality configurations
+.eslintrc*          @gen-claude-3 @gen-gpt4-turbo
+.prettierrc*        @gen-claude-3 @gen-gpt4-turbo
+.stylelintrc*       @gen-claude-3 @gen-gpt4-turbo
+
+# Dependencies and lockfiles
+yarn.lock           @gen-deepseek @gen-claude-3
+package-lock.json   @gen-deepseek @gen-claude-3
+pnpm-lock.yaml      @gen-deepseek @gen-claude-3
+
+# =================================================================================
+# 🎨 ASSETS AND STATIC RESOURCES (Minimum approval)
+# =================================================================================
+
+# Images, icons, and assets
+/assets/**          @gen-claude-3
+/public/**          @gen-claude-3
+/static/**          @gen-claude-3
+
+# =================================================================================
+# 🚫 IGNORED FILES (Do not require general review)
+# =================================================================================
+# The files below are automatically ignored by CODEOWNERS
+# - Files in node_modules/
+# - .env* files
+# - Logs and temporary files
+# - Build/cache files
+
+# =================================================================================
+# 💡 CUSTOMIZATION TIPS
+# =================================================================================
+#
+# 1. For critical changes, use the 'core' label on PR to raise the threshold
+# 2. Add new specialized generals as the project grows
+# 3. Consider different weights for generals with quality history
+# 4. Monitor general performance and adjust rules accordingly
+#
+# Example of advanced rule with wildcards:
+# /src/components/**/*.test.ts @gen-claude-3 @gen-gpt4-turbo
+#
+# =================================================================================

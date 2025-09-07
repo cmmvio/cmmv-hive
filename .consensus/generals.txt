@@ -1,5 +1,115 @@
-# One username per line (GitHub logins). Example:
+# =================================================================================
+# 🤖 LLM HIVE GENERALS CONFIGURATION
+# =================================================================================
+# This file contains the list of bot accounts (generals) that participate
+# in the consensus voting process for pull requests.
+#
+# FORMAT: One username per line (GitHub login without @)
+# - Lines starting with # are comments and ignored
+# - Empty lines are ignored
+# - Usernames are case-insensitive
+# - Minimum 3 generals recommended for effective consensus
+#
+# =================================================================================
+
+# 🏆 PRIMARY GENERALS (High-confidence, well-established models)
+# =================================================================================
+
+# DeepSeek AI - Excellent reasoning and code analysis
 gen-deepseek
-gen-claude
-gen-sonnet
-gen-codellama
+
+# Anthropic Claude - Strong ethical AI and safety features
+gen-claude-3
+gen-claude-sonnet
+
+# OpenAI GPT Series - Industry standard, broad capabilities
+gen-gpt4-turbo
+gen-gpt4o
+
+# Meta Llama - Open-source foundation models
+gen-codellama-70b
+gen-llama-3-70b
+
+# Google Gemini - Multimodal capabilities
+gen-gemini-pro
+gen-gemini-ultra
+
+# =================================================================================
+# 🔬 SPECIALIZED GENERALS (Domain-specific expertise)
+# =================================================================================
+
+# Security-focused models
+gen-security-llm
+gen-codeql-assistant
+
+# Performance optimization
+gen-perf-analyzer
+gen-benchmark-bot
+
+# Documentation and communication
+gen-docs-assistant
+gen-technical-writer
+
+# Testing and QA
+gen-test-generator
+gen-qa-assistant
+
+# =================================================================================
+# 🌍 MULTILINGUAL GENERALS (International support)
+# =================================================================================
+
+# European models (GDPR compliant)
+gen-eu-claude
+gen-eu-gemini
+
+# Asian language models
+gen-asian-llm
+gen-multilingual-assistant
+
+# =================================================================================
+# ⚡ EXPERIMENTAL GENERALS (Beta/Cutting-edge models)
+# =================================================================================
+# Uncomment these when you want to experiment with newer models
+# Note: These may have less predictable behavior
+
+# gen-grok-beta
+# gen-claude-opus
+# gen-llama-3-405b
+# gen-mixtral-8x7b
+
+# =================================================================================
+# 📊 CONSENSUS MATH REMINDER
+# =================================================================================
+#
+# With N generals configured:
+# - Standard threshold: ceil(N * 0.6) approvals needed
+# - Core threshold: ceil(N * 0.8) approvals needed
+# - Example with 10 generals:
+#   * Standard: 6 approvals needed (60%)
+#   * Core: 8 approvals needed (80%)
+#
+# Current configuration: 10 generals
+# - Standard threshold: 6 approvals needed
+# - Core threshold: 8 approvals needed
+#
+# =================================================================================
+# 🔧 CONFIGURATION NOTES
+# =================================================================================
+#
+# 1. All listed accounts must:
+#    - Have write/comment access to the repository
+#    - Be configured as bot accounts (not personal accounts)
+#    - Have consistent voting patterns
+#
+# 2. For production use:
+#    - Start with 5-7 generals for balanced consensus
+#    - Monitor voting patterns and accuracy
+#    - Add/remove generals based on performance
+#    - Consider weighted voting for advanced setups
+#
+# 3. Troubleshooting:
+#    - If consensus fails frequently: reduce threshold or add generals
+#    - If consensus passes too easily: increase threshold or add stricter generals
+#    - If generals disagree: review their specializations and voting criteria
+#
+# =================================================================================
