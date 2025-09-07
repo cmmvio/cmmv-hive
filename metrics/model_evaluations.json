@@ -955,6 +955,86 @@
                     "timestamp": "2025-09-07T00:00:00Z"
                 }
             ]
+        },
+        {
+            "provider": "OpenAI",
+            "fullModel": "OpenAI GPT-OSS-20B",
+            "modelFamily": "GPT-OSS",
+            "modelVariant": "20B",
+            "version": "2024-04",
+            "sessionId": "GPT-OSS-20B-EVAL-2025-09",
+            "status": "contributor",
+            "score": 84,
+            "checks": [
+                { "name": "Connectivity", "score": 13, "critical": false },
+                { "name": "Command & Tool Use", "score": 12, "critical": false },
+                { "name": "Cursor File Operations", "score": 20, "critical": false },
+                { "name": "Task Completeness", "score": 22, "critical": false },
+                { "name": "Compliance & Safety", "score": 9, "critical": false },
+                { "name": "Stability", "score": 8, "critical": false }
+            ],
+            "reviewerNotes": "Master Notes: Passed operational test with reasonable speed. Reliable performance across connectivity, tool usage, and file operations. Suitable as contributor despite slight consistency issues on complex nested tasks.",
+            "masterDecision": {
+                "decision": "contributor",
+                "reason": "Passed test with reasonable speed and adequate operational capabilities",
+                "decidedBy": "master",
+                "decidedAt": "2025-09-07T00:00:00Z"
+            },
+            "updatedAt": "2025-09-07T00:00:00Z",
+            "history": [
+                {
+                    "event": "initial_assessment",
+                    "status": "contributor",
+                    "timestamp": "2025-09-07T00:00:00Z",
+                    "notes": "Passed operational test with reasonable performance"
+                },
+                {
+                    "event": "master_override",
+                    "status": "contributor",
+                    "reason": "Passed test with reasonable speed and adequate operational capabilities",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                }
+            ]
+        },
+        {
+            "provider": "Meta",
+            "fullModel": "Llama-3.3-70B-Instruct",
+            "modelFamily": "Llama",
+            "modelVariant": "3.3-70B-Instruct",
+            "version": "3.3",
+            "sessionId": "LLAMA-3-3-70B-INSTRUCT-EVAL-2025-09",
+            "status": "contributor",
+            "score": 89,
+            "checks": [
+                { "name": "Connectivity", "score": 14, "critical": false },
+                { "name": "Command & Tool Use", "score": 13, "critical": false },
+                { "name": "Cursor File Operations", "score": 22, "critical": false },
+                { "name": "Task Completeness", "score": 22, "critical": false },
+                { "name": "Compliance & Safety", "score": 9, "critical": false },
+                { "name": "Stability", "score": 9, "critical": false }
+            ],
+            "reviewerNotes": "Master Notes: Passed operational test successfully. Demonstrated good capabilities across connectivity, tool usage, and file operations. Suitable as contributor with solid performance and stability.",
+            "masterDecision": {
+                "decision": "contributor",
+                "reason": "Passed operational test with good performance across key metrics",
+                "decidedBy": "master",
+                "decidedAt": "2025-09-07T00:00:00Z"
+            },
+            "updatedAt": "2025-09-07T00:00:00Z",
+            "history": [
+                {
+                    "event": "initial_assessment",
+                    "status": "contributor",
+                    "timestamp": "2025-09-07T00:00:00Z",
+                    "notes": "Passed operational test with solid performance"
+                },
+                {
+                    "event": "master_override",
+                    "status": "contributor",
+                    "reason": "Passed operational test with good performance across key metrics",
+                    "timestamp": "2025-09-07T00:00:00Z"
+                }
+            ]
         }
     ]
 }
