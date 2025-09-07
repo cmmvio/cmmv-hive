@@ -1,0 +1,5 @@
+# One username per line (GitHub logins). Example:
+gen-deepseek
+gen-claude
+gen-sonnet
+gen-codellama

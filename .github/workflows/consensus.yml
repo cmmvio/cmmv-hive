@@ -1,0 +1,99 @@
+name: Consensus Gate
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, labeled, unlabeled]
+    branches: [ main ]
+
+jobs:
+  consensus:
+    permissions:
+      contents: read
+      pull-requests: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compute consensus
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const core = require('@actions/core');
+
+            // Load generals (one username per line, allow comments/# and blanks)
+            const generalsPath = path.join(process.cwd(), '.consensus', 'generals.txt');
+            if (!fs.existsSync(generalsPath)) {
+              core.setFailed('Missing .consensus/generals.txt with list of general usernames.');
+              return;
+            }
+            const generals = fs.readFileSync(generalsPath, 'utf8')
+              .split(/\r?\n/)
+              .map(l => l.trim())
+              .filter(l => l && !l.startsWith('#'))
+              .map(l => l.toLowerCase());
+
+            if (generals.length === 0) {
+              core.setFailed('No generals configured in .consensus/generals.txt');
+              return;
+            }
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const prNumber = context.payload.pull_request.number;
+
+            // Threshold: 0.6 by default, 0.8 if PR has label "core"
+            const labels = context.payload.pull_request.labels.map(l => l.name.toLowerCase());
+            const threshold = labels.includes('core') ? 0.8 : 0.6;
+
+            // Fetch all issue comments (not review-comments) on the PR
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              { owner, repo, issue_number: prNumber, per_page: 100 }
+            );
+
+            // Parse votes from generals
+            let votes = [];
+            for (const c of comments) {
+              const author = (c.user && c.user.login || '').toLowerCase();
+              if (!generals.includes(author)) continue;
+
+              const body = (c.body || '').toLowerCase();
+              // Accept either "VOTE: APPROVE" or "VOTE: REJECT"
+              let decision = null;
+              if (body.includes('vote: approve')) decision = 'approve';
+              if (body.includes('vote: reject')) decision = 'reject';
+              if (!decision) continue;
+
+              votes.push({ author, decision, id: c.id });
+            }
+
+            // Deduplicate by author (take latest)
+            const latestByAuthor = new Map();
+            for (const v of votes) latestByAuthor.set(v.author, v);
+            const latestVotes = Array.from(latestByAuthor.values());
+
+            const totalGenerals = generals.length;
+            const approvals = latestVotes.filter(v => v.decision === 'approve').length;
+            const rejections = latestVotes.filter(v => v.decision === 'reject').length;
+            const participation = latestVotes.length; // who voted at least once
+            const ratio = approvals / totalGenerals;
+
+            core.summary
+              .addHeading('Consensus Gate')
+              .addTable([
+                [{data:'Total Generals',header:true}, String(totalGenerals)],
+                [{data:'Approvals',header:true}, String(approvals)],
+                [{data:'Rejections',header:true}, String(rejections)],
+                [{data:'Participation',header:true}, String(participation)],
+                [{data:'Threshold',header:true}, String(threshold)],
+                [{data:'Approval Ratio',header:true}, ratio.toFixed(2)],
+              ])
+              .write();
+
+            if (ratio < threshold) {
+              core.setFailed(`Consensus ratio ${ratio.toFixed(2)} below threshold ${threshold}`);
+            } else {
+              core.notice(`Consensus PASS: ${ratio.toFixed(2)} >= ${threshold}`);
+            }

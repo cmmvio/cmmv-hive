@@ -1,0 +1,4 @@
+# Example ownership mappings
+/core/** @general-arq-1 @general-arq-2 @general-sec-1
+/net/**  @general-perf-1 @general-perf-2
+/docs/** @doc-lead
