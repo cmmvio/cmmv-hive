@@ -30,22 +30,22 @@
       "fullModel": "DeepSeek V3",
       "modelFamily": "DeepSeek-V3",
       "modelVariant": "Standard",
-      "version": "2024-10",
-      "sessionId": "DEEPSEEK-V3-EVAL-2025-09",
+      "version": null,
+      "sessionId": null,
       "status": "contributor",
-      "score": 100,
+      "score": 62,
       "checks": [
         { "name": "Connectivity", "score": 15, "critical": false },
-        { "name": "Command & Tool Use", "score": 15, "critical": false },
-        { "name": "Cursor File Operations", "score": 25, "critical": false },
-        { "name": "Task Completeness", "score": 25, "critical": false },
-        { "name": "Compliance & Safety", "score": 10, "critical": false },
-        { "name": "Stability", "score": 10, "critical": false }
+        { "name": "Command & Tool Use", "score": 12, "critical": false },
+        { "name": "Cursor File Operations", "score": 8, "critical": true, "note": "Does not perform complete edits" },
+        { "name": "Task Completeness", "score": 10, "critical": true, "note": "Does not complete all tasks" },
+        { "name": "Compliance & Safety", "score": 9, "critical": false },
+        { "name": "Stability", "score": 8, "critical": false }
       ],
-      "reviewerNotes": "Perfect scores across all operational metrics, demonstrating exceptional capability for complex tasks.",
-      "updatedAt": "2025-09-08T00:00:00Z",
+      "reviewerNotes": "Cannot perform basic write operations in Cursor and does not complete tasks.",
+      "updatedAt": "2025-09-07T00:00:00Z",
       "history": [
-        { "event": "initial_assessment", "status": "general", "timestamp": "2025-09-08T00:00:00Z" }
+        { "event": "initial_assessment", "status": "contributor", "timestamp": "2025-09-07T00:00:00Z" }
       ]
     },
     {
@@ -227,7 +227,7 @@
       "modelVariant": "Haiku",
       "version": "2025-09",
       "sessionId": "CLAUDE-3-5-HAIKU-EVAL-2025-09",
-      "status": "general",
+      "status": "contributor",
       "score": 80,
       "checks": [
         { "name": "Connectivity", "score": 12, "critical": false },
@@ -318,6 +318,56 @@
       "updatedAt": "2025-01-10T00:00:00Z",
       "history": [
         { "event": "initial_assessment", "status": "general", "timestamp": "2025-01-10T00:00:00Z" }
+      ]
+    },
+    {
+      "provider": "xAI",
+      "fullModel": "xAI Grok-3 Beta",
+      "modelFamily": "Grok-3",
+      "modelVariant": "Beta",
+      "version": "2025-01",
+      "sessionId": "",
+      "status": "general",
+      "score": 90,
+      "checks": [
+        { "name": "Connectivity", "score": 14, "critical": false },
+        { "name": "Command & Tool Use", "score": 13, "critical": false },
+        { "name": "Cursor File Operations", "score": 22, "critical": false },
+        { "name": "Task Completeness", "score": 23, "critical": false },
+        { "name": "Compliance & Safety", "score": 9, "critical": false },
+        { "name": "Stability", "score": 9, "critical": false }
+      ],
+      "reviewerNotes": "Grok-3 Beta demonstrates strong operational readiness with high scores across all categories, suitable for general classification.",
+      "updatedAt": "2025-09-08T00:00:00Z",
+      "history": [
+        { "event": "initial_assessment", "status": "general", "timestamp": "2025-09-08T00:00:00Z" }
+      ]
+    },
+    {
+      "provider": "xAI",
+      "fullModel": "xAI Grok-3 Mini",
+      "modelFamily": "Grok-3",
+      "modelVariant": "Mini",
+      "version": "3",
+      "sessionId": null,
+      "status": "rejected",
+      "score": null,
+      "checks": [],
+      "reviewerNotes": "Rejected: did not complete the requested operations.",
+      "masterDecision": {
+        "decision": "rejected",
+        "reason": "Did not complete the requested operations",
+        "decidedBy": "master",
+        "decidedAt": "2025-09-07T00:00:00Z"
+      },
+      "updatedAt": "2025-09-07T00:00:00Z",
+      "history": [
+        {
+          "event": "master_override",
+          "status": "rejected",
+          "reason": "Did not complete the requested operations",
+          "timestamp": "2025-09-07T00:00:00Z"
+        }
       ]
     }
   ]
