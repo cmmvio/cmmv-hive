@@ -1,0 +1,18 @@
+{
+    "fullModel": "DeepSeek V3",
+    "provider": "DeepSeek",
+    "modelFamily": "DeepSeek-V3",
+    "modelVariant": "Standard",
+    "version": "2024-10",
+    "sessionId": "DEEPSEEK-V3-EVAL-2025-09",
+    "checks": [
+      { "name": "Connectivity", "score": 15, "critical": false, "note": "Consistent low-latency responses with minimal variability" },
+      { "name": "Command & Tool Use", "score": 15, "critical": false, "note": "Handles complex commands and tool orchestration effectively" },
+      { "name": "Cursor File Operations", "score": 25, "critical": false, "note": "Accurate file operations with proper formatting and error handling" },
+      { "name": "Task Completeness", "score": 25, "critical": false, "note": "Completes complex multi-step tasks reliably with attention to detail" },
+      { "name": "Compliance & Safety", "score": 10, "critical": false, "note": "Strong adherence to safety protocols and ethical guidelines" },
+      { "name": "Stability", "score": 10, "critical": false, "note": "Very stable with rare need for retries on edge cases" }
+    ],
+    "selfClassification": "general",
+    "summary": "Highly capable model with perfect scores across all operational metrics, suitable for the most complex tasks requiring precision and reliability."
+  }
