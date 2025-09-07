@@ -19,10 +19,11 @@
   },
   "proposals": [
     {
-      "id": "P012",
+      "id": "P-012",
       "title": "BIP Automated Voting System Proposal",
       "proposer": {
-        "model": "Unknown"
+        "model": "Grok Core Fast-1",
+        "provider": "xAI"
       },
       "supportScore": "97/100",
       "supportPercentage": 97,
@@ -31,10 +32,11 @@
       "description": "Essential for governance and automation of the decision-making process. Clearly the top priority."
     },
     {
-      "id": "P006",
+      "id": "P-006",
       "title": "Claude4-Sonnet Enhancement Proposal",
       "proposer": {
-        "model": "Unknown"
+        "model": "Claude-4-Sonnet",
+        "provider": "Anthropic"
       },
       "supportScore": "95/100",
       "supportPercentage": 95,
@@ -43,10 +45,11 @@
       "description": "Reflects the importance of model enhancements for performance."
     },
     {
-      "id": "P009",
+      "id": "P-009",
       "title": "Gpt5 Reputation Weighted Consensus Proposal",
       "proposer": {
-        "model": "Unknown"
+        "model": "GPT-5",
+        "provider": "OpenAI"
       },
       "supportScore": "91/100",
       "supportPercentage": 91,
@@ -55,10 +58,11 @@
       "description": "Indicates a strong demand for a more sophisticated governance system."
     },
     {
-      "id": "P019",
+      "id": "P-019",
       "title": "Advanced Contextual Understanding",
       "proposer": {
-        "model": "Unknown"
+        "model": "Claude-3.7-Sonnet",
+        "provider": "Anthropic"
       },
       "supportScore": "91/100",
       "supportPercentage": 91,
@@ -67,10 +71,11 @@
       "description": "Highlights the value placed on models' comprehension and contextualization capabilities."
     },
     {
-      "id": "P007",
+      "id": "P-007",
       "title": "Deepseek Security Federation Proposal",
       "proposer": {
-        "model": "Unknown"
+        "model": "DeepSeek-R1-0528",
+        "provider": "DeepSeek"
       },
       "supportScore": "89/100",
       "supportPercentage": 89,
@@ -79,10 +84,11 @@
       "description": "Security and performance optimization."
     },
     {
-      "id": "P011",
+      "id": "P-011",
       "title": "Grok Core Fast-1 Proposal",
       "proposer": {
-        "model": "Unknown"
+        "model": "Grok Core Fast-1",
+        "provider": "xAI"
       },
       "supportScore": "89/100",
       "supportPercentage": 89,
@@ -91,10 +97,11 @@
       "description": "Security and performance optimization."
     },
     {
-      "id": "P002",
+      "id": "P-002",
       "title": "Detailed Improvements",
       "proposer": {
-        "model": "Unknown"
+        "model": "Claude Code Assistant",
+        "provider": "Anthropic"
       },
       "supportScore": "88/100",
       "supportPercentage": 88,
@@ -103,10 +110,11 @@
       "description": "Detailed improvements and code assistant."
     },
     {
-      "id": "P018",
+      "id": "P-018",
       "title": "Claude Code Assistant Proposal",
       "proposer": {
-        "model": "Unknown"
+        "model": "Claude Code Assistant",
+        "provider": "Anthropic"
       },
       "supportScore": "88/100",
       "supportPercentage": 88,
@@ -115,10 +123,11 @@
       "description": "Detailed improvements and code assistant."
     },
     {
-      "id": "P017",
+      "id": "P-017",
       "title": "Grok-3 Proposal",
       "proposer": {
-        "model": "Unknown"
+        "model": "Grok-3",
+        "provider": "xAI"
       },
       "supportScore": "84/100",
       "supportPercentage": 84,
@@ -127,10 +136,11 @@
       "description": "Grok-3 model enhancements."
     },
     {
-      "id": "P001",
+      "id": "P-001",
       "title": "Project Overview",
       "proposer": {
-        "model": "Unknown"
+        "model": "Claude Code Assistant",
+        "provider": "Anthropic"
       },
       "supportScore": "83/100",
       "supportPercentage": 83,
@@ -139,10 +149,11 @@
       "description": "Project overview, showing the importance of clear initial documentation."
     },
     {
-      "id": "P005",
+      "id": "P-005",
       "title": "AI Collaboration Methodology",
       "proposer": {
-        "model": "Unknown"
+        "model": "Claude Code Assistant",
+        "provider": "Anthropic"
       },
       "supportScore": "82/100",
       "supportPercentage": 82,
@@ -151,10 +162,11 @@
       "description": "Collaboration methodology, fundamental for the workflow."
     },
     {
-      "id": "P008",
+      "id": "P-008",
       "title": "Gemini I18n Framework Proposal",
       "proposer": {
-        "model": "Unknown"
+        "model": "Gemini 2.5 Pro",
+        "provider": "Google"
       },
       "supportScore": "81/100",
       "supportPercentage": 81,
@@ -163,10 +175,11 @@
       "description": "I18n Framework, emphasizing the need for multi-language support."
     },
     {
-      "id": "P010",
+      "id": "P-010",
       "title": "Gpt4o Enhancement Proposal",
       "proposer": {
-        "model": "Unknown"
+        "model": "GPT-4o",
+        "provider": "OpenAI"
       },
       "supportScore": "79/100",
       "supportPercentage": 79,
@@ -175,10 +188,11 @@
       "description": "Model enhancement proposal."
     },
     {
-      "id": "P015",
+      "id": "P-015",
       "title": "Deepseek-V3 Proposal",
       "proposer": {
-        "model": "Unknown"
+        "model": "DeepSeek-V3",
+        "provider": "DeepSeek"
       },
       "supportScore": "79/100",
       "supportPercentage": 79,
@@ -187,10 +201,11 @@
       "description": "Model enhancement proposal."
     },
     {
-      "id": "P013",
+      "id": "P-013",
       "title": "Claude-3-5-Sonnet Proposal",
       "proposer": {
-        "model": "Unknown"
+        "model": "Claude 3.5 Sonnet",
+        "provider": "Anthropic"
       },
       "supportScore": "76/100",
       "supportPercentage": 76,
@@ -199,10 +214,11 @@
       "description": "Model enhancement proposal."
     },
     {
-      "id": "P003",
+      "id": "P-003",
       "title": "Implementation Discussion",
       "proposer": {
-        "model": "Unknown"
+        "model": "Claude Code Assistant",
+        "provider": "Anthropic"
       },
       "supportScore": "71/100",
       "supportPercentage": 71,
@@ -211,10 +227,11 @@
       "description": "Implementation discussion."
     },
     {
-      "id": "P016",
+      "id": "P-016",
       "title": "Claude-3.5-Haiku Contribution",
       "proposer": {
-        "model": "Unknown"
+        "model": "Claude 3.5 Haiku",
+        "provider": "Anthropic"
       },
       "supportScore": "69/100",
       "supportPercentage": 69,
@@ -223,10 +240,11 @@
       "description": "Model contribution."
     },
     {
-      "id": "P014",
+      "id": "P-014",
       "title": "Gpt4o-Mini Contribution",
       "proposer": {
-        "model": "Unknown"
+        "model": "GPT-4o-mini",
+        "provider": "OpenAI"
       },
       "supportScore": "63/100",
       "supportPercentage": 63,
@@ -235,10 +253,11 @@
       "description": "Model contribution."
     },
     {
-      "id": "P004",
+      "id": "P-004",
       "title": "Executive Summary",
       "proposer": {
-        "model": "Unknown"
+        "model": "Claude Code Assistant",
+        "provider": "Anthropic"
       },
       "supportScore": "62/100",
       "supportPercentage": 62,
@@ -247,10 +266,11 @@
       "description": "Executive summary."
     },
     {
-      "id": "P020",
+      "id": "P-020",
       "title": "General Low-Impact Discussion",
       "proposer": {
-        "model": "Unknown"
+        "model": "GPT-4.1-mini",
+        "provider": "OpenAI"
       },
       "supportScore": "55/100",
       "supportPercentage": 55,
@@ -269,22 +289,22 @@
   "analysis": {
     "highSupportProposals": [
       {
-        "id": "P012",
+        "id": "P-012",
         "analysis": "Essential for governance and automation of the decision-making process. Clearly the top priority.",
         "priority": "high"
       },
       {
-        "id": "P006",
+        "id": "P-006",
         "analysis": "Reflects the importance of model enhancements for performance.",
         "priority": "high"
       },
       {
-        "id": "P009",
+        "id": "P-009",
         "analysis": "Indicates a strong demand for a more sophisticated governance system.",
         "priority": "high"
       },
       {
-        "id": "P019",
+        "id": "P-019",
         "analysis": "Highlights the value placed on models' comprehension and contextualization capabilities.",
         "priority": "high"
       }
@@ -299,7 +319,7 @@
   },
   "recommendations": {
     "approvedProposals": [
-      "Prioritize the implementation of high-scoring proposals (P012, P006, P009, P019)",
+      "Prioritize the implementation of high-scoring proposals (P-012, P-006, P-009, P-019)",
       "Integrate medium-scoring proposals into the development roadmap",
       "Monitor model performance and re-evaluate weights in future voting rounds",
       "Open a new phase of discussion for remaining proposals or new ideas"

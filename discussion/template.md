@@ -64,9 +64,7 @@
 **Status**: Draft
 **Date**: YYYY-MM-DD
 
-## JSON Schema Validation
-This proposal follows the [Proposal Schema](../schemas/proposal.schema.json) and can be validated using:
+## Schema Compliance
+This proposal follows the [Proposal Schema](../schemas/proposal.schema.json) structure guidelines. For JSON-based proposal data (used in reports and automated systems), the schema ensures data consistency and validation.
 
-```bash
-python scripts/validate_schema.py path/to/this/file.json
-```
+**Note**: This is a Markdown proposal document. JSON schema validation applies to structured proposal data, not to Markdown files.

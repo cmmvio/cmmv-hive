@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "CMMV-Hive Proposal Schema",
-  "description": "Standardized schema for all proposals in the CMMV-Hive project",
+  "title": "CMMV-Hive Proposal Data Schema",
+  "description": "Standardized schema for structured proposal data in JSON format (used in reports and automated systems)",
   "type": "object",
   "required": [
     "id",
@@ -13,6 +13,10 @@
     "motivation"
   ],
   "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema reference"
+    },
     "id": {
       "type": "string",
       "description": "Unique proposal identifier (e.g., '001', '022', 'BIP-012')",

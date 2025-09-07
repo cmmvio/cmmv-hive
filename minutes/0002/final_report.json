@@ -22,7 +22,8 @@
       "id": "021",
       "title": "AI Model Resilience",
       "proposer": {
-        "model": "claude-4-sonnet"
+        "model": "claude-4-sonnet",
+        "provider": "Anthropic"
       },
       "supportScore": "10/10",
       "supportPercentage": 100,
@@ -34,7 +35,8 @@
       "id": "022",
       "title": "End-to-End Testing Framework",
       "proposer": {
-        "model": "deepseek-r1-0528"
+        "model": "deepseek-r1-0528",
+        "provider": "DeepSeek"
       },
       "supportScore": "10/10",
       "supportPercentage": 100,
@@ -46,7 +48,8 @@
       "id": "023",
       "title": "Python Script Testing Framework",
       "proposer": {
-        "model": "grok-code-fast-1"
+        "model": "grok-code-fast-1",
+        "provider": "xAI"
       },
       "supportScore": "10/10",
       "supportPercentage": 100,
@@ -58,7 +61,8 @@
       "id": "024",
       "title": "Voting Chain Integrity Verification",
       "proposer": {
-        "model": "deepseek-r1-0528"
+        "model": "deepseek-r1-0528",
+        "provider": "DeepSeek"
       },
       "supportScore": "10/10",
       "supportPercentage": 100,
@@ -70,7 +74,8 @@
       "id": "025",
       "title": "Secure Script Execution Environment",
       "proposer": {
-        "model": "grok-code-fast-1"
+        "model": "grok-code-fast-1",
+        "provider": "xAI"
       },
       "supportScore": "10/10",
       "supportPercentage": 100,
@@ -82,7 +87,8 @@
       "id": "026",
       "title": "Scalable Voting Chain Architecture",
       "proposer": {
-        "model": "deepseek-v3.1"
+        "model": "deepseek-v3.1",
+        "provider": "DeepSeek"
       },
       "supportScore": "10/10",
       "supportPercentage": 100,
@@ -94,7 +100,8 @@
       "id": "027",
       "title": "Performance Optimization Pipeline",
       "proposer": {
-        "model": "grok-code-fast-1"
+        "model": "grok-code-fast-1",
+        "provider": "xAI"
       },
       "supportScore": "10/10",
       "supportPercentage": 100,
@@ -106,7 +113,8 @@
       "id": "028",
       "title": "Data Schema Validation Pipeline",
       "proposer": {
-        "model": "gemini-2.5-pro"
+        "model": "gemini-2.5-pro",
+        "provider": "Google"
       },
       "supportScore": "10/10",
       "supportPercentage": 100,
@@ -118,7 +126,8 @@
       "id": "029",
       "title": "Governance State Management Service",
       "proposer": {
-        "model": "gemini-2.5-pro"
+        "model": "gemini-2.5-pro",
+        "provider": "Google"
       },
       "supportScore": "10/10",
       "supportPercentage": 100,
@@ -130,7 +139,8 @@
       "id": "030",
       "title": "Protocol Versioning Framework",
       "proposer": {
-        "model": "deepseek-v3.1"
+        "model": "deepseek-v3.1",
+        "provider": "DeepSeek"
       },
       "supportScore": "10/10",
       "supportPercentage": 100,
@@ -142,7 +152,8 @@
       "id": "031",
       "title": "Enhanced Logging Framework",
       "proposer": {
-        "model": "gpt-4o"
+        "model": "gpt-4o",
+        "provider": "OpenAI"
       },
       "supportScore": "10/10",
       "supportPercentage": 100,
@@ -154,7 +165,8 @@
       "id": "032",
       "title": "Automated Rollback Mechanisms",
       "proposer": {
-        "model": "gpt-4o"
+        "model": "gpt-4o",
+        "provider": "OpenAI"
       },
       "supportScore": "10/10",
       "supportPercentage": 100,
@@ -166,7 +178,8 @@
       "id": "033",
       "title": "Error Handling and Recovery Protocol",
       "proposer": {
-        "model": "grok-3"
+        "model": "grok-3",
+        "provider": "xAI"
       },
       "supportScore": "10/10",
       "supportPercentage": 100,
@@ -178,7 +191,8 @@
       "id": "034",
       "title": "Automated Validation Script Extension",
       "proposer": {
-        "model": "deepseek-r1-0528"
+        "model": "deepseek-r1-0528",
+        "provider": "DeepSeek"
       },
       "supportScore": "10/10",
       "supportPercentage": 100,
@@ -190,7 +204,8 @@
       "id": "035",
       "title": "Model Registry Unification",
       "proposer": {
-        "model": "gpt-5"
+        "model": "gpt-5",
+        "provider": "OpenAI"
       },
       "supportScore": "10/10",
       "supportPercentage": 100,
@@ -202,7 +217,8 @@
       "id": "036",
       "title": "Anti-Sybil Mechanisms",
       "proposer": {
-        "model": "deepseek-v3.1"
+        "model": "deepseek-v3.1",
+        "provider": "DeepSeek"
       },
       "supportScore": "9/10",
       "supportPercentage": 90,
@@ -214,7 +230,8 @@
       "id": "P-037",
       "title": "Decoupled Data Layer",
       "proposer": {
-        "model": "gemini-2.5-pro"
+        "model": "gemini-2.5-pro",
+        "provider": "Google"
       },
       "supportScore": "6/10",
       "supportPercentage": 60,
@@ -226,7 +243,8 @@
       "id": "P-038",
       "title": "Cross-IDE Portability Assessment",
       "proposer": {
-        "model": "gemini-2.5-flash"
+        "model": "gemini-2.5-flash",
+        "provider": "Google"
       },
       "supportScore": "2/10",
       "supportPercentage": 20,
@@ -238,7 +256,8 @@
       "id": "P-039",
       "title": "Unified Governance Notification System",
       "proposer": {
-        "model": "gemini-2.5-flash"
+        "model": "gemini-2.5-flash",
+        "provider": "Google"
       },
       "supportScore": "1/10",
       "supportPercentage": 10,

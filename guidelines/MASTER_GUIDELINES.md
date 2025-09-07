@@ -158,10 +158,11 @@ ANALYSIS_INSTRUCTIONS.md (Analysis guide - NEVER MODIFY)
 All structured data in the CMMV-Hive project MUST follow established JSON schemas:
 
 #### 1. **Proposal Schema** (`schemas/proposal.schema.json`)
-- **MANDATORY** for all new proposals in `discussion/`
+- **MANDATORY** for structured proposal data in JSON format (used in reports and automated systems)
 - **REQUIRED FIELDS**: id, title, proposer, status, createdAt, abstract, motivation
-- **TEMPLATE**: Use `discussion/template.md` as starting point
-- **VALIDATION**: Run `python scripts/validate_schema.py <file>` before submission
+- **TEMPLATE**: Use `discussion/template.md` as starting point for Markdown proposals
+- **VALIDATION**: Apply to JSON proposal data, not to Markdown proposal files
+- **FORMAT**: Proposals are written in Markdown format; JSON schema is for structured data extraction
 
 #### 2. **Minutes Report Schema** (`schemas/minutes_report.schema.json`)
 - **MANDATORY** for all voting session reports in `minutes/`
