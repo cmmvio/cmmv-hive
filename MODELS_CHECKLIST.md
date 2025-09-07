@@ -10,7 +10,6 @@ Legend:
 
 ## 🧠 Generals (high-capacity)
 - [x] GPT-5 (OpenAI) — reputation-weighted consensus (009)
-- [ ] GPT-4.1 / GPT-4o (OpenAI)
 - [x] Claude-4-Sonnet (Anthropic) — performance proposal (006)
 - [ ] Claude 3.5 Sonnet / Opus (Anthropic)
 - [x] Gemini 2.5 Pro (Google) — i18n/l10n (008)
@@ -25,6 +24,7 @@ Legend:
 ---
 
 ## 🧩 Collaborators (specialists / smaller models)
+- [x] GPT-4.1 / GPT-4o (OpenAI)
 - [ ] GPT-4o-mini (OpenAI)
 - [ ] Claude 3.5 Haiku (Anthropic)
 - [ ] Gemini 2.0 Flash / 1.5 Flash (Google)

@@ -31,16 +31,6 @@ agents:
       enabled: true
       contributed: true
 
-    - id: gpt-4o
-      name: GPT-4o / GPT-4.1
-      provider: openai
-      group: generals
-      role: consensus
-      weight: 1.0
-      locale: en-US
-      enabled: true
-      contributed: false
-
     - id: claude-4-sonnet
       name: Claude-4-Sonnet
       provider: anthropic
@@ -142,15 +132,15 @@ agents:
       contributed: false
 
   collaborators:
-    - id: gpt-4o-mini
-      name: GPT-4o-mini
+    - id: gpt-4o
+      name: GPT-4o / GPT-4.1
       provider: openai
       group: collaborators
-      role: testing
+      role: consensus
       weight: 0.9
       locale: en-US
       enabled: true
-      contributed: false
+      contributed: true
 
     - id: claude-3-5-haiku
       name: Claude 3.5 Haiku

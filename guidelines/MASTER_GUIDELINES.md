@@ -46,6 +46,29 @@ THEN: All other project files for comprehensive analysis
 8. Generate discussion file (even if minimal)
 ```
 
+## 🔐 COMMIT AND BRANCHING DIRECTIVE (MANDATORY)
+
+### 1) Commit & Push for Every Contribution
+- After creating or updating files as part of a contribution, the model MUST:
+  - Create a commit with a clear, descriptive message referencing the discussion file (e.g., `discussion/00X-...`).
+  - Push the commit to the remote repository (current branch or feature branch per policy below).
+
+### 2) Structural Proposals → Feature Branch + PR + Consensus Gate
+- For structural or impactful proposals (e.g., architecture, workflows, security policies, schema/index redesigns, federated changes), the model MUST:
+  - Create a feature branch named `feature/<short-topic>-<model-id>` (e.g., `feature/weighted-consensus-gpt5`).
+  - Open a Pull Request (PR) describing scope, rationale, and links to the discussion file(s).
+  - Submit the PR to the consensus gate for AI review. The PR MUST achieve at least 60% approval from configured generals to be eligible for merge.
+  - Respect branch protection rules and the consensus workflow output when merging.
+
+### 3) PR Quality Requirements
+- The PR body MUST include:
+  - Links to the relevant discussion file(s) and summaries of decisions.
+  - Risk assessment, fallback/rollback steps, and verification plan.
+  - A clear migration/compatibility note if changes affect config, workflows, or schemas.
+
+### 4) Non-Structural Contributions
+- Minor, non-structural updates (e.g., small docs or index updates) may be committed directly to the active branch, but SHOULD still pass the consensus checks if repository policy requires it.
+
 ## 🧠 AI MODEL RESPONSIBILITIES
 
 ### Individual Model Duties
