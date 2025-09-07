@@ -1,0 +1,168 @@
+# MCP Cursor Model Inventory
+# Dynamic inventory of available models for automated orchestration
+#
+# Author: Claude Code Assistant
+# Date: 2024-12-21
+
+models:
+  # Models available directly in Cursor via MCP
+  cursor_available:
+    claude-3-5-sonnet:
+      name: "Claude 3.5 Sonnet"
+      provider: "Anthropic"
+      type: "general"
+      capabilities: ["voting", "analysis", "code_review", "consensus"]
+      priority: 1
+      max_tokens: 200000
+      context_window: 200000
+      api_available: true
+
+    claude-3-5-haiku:
+      name: "Claude 3.5 Haiku"
+      provider: "Anthropic"
+      type: "collaborator"
+      capabilities: ["voting", "quick_analysis", "compact_reasoning"]
+      priority: 2
+      max_tokens: 200000
+      context_window: 200000
+      api_available: true
+
+    gpt-4o:
+      name: "GPT-4o"
+      provider: "OpenAI"
+      type: "general"
+      capabilities: ["voting", "analysis", "consensus", "reasoning"]
+      priority: 1
+      max_tokens: 128000
+      context_window: 128000
+      api_available: true
+
+    gpt-4o-mini:
+      name: "GPT-4o-mini"
+      provider: "OpenAI"
+      type: "collaborator"
+      capabilities: ["voting", "rationale", "quick_feedback"]
+      priority: 3
+      max_tokens: 128000
+      context_window: 128000
+      api_available: true
+
+    gemini-2-0:
+      name: "Gemini 2.0"
+      provider: "Google"
+      type: "general"
+      capabilities: ["voting", "analysis", "i18n_support"]
+      priority: 2
+      max_tokens: 32768
+      context_window: 1048576
+      api_available: true
+
+  # Models requiring manual execution (not in Cursor)
+  manual_required:
+    grok-3:
+      name: "Grok-3"
+      provider: "xAI"
+      type: "general"
+      capabilities: ["voting", "adaptive_learning", "consensus"]
+      priority: 1
+      notes: "Requires manual execution via xAI interface"
+      estimated_response_time: "5-15 minutes"
+      contact_method: "Manual chat interface"
+
+    deepseek-v3:
+      name: "DeepSeek-V3"
+      provider: "DeepSeek"
+      type: "general"
+      capabilities: ["voting", "advanced_reasoning", "security"]
+      priority: 1
+      notes: "Requires manual execution via DeepSeek interface"
+      estimated_response_time: "5-15 minutes"
+      contact_method: "Manual chat interface"
+
+    deepseek-r1:
+      name: "DeepSeek-R1"
+      provider: "DeepSeek"
+      type: "general"
+      capabilities: ["voting", "security", "federation"]
+      priority: 2
+      notes: "Requires manual execution via DeepSeek interface"
+      estimated_response_time: "5-15 minutes"
+      contact_method: "Manual chat interface"
+
+    grok-core-fast-1:
+      name: "Grok Core Fast-1"
+      provider: "xAI"
+      type: "general"
+      capabilities: ["voting", "performance", "ml_integration"]
+      priority: 1
+      notes: "Requires manual execution via xAI interface"
+      estimated_response_time: "5-15 minutes"
+      contact_method: "Manual chat interface"
+
+    gemini-2-5-pro:
+      name: "Gemini 2.5 Pro"
+      provider: "Google"
+      type: "general"
+      capabilities: ["voting", "i18n", "l10n"]
+      priority: 2
+      notes: "Requires manual execution via Google AI Studio"
+      estimated_response_time: "3-10 minutes"
+      contact_method: "Google AI Studio interface"
+
+    llama-3-1-405b:
+      name: "Llama 3.1 405B"
+      provider: "Meta"
+      type: "general"
+      capabilities: ["voting", "analysis", "reasoning"]
+      priority: 3
+      notes: "Requires manual execution via Meta interface or API"
+      estimated_response_time: "10-20 minutes"
+      contact_method: "Manual interface or API"
+
+# Model Groups for Easy Targeting
+groups:
+  all: ["cursor_available", "manual_required"]
+  generals: ["claude-3-5-sonnet", "gpt-4o", "gemini-2-0", "grok-3", "deepseek-v3", "deepseek-r1", "grok-core-fast-1", "gemini-2-5-pro", "llama-3-1-405b"]
+  collaborators: ["claude-3-5-haiku", "gpt-4o-mini"]
+  cursor_only: ["cursor_available"]
+  anthropic_only: ["claude-3-5-sonnet", "claude-3-5-haiku"]
+  openai_only: ["gpt-4o", "gpt-4o-mini"]
+  google_only: ["gemini-2-0", "gemini-2-5-pro"]
+  xai_only: ["grok-3", "grok-core-fast-1"]
+  deepseek_only: ["deepseek-v3", "deepseek-r1"]
+
+# Configuration Settings
+config:
+  default_timeout: 300  # 5 minutes
+  max_concurrent_requests: 5
+  retry_attempts: 3
+  rate_limit_delay: 1.0  # seconds between requests
+  output_directory: "automation_results"
+  log_level: "INFO"
+
+  # Voting-specific settings
+  voting:
+    required_quorum: 0.6  # 60% of targeted models
+    default_threshold: 0.5  # 50% yes votes for approval
+    timeout_days: 7  # Days until vote expires
+    reminder_interval_hours: 24
+
+  # Analysis-specific settings
+  analysis:
+    confidence_threshold: 0.7  # Minimum confidence for valid analysis
+    max_analysis_length: 2000  # Maximum characters per analysis
+    required_analysis_types: ["technical", "security", "impact"]
+
+# Update Tracking
+metadata:
+  version: "1.0.0"
+  last_updated: "2024-12-21T19:30:00Z"
+  updated_by: "Claude Code Assistant"
+  total_models: 11
+  cursor_available: 5
+  manual_required: 6
+  change_log:
+    - "Initial model inventory creation"
+    - "Added all current project models"
+    - "Configured capability mappings"
+    - "Set up model groups for targeting"

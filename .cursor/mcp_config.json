@@ -1,0 +1,129 @@
+{
+  "mcpServers": {
+    "cursor-voting-orchestrator": {
+      "command": "python",
+      "args": ["scripts/mcp/cursor_voting_orchestrator.py"],
+      "env": {
+        "PYTHONPATH": ".",
+        "MCP_CONFIG_PATH": ".cursor/mcp_config.json"
+      }
+    },
+    "cursor-proposal-analyzer": {
+      "command": "python",
+      "args": ["scripts/mcp/cursor_proposal_analyzer.py"],
+      "env": {
+        "PYTHONPATH": ".",
+        "MCP_CONFIG_PATH": ".cursor/mcp_config.json"
+      }
+    }
+  },
+
+  "commands": {
+    "cursor-vote": {
+      "description": "Trigger automated voting on a proposal",
+      "usage": "cursor-vote --proposal <file> --models <group>",
+      "examples": [
+        "cursor-vote --proposal discussion/019-new-feature.md --models generals",
+        "cursor-vote --proposal bips/pending/BIP-019.md --models all"
+      ]
+    },
+    "cursor-analyze": {
+      "description": "Analyze proposal with multiple models",
+      "usage": "cursor-analyze --file <proposal> --models <group> --analysis-type <type>",
+      "examples": [
+        "cursor-analyze --file discussion/019-new-feature.md --models generals --analysis-type technical",
+        "cursor-analyze --file bips/pending/BIP-019.md --models all --analysis-type comprehensive"
+      ]
+    },
+    "cursor-models": {
+      "description": "Check model availability and status",
+      "usage": "cursor-models --status --available",
+      "examples": [
+        "cursor-models --status",
+        "cursor-models --available --group generals"
+      ]
+    },
+    "cursor-feedback": {
+      "description": "Collect specific feedback type from models",
+      "usage": "cursor-feedback --type <feedback_type> --proposal <file> --models <group>",
+      "examples": [
+        "cursor-feedback --type voting --proposal BIP-019.md --models collaborators",
+        "cursor-feedback --type security_review --proposal discussion/019.md --models all"
+      ]
+    }
+  },
+
+  "modelGroups": {
+    "all": "All available models (Cursor + Manual)",
+    "generals": "High-capacity general models",
+    "collaborators": "Specialist/smaller models",
+    "cursor_only": "Models available in Cursor only",
+    "anthropic_only": "Anthropic models only",
+    "openai_only": "OpenAI models only",
+    "google_only": "Google models only",
+    "xai_only": "xAI models only",
+    "deepseek_only": "DeepSeek models only"
+  },
+
+  "analysisTypes": {
+    "technical": "Technical feasibility analysis",
+    "security": "Security implications review",
+    "impact": "Project impact assessment",
+    "implementation": "Implementation complexity evaluation",
+    "consensus": "Consensus potential analysis",
+    "comprehensive": "Full multi-dimensional analysis"
+  },
+
+  "settings": {
+    "defaultTimeout": 300,
+    "maxConcurrentRequests": 5,
+    "retryAttempts": 3,
+    "outputDirectory": "automation_results",
+    "logLevel": "INFO",
+
+    "voting": {
+      "requiredQuorum": 0.6,
+      "defaultThreshold": 0.5,
+      "timeoutDays": 7,
+      "reminderIntervalHours": 24
+    },
+
+    "analysis": {
+      "confidenceThreshold": 0.7,
+      "maxAnalysisLength": 2000,
+      "requiredAnalysisTypes": ["technical", "security", "impact"]
+    },
+
+    "ui": {
+      "showProgressBars": true,
+      "enableNotifications": true,
+      "autoSaveReports": true,
+      "colorOutput": true
+    }
+  },
+
+  "integrations": {
+    "github": {
+      "autoCreateIssues": false,
+      "autoCreatePRs": false,
+      "linkReports": true
+    },
+    "slack": {
+      "webhookUrl": null,
+      "notifyOnCompletion": false
+    },
+    "discord": {
+      "webhookUrl": null,
+      "notifyOnCompletion": false
+    }
+  },
+
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2024-12-21T19:30:00Z",
+    "author": "Claude Code Assistant",
+    "description": "MCP Cursor Integration for LLM Consensus Gate automation",
+    "project": "cmmv-hive",
+    "license": "MIT"
+  }
+}
