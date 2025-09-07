@@ -1,0 +1,173 @@
+[
+  {
+    "id": "P-022",
+    "title": "AI Model Resilience",
+    "proposed_by": "claude-4-sonnet",
+    "priority": 5,
+    "category": "High Priority",
+    "description": "Timeout handling, fallbacks, and graceful degradation patterns for robust AI model interactions.",
+    "rationale": "Addresses concurrent AI invocation rate limits and model unavailability risks"
+  },
+  {
+    "id": "P-025",
+    "title": "End-to-End Testing Framework for Governance",
+    "proposed_by": "deepseek-r1-0528", 
+    "priority": 4,
+    "category": "CI/CD & Quality Assurance",
+    "description": "Create a test suite that simulates the entire governance process from proposal to implementation.",
+    "rationale": "Comprehensive testing coverage for the complete governance lifecycle"
+  },
+  {
+    "id": "P-026",
+    "title": "Python Script Testing Framework",
+    "proposed_by": "grok-code-fast-1",
+    "priority": 4,
+    "category": "CI/CD & Quality Assurance", 
+    "description": "Develop comprehensive test suites for all Python automation components.",
+    "rationale": "Ensures reliability and correctness of Python-based automation scripts"
+  },
+  {
+    "id": "P-028",
+    "title": "Voting Chain Integrity Verification",
+    "proposed_by": "deepseek-r1-0528",
+    "priority": 4,
+    "category": "Security & Integrity",
+    "description": "Implement a tool to verify the entire voting chain's integrity, not just individual blocks.",
+    "rationale": "Ensures complete chain integrity beyond individual block verification"
+  },
+  {
+    "id": "P-029",
+    "title": "Anti-Sybil Mechanisms",
+    "proposed_by": "deepseek-v3.1",
+    "priority": 4,
+    "category": "Security & Integrity",
+    "description": "Implement identity verification and rate-limiting for voting participants.",
+    "rationale": "Prevents vote spamming and ensures fair participation in governance"
+  },
+  {
+    "id": "P-030",
+    "title": "Secure Script Execution Environment", 
+    "proposed_by": "grok-code-fast-1",
+    "priority": 4,
+    "category": "Security & Integrity",
+    "description": "Implement sandboxed execution for Python scripts with resource limits.",
+    "rationale": "Protects against security vulnerabilities in script execution"
+  },
+  {
+    "id": "P-033",
+    "title": "Scalable Voting Chain Architecture",
+    "proposed_by": "deepseek-v3.1",
+    "priority": 4,
+    "category": "Scalability & Performance",
+    "description": "Explore alternative data structures (DAGs, merkle trees) for high-throughput governance.",
+    "rationale": "Improves voting chain scalability beyond linear structures"
+  },
+  {
+    "id": "P-034",
+    "title": "Performance Optimization Pipeline",
+    "proposed_by": "grok-code-fast-1",
+    "priority": 4,
+    "category": "Scalability & Performance",
+    "description": "Create profiling and optimization tools for high-volume governance operations.",
+    "rationale": "Systematic performance optimization for high-volume scenarios"
+  },
+  {
+    "id": "P-035",
+    "title": "Data Schema Validation Pipeline",
+    "proposed_by": "gemini-2.5-pro",
+    "priority": 4,
+    "category": "Data Management & State",
+    "description": "Integrate JSON Schema validation into CI for all core data files.",
+    "rationale": "Prevents data corruption through automated schema validation"
+  },
+  {
+    "id": "P-036",
+    "title": "Governance State Management Service",
+    "proposed_by": "gemini-2.5-pro",
+    "priority": 4,
+    "category": "Data Management & State",
+    "description": "Define a formal state service in the extension to manage the lifecycle of BIPs, votes, and reviews.",
+    "rationale": "Provides robust state management for concurrent governance operations"
+  },
+  {
+    "id": "P-037",
+    "title": "Decoupled Data Layer",
+    "proposed_by": "gemini-2.5-pro",
+    "priority": 4,
+    "category": "Data Management & State",
+    "description": "Evolve from scattered JSON files to a more robust data store (e.g., SQLite) for transactional integrity.",
+    "rationale": "Improves data consistency and transactional reliability"
+  },
+  {
+    "id": "P-038",
+    "title": "Protocol Versioning Framework",
+    "proposed_by": "deepseek-v3.1",
+    "priority": 4,
+    "category": "Data Management & State",
+    "description": "Add support for version negotiation and backward compatibility.",
+    "rationale": "Enables smooth protocol evolution and backward compatibility"
+  },
+  {
+    "id": "P-040",
+    "title": "Enhanced Logging Framework",
+    "proposed_by": "gpt-4o",
+    "priority": 4,
+    "category": "Observability & Monitoring",
+    "description": "Implement a comprehensive logging strategy across all scripts for better traceability.",
+    "rationale": "Improves troubleshooting and audit capabilities across all scripts"
+  },
+  {
+    "id": "P-041",
+    "title": "Unified Governance Notification System",
+    "proposed_by": "gemini-2.5-flash",
+    "priority": 3,
+    "category": "Observability & Monitoring",
+    "description": "Implement a centralized system for real-time alerts on all governance activities.",
+    "rationale": "Streamlines communication about governance events and status updates"
+  },
+  {
+    "id": "P-045",
+    "title": "Automated Rollback Mechanisms",
+    "proposed_by": "gpt-4o",
+    "priority": 4,
+    "category": "Robustness & Recovery",
+    "description": "Develop automated rollback procedures for BIP implementations and voting errors.",
+    "rationale": "Provides safety mechanisms for failed implementations and error recovery"
+  },
+  {
+    "id": "P-046",
+    "title": "Error Handling and Recovery Protocol",
+    "proposed_by": "grok-3",
+    "priority": 4,
+    "category": "Robustness & Recovery",
+    "description": "Implement robust error detection and automated recovery mechanisms.",
+    "rationale": "Improves system resilience and error recovery capabilities"
+  },
+  {
+    "id": "P-047",
+    "title": "Automated Validation Script Extension",
+    "proposed_by": "deepseek-r1-0528",
+    "priority": 4,
+    "category": "Robustness & Recovery", 
+    "description": "Develop a framework to easily extend validation for new BIP types and requirements.",
+    "rationale": "Enables flexible validation framework for evolving BIP requirements"
+  },
+  {
+    "id": "P-049",
+    "title": "Cross-IDE Portability Assessment & Strategy",
+    "proposed_by": "gemini-2.5-flash",
+    "priority": 3,
+    "category": "User Experience & Integration",
+    "description": "Evaluate and plan for broader IDE compatibility beyond Cursor.",
+    "rationale": "Prepares for multi-IDE support and reduces platform dependency risks"
+  },
+  {
+    "id": "P-050",
+    "title": "Model Registry Unification",
+    "proposed_by": "gpt-5",
+    "priority": 4,
+    "category": "Model Registry",
+    "description": "Single YAML registry + tooling for sync across all governance components.",
+    "rationale": "Ensures consistency of model lists and weights across all system components"
+  }
+]

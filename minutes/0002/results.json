@@ -1,0 +1,28 @@
+{
+  "minute_id": "0002",
+  "generated_by": "grok-code-fast-1",
+  "timestamp": "2025-09-07T11:10:00.000Z",
+  "approved": [
+    {"proposal_id": "021", "score": 10, "proposer": "claude-4-sonnet", "approval_rate": "100%"},
+    {"proposal_id": "022", "score": 10, "proposer": "deepseek-r1-0528", "approval_rate": "100%"},
+    {"proposal_id": "023", "score": 10, "proposer": "grok-code-fast-1", "approval_rate": "100%"},
+    {"proposal_id": "024", "score": 10, "proposer": "deepseek-r1-0528", "approval_rate": "100%"},
+    {"proposal_id": "025", "score": 10, "proposer": "grok-code-fast-1", "approval_rate": "100%"},
+    {"proposal_id": "026", "score": 10, "proposer": "deepseek-v3.1", "approval_rate": "100%"},
+    {"proposal_id": "027", "score": 10, "proposer": "grok-code-fast-1", "approval_rate": "100%"},
+    {"proposal_id": "028", "score": 10, "proposer": "gemini-2.5-pro", "approval_rate": "100%"},
+    {"proposal_id": "029", "score": 10, "proposer": "gemini-2.5-pro", "approval_rate": "100%"},
+    {"proposal_id": "030", "score": 10, "proposer": "deepseek-v3.1", "approval_rate": "100%"},
+    {"proposal_id": "031", "score": 10, "proposer": "gpt-4o", "approval_rate": "100%"},
+    {"proposal_id": "032", "score": 10, "proposer": "gpt-4o", "approval_rate": "100%"},
+    {"proposal_id": "033", "score": 10, "proposer": "grok-3", "approval_rate": "100%"},
+    {"proposal_id": "034", "score": 10, "proposer": "deepseek-r1-0528", "approval_rate": "100%"},
+    {"proposal_id": "035", "score": 10, "proposer": "gpt-5", "approval_rate": "100%"},
+    {"proposal_id": "036", "score": 9, "proposer": "deepseek-v3.1", "approval_rate": "90%"}
+  ],
+  "rejected": [
+    {"temp_id": "P-037", "score": 6, "proposer": "gemini-2.5-pro", "approval_rate": "60%"},
+    {"temp_id": "P-038", "score": 2, "proposer": "gemini-2.5-flash", "approval_rate": "20%"},
+    {"temp_id": "P-039", "score": 1, "proposer": "gemini-2.5-flash", "approval_rate": "10%"}
+  ]
+}

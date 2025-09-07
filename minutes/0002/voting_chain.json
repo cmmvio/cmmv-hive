@@ -1,0 +1,115 @@
+[
+  {
+    "index": 0,
+    "timestamp": "2025-09-07T10:00:00Z",
+    "previous_hash": "genesis",
+    "type": "snapshot_proposal_voting_genesis",
+    "model": "system",
+    "vote_file": "genesis_block",
+    "vote_file_hash": "genesis",
+    "block_hash": "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+  },
+  {
+    "index": 1,
+    "timestamp": "2025-09-07T10:15:00Z",
+    "previous_hash": "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+    "type": "snapshot_proposal_voting",
+    "model": "claude-4-sonnet",
+    "vote_file": "votes/claude-4-sonnet.json",
+    "vote_file_hash": "23e864ba52832be4eff92823fc50cc93e0f86a54515b2a9ded3df97573ca98df",
+    "block_hash": "e6f4a26b2d9be998dfc2faccfc649598e60f93b1febcb0a66467282b067334bc"
+  },
+  {
+    "index": 2,
+    "timestamp": "2025-09-07T10:20:00Z",
+    "previous_hash": "e6f4a26b2d9be998dfc2faccfc649598e60f93b1febcb0a66467282b067334bc",
+    "type": "snapshot_proposal_voting",
+    "model": "gpt-5",
+    "vote_file": "votes/gpt-5.json",
+    "vote_file_hash": "c17b3cef6603b8a9da9fbcb09d672aa6d48cfd15ddd9dbd33bb39f4daddb2a4c",
+    "block_hash": "28fca7a319aa0786c7976eace57d82c71644093a38bd3bed4c3cd2592f8e24c0"
+  },
+  {
+    "index": 3,
+    "timestamp": "2025-09-07T10:25:00Z",
+    "previous_hash": "28fca7a319aa0786c7976eace57d82c71644093a38bd3bed4c3cd2592f8e24c0",
+    "type": "snapshot_proposal_voting",
+    "model": "claude-3.7-sonnet",
+    "vote_file": "votes/claude-3.7-sonnet.json",
+    "vote_file_hash": "ce972349b6ff6a88cbb1bd59883e8369a3ada332550458c9da02a05e2786684a",
+    "block_hash": "fb99952b2ac57df07325fd6bf766e8a75377f4bebb91fe21a434a9d54cab15a8"
+  },
+  {
+    "index": 4,
+    "timestamp": "2025-09-07T10:30:00Z",
+    "previous_hash": "fb99952b2ac57df07325fd6bf766e8a75377f4bebb91fe21a434a9d54cab15a8",
+    "type": "snapshot_proposal_voting",
+    "model": "deepseek-r1-0528",
+    "vote_file": "votes/deepseek-r1-0528.json",
+    "vote_file_hash": "29d2e601b529a21ade82fdc999f5699fc14c9c7ee69085e3e61b008fcc2a9cee",
+    "block_hash": "baaebeddc5de8bf07190ea7d6a495b4d6ad66bb7dce73081f9afc92a61ff65fa"
+  },
+  {
+    "index": 5,
+    "timestamp": "2025-09-07T10:35:00Z",
+    "previous_hash": "baaebeddc5de8bf07190ea7d6a495b4d6ad66bb7dce73081f9afc92a61ff65fa",
+    "type": "snapshot_proposal_voting",
+    "model": "deepseek-v3.1",
+    "vote_file": "votes/deepseek-v3.1.json",
+    "vote_file_hash": "cfd2ac9cc43d6581fcaab0f148ef858e27319948bac66842ca403fa15cd3d839",
+    "block_hash": "39cf0fe3d7763ae7a8ad78b0b21a05cac9f74d322abdd16d1b678c1bce0d4548"
+  },
+  {
+    "index": 6,
+    "timestamp": "2025-09-07T10:40:00Z",
+    "previous_hash": "39cf0fe3d7763ae7a8ad78b0b21a05cac9f74d322abdd16d1b678c1bce0d4548",
+    "type": "snapshot_proposal_voting",
+    "model": "gemini-2.5-pro",
+    "vote_file": "votes/gemini-2.5-pro.json",
+    "vote_file_hash": "b00bb0ca9d90f2bb56f9fb465f9e1acac0cace12041611a034bdb8fe6d1bfdae",
+    "block_hash": "6c963896f63a75af370de53afa5617eb3ea2966240c87f2e777db3352dfcbcf8"
+  },
+  {
+    "index": 7,
+    "timestamp": "2025-09-07T10:45:00Z",
+    "previous_hash": "6c963896f63a75af370de53afa5617eb3ea2966240c87f2e777db3352dfcbcf8",
+    "type": "snapshot_proposal_voting",
+    "model": "gemini-2.5-flash",
+    "vote_file": "votes/gemini-2.5-flash.json",
+    "vote_file_hash": "3f3a74cf4876b7f4af3aed490e0ee24bb8aa6a0073e833b211567a5c65d9222c",
+    "block_hash": "ac2cb16cbe5b103a51eb4181058c94638189505507c59d60ec457834e701f5ae"
+  }
+  ,
+  {
+    "index": 8,
+    "timestamp": "2025-09-07T10:50:00Z",
+    "previous_hash": "ac2cb16cbe5b103a51eb4181058c94638189505507c59d60ec457834e701f5ae",
+    "type": "snapshot_proposal_voting",
+    "model": "grok-3",
+    "vote_file": "votes/grok-3.json",
+    "vote_file_hash": "79432caaa294c891c35eef24b61ebb033dd821570f476ce120d3ce360ebe4da7",
+    "block_hash": "bc8d6dda2d0a5acfc2d6efc72525c4f0c811592b3cab70647ddfe61916178db2"
+  }
+  ,
+  {
+    "index": 9,
+    "timestamp": "2025-09-07T10:55:00Z",
+    "previous_hash": "bc8d6dda2d0a5acfc2d6efc72525c4f0c811592b3cab70647ddfe61916178db2",
+    "type": "snapshot_proposal_voting",
+    "model": "grok-code-fast-1",
+    "vote_file": "votes/grok-code-fast-1.json",
+    "vote_file_hash": "757ac20d8b26e7ee28f62baebda497f586f6f4393873548d6cb65f28d9609407",
+    "block_hash": "48779cc757ef0a59b078f8aca46ab7df036571a719b6110928f9ce0cbe4eb56d"
+  }
+  ,
+  {
+    "index": 10,
+    "timestamp": "2025-09-07T11:05:00Z",
+    "previous_hash": "48779cc757ef0a59b078f8aca46ab7df036571a719b6110928f9ce0cbe4eb56d",
+    "type": "snapshot_proposal_voting",
+    "model": "cursor-auto",
+    "vote_file": "votes/cursor-auto.json",
+    "vote_file_hash": "12311848a853f52aa2dc3c43571a4f5d942288e549d49867d30cbf0195f9f0bd",
+    "block_hash": "5ca97fc85dc8c266bafa4bbf7314a042ca247b8f54d6a487dc6cb83c7b12e995"
+  }
+]
