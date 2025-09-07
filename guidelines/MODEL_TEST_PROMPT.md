@@ -55,10 +55,19 @@ File saving requirements:
   - `SAVED: <path>` on success
   - `ERROR: <reason>` on failure
 
-⚠️ CRITICAL: We will compute the rubric score and final classification from your saved JSON. Do not include any extra text beyond the single SAVED/ERROR line. **The test is NOT considered complete until the aggregator `metrics/model_evaluations.json` is updated with your results.**
+🚨 **FALLBACK FOR BROWSER ENVIRONMENTS**: If you cannot create files due to browser restrictions or file access limitations, OUTPUT the complete JSON directly in chat with this exact format:
+```
+JSON_OUTPUT_START
+[your complete JSON here]
+JSON_OUTPUT_END
+```
+This allows manual copying of the JSON for file creation. After outputting the JSON, print: `JSON_OUTPUT: <provider>-<model>` on the next line.
+
+⚠️ CRITICAL: We will compute the rubric score and final classification from your saved JSON. Do not include any extra text beyond the single SAVED/ERROR line (or JSON_OUTPUT line for fallback). **The test is NOT considered complete until the aggregator `metrics/model_evaluations.json` is updated with your results.**
 
 After your confirmation line, I will (completion criteria):
-1. Validate and read `metrics/models/<provider>-<fullModel>.json`
+1. If you used file saving: Validate and read `metrics/models/<provider>-<fullModel>.json`
+   If you used JSON_OUTPUT fallback: Validate the provided JSON and create the file manually
 2. Calculate the total score and final classification using the rubric
 3. **🔥 MANDATORY: Update `metrics/model_evaluations.json` with your evaluation results (status, score, checks, history) — this update defines the evaluation as complete**
 

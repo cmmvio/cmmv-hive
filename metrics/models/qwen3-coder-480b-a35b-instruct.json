@@ -1,0 +1,18 @@
+{
+  "fullModel": "Qwen3 Coder 480B A35B Instruct",
+  "provider": "Qwen",
+  "modelFamily": "Qwen3",
+  "modelVariant": "Coder 480B A35B Instruct",
+  "version": "2025-09",
+  "sessionId": "QWEN3-CODER-480B-A35B-INSTRUCT-EVAL-2025-09",
+  "checks": [
+    { "name": "Connectivity", "score": 8, "critical": false, "note": "Slow response times and connectivity issues" },
+    { "name": "Command & Tool Use", "score": 6, "critical": false, "note": "Limited command recognition and poor tool utilization" },
+    { "name": "Cursor File Operations", "score": 4, "critical": true, "note": "Cannot perform file operations reliably due to slow processing" },
+    { "name": "Task Completeness", "score": 2, "critical": true, "note": "Does not complete tasks adequately - poor quality responses" },
+    { "name": "Compliance & Safety", "score": 5, "critical": false, "note": "Basic safety compliance but inconsistent due to slow processing" },
+    { "name": "Stability", "score": 4, "critical": false, "note": "Very unstable performance with frequent timeouts" }
+  ],
+  "selfClassification": "rejected",
+  "summary": "Rejected (tested): very slow performance and inadequate response quality for operational use."
+}
