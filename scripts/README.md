@@ -67,15 +67,22 @@ python scripts/mcp/cursor_proposal_analyzer.py --file discussion/019-feature.md 
 
 | Group | Description | Models Included |
 |-------|-------------|-----------------|
-| `all` | All available models | Cursor + Manual models |
-| `generals` | High-capacity models | Claude-3.5-Sonnet, GPT-4o, etc. |
-| `collaborators` | Specialist/smaller models | Claude-3.5-Haiku, GPT-4o-mini |
-| `cursor_only` | Cursor-available models | Only models accessible via Cursor |
-| `anthropic_only` | Anthropic models | Claude models only |
-| `openai_only` | OpenAI models | GPT models only |
-| `google_only` | Google models | Gemini models only |
-| `xai_only` | xAI models | Grok models only |
-| `deepseek_only` | DeepSeek models | DeepSeek models only |
+| `all` | All available models | Cursor + Manual models (28 total) |
+| `generals` | High-capacity models | 16 models including Claude-3.5-Sonnet, GPT-4o, Gemini-1.5-Pro, etc. |
+| `collaborators` | Specialist/smaller models | 12 models including Claude-3.5-Haiku, GPT-4o-mini, Llama-3.1-8B, etc. |
+| `cursor_only` | All Cursor-available models | 25 models (tested + available) |
+| `cursor_tested` | Already tested in project | 9 models from original checklist |
+| `cursor_available` | Available but not tested | 16 additional models now available |
+| `anthropic_only` | Anthropic models | 4 Claude models |
+| `openai_only` | OpenAI models | 5 GPT models |
+| `google_only` | Google models | 4 Gemini models |
+| `meta_only` | Meta models | 4 Llama/CodeLlama models |
+| `xai_only` | xAI models | 2 Grok models |
+| `deepseek_only` | DeepSeek models | 3 DeepSeek models |
+| `mistral_only` | Mistral models | 2 Mistral models |
+| `alibaba_only` | Alibaba models | 2 Qwen models |
+| `microsoft_only` | Microsoft models | 1 Phi-3 model |
+| `bigcode_only` | BigCode models | 1 StarCoder model |
 
 ## 🔍 Analysis Types
 

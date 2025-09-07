@@ -54,15 +54,22 @@
   },
 
   "modelGroups": {
-    "all": "All available models (Cursor + Manual)",
-    "generals": "High-capacity general models",
-    "collaborators": "Specialist/smaller models",
-    "cursor_only": "Models available in Cursor only",
-    "anthropic_only": "Anthropic models only",
-    "openai_only": "OpenAI models only",
-    "google_only": "Google models only",
-    "xai_only": "xAI models only",
-    "deepseek_only": "DeepSeek models only"
+    "all": "All available models (28 total: Cursor + Manual)",
+    "generals": "High-capacity general models (16 models)",
+    "collaborators": "Specialist/smaller models (12 models)",
+    "cursor_only": "All Cursor-available models (25 models)",
+    "cursor_tested": "Already tested in project (9 models)",
+    "cursor_available": "Available but not tested (16 models)",
+    "anthropic_only": "Anthropic models only (4 Claude models)",
+    "openai_only": "OpenAI models only (5 GPT models)",
+    "google_only": "Google models only (4 Gemini models)",
+    "meta_only": "Meta models only (4 Llama/CodeLlama models)",
+    "xai_only": "xAI models only (2 Grok models)",
+    "deepseek_only": "DeepSeek models only (3 DeepSeek models)",
+    "mistral_only": "Mistral models only (2 Mistral models)",
+    "alibaba_only": "Alibaba models only (2 Qwen models)",
+    "microsoft_only": "Microsoft models only (1 Phi-3 model)",
+    "bigcode_only": "BigCode models only (1 StarCoder model)"
   },
 
   "analysisTypes": {
@@ -119,11 +126,20 @@
   },
 
   "metadata": {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "created": "2024-12-21T19:30:00Z",
+    "updated": "2024-12-21T20:00:00Z",
     "author": "Claude Code Assistant",
-    "description": "MCP Cursor Integration for LLM Consensus Gate automation",
+    "description": "MCP Cursor Integration for LLM Consensus Gate automation - Updated with 28 models",
     "project": "cmmv-hive",
-    "license": "MIT"
+    "license": "MIT",
+    "model_stats": {
+      "total_models": 28,
+      "cursor_tested": 9,
+      "cursor_available": 16,
+      "manual_required": 6,
+      "providers": ["Anthropic", "OpenAI", "Google", "Meta", "xAI", "DeepSeek", "Mistral", "Alibaba", "Microsoft", "BigCode"],
+      "last_model_update": "2024-12-21T20:00:00Z"
+    }
   }
 }
