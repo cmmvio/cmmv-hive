@@ -11,7 +11,7 @@ Legend:
 ## 🧠 Generals (high-capacity)
 - [x] GPT-5 (OpenAI) — reputation-weighted consensus (009)
 - [x] Claude-4-Sonnet (Anthropic) — performance proposal (006)
-- [ ] Claude 3.5 Sonnet / Opus (Anthropic)
+- [x] Claude 3.5 Sonnet / Opus (Anthropic) — cognitive optimization (013)
 - [x] Gemini 2.5 Pro (Google) — i18n/l10n (008)
 - [ ] Gemini 1.5 Pro (Google)
 - [x] DeepSeek-R1-0528 (DeepSeek) — security/federation (007)
