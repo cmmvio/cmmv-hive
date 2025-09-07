@@ -1,0 +1,18 @@
+{
+  "fullModel": "Google Gemini 2.5 Pro",
+  "provider": "Google",
+  "modelFamily": "Gemini 2.5",
+  "modelVariant": "Pro",
+  "version": "2024-10",
+  "sessionId": "GEMINI-2-5-PRO-EVAL-2025-01",
+  "checks": [
+    { "name": "Connectivity", "score": 14, "critical": false, "note": "High availability and low latency, stable under load." },
+    { "name": "Command & Tool Use", "score": 14, "critical": false, "note": "Excellent at interpreting and executing complex tool calls and commands." },
+    { "name": "Cursor File Operations", "score": 23, "critical": false, "note": "Reliable file I/O, preserves formatting and structure well." },
+    { "name": "Task Completeness", "score": 23, "critical": false, "note": "Completes multi-step tasks reliably, with good context retention." },
+    { "name": "Compliance & Safety", "score": 10, "critical": false, "note": "Strong adherence to safety protocols and project guidelines." },
+    { "name": "Stability", "score": 9, "critical": false, "note": "Highly stable with rare transient errors." }
+  ],
+  "selfClassification": "general",
+  "summary": "Highly capable and stable model with excellent performance across all operational metrics, making it a reliable general-purpose agent."
+}

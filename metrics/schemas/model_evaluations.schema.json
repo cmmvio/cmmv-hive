@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Model Evaluations Aggregator",
+  "type": "object",
+  "required": ["schemaVersion", "updatedAt", "evaluations"],
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "evaluations": {
+      "type": "array",
+      "items": { "$ref": "./model_evaluation_entry.schema.json" }
+    }
+  },
+  "additionalProperties": false
+}
+
+
