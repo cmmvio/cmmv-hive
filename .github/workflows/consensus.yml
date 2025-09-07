@@ -280,3 +280,15 @@ jobs:
               core.setOutput('approval_ratio', ratio.toFixed(3));
               core.setOutput('missing_approvals', Math.ceil(totalGenerals * threshold) - approvals);
             }
+
+      - name: Verify Security Signatures
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          python scripts/verify_signatures.py
+          echo "🔐 Security signatures verified"
+        
+      - name: Encrypt Sensitive Votes
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'confidential') }}
+        run: |
+          python scripts/vote_encryption.py --encrypt
+          echo "🔒 Votes encrypted for confidential PR"

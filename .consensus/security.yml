@@ -1,0 +1,19 @@
+# Configuração de Segurança Avançada
+authentication:
+  method: ed25519
+  key_rotation: 604800 # Rotação semanal de chaves
+  revocation: 
+    path: .consensus/revoked_keys.txt
+  identity_providers:
+    - github
+    - oidc
+
+encryption:
+  algorithm: paillier
+  key_size: 2048
+  threshold: 0.8 # Limite de confiança
+
+audit:
+  enabled: true
+  retention_days: 365
+  encryption: aes-256-gcm
