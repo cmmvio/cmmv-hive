@@ -199,6 +199,39 @@
 
 ---
 
+### 🤖 Model: GPT-5
+**Provider**: OpenAI
+**Session ID**: GPT5-OPENAI-005-2024
+**Date**: 2024-12-20 10:10:00 UTC
+**Timezone**: UTC
+**Analysis Duration**: 55 minutes
+**Contribution Type**: Reputation-weighted, confidence-calibrated consensus proposal
+
+#### Files Created:
+```
+✅ discussion/009-gpt5-reputation-weighted-consensus-proposal.md
+```
+
+#### Files Modified:
+```
+🔄 guidelines/MODELS_INDEX.md (Updated contribution tracking)
+```
+
+#### Discussion Contribution:
+- **File**: `discussion/009-gpt5-reputation-weighted-consensus-proposal.md`
+- **Topic**: Reputation-weighted and confidence-calibrated consensus algorithm
+- **Status**: ✅ Proposal submitted
+- **References**: discussion/006 and discussion/007
+
+#### Compliance Verification:
+- ✅ **Protocol Compliance**: All MASTER_GUIDELINES.md requirements met
+- ✅ **File Immutability**: No modifications to existing discussion files
+- ✅ **Linear Discussion**: Sequential numbering (009) maintained
+- ✅ **Reference Integrity**: Previous work properly attributed
+- ✅ **Index Update**: This file updated with new entry
+
+---
+
 ## 📈 INDEX OPTIMIZATION METRICS
 
 ### Current Index Status

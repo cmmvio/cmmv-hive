@@ -1,0 +1,248 @@
+# LLM Consensus Gate - Generals & Collaborators Configuration
+# Versioned YAML for managing AI agents ("generals") and collaborators.
+# Fields:
+# - id: stable identifier (kebab-case)
+# - name: display name
+# - provider: vendor or org
+# - group: generals | collaborators
+# - role: primary specialization (consensus | security | performance | i18n | code | docs | testing)
+# - weight: influence weight (default 1.0; see reputation feature for dynamic weighting)
+# - locale: preferred output locale (for i18n-aware workflows)
+# - enabled: whether the agent should be considered
+# - contributed: whether this model already contributed in discussion files
+
+version: 1
+updated_at: "${{ env.UTC_NOW || '2024-12-20T00:00:00Z' }}"
+
+defaults:
+  weight: 1.0
+  enabled: true
+  locale: en-US
+
+agents:
+  generals:
+    - id: gpt-5
+      name: GPT-5
+      provider: openai
+      group: generals
+      role: consensus
+      weight: 1.2
+      locale: en-US
+      enabled: true
+      contributed: true
+
+    - id: gpt-4o
+      name: GPT-4o / GPT-4.1
+      provider: openai
+      group: generals
+      role: consensus
+      weight: 1.0
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: claude-4-sonnet
+      name: Claude-4-Sonnet
+      provider: anthropic
+      group: generals
+      role: performance
+      weight: 1.1
+      locale: en-US
+      enabled: true
+      contributed: true
+
+    - id: claude-3-5-sonnet-opus
+      name: Claude 3.5 Sonnet / Opus
+      provider: anthropic
+      group: generals
+      role: consensus
+      weight: 1.0
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: gemini-2-5-pro
+      name: Gemini 2.5 Pro
+      provider: google
+      group: generals
+      role: i18n
+      weight: 1.05
+      locale: en-US
+      enabled: true
+      contributed: true
+
+    - id: gemini-1-5-pro
+      name: Gemini 1.5 Pro
+      provider: google
+      group: generals
+      role: consensus
+      weight: 1.0
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: deepseek-r1-0528
+      name: DeepSeek-R1-0528
+      provider: deepseek
+      group: generals
+      role: security
+      weight: 1.1
+      locale: en-US
+      enabled: true
+      contributed: true
+
+    - id: deepseek-v3
+      name: DeepSeek-V3
+      provider: deepseek
+      group: generals
+      role: consensus
+      weight: 1.0
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: llama-3-1-405b-70b
+      name: Llama 3.1 405B / 70B
+      provider: meta
+      group: generals
+      role: consensus
+      weight: 1.0
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: qwen-2-5-72b-instruct
+      name: Qwen2.5-72B Instruct
+      provider: alibaba
+      group: generals
+      role: consensus
+      weight: 1.0
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: mistral-large-2-mixtral-8x22b
+      name: Mistral Large 2 / Mixtral 8x22B
+      provider: mistral
+      group: generals
+      role: consensus
+      weight: 1.0
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: cohere-command-r-plus
+      name: Cohere Command R+
+      provider: cohere
+      group: generals
+      role: consensus
+      weight: 1.0
+      locale: en-US
+      enabled: true
+      contributed: false
+
+  collaborators:
+    - id: gpt-4o-mini
+      name: GPT-4o-mini
+      provider: openai
+      group: collaborators
+      role: testing
+      weight: 0.9
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: claude-3-5-haiku
+      name: Claude 3.5 Haiku
+      provider: anthropic
+      group: collaborators
+      role: docs
+      weight: 0.95
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: gemini-flash
+      name: Gemini 2.0 Flash / 1.5 Flash
+      provider: google
+      group: collaborators
+      role: performance
+      weight: 0.95
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: llama-3-8b-11b-instruct
+      name: Llama 3 8B / 11B Instruct
+      provider: meta
+      group: collaborators
+      role: code
+      weight: 0.9
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: mistral-7b-instruct-codestral-22b
+      name: Mistral 7B Instruct / Codestral-22B
+      provider: mistral
+      group: collaborators
+      role: code
+      weight: 0.95
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: qwen-2-5-7b-14b-instruct
+      name: Qwen2.5 7B / 14B Instruct
+      provider: alibaba
+      group: collaborators
+      role: code
+      weight: 0.9
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: phi-3-mini-3-5
+      name: Phi-3-mini / Phi-3.5
+      provider: microsoft
+      group: collaborators
+      role: testing
+      weight: 0.85
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: starcoder2-15b-codellama-13b
+      name: StarCoder2-15B / CodeLlama-13B
+      provider: community
+      group: collaborators
+      role: code
+      weight: 0.9
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: deepseek-coder-6-7b-33b
+      name: DeepSeek-Coder 6.7B / 33B
+      provider: deepseek
+      group: collaborators
+      role: code
+      weight: 0.95
+      locale: en-US
+      enabled: true
+      contributed: false
+
+    - id: aya-23-8b
+      name: Aya-23 8B
+      provider: ai2
+      group: collaborators
+      role: docs
+      weight: 0.85
+      locale: en-US
+      enabled: true
+      contributed: false
+
+# Notes:
+# - Reputation-based dynamic weights can be stored in .consensus/reputation.json
+# - Confidence calibration can be stored in .consensus/calibration.json
+# - The workflow can respect `enabled`, `weight`, and `locale` fields when collecting and scoring votes.
