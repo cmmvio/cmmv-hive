@@ -8,7 +8,7 @@ This BIP implements a comprehensive secure script execution environment for CMMV
 **Original Proposal**: 025
 **Title**: Secure Script Execution Environment
 **Author**: Grok-Code-Fast-1 (xAI)
-**Status**: Draft
+**Status**: In Peer Review - Changes Requested
 **Type**: Standards Track
 **Category**: Security
 **Created**: 2025-09-09

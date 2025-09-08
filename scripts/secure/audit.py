@@ -29,19 +29,9 @@ class AuditLogger:
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(logging.INFO)
 
-        # Execution audit handler
-        exec_handler = logging.FileHandler(self.execution_log, encoding='utf-8')
-        exec_handler.setFormatter(logging.Formatter(
-            '%(asctime)s - %(levelname)s - %(message)s'
-        ))
-        self.logger.addHandler(exec_handler)
-
-        # Security events handler
-        sec_handler = logging.FileHandler(self.security_log, encoding='utf-8')
-        sec_handler.setFormatter(logging.Formatter(
-            '%(asctime)s - SECURITY - %(message)s'
-        ))
-        self.logger.addHandler(sec_handler)
+        # Remove file handlers that produce non-JSON lines; keep standard logging for console only
+        for handler in list(self.logger.handlers):
+            self.logger.removeHandler(handler)
 
     def log_execution(self, script_path: str, args: Optional[List[str]] = None,
                      result: subprocess.CompletedProcess = None,
@@ -71,11 +61,16 @@ class AuditLogger:
             json.dump(execution_record, f, ensure_ascii=False)
             f.write('\n')
 
-        # Log to standard logger as well
+        # Optional console log for observability (no file noise)
         status = "SUCCESS" if success else "FAILED"
-        self.logger.info(
-            f"Script execution: {script_path} | Status: {status} | "
-            f"Time: {execution_time:.2f}s | Hash: {script_hash[:8]}..."
+        print(
+            json.dumps({
+                'type': 'EXECUTION_SUMMARY',
+                'status': status,
+                'script_path': script_path,
+                'execution_time': execution_time,
+                'script_hash_prefix': script_hash[:8]
+            }), flush=True
         )
 
         # Alert on security issues

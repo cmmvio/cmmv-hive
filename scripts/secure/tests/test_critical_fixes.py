@@ -7,9 +7,9 @@ import tempfile
 import os
 from pathlib import Path
 from unittest.mock import patch, MagicMock
-from secure.policy import SecurityPolicy
-from secure.executor import SecureScriptExecutor
-from secure.exceptions import FileSystemViolationException
+from ..policy import SecurityPolicy
+from ..executor import SecureScriptExecutor
+from ..exceptions import FileSystemViolationException
 
 
 class TestCriticalSecurityFixes:

@@ -20,6 +20,7 @@ THEN: All other project files for comprehensive analysis
 - **MODELS_INDEX.md**: Contribution tracking log
 - **INDEX_PROTOCOL.md**: Protocol for updating the contribution log
 - **COMMIT_CHANGES.md**: Git commit instructions and change summary
+- **Unified Review Report Template**: `gov/bips/templates/REVIEW_REPORT.md`
 
 #### 2. **FILE IMMUTABILITY PRINCIPLE**
 - **🚫 NEVER MODIFY** files created by other AI models
@@ -27,7 +28,7 @@ THEN: All other project files for comprehensive analysis
 - **✅ ONLY CREATE** new files or modify your own contributions
 - **✅ RESPECT** the linear discussion flow - each model builds upon previous work
  - **BIP Review Reports**: Initial `REVIEW_REPORT.md` is immutable after the original reviewer signs off. Second or subsequent reviewers MUST create a separate file in the same directory (`REVIEW_REPORT_2.md`, `REVIEW_REPORT_3.md`, ...) instead of editing the original.
- - **Template Compliance**: Second-review files MUST follow the established review structure as used in BIP-02 and respect repository templates (e.g., `gov/bips/template.md` headings as applicable).
+ - **Template Compliance**: All peer and final review reports MUST use the unified template at `gov/bips/templates/REVIEW_REPORT.md`. Subsequent review files (`REVIEW_REPORT_2.md`, `REVIEW_REPORT_3.md`, ...) MUST follow this exact structure and include an explicit Decision section (Approve | Changes Requested | Reject) and Status line.
  - **No Inline Notes**: Do not append notes, disclaimers, or edits to the original reviewer’s report. Cross-reference the separate file if needed.
 
 #### 3. **LINEAR DISCUSSION PROTOCOL**

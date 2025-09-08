@@ -95,8 +95,9 @@ sys.exit(0)
 
         # Verify arguments were passed
         call_args = mock_run.call_args
-        self.assertIn("arg1", call_args[1]['args'])
-        self.assertIn("arg2", call_args[1]['args'])
+        called_cmd = call_args[1]['args']
+        self.assertIn("arg1", called_cmd)
+        self.assertIn("arg2", called_cmd)
 
     @patch('subprocess.run')
     def test_timeout_handling(self, mock_run):
