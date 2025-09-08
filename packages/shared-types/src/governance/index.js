@@ -1,7 +1,8 @@
+"use strict";
 /**
  * @fileoverview Governance-related TypeScript types for CMMV-Hive
  * @author CMMV-Hive Team
  * @version 1.0.0
  */
-export {};
+Object.defineProperty(exports, "__esModule", { value: true });
 //# sourceMappingURL=index.js.map

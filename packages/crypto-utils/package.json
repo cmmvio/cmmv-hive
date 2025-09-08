@@ -24,7 +24,7 @@
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
     "type-check": "tsc --noEmit",
-    "test": "vitest",
+    "test": "vitest --run --reporter=verbose --ui=false",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest --coverage",
     "lint": "eslint src --ext .ts",

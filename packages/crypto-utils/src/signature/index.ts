@@ -5,6 +5,7 @@
  */
 
 import { ECCService } from '../ecc/index.js';
+import { createHash } from 'crypto';
 import type {
   ECCKeyPair,
   ECCSignature,
@@ -217,16 +218,9 @@ export class SignatureService {
    * Generate a unique key identifier from public key
    */
   private static generateKeyId(publicKey: Uint8Array): string {
-    // Use first 16 bytes of public key hash as identifier
-    const hash = new Uint8Array(16);
-    for (let i = 0; i < 16; i++) {
-      hash[i] = (publicKey[i] ?? 0) ^ (publicKey[i + 16] ?? 0);
-    }
-
-    return Array.from(hash)
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('')
-      .substring(0, 16);
+    // SHA-256(publicKey) truncated to 16 bytes (32 hex chars)
+    const digest = createHash('sha256').update(publicKey).digest();
+    return digest.subarray(0, 16).toString('hex');
   }
 
   /**

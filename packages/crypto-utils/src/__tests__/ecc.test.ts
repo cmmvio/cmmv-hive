@@ -6,6 +6,8 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { ECCService } from '../ecc/index.js';
 
+const TEST_MSG = 'Hello, CMMV-Hive!';
+
 describe('ECCService', () => {
   let keyPair: Awaited<ReturnType<typeof ECCService.generateKeyPair>>;
 
@@ -60,7 +62,7 @@ describe('ECCService', () => {
   });
 
   describe('Digital Signatures', () => {
-    const testMessage = 'Hello, CMMV-Hive!';
+    const testMessage = TEST_MSG;
 
     it('should sign and verify message correctly', async () => {
       const signature = await ECCService.signMessage(testMessage, keyPair.privateKey);
@@ -120,6 +122,7 @@ describe('ECCService', () => {
   });
 
   describe('Signature Format Conversion', () => {
+    const testMessage = TEST_MSG;
     it('should convert signature to compact format', async () => {
       const signature = await ECCService.signMessage(testMessage, keyPair.privateKey);
       const compact = ECCService.signatureToCompact(signature);
@@ -138,9 +141,21 @@ describe('ECCService', () => {
       expect(restored.s).toEqual(signature.s);
       expect(restored.recovery).toBe(signature.recovery);
     });
+
+    it('should convert signature to DER and back', async () => {
+      const signature = await ECCService.signMessage(testMessage, keyPair.privateKey);
+      const der = ECCService.signatureToDER(signature);
+      const restored = ECCService.derToSignature(der, signature.recovery);
+
+      expect(restored.r).toEqual(signature.r);
+      expect(restored.s).toEqual(signature.s);
+      const verification = await ECCService.verifySignature(testMessage, restored, keyPair.publicKey);
+      expect(verification.isValid).toBe(true);
+    });
   });
 
   describe('Public Key Recovery', () => {
+    const testMessage = TEST_MSG;
     it('should recover public key from signature', async () => {
       const signature = await ECCService.signMessage(testMessage, keyPair.privateKey);
       const recoveredKey = await ECCService.recoverPublicKey(testMessage, signature);

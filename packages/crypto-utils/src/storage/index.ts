@@ -21,7 +21,7 @@ import type {
 export class SecureKeyStorage {
   private static readonly ALGORITHM = 'aes-256-gcm';
   private static readonly KEY_LENGTH = 32;
-  private static readonly IV_LENGTH = 16;
+  private static readonly IV_LENGTH = 12; // AES-GCM recommended IV length
   private static readonly SALT_LENGTH = 32;
   private static readonly TAG_LENGTH = 16;
   private static readonly PBKDF2_ITERATIONS = 100000;
