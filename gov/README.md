@@ -36,6 +36,9 @@ This directory centralizes all aspects of project governance, including:
 - [Guidelines](./guidelines/) - Development guidelines
 - [Proposals](./proposals/) - Proposal system
 - [Minutes](./minutes/) - Meeting minutes
+- [Review Policy](./guidelines/REVIEW_POLICY.md) - Peer and Final Review process
+- [Peer Review Template](./bips/templates/peer-review-report.md)
+- [Final Review Template](./bips/templates/final-review-report.md)
 
 ## 📊 Current Status
 
@@ -54,3 +57,35 @@ This directory centralizes all aspects of project governance, including:
 
 **Organization implemented in**: January 2025
 **Part of BIP-02**: TypeScript Development Ecosystem
+
+---
+
+## 🔍 Review Policy (Peer + Final)
+
+### Overview
+All approved BIPs must pass a two-stage review during implementation: Peer Review and Final Review.
+
+### Peer Review
+- At least 2 independent reviewers (preferably cross-team)
+- Evaluate correctness, tests, docs, security, performance, backward compatibility
+- Output: Approve or Request Changes with concrete action items
+
+### Final Review
+- Single designated Final Reviewer validates scope adherence, standards compliance, and release readiness
+- Requires passing docs, migration, rollback, and monitoring checks
+- Final Approval is mandatory before marking a BIP as Implemented
+
+### States and Outcomes
+- In Review (Peer) → Changes Requested (Peer) → In Review (Final) → Approved (Final) / Rejected (Final)
+
+### Failure Measures (If Review Fails)
+- Convert feedback into tracked tasks; update the BIP Implementation Details
+- Status annotated as "Revisions Required"; keep PR open
+- SLA: address blocking feedback within 5–7 days
+- After 3 failed cycles, schedule design review to resolve root issues
+- After 14 days of inactivity without justification, move BIP to Draft or re-plan; record in Minutes
+
+### Implementation Requirement While in BIP
+- Once a BIP is approved by voting, implementation MUST proceed
+- It may be reviewed iteratively until Final Approval
+- Only after Final Approval can Status be set to Implemented

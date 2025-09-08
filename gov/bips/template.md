@@ -119,6 +119,40 @@
 - Rollback procedures
 - Monitoring requirements]
 
+## Review Process
+
+### Peer Review
+- Minimum of 2 independent reviewers, ideally from different teams
+- Scope: correctness, test coverage, documentation, security, performance, backward compatibility
+- Deliverable: explicit Approve/Request-Changes decision with rationale and actionable items
+- Artifacts: link to implementation PR(s), test results, and any benchmark/security outputs
+
+### Final Review
+- One designated Final Reviewer validates:
+  - Alignment with approved BIP scope and acceptance criteria
+  - Compliance with coding standards and governance policies
+  - Release readiness (docs, migrations, rollback, monitoring)
+- Final Reviewer must Approve before Status can become Implemented
+
+### Review States
+- In Review (Peer)
+- Changes Requested (Peer)
+- In Review (Final)
+- Approved (Final)
+- Rejected (Final)
+
+### If Review Fails (Measures)
+- Convert blocking feedback into tracked tasks and update this BIP under Implementation Details
+- Update Status note to "Revisions Required" and keep Implementation PR open
+- Address requested changes promptly; recommended SLA: initial fixes within 5–7 days
+- After 3 consecutive failed review cycles, schedule a design review to resolve root issues
+- If no progress for 14 days without justification, the BIP may be moved back to Draft or queued for re-planning; document the decision in Minutes
+
+### Implementation Requirement During BIP Phase
+- Once voting approves the BIP, implementation work MUST proceed
+- The implementation may undergo multiple review iterations; it remains in review until Final Approval
+- Only after Final Approval may the BIP be marked Implemented
+
 ## References
 
 [Citations and related work:

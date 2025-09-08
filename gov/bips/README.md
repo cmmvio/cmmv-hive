@@ -198,6 +198,33 @@ The system tracks:
 - **Rejected**: Voting failed
 - **Implemented**: Successfully implemented
 
+## 🔍 Review Workflow (Post-Approval)
+
+Once a BIP is approved by voting, implementation begins and must pass two stages:
+
+### 1) Peer Review
+- Minimum of 2 independent reviewers, preferably cross-team
+- Evaluate: correctness, tests, documentation, security, performance, backward compatibility
+- Outcome: Approve or Request Changes with concrete, actionable items
+
+### 2) Final Review
+- One designated Final Reviewer validates scope adherence, standards compliance, and release readiness
+- Final Approval is mandatory before the BIP can be marked Implemented
+
+### Review States
+- In Review (Peer) → Changes Requested (Peer) → In Review (Final) → Approved (Final) / Rejected (Final)
+
+### If Review Fails (Measures)
+- Convert blocking feedback into tasks and update the BIP under Implementation Details
+- Annotate status as "Revisions Required"; keep the implementation PR open
+- Recommended SLA: address blocking feedback within 5–7 days
+- After 3 failed cycles, schedule a focused design review to resolve root issues
+- If stalled >14 days without justification: move to Draft or re-plan and record decision in Minutes
+
+### Implementation Requirement
+- After approval, implementation MUST proceed and may be reviewed iteratively until Final Approval
+- Only after Final Approval can the status be set to Implemented
+
 ## 🎯 Best Practices
 
 ### For BIP Authors
