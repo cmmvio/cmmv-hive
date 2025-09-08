@@ -5,6 +5,7 @@
  */
 
 import { randomBytes, createCipheriv, createDecipheriv, pbkdf2Sync } from 'crypto';
+import * as secp256k1 from '@noble/secp256k1';
 import { ECCService } from '../ecc/index.js';
 import type {
   ECCKeyPair,
@@ -132,9 +133,12 @@ export class SecureKeyStorage {
         decipher.final()
       ]);
 
-      // Update usage metadata
-      entry.metadata.usageCount++;
-      entry.metadata.lastUsed = new Date();
+      // Update usage metadata (create new object to avoid readonly issues)
+      entry.metadata = {
+        ...entry.metadata,
+        usageCount: entry.metadata.usageCount + 1,
+        lastUsed: new Date(),
+      };
 
       return new Uint8Array(decryptedKey);
     } catch (error) {

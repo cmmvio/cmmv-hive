@@ -220,7 +220,7 @@ export class SignatureService {
     // Use first 16 bytes of public key hash as identifier
     const hash = new Uint8Array(16);
     for (let i = 0; i < 16; i++) {
-      hash[i] = publicKey[i] ^ publicKey[i + 16];
+      hash[i] = (publicKey[i] ?? 0) ^ (publicKey[i + 16] ?? 0);
     }
 
     return Array.from(hash)

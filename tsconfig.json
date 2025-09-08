@@ -36,11 +36,8 @@
     "removeComments": false,
 
     // Output Configuration
-    "outDir": "./dist",
-    "rootDir": "./src",
     "noEmit": false,
     "incremental": true,
-    "tsBuildInfoFile": "./dist/.tsbuildinfo",
 
     // Advanced Options
     "skipLibCheck": true,

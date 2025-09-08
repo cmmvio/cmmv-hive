@@ -4,7 +4,7 @@
  * @version 1.0.0
  */
 
-import { secp256k1 } from '@noble/secp256k1';
+import * as secp256k1 from '@noble/secp256k1';
 import { randomBytes } from 'crypto';
 import type {
   ECCKeyPair,
@@ -27,8 +27,7 @@ export class ECCService {
    */
   static async generateKeyPair(): Promise<ECCKeyPair> {
     // Generate secure random private key
-    const privateKeyBytes = randomBytes(32);
-    const privateKey = secp256k1.utils.hashToPrivateKey(privateKeyBytes);
+    const privateKey = secp256k1.utils.randomPrivateKey();
 
     // Derive public key from private key
     const publicKey = secp256k1.getPublicKey(privateKey, true); // compressed
@@ -52,19 +51,19 @@ export class ECCService {
       : message;
 
     // Hash the message using SHA-256
-    const messageHash = await crypto.subtle.digest('SHA-256', messageBytes);
+    const buffer = messageBytes.buffer instanceof ArrayBuffer
+      ? messageBytes.buffer.slice(messageBytes.byteOffset, messageBytes.byteOffset + messageBytes.byteLength)
+      : messageBytes.slice();
+    const messageHash = await crypto.subtle.digest('SHA-256', buffer);
     const messageHashArray = new Uint8Array(messageHash);
 
     // Sign using deterministic nonce (RFC 6979)
-    const signature = secp256k1.sign(messageHashArray, privateKey, {
-      canonical: true,
-      der: false, // Use compact format
-    });
+    const signature = secp256k1.sign(messageHashArray, privateKey);
 
     return {
-      r: signature.r.toBytes(),
-      s: signature.s.toBytes(),
-      recovery: signature.recovery,
+      r: new Uint8Array(32).map((_, i) => Number((signature.r >> BigInt((31 - i) * 8)) & 0xffn)),
+      s: new Uint8Array(32).map((_, i) => Number((signature.s >> BigInt((31 - i) * 8)) & 0xffn)),
+      recovery: signature.recovery ?? 0,
     };
   }
 
@@ -85,11 +84,21 @@ export class ECCService {
         : message;
 
       // Hash the message
-      const messageHash = await crypto.subtle.digest('SHA-256', messageBytes);
+      const buffer = messageBytes.buffer instanceof ArrayBuffer
+        ? messageBytes.buffer.slice(messageBytes.byteOffset, messageBytes.byteOffset + messageBytes.byteLength)
+        : messageBytes.slice();
+      const messageHash = await crypto.subtle.digest('SHA-256', buffer);
       const messageHashArray = new Uint8Array(messageHash);
 
       // Reconstruct the signature object
-      const sig = secp256k1.Signature.fromCompact(signature.r, signature.s, signature.recovery);
+      const rBytes = typeof signature.r === 'bigint'
+        ? new Uint8Array(32).map((_, i) => Number((signature.r as bigint >> BigInt((31 - i) * 8)) & 0xffn))
+        : new Uint8Array(signature.r as Uint8Array);
+      const sBytes = typeof signature.s === 'bigint'
+        ? new Uint8Array(32).map((_, i) => Number((signature.s as bigint >> BigInt((31 - i) * 8)) & 0xffn))
+        : new Uint8Array(signature.s as Uint8Array);
+      const compactSig = new Uint8Array([...rBytes, ...sBytes]);
+      const sig = secp256k1.Signature.fromCompact(compactSig);
 
       // Verify the signature
       const isValid = secp256k1.verify(sig, messageHashArray, publicKey);
@@ -124,7 +133,7 @@ export class ECCService {
     return {
       content,
       type,
-      context,
+      context: context || {},
       timestamp: new Date(),
     };
   }
@@ -146,9 +155,12 @@ export class ECCService {
 
     const signature = await this.signMessage(canonicalContent, privateKey);
 
+    const publicKey = secp256k1.getPublicKey(privateKey, true);
+
     return {
       ...message,
       signature,
+      signerPublicKey: new Uint8Array(publicKey),
       signedAt: new Date(),
     };
   }
@@ -182,21 +194,38 @@ export class ECCService {
       ? new TextEncoder().encode(message)
       : message;
 
-    const messageHash = await crypto.subtle.digest('SHA-256', messageBytes);
+    const buffer = messageBytes.buffer instanceof ArrayBuffer
+      ? messageBytes.buffer.slice(messageBytes.byteOffset, messageBytes.byteOffset + messageBytes.byteLength)
+      : messageBytes.slice();
+    const messageHash = await crypto.subtle.digest('SHA-256', buffer);
     const messageHashArray = new Uint8Array(messageHash);
 
-    const sig = secp256k1.Signature.fromCompact(signature.r, signature.s, signature.recovery);
+    const rBytes = typeof signature.r === 'bigint'
+      ? new Uint8Array(32).map((_, i) => Number((signature.r as bigint >> BigInt((31 - i) * 8)) & 0xffn))
+      : new Uint8Array(signature.r as Uint8Array);
+    const sBytes = typeof signature.s === 'bigint'
+      ? new Uint8Array(32).map((_, i) => Number((signature.s as bigint >> BigInt((31 - i) * 8)) & 0xffn))
+      : new Uint8Array(signature.s as Uint8Array);
+    const compactSig = new Uint8Array([...rBytes, ...sBytes]);
+    const sig = secp256k1.Signature.fromCompact(compactSig);
 
     const publicKey = sig.recoverPublicKey(messageHashArray).toRawBytes(true);
-    return publicKey;
+    return new Uint8Array(publicKey);
   }
 
   /**
    * Convert signature to compact format
    */
   static signatureToCompact(signature: ECCSignature): CompactSignature {
+    const rBytes = typeof signature.r === 'bigint'
+      ? new Uint8Array(32).map((_, i) => Number((signature.r as bigint >> BigInt((31 - i) * 8)) & 0xffn))
+      : new Uint8Array(signature.r as Uint8Array);
+    const sBytes = typeof signature.s === 'bigint'
+      ? new Uint8Array(32).map((_, i) => Number((signature.s as bigint >> BigInt((31 - i) * 8)) & 0xffn))
+      : new Uint8Array(signature.s as Uint8Array);
+
     return {
-      signature: new Uint8Array([...signature.r, ...signature.s]),
+      signature: new Uint8Array([...rBytes, ...sBytes]),
       recovery: signature.recovery,
     };
   }
@@ -220,9 +249,7 @@ export class ECCService {
    */
   static isValidPrivateKey(privateKey: Uint8Array): boolean {
     try {
-      // Check if it's a valid scalar (1 <= key < curve order)
-      const keyValue = secp256k1.utils.bytesToNumber(privateKey);
-      return keyValue > 0n && keyValue < this.CURVE_ORDER;
+      return secp256k1.utils.isValidPrivateKey(privateKey);
     } catch {
       return false;
     }
@@ -233,8 +260,8 @@ export class ECCService {
    */
   static isValidPublicKey(publicKey: Uint8Array): boolean {
     try {
-      // Attempt to parse the public key
-      secp256k1.getPublicKey(publicKey, true);
+      // Attempt to parse the public key using Point.fromHex
+      secp256k1.Point.fromHex(publicKey);
       return true;
     } catch {
       return false;
@@ -247,11 +274,23 @@ export class ECCService {
    */
   static generateDeterministicKeyPair(seed: string): ECCKeyPair {
     const seedBytes = new TextEncoder().encode(seed);
-    const seedHash = secp256k1.utils.hashToPrivateKey(seedBytes);
-    const publicKey = secp256k1.getPublicKey(seedHash, true);
+    // Simple deterministic key generation for testing only
+    const hash = new Uint8Array(32);
+    for (let i = 0; i < 32; i++) {
+      hash[i] = (seedBytes[i % seedBytes.length] ?? 0) ^ (i + 1);
+    }
+
+    // Ensure the key is valid by normalizing it
+    const privateKey = secp256k1.utils.normPrivateKeyToScalar(hash);
+    const privateKeyBytes = new Uint8Array(32);
+    for (let i = 0; i < 32; i++) {
+      privateKeyBytes[31 - i] = Number((privateKey >> BigInt(i * 8)) & 0xffn);
+    }
+
+    const publicKey = secp256k1.getPublicKey(privateKeyBytes, true);
 
     return {
-      privateKey: new Uint8Array(seedHash),
+      privateKey: privateKeyBytes,
       publicKey: new Uint8Array(publicKey),
     };
   }

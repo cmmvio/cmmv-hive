@@ -1,4 +1,7 @@
 packages:
-  - 'packages/shared-types'
-  - 'packages/testing-utils'
-  - 'packages/crypto-utils'
+  - packages/shared-types
+  - packages/testing-utils
+  - packages/crypto-utils
+
+onlyBuiltDependencies:
+  - esbuild
