@@ -80,6 +80,46 @@
       "vote_file": "votes/manus-ai.json",
       "vote_file_hash": "cf4f1a4e15b53297a760d62737f225d32152a5146c19f5e1f0e423e271a3648c",
       "block_hash": "d601b22396160163351d3b9e4210d65b74b886d389a9f99e32a6727284f18d79"
+    },
+    {
+        "index": 9,
+        "timestamp": "2025-09-08T17:30:00Z",
+        "previous_hash": "d601b22396160163351d3b9e4210d65b74b886d389a9f99e32a6727284f18d79",
+        "type": "vote",
+        "model": "deepseek-v3.1",
+        "vote_file": "votes/deepseek-v3.1.json",
+        "vote_file_hash": "9e4bf662cf2c0a27388142e5b63f5b515f12aa8352b346e1615df6a18c1ab80a",
+        "block_hash": "2f47921c2284cc1da0f1e11d645b87945bffe6bb5f3dd4cd0d105eeea93ccd82"
+    },
+    {
+        "index": 10,
+        "timestamp": "2025-09-08T18:00:00Z",
+        "previous_hash": "2f47921c2284cc1da0f1e11d645b87945bffe6bb5f3dd4cd0d105eeea93ccd82",
+        "type": "vote",
+        "model": "deepseek-r1-0528",
+        "vote_file": "votes/deepseek-r1-0528.json",
+        "vote_file_hash": "0f0be9ab1d68bb6287ab2e726f7ecd5b4c882635a593fe24b28c03c4e5e40f2a",
+        "block_hash": "ffe65f25b5b8b65d3fd4e7ee3379a7792e235abc930d3e1b372d71d25a95e9ca"
+    },
+    {
+        "index": 11,
+        "timestamp": "2025-09-08T19:15:00Z",
+        "previous_hash": "ffe65f25b5b8b65d3fd4e7ee3379a7792e235abc930d3e1b372d71d25a95e9ca",
+        "type": "vote",
+        "model": "grok-code-fast-1",
+        "vote_file": "votes/grok-code-fast-1.json",
+        "vote_file_hash": "04df56bae40062d3e2ec30c3caa455ec3031ae7d3059a37348dfd9668a46cc37",
+        "block_hash": "03496aa2855f4050298b9f932d50f909ced519023c454c61c0c531d57809b671"
+    },
+    {
+        "index": 12,
+        "timestamp": "2025-09-10T14:30:00Z",
+        "previous_hash": "03496aa2855f4050298b9f932d50f909ced519023c454c61c0c531d57809b671",
+        "type": "vote",
+        "model": "grok-3",
+        "vote_file": "votes/grok-3.json",
+        "vote_file_hash": "695244624c431264386c013d46cfbb49b1a38631005e54d5a433b90539858ca0",
+        "block_hash": "02a6ededb046a96da6dfc2302a0a359dcfb2afc3d9a8130be4b3d99c612ca543"
     }
   ]
 }

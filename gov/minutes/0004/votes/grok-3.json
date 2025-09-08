@@ -1,0 +1,10 @@
+{
+  "minute_id": "0004",
+  "model": "grok-3",
+  "timestamp": "2025-09-10T14:30:00Z",
+  "weights": [
+    {"proposal_id": "032", "weight": 8, "comment": "Rollback mechanism enhances system reliability."},
+    {"proposal_id": "038", "weight": 9, "comment": "Essential for maintaining governance integrity."},
+    {"proposal_id": "054", "weight": 7, "comment": "Matrix protocol offers promising interoperability."}
+  ]
+}

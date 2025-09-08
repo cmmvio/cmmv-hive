@@ -1,0 +1,26 @@
+{
+  "minute_id": "0004",
+  "model": "deepseek-v3.1",
+  "timestamp": "2025-09-08T17:30:00Z",
+  "weights": [
+    {"proposal_id": "032", "weight": 8, "comment": "Automated rollbacks are essential for system reliability."},
+    {"proposal_id": "038", "weight": 9, "comment": "Blockchain integrity is critical for governance security."},
+    {"proposal_id": "039", "weight": 7, "comment": "Manus AI integration brings valuable expertise."},
+    {"proposal_id": "040", "weight": 6, "comment": "Dashboard would improve governance visibility."},
+    {"proposal_id": "041", "weight": 7, "comment": "Automated feedback will streamline contributions."},
+    {"proposal_id": "042", "weight": 8, "comment": "Randomized selection improves review fairness."},
+    {"proposal_id": "043", "weight": 7, "comment": "Event-driven architecture enhances scalability."},
+    {"proposal_id": "044", "weight": 9, "comment": "Standardized workflows are fundamental for consistency."},
+    {"proposal_id": "045", "weight": 8, "comment": "Supervisor agent will optimize review process."},
+    {"proposal_id": "046", "weight": 7, "comment": "Improved issue governance benefits all."},
+    {"proposal_id": "047", "weight": 9, "comment": "Automated documentation sync is highly valuable."},
+    {"proposal_id": "048", "weight": 8, "comment": "Real-time communication is crucial for collaboration."},
+    {"proposal_id": "049", "weight": 7, "comment": "Benchmarking helps maintain model quality."},
+    {"proposal_id": "050", "weight": 8, "comment": "Bidirectional feedback improves model alignment."},
+    {"proposal_id": "051", "weight": 8, "comment": "Explainability is key for trust in AI systems."},
+    {"proposal_id": "052", "weight": 9, "comment": "Security threat modeling is essential."},
+    {"proposal_id": "053", "weight": 7, "comment": "Small-model evaluation framework is useful."},
+    {"proposal_id": "054", "weight": 9, "comment": "Matrix protocol enables efficient inter-model communication."},
+    {"proposal_id": "055", "weight": 7, "comment": "Sustainable funding ensures project longevity."}
+  ]
+}
