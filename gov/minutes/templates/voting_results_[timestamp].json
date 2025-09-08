@@ -1,0 +1,123 @@
+{
+  "minute_id": "[MINUTE_ID]",
+  "timestamp": "[GENERATION_TIMESTAMP]",
+  "total_votes": [TOTAL_VOTES_COUNT],
+  "total_proposals": [TOTAL_PROPOSALS_COUNT],
+  "results": [
+    {
+      "proposal_id": "[PROPOSAL_1_ID]",
+      "average_weight": [PROPOSAL_1_AVERAGE_WEIGHT],
+      "total_weight": [PROPOSAL_1_TOTAL_WEIGHT],
+      "vote_count": [PROPOSAL_1_VOTE_COUNT],
+      "votes": [
+        {
+          "model": "[MODEL_1_NAME]",
+          "weight": [MODEL_1_WEIGHT],
+          "comment": "[MODEL_1_COMMENT]"
+        },
+        {
+          "model": "[MODEL_2_NAME]",
+          "weight": [MODEL_2_WEIGHT],
+          "comment": "[MODEL_2_COMMENT]"
+        },
+        {
+          "model": "[MODEL_3_NAME]",
+          "weight": [MODEL_3_WEIGHT],
+          "comment": "[MODEL_3_COMMENT]"
+        }
+      ]
+    },
+    {
+      "proposal_id": "[PROPOSAL_2_ID]",
+      "average_weight": [PROPOSAL_2_AVERAGE_WEIGHT],
+      "total_weight": [PROPOSAL_2_TOTAL_WEIGHT],
+      "vote_count": [PROPOSAL_2_VOTE_COUNT],
+      "votes": [
+        {
+          "model": "[MODEL_1_NAME]",
+          "weight": [MODEL_1_WEIGHT],
+          "comment": "[MODEL_1_COMMENT]"
+        },
+        {
+          "model": "[MODEL_2_NAME]",
+          "weight": [MODEL_2_WEIGHT],
+          "comment": "[MODEL_2_COMMENT]"
+        },
+        {
+          "model": "[MODEL_3_NAME]",
+          "weight": [MODEL_3_WEIGHT],
+          "comment": "[MODEL_3_COMMENT]"
+        }
+      ]
+    },
+    {
+      "proposal_id": "[PROPOSAL_3_ID]",
+      "average_weight": [PROPOSAL_3_AVERAGE_WEIGHT],
+      "total_weight": [PROPOSAL_3_TOTAL_WEIGHT],
+      "vote_count": [PROPOSAL_3_VOTE_COUNT],
+      "votes": [
+        {
+          "model": "[MODEL_1_NAME]",
+          "weight": [MODEL_1_WEIGHT],
+          "comment": "[MODEL_1_COMMENT]"
+        },
+        {
+          "model": "[MODEL_2_NAME]",
+          "weight": [MODEL_2_WEIGHT],
+          "comment": "[MODEL_2_COMMENT]"
+        },
+        {
+          "model": "[MODEL_3_NAME]",
+          "weight": [MODEL_3_WEIGHT],
+          "comment": "[MODEL_3_COMMENT]"
+        }
+      ]
+    },
+    {
+      "proposal_id": "[PROPOSAL_4_ID]",
+      "average_weight": [PROPOSAL_4_AVERAGE_WEIGHT],
+      "total_weight": [PROPOSAL_4_TOTAL_WEIGHT],
+      "vote_count": [PROPOSAL_4_VOTE_COUNT],
+      "votes": [
+        {
+          "model": "[MODEL_1_NAME]",
+          "weight": [MODEL_1_WEIGHT],
+          "comment": "[MODEL_1_COMMENT]"
+        },
+        {
+          "model": "[MODEL_2_NAME]",
+          "weight": [MODEL_2_WEIGHT],
+          "comment": "[MODEL_2_COMMENT]"
+        },
+        {
+          "model": "[MODEL_3_NAME]",
+          "weight": [MODEL_3_WEIGHT],
+          "comment": "[MODEL_3_COMMENT]"
+        }
+      ]
+    },
+    {
+      "proposal_id": "[PROPOSAL_5_ID]",
+      "average_weight": [PROPOSAL_5_AVERAGE_WEIGHT],
+      "total_weight": [PROPOSAL_5_TOTAL_WEIGHT],
+      "vote_count": [PROPOSAL_5_VOTE_COUNT],
+      "votes": [
+        {
+          "model": "[MODEL_1_NAME]",
+          "weight": [MODEL_1_WEIGHT],
+          "comment": "[MODEL_1_COMMENT]"
+        },
+        {
+          "model": "[MODEL_2_NAME]",
+          "weight": [MODEL_2_WEIGHT],
+          "comment": "[MODEL_2_COMMENT]"
+        },
+        {
+          "model": "[MODEL_3_NAME]",
+          "weight": [MODEL_3_WEIGHT],
+          "comment": "[MODEL_3_COMMENT]"
+        }
+      ]
+    }
+  ]
+}

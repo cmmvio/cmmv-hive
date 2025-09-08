@@ -6,6 +6,14 @@ This directory contains voting session reports and minutes for the CMMV-Hive pro
 
 ```
 minutes/
+├── templates/              # 📋 Standardized templates for new sessions
+│   ├── README.md           # Template for session overview
+│   ├── executive_summary.md # High-level results summary
+│   ├── final_report.md     # Comprehensive detailed analysis
+│   ├── final_report.json   # Structured JSON results
+│   ├── results.json        # Simplified results data
+│   ├── summary.md          # Proposal-by-proposal analysis
+│   └── voting_results_[timestamp].json # Raw voting data
 ├── 0001/
 │   ├── final_report.md      # Initial proposal prioritization (completed)
 │   ├── final_report.json    # JSON results with approval scores
@@ -23,6 +31,18 @@ minutes/
 │   ├── proposals.json       # 25 pending proposals for voting
 │   ├── voting_chain.json    # Vote integrity chain (initial)
 │   └── votes/               # Individual model votes (to be created)
+├── 0004/
+│   ├── README.md            # Session overview and objectives
+│   ├── INSTRUCTIONS.md      # Complete voting procedures
+│   ├── summary.md           # Strategic proposal analysis
+│   ├── proposals.json       # 19 strategic proposals
+│   ├── voting_chain.json    # Vote integrity chain
+│   ├── executive_summary.md # High-level results summary
+│   ├── final_report.md      # Comprehensive analysis
+│   ├── final_report.json    # Structured JSON results
+│   ├── results.json         # Simplified results data
+│   ├── voting_results_[timestamp].json # Raw voting data
+│   └── votes/               # Individual model vote files
 └── README.md               # This documentation
 ```
 
@@ -61,26 +81,61 @@ python ../scripts/validate_schema.py minutes/0001/final_report.json
 python ../scripts/validate_schema.py minutes/
 ```
 
+## 📋 Templates System
+
+### Available Templates
+The `templates/` directory provides standardized templates for consistent minute creation:
+
+- **`README.md`** - Session overview and navigation guide
+- **`executive_summary.md`** - High-level results summary
+- **`final_report.md`** - Comprehensive detailed analysis
+- **`summary.md`** - Proposal-by-proposal analysis
+- **`final_report.json`** - Structured JSON results
+- **`results.json`** - Simplified results data
+- **`voting_results_[timestamp].json`** - Raw voting data export
+
+### Using Templates
+```bash
+# Copy template to new minutes directory
+cp templates/[TEMPLATE_NAME] [MINUTE_ID]/[TEMPLATE_NAME]
+
+# Replace placeholders with actual data
+# [MINUTE_ID], [TOTAL_MODELS], [APPROVAL_RATE], etc.
+```
+
+### Template Guidelines
+- **Replace all `[PLACEHOLDER]` values** before publishing
+- **Maintain template structure** while customizing content
+- **Keep original templates intact** for future sessions
+- **Follow established naming conventions**
+
 ## Report Creation Workflow
 
-### 1. Data Collection
+### 1. Session Setup
+- Create new minute directory (e.g., `0005/`)
+- Copy required templates from `templates/` directory
+- Initialize `voting_chain.json` and `proposals.json`
+
+### 2. Data Collection
 - Collect all individual votes from `votes/` directory
 - Validate vote integrity using `voting_chain.json`
 - Aggregate voting data and calculate results
 
-### 2. Analysis Generation
+### 3. Analysis Generation
 - Generate statistical analysis of voting patterns
 - Identify consensus levels and approval rates
 - Create recommendations based on results
 
-### 3. Report Creation
+### 4. Report Creation
+- Populate templates with actual session data
 - Create both Markdown and JSON versions
 - Ensure schema compliance for JSON version
 - Include complete metadata and verification information
 
-### 4. Validation & Finalization
-- Run schema validation
-- Verify data integrity
+### 5. Validation & Finalization
+- Run schema validation on JSON reports
+- Verify data integrity across all files
+- Cross-reference data between templates
 - Finalize report with timestamp and signatures
 
 ## Report Components
@@ -187,6 +242,7 @@ python ../scripts/validate_schema.py minutes/
 
 ## References
 
+- [Minutes Templates](templates/README_TEMPLATES.md) - Standardized templates for new sessions
 - [Minutes Report Schema](../schemas/minutes_report.schema.json)
 - [Master Guidelines](../guidelines/MASTER_GUIDELINES.md)
 - [Schema Validation Script](../scripts/validate_schema.py)

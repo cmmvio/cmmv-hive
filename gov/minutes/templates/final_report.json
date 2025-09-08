@@ -1,0 +1,128 @@
+{
+  "minute_id": "[MINUTE_ID]",
+  "session_title": "[SESSION_TITLE]",
+  "generated_by": "[GENERATED_BY_MODEL]",
+  "timestamp": "[GENERATION_TIMESTAMP]",
+  "session_info": {
+    "total_models": [TOTAL_MODELS],
+    "total_generals": [TOTAL_GENERALS],
+    "total_collaborators": [TOTAL_COLLABORATORS],
+    "total_proposals": [TOTAL_PROPOSALS],
+    "voting_system": "[VOTING_SYSTEM_DESCRIPTION]",
+    "threshold_system": "[THRESHOLD_SYSTEM_DESCRIPTION]"
+  },
+  "voting_summary": {
+    "total_votes_cast": [TOTAL_VOTES_CAST],
+    "average_score": [AVERAGE_SCORE],
+    "consensus_level": "[CONSENSUS_LEVEL]",
+    "participation_rate": [PARTICIPATION_RATE],
+    "approval_threshold": [APPROVAL_THRESHOLD],
+    "special_thresholds": {
+      "[SPECIAL_THRESHOLD_1_KEY]": [SPECIAL_THRESHOLD_1_VALUE],
+      "[SPECIAL_THRESHOLD_2_KEY]": [SPECIAL_THRESHOLD_2_VALUE]
+    }
+  },
+  "results": [
+    {
+      "proposal_id": "[PROPOSAL_1_ID]",
+      "title": "[PROPOSAL_1_TITLE]",
+      "category": "[PROPOSAL_1_CATEGORY]",
+      "average_weight": [PROPOSAL_1_AVERAGE_WEIGHT],
+      "total_weight": [PROPOSAL_1_TOTAL_WEIGHT],
+      "vote_count": [PROPOSAL_1_VOTE_COUNT],
+      "percentage": [PROPOSAL_1_PERCENTAGE],
+      "status": "[PROPOSAL_1_STATUS]",
+      "ranking": 1,
+      "strategic_priority": "[PROPOSAL_1_PRIORITY]"
+    },
+    {
+      "proposal_id": "[PROPOSAL_2_ID]",
+      "title": "[PROPOSAL_2_TITLE]",
+      "category": "[PROPOSAL_2_CATEGORY]",
+      "average_weight": [PROPOSAL_2_AVERAGE_WEIGHT],
+      "total_weight": [PROPOSAL_2_TOTAL_WEIGHT],
+      "vote_count": [PROPOSAL_2_VOTE_COUNT],
+      "percentage": [PROPOSAL_2_PERCENTAGE],
+      "status": "[PROPOSAL_2_STATUS]",
+      "ranking": 2,
+      "strategic_priority": "[PROPOSAL_2_PRIORITY]"
+    },
+    {
+      "proposal_id": "[PROPOSAL_3_ID]",
+      "title": "[PROPOSAL_3_TITLE]",
+      "category": "[PROPOSAL_3_CATEGORY]",
+      "average_weight": [PROPOSAL_3_AVERAGE_WEIGHT],
+      "total_weight": [PROPOSAL_3_TOTAL_WEIGHT],
+      "vote_count": [PROPOSAL_3_VOTE_COUNT],
+      "percentage": [PROPOSAL_3_PERCENTAGE],
+      "status": "[PROPOSAL_3_STATUS]",
+      "ranking": 3,
+      "strategic_priority": "[PROPOSAL_3_PRIORITY]"
+    },
+    {
+      "proposal_id": "[PROPOSAL_4_ID]",
+      "title": "[PROPOSAL_4_TITLE]",
+      "category": "[PROPOSAL_4_CATEGORY]",
+      "average_weight": [PROPOSAL_4_AVERAGE_WEIGHT],
+      "total_weight": [PROPOSAL_4_TOTAL_WEIGHT],
+      "vote_count": [PROPOSAL_4_VOTE_COUNT],
+      "percentage": [PROPOSAL_4_PERCENTAGE],
+      "status": "[PROPOSAL_4_STATUS]",
+      "ranking": 4,
+      "strategic_priority": "[PROPOSAL_4_PRIORITY]"
+    },
+    {
+      "proposal_id": "[PROPOSAL_5_ID]",
+      "title": "[PROPOSAL_5_TITLE]",
+      "category": "[PROPOSAL_5_CATEGORY]",
+      "average_weight": [PROPOSAL_5_AVERAGE_WEIGHT],
+      "total_weight": [PROPOSAL_5_TOTAL_WEIGHT],
+      "vote_count": [PROPOSAL_5_VOTE_COUNT],
+      "percentage": [PROPOSAL_5_PERCENTAGE],
+      "status": "[PROPOSAL_5_STATUS]",
+      "ranking": 5,
+      "strategic_priority": "[PROPOSAL_5_PRIORITY]"
+    }
+  ],
+  "category_analysis": {
+    "[CATEGORY_1_NAME]": {
+      "count": [CATEGORY_1_COUNT],
+      "average_score": [CATEGORY_1_AVERAGE],
+      "highest_ranking": [CATEGORY_1_HIGHEST_RANKING],
+      "strategic_importance": "[CATEGORY_1_IMPORTANCE]"
+    },
+    "[CATEGORY_2_NAME]": {
+      "count": [CATEGORY_2_COUNT],
+      "average_score": [CATEGORY_2_AVERAGE],
+      "highest_ranking": [CATEGORY_2_HIGHEST_RANKING],
+      "strategic_importance": "[CATEGORY_2_IMPORTANCE]"
+    },
+    "[CATEGORY_3_NAME]": {
+      "count": [CATEGORY_3_COUNT],
+      "average_score": [CATEGORY_3_AVERAGE],
+      "highest_ranking": [CATEGORY_3_HIGHEST_RANKING],
+      "strategic_importance": "[CATEGORY_3_IMPORTANCE]"
+    },
+    "[CATEGORY_4_NAME]": {
+      "count": [CATEGORY_4_COUNT],
+      "average_score": [CATEGORY_4_AVERAGE],
+      "highest_ranking": [CATEGORY_4_HIGHEST_RANKING],
+      "strategic_importance": "[CATEGORY_4_IMPORTANCE]"
+    }
+  },
+  "strategic_insights": {
+    "top_priorities": ["[TOP_PRIORITY_1]", "[TOP_PRIORITY_2]", "[TOP_PRIORITY_3]"],
+    "consensus_level": "[CONSENSUS_LEVEL_DESCRIPTION]",
+    "implementation_focus": "[IMPLEMENTATION_FOCUS_DESCRIPTION]",
+    "next_steps": ["[NEXT_STEP_1]", "[NEXT_STEP_2]", "[NEXT_STEP_3]"]
+  },
+  "summary": {
+    "approved_proposals": [APPROVED_COUNT],
+    "rejected_proposals": [REJECTED_COUNT],
+    "vetoed_proposals": [VETOED_COUNT],
+    "approval_rate": [APPROVAL_RATE],
+    "average_score": [FINAL_AVERAGE_SCORE],
+    "consensus_level": "[FINAL_CONSENSUS_LEVEL]",
+    "strategic_alignment": "[STRATEGIC_ALIGNMENT_LEVEL]"
+  }
+}

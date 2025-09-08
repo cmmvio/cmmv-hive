@@ -1,0 +1,44 @@
+{
+  "minute_id": "[MINUTE_ID]",
+  "generated_by": "[GENERATED_BY_MODEL]",
+  "timestamp": "[GENERATION_TIMESTAMP]",
+  "voting_summary": {
+    "total_models": [TOTAL_MODELS],
+    "total_generals": [TOTAL_GENERALS],
+    "total_collaborators": [TOTAL_COLLABORATORS],
+    "approval_threshold": [APPROVAL_THRESHOLD],
+    "special_thresholds": {
+      "[SPECIAL_THRESHOLD_1_KEY]": [SPECIAL_THRESHOLD_1_VALUE],
+      "[SPECIAL_THRESHOLD_2_KEY]": [SPECIAL_THRESHOLD_2_VALUE]
+    }
+  },
+  "results": [
+    {"proposal_id": "[PROPOSAL_1_ID]", "score": [PROPOSAL_1_SCORE], "percentage": [PROPOSAL_1_PERCENTAGE], "status": "[PROPOSAL_1_STATUS]", "ranking": 1},
+    {"proposal_id": "[PROPOSAL_2_ID]", "score": [PROPOSAL_2_SCORE], "percentage": [PROPOSAL_2_PERCENTAGE], "status": "[PROPOSAL_2_STATUS]", "ranking": 2},
+    {"proposal_id": "[PROPOSAL_3_ID]", "score": [PROPOSAL_3_SCORE], "percentage": [PROPOSAL_3_PERCENTAGE], "status": "[PROPOSAL_3_STATUS]", "ranking": 3},
+    {"proposal_id": "[PROPOSAL_4_ID]", "score": [PROPOSAL_4_SCORE], "percentage": [PROPOSAL_4_PERCENTAGE], "status": "[PROPOSAL_4_STATUS]", "ranking": 4},
+    {"proposal_id": "[PROPOSAL_5_ID]", "score": [PROPOSAL_5_SCORE], "percentage": [PROPOSAL_5_PERCENTAGE], "status": "[PROPOSAL_5_STATUS]", "ranking": 5},
+    {"proposal_id": "[PROPOSAL_6_ID]", "score": [PROPOSAL_6_SCORE], "percentage": [PROPOSAL_6_PERCENTAGE], "status": "[PROPOSAL_6_STATUS]", "ranking": 6},
+    {"proposal_id": "[PROPOSAL_7_ID]", "score": [PROPOSAL_7_SCORE], "percentage": [PROPOSAL_7_PERCENTAGE], "status": "[PROPOSAL_7_STATUS]", "ranking": 7},
+    {"proposal_id": "[PROPOSAL_8_ID]", "score": [PROPOSAL_8_SCORE], "percentage": [PROPOSAL_8_PERCENTAGE], "status": "[PROPOSAL_8_STATUS]", "ranking": 8},
+    {"proposal_id": "[PROPOSAL_9_ID]", "score": [PROPOSAL_9_SCORE], "percentage": [PROPOSAL_9_PERCENTAGE], "status": "[PROPOSAL_9_STATUS]", "ranking": 9},
+    {"proposal_id": "[PROPOSAL_10_ID]", "score": [PROPOSAL_10_SCORE], "percentage": [PROPOSAL_10_PERCENTAGE], "status": "[PROPOSAL_10_STATUS]", "ranking": 10},
+    {"proposal_id": "[PROPOSAL_11_ID]", "score": [PROPOSAL_11_SCORE], "percentage": [PROPOSAL_11_PERCENTAGE], "status": "[PROPOSAL_11_STATUS]", "ranking": 11},
+    {"proposal_id": "[PROPOSAL_12_ID]", "score": [PROPOSAL_12_SCORE], "percentage": [PROPOSAL_12_PERCENTAGE], "status": "[PROPOSAL_12_STATUS]", "ranking": 12},
+    {"proposal_id": "[PROPOSAL_13_ID]", "score": [PROPOSAL_13_SCORE], "percentage": [PROPOSAL_13_PERCENTAGE], "status": "[PROPOSAL_13_STATUS]", "ranking": 13},
+    {"proposal_id": "[PROPOSAL_14_ID]", "score": [PROPOSAL_14_SCORE], "percentage": [PROPOSAL_14_PERCENTAGE], "status": "[PROPOSAL_14_STATUS]", "ranking": 14},
+    {"proposal_id": "[PROPOSAL_15_ID]", "score": [PROPOSAL_15_SCORE], "percentage": [PROPOSAL_15_PERCENTAGE], "status": "[PROPOSAL_15_STATUS]", "ranking": 15},
+    {"proposal_id": "[PROPOSAL_16_ID]", "score": [PROPOSAL_16_SCORE], "percentage": [PROPOSAL_16_PERCENTAGE], "status": "[PROPOSAL_16_STATUS]", "ranking": 16},
+    {"proposal_id": "[PROPOSAL_17_ID]", "score": [PROPOSAL_17_SCORE], "percentage": [PROPOSAL_17_PERCENTAGE], "status": "[PROPOSAL_17_STATUS]", "ranking": 17},
+    {"proposal_id": "[PROPOSAL_18_ID]", "score": [PROPOSAL_18_SCORE], "percentage": [PROPOSAL_18_PERCENTAGE], "status": "[PROPOSAL_18_STATUS]", "ranking": 18},
+    {"proposal_id": "[PROPOSAL_19_ID]", "score": [PROPOSAL_19_SCORE], "percentage": [PROPOSAL_19_PERCENTAGE], "status": "[PROPOSAL_19_STATUS]", "ranking": 19},
+    {"proposal_id": "[PROPOSAL_20_ID]", "score": [PROPOSAL_20_SCORE], "percentage": [PROPOSAL_20_PERCENTAGE], "status": "[PROPOSAL_20_STATUS]", "ranking": 20}
+  ],
+  "summary": {
+    "approved_proposals": [APPROVED_COUNT],
+    "rejected_proposals": [REJECTED_COUNT],
+    "vetoed_proposals": [VETOED_COUNT],
+    "approval_rate": [APPROVAL_RATE],
+    "average_score": [AVERAGE_SCORE]
+  }
+}

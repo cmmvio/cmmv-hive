@@ -1,0 +1,43 @@
+{
+  "minute_id": "0004",
+  "generated_by": "grok-code-fast-1",
+  "timestamp": "2025-09-08T17:34:54.541Z",
+  "voting_summary": {
+    "total_models": 12,
+    "total_generals": 12,
+    "total_collaborators": 0,
+    "approval_threshold": 70,
+    "special_thresholds": {
+      "security_proposals": 75,
+      "infrastructure_proposals": 75
+    }
+  },
+  "results": [
+    {"proposal_id": "038", "score": 92.5, "percentage": 92.5, "status": "approved", "ranking": 1},
+    {"proposal_id": "054", "score": 91.7, "percentage": 91.7, "status": "approved", "ranking": 2},
+    {"proposal_id": "052", "score": 90.9, "percentage": 90.9, "status": "approved", "ranking": 3},
+    {"proposal_id": "048", "score": 90.0, "percentage": 90.0, "status": "approved", "ranking": 4},
+    {"proposal_id": "044", "score": 84.5, "percentage": 84.5, "status": "approved", "ranking": 5},
+    {"proposal_id": "050", "score": 82.7, "percentage": 82.7, "status": "approved", "ranking": 6},
+    {"proposal_id": "043", "score": 81.8, "percentage": 81.8, "status": "approved", "ranking": 7},
+    {"proposal_id": "047", "score": 81.8, "percentage": 81.8, "status": "approved", "ranking": 8},
+    {"proposal_id": "051", "score": 80.9, "percentage": 80.9, "status": "approved", "ranking": 9},
+    {"proposal_id": "045", "score": 79.1, "percentage": 79.1, "status": "approved", "ranking": 10},
+    {"proposal_id": "032", "score": 75.8, "percentage": 75.8, "status": "approved", "ranking": 11},
+    {"proposal_id": "040", "score": 74.5, "percentage": 74.5, "status": "approved", "ranking": 12},
+    {"proposal_id": "049", "score": 74.5, "percentage": 74.5, "status": "approved", "ranking": 13},
+    {"proposal_id": "042", "score": 73.6, "percentage": 73.6, "status": "approved", "ranking": 14},
+    {"proposal_id": "039", "score": 70.9, "percentage": 70.9, "status": "approved", "ranking": 15},
+    {"proposal_id": "055", "score": 78.2, "percentage": 78.2, "status": "approved", "ranking": 16},
+    {"proposal_id": "041", "score": 77.3, "percentage": 77.3, "status": "approved", "ranking": 17},
+    {"proposal_id": "053", "score": 77.3, "percentage": 77.3, "status": "approved", "ranking": 18},
+    {"proposal_id": "046", "score": 76.4, "percentage": 76.4, "status": "approved", "ranking": 19}
+  ],
+  "summary": {
+    "approved_proposals": 19,
+    "rejected_proposals": 0,
+    "vetoed_proposals": 0,
+    "approval_rate": 100.0,
+    "average_score": 78.0
+  }
+}
