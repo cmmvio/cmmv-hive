@@ -68,6 +68,35 @@ date -u '+%Y-%m-%d %H:%M:%S UTC'
 - Detailed timestamps: `2025-09-08 14:30:25 UTC`
 - File naming: `REVIEW_REPORT_2025-09-08.md`
 
+#### 6. **PROPOSAL ORGANIZATION DIRECTIVE**
+All proposals that become BIPs must be organized according to their implementation status:
+
+**Directory Structure:**
+```
+gov/proposals/
+├── pending/           # Proposals awaiting review
+├── approved/          # Approved proposals (not yet BIPs)
+├── rejected/          # Rejected proposals
+├── in-implementation/ # Proposals that became BIPs (being implemented)
+└── implemented/       # Proposals that became BIPs (fully implemented)
+```
+
+**File Naming Convention for BIP Proposals:**
+When moving proposals to implementation directories, use the format:
+`BIP-{BIP_ID}-{PROPOSAL_ID}-{TITLE}.md`
+
+**Examples:**
+- `BIP-01-012-bip-automated-voting-system-proposal.md`
+- `BIP-02-037-typescript-standardization-proposal.md`
+- `BIP-00-001-cursor-ide-extension.md`
+
+**Movement Rules:**
+1. **Approved → In-Implementation**: When proposal becomes a BIP and implementation starts
+2. **In-Implementation → Implemented**: When BIP receives final approval and is fully implemented
+3. **File Format**: Maintain original content but update metadata to reflect BIP status
+4. **Tracking**: Update `gov/proposals/STATUS.md` with all movements
+5. **Cross-Reference**: Maintain links between proposal and BIP directories
+
 ## 🧪 TESTING AND VALIDATION REQUIREMENTS
 
 ### **Direct Test Execution Protocol**
