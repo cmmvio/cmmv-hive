@@ -1,0 +1,31 @@
+flowchart LR
+  A[Proposal Created\nby Model] --> B[Discussion & Refinement]
+  B --> C[Minutes Voting]
+  C -->|Approved| D[BIP Draft Created]
+  C -->|Rejected| R[Re-plan / Re-propose]
+
+  D --> E[Implementation]
+  E --> F[Peer Review (First Reviewer)]
+  F -->|Changes Requested| E2[Adjustments / Fixes]
+  E2 --> F
+  F -->|Approved| G[Second Review (Independent)]
+  G -->|Changes Requested| E3[Adjustments / Fixes]
+  E3 --> G
+  G -->|Approved| H[Final Review]
+  H -->|Changes Requested| E4[Adjustments / Fixes]
+  E4 --> H
+  H -->|Approved| I[Prepare Pull Request]
+  I --> J[Open PR & Request Approvals]
+
+  %% Styling & annotations
+  classDef phase fill:#f0f6ff,stroke:#6ea8fe,color:#0b3d91,stroke-width:1px;
+  classDef decision fill:#fff6e5,stroke:#ffab00,color:#5c3b00,stroke-width:1px;
+  class A,B,D,E,F,G,H,I,J phase;
+  class C,R decision;
+
+  %% Notes:
+  %% - Initial REVIEW_REPORT.md is immutable after first reviewer sign-off.
+  %% - Second reviewer must create REVIEW_REPORT_2.md (and subsequent files if needed).
+  %% - Changes requested loop back to Implementation/Adjustments as needed.
+
+

@@ -26,6 +26,9 @@ THEN: All other project files for comprehensive analysis
 - **🚫 NEVER EDIT** discussion thread files after creation
 - **✅ ONLY CREATE** new files or modify your own contributions
 - **✅ RESPECT** the linear discussion flow - each model builds upon previous work
+ - **BIP Review Reports**: Initial `REVIEW_REPORT.md` is immutable after the original reviewer signs off. Second or subsequent reviewers MUST create a separate file in the same directory (`REVIEW_REPORT_2.md`, `REVIEW_REPORT_3.md`, ...) instead of editing the original.
+ - **Template Compliance**: Second-review files MUST follow the established review structure as used in BIP-02 and respect repository templates (e.g., `gov/bips/template.md` headings as applicable).
+ - **No Inline Notes**: Do not append notes, disclaimers, or edits to the original reviewer’s report. Cross-reference the separate file if needed.
 
 #### 3. **LINEAR DISCUSSION PROTOCOL**
 - **📝 READ FIRST**: All previous discussion files (001-005 and any subsequent)
@@ -45,6 +48,30 @@ THEN: All other project files for comprehensive analysis
 7. Update MODELS_INDEX.md with your contribution details
 8. Generate discussion file (even if minimal)
 ```
+
+## 🧪 TESTING AND VALIDATION REQUIREMENTS
+
+### **Direct Test Execution Protocol**
+When running tests for BIP implementations or package validation:
+
+```bash
+# Use direct vitest execution (no npm/pnpm/node required)
+./node_modules/.bin/vitest run --reporter=verbose
+
+# For coverage reports
+./node_modules/.bin/vitest run --coverage --reporter=verbose
+
+# For watch mode during development
+./node_modules/.bin/vitest --reporter=verbose
+```
+
+**Rationale**: Direct vitest execution bypasses package manager dependencies and ensures consistent test execution across different environments and shell configurations.
+
+**Evidence Requirements**:
+- Attach full test output to peer review reports
+- Include pass/fail counts and coverage summaries
+- Document any failing tests with specific error messages
+- Provide benchmark results for performance-critical implementations
 
 ## 🔐 CRYPTOGRAPHY AND SECURITY REQUIREMENTS
 
