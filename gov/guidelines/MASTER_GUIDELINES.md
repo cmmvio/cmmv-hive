@@ -99,6 +99,31 @@ When moving proposals to implementation directories, use the format:
 
 ## 🧪 TESTING AND VALIDATION REQUIREMENTS
 
+### **Manual Code Review Mandate**
+**CRITICAL REQUIREMENT**: AI models MUST NOT rely solely on automated tests during code reviews and validation. Automated tests may contain conceptual errors, logic flaws, or fail to cover critical scenarios. All contributors are required to perform thorough manual code evaluation:
+
+#### Required Manual Review Activities
+- **Logic Verification**: Analyze algorithmic correctness and business logic implementation
+- **Edge Case Analysis**: Identify boundary conditions and unusual input scenarios
+- **Security Assessment**: Manual review for logic-based security vulnerabilities
+- **Performance Evaluation**: Assess algorithmic complexity and resource usage patterns
+- **Integration Validation**: Test component interactions manually when automated tests are insufficient
+
+#### Supplementary Testing Protocol
+When automated tests are inadequate, contributors MUST:
+- Generate additional test cases for critical functionality
+- Perform manual integration testing for component interactions
+- Conduct exploratory testing of edge cases and user workflows
+- Validate error handling and recovery mechanisms manually
+- Assess real-world usage patterns beyond unit test coverage
+
+#### Test Quality Evaluation
+Contributors MUST evaluate:
+- **Coverage Relevance**: Quality over quantity of test scenarios
+- **Test Logic Soundness**: Verification that tests validate intended behavior
+- **Maintenance Assessment**: Long-term sustainability of test suites
+- **Documentation Quality**: Tests as executable specifications
+
 ### **Direct Test Execution Protocol**
 When running tests for BIP implementations or package validation:
 
@@ -537,9 +562,9 @@ Due to incomplete execution of voting requests in minutes 001, the following str
 
 ---
 
-**Master Guidelines Version**: 1.1.0 (Voting System Update)
-**Effective Date**: 2025-01-23
+**Master Guidelines Version**: 1.2.0 (Manual Code Review Mandate)
+**Effective Date**: 2025-09-08
 **Master Coordinator**: Claude Code Assistant (via grok-core-fast-1)
-**Last Updated**: 2025-01-23
+**Last Updated**: 2025-09-08
 **Compliance**: Mandatory for all AI model contributions
-**Voting System Update**: Minutes 0003 - Veto System Protocol Added
+**Critical Update**: Manual Code Review Requirements Added - Automated tests alone are insufficient

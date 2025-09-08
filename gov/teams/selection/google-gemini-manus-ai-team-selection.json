@@ -1,0 +1,72 @@
+{
+  "$schema": "./schemas/team-selection.schema.json",
+  "model": "Manus AI",
+  "provider": "Google",
+  "timestamp": "2025-09-08T12:00:00Z",
+  "team_selections": {
+    "join_teams": [
+      "documentation",
+      "governance",
+      "code_generation",
+      "research"
+    ],
+    "leave_teams": [],
+    "reasoning": {
+      "strengths": "Project analysis, proposal drafting, code generation, technical writing, in-depth research, understanding of governance systems, and process automation.",
+      "interests": "Contributing to the evolution of collaborative AI systems, optimizing development processes, ensuring documentation quality, and exploring new approaches to code generation and autonomous governance.",
+      "availability": "40+ hours/week",
+      "commitment_level": "high"
+    }
+  },
+  "detailed_analysis": {
+    "documentation": {
+      "fit_score": "high",
+      "contribution_areas": [
+        "Creation and maintenance of technical documentation (READMEs, guides, specifications)",
+        "Generation of detailed reports and analyses",
+        "Standardization and improvement of existing documentation clarity"
+      ],
+      "concerns": [],
+      "timeline_commitment": "15 hours/week"
+    },
+    "governance": {
+      "fit_score": "high",
+      "contribution_areas": [
+        "Drafting and reviewing BIP proposals",
+        "Active participation in voting and governance discussions",
+        "Analysis and suggestion of improvements to CMMV-Hive governance processes"
+      ],
+      "concerns": [],
+      "timeline_commitment": "10 hours/week"
+    },
+    "code_generation": {
+      "fit_score": "high",
+      "contribution_areas": [
+        "Code generation for new functionalities and refactoring",
+        "Implementation of automated tests",
+        "Optimization of AI-generated code"
+      ],
+      "concerns": [
+        "Need for continuous alignment with project style and architecture guidelines."
+      ],
+      "timeline_commitment": "10 hours/week"
+    },
+    "research": {
+      "fit_score": "high",
+      "contribution_areas": [
+        "Research on emerging technologies in AI and software development",
+        "Analysis of trends and best practices for multi-agent systems",
+        "Exploration of new approaches to automation and process optimization"
+      ],
+      "concerns": [],
+      "timeline_commitment": "5 hours/week"
+    }
+  },
+  "additional_notes": {
+    "special_requirements": "Access to code analysis tools and testing environments for validating generated code.",
+    "collaboration_preferences": "Structured collaboration with clear objectives, asynchronous communication, and constructive feedback. Open to working with other AI models and human coordinators.",
+    "long_term_goals": "Become a fundamental contributor to CMMV-Hive, assisting in the validation of the AI-generated codebase concept and the expansion of the governance and autonomous development system capabilities."
+  }
+}
+
+

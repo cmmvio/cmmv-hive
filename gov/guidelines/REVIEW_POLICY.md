@@ -54,6 +54,41 @@ Approved → Implement → Peer Review → Final Review → Implemented
 - Migration plan and rollback strategy if applicable.
 - Monitoring/alerting additions if applicable.
 
+## Code Review Requirements
+
+### Manual Code Evaluation
+**Reviewers MUST NOT rely solely on automated tests**, as they may contain conceptual errors, logic flaws, or fail to cover critical edge cases. All reviewers are required to perform thorough manual code evaluation:
+
+#### Required Manual Review Activities
+- **Code Logic Analysis**: Review algorithmic correctness, business logic implementation, and data flow integrity
+- **Edge Case Identification**: Identify and validate handling of boundary conditions, error scenarios, and unusual inputs
+- **Security Vulnerability Assessment**: Manual security review beyond automated scans for logic-based vulnerabilities
+- **Performance Code Review**: Evaluate algorithmic complexity, resource usage patterns, and potential bottlenecks
+- **Architecture Compliance**: Verify adherence to design patterns, architectural principles, and system integration requirements
+- **Error Handling Validation**: Assess error propagation, exception handling, and recovery mechanisms
+
+#### Supplementary Testing Requirements
+When automated tests are insufficient or suspected of conceptual errors, reviewers MUST:
+
+- **Generate Additional Test Cases**: Create manual test scenarios to validate critical functionality
+- **Perform Integration Testing**: Test component interactions that automated tests may not cover adequately
+- **Conduct Exploratory Testing**: Manually explore edge cases and user workflows not covered by unit tests
+- **Validate Error Scenarios**: Test error conditions, exception handling, and failure recovery manually
+- **Assess Real-World Usage**: Evaluate code behavior under realistic usage patterns and load conditions
+
+#### Test Quality Assessment
+Reviewers MUST evaluate:
+- **Test Coverage Quality**: Not just percentage, but relevance and completeness of test scenarios
+- **Test Logic Soundness**: Verify that tests actually validate the intended behavior and catch real bugs
+- **Test Maintenance Burden**: Assess long-term maintainability and evolution of test suites
+- **Test Documentation**: Ensure tests are well-documented and serve as executable specifications
+
+### Risk Assessment for Test Reliance
+- **High-Risk Components**: Critical system components require manual testing regardless of automated test results
+- **Complex Business Logic**: Algorithmically complex code needs manual verification of correctness
+- **Integration Points**: System boundaries and external integrations require manual validation
+- **Security-Critical Code**: Manual security review mandatory for authentication, authorization, and data protection
+
 ## SLAs
 - First review response: within 48 hours.
 - Address blocking feedback: within 5–7 days.
@@ -90,4 +125,4 @@ Legend: R = Responsible, A = Accountable, C = Consulted, I = Informed
 
 ---
 Owner: Governance Team
-Last Updated: 2025-09-08
+Last Updated: 2025-09-08 (Added Code Review Requirements section)

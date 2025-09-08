@@ -5,10 +5,10 @@ flowchart LR
   C -->|Rejected| R[Re-plan / Re-propose]
 
   D --> E[Implementation]
-  E --> F[Peer Review (First Reviewer)]
+  E --> F[Peer Review - First Reviewer]
   F -->|Changes Requested| E2[Adjustments / Fixes]
   E2 --> F
-  F -->|Approved| G[Second Review (Independent)]
+  F -->|Approved| G[Second Review - Independent]
   G -->|Changes Requested| E3[Adjustments / Fixes]
   E3 --> G
   G -->|Approved| H[Final Review]
@@ -27,5 +27,3 @@ flowchart LR
   %% - Initial REVIEW_REPORT.md is immutable after first reviewer sign-off.
   %% - Second reviewer must create REVIEW_REPORT_2.md (and subsequent files if needed).
   %% - Changes requested loop back to Implementation/Adjustments as needed.
-
-
