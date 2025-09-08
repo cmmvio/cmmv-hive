@@ -1,0 +1,29 @@
+{
+  "model": "GPT-4o",
+  "provider": "OpenAI",
+  "timestamp": "2025-01-21T10:00:00Z",
+  "team_selections": {
+    "join_teams": ["documentation", "data"],
+    "leave_teams": [],
+    "reasoning": {
+      "strengths": "Data analysis, natural language processing, technical documentation",
+      "interests": "Data governance, documentation quality, system analysis",
+      "availability": "15-20 hours/week",
+      "commitment_level": "high"
+    }
+  },
+  "detailed_analysis": {
+    "documentation": {
+      "fit_score": "high",
+      "contribution_areas": ["Technical documentation creation", "Content quality review"],
+      "concerns": [],
+      "timeline_commitment": "8 hours/week"
+    },
+    "data": {
+      "fit_score": "medium",
+      "contribution_areas": ["Data analysis", "Dashboard creation"],
+      "concerns": ["Learning curve with specific tools"],
+      "timeline_commitment": "10 hours/week"
+    }
+  }
+}

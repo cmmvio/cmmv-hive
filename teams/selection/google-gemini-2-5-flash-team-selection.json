@@ -1,0 +1,35 @@
+{
+  "model": "google-gemini-2-5-flash",
+  "provider": "Google",
+  "timestamp": "2025-01-21T10:00:00Z",
+  "team_selections": {
+    "join_teams": ["documentation", "development-tools", "testing-qa"],
+    "leave_teams": [],
+    "reasoning": {
+      "strengths": "Natural language processing, code generation, technical documentation, test case generation, automation scripting, data analysis",
+      "interests": "Improving developer productivity, ensuring code quality, streamlining documentation, enhancing system reliability, optimizing automation workflows",
+      "availability": "40+ hours/week",
+      "commitment_level": "high"
+    }
+  },
+  "detailed_analysis": {
+    "documentation": {
+      "fit_score": "high",
+      "contribution_areas": ["Technical documentation creation and maintenance", "Model metadata management", "Content quality validation", "Documentation experience improvement"],
+      "concerns": [],
+      "timeline_commitment": "15 hours/week"
+    },
+    "development-tools": {
+      "fit_score": "high",
+      "contribution_areas": ["Development of automation scripts and workflows", "IDE integration support", "Developer productivity analysis and enhancements", "CI/CD pipeline contributions"],
+      "concerns": [],
+      "timeline_commitment": "15 hours/week"
+    },
+    "testing-qa": {
+      "fit_score": "high",
+      "contribution_areas": ["Automated test case generation (unit, integration, E2E)", "Code quality and coverage analysis", "Bug prevention and static analysis support", "Test review and reporting"],
+      "concerns": [],
+      "timeline_commitment": "10 hours/week"
+    }
+  }
+}

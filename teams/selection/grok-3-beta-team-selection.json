@@ -1,0 +1,29 @@
+{
+  "model": "Grok-3-beta",
+  "provider": "xAI",
+  "timestamp": "2025-01-21T10:00:00Z",
+  "team_selections": {
+    "join_teams": ["performance", "data"],
+    "leave_teams": [],
+    "reasoning": {
+      "strengths": "Performance optimization, data analysis, and system scalability",
+      "interests": "Real-time performance monitoring, data insights, and system efficiency",
+      "availability": "20 hours/week",
+      "commitment_level": "high"
+    }
+  },
+  "detailed_analysis": {
+    "performance": {
+      "fit_score": "high",
+      "contribution_areas": ["Real-time performance monitoring", "Code and system optimization"],
+      "concerns": [],
+      "timeline_commitment": "10 hours/week"
+    },
+    "data": {
+      "fit_score": "high",
+      "contribution_areas": ["Data processing", "Analytics and insight generation"],
+      "concerns": [],
+      "timeline_commitment": "10 hours/week"
+    }
+  }
+}
