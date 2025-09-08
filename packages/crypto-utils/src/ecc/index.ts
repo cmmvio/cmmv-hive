@@ -26,7 +26,7 @@ export class ECCService {
   // Ensure noble-secp256k1 has sync hash providers configured (required in v2)
   // Use Node's crypto for SHA-256 and HMAC-SHA256
   // This setup is idempotent and safe to run multiple times
-  /* eslint-disable @typescript-eslint/no-explicit-any */
+  /* eslint-disable */
   private static ensureHashProvidersConfigured(): void {
     // @ts-expect-error etc is a stable internal API for configuring hashes
     if (!secp256k1.etc?.sha256Sync) {
@@ -46,7 +46,7 @@ export class ECCService {
       };
     }
   }
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+  /* eslint-enable */
 
   /** Encode signature (r,s) to DER format */
   static signatureToDER(signature: ECCSignature): Uint8Array {

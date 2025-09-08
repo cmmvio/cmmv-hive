@@ -61,33 +61,37 @@ class VoteHashCLI {
           options.command = 'verify';
           break;
         case '--input':
-        case '-d':
+        case '-d': {
           const inputValue = args[++i];
           if (inputValue !== undefined) {
             options.input = inputValue;
           }
           break;
+        }
         case '--file':
-        case '-f':
+        case '-f': {
           const fileValue = args[++i];
           if (fileValue !== undefined) {
             options.file = fileValue;
           }
           break;
+        }
         case '--output':
-        case '-o':
+        case '-o': {
           const outputValue = args[++i];
           if (outputValue !== undefined) {
             options.output = outputValue;
           }
           break;
+        }
         case '--key':
-        case '-k':
+        case '-k': {
           const keyValue = args[++i];
           if (keyValue !== undefined) {
             options.key = keyValue;
           }
           break;
+        }
         default:
           if (arg && !arg.startsWith('-')) {
             options.input = arg;
@@ -319,7 +323,7 @@ GOVERNANCE REQUIREMENT:
           inputType = 'batch';
           break;
 
-        case 'session':
+        case 'session': {
           const { sessionId, proposalIds, startTime, endTime } = inputData;
           if (!sessionId || !proposalIds || !startTime || !endTime) {
             console.error('Error: Session input must contain sessionId, proposalIds, startTime, and endTime');
@@ -333,8 +337,9 @@ GOVERNANCE REQUIREMENT:
           );
           inputType = 'session';
           break;
+        }
 
-        case 'verify':
+        case 'verify': {
           const { hash: expectedHash, data, type = 'vote' } = inputData;
           if (!expectedHash || !data) {
             console.error('Error: Verify input must contain hash and data fields');
@@ -361,6 +366,7 @@ GOVERNANCE REQUIREMENT:
 
           this.writeOutput(output, options.output);
           return;
+        }
 
         default:
           console.error(`Error: Unknown command ${options.command}`);
