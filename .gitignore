@@ -42,3 +42,5 @@ temp/
 .voting_models.json
 
 dist
+.code-workspace
+cmmv-hive.code-workspace
