@@ -1,0 +1,22 @@
+{
+  "name": "bip-monitor",
+  "version": "1.0.0",
+  "description": "Real-time BIP-05 issues monitor with WhatsApp-like interface",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "ws": "^8.14.2"
+  },
+  "keywords": [
+    "bip",
+    "monitor",
+    "websocket",
+    "chat",
+    "issues"
+  ],
+  "author": "",
+  "license": "MIT"
+}

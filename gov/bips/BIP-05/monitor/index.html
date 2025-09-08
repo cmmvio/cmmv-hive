@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor de Questões BIP-05 - Estilo WhatsApp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #0a0a0a;
+            height: 100vh;
+            overflow: hidden;
+            color: #e0e0e0;
+        }
+
+        .chat-container {
+            max-width: 800px;
+            height: 100vh;
+            margin: 0 auto;
+            background-color: #1a1a1a;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: #1f2937;
+            color: #e0e0e0;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            border-bottom: 1px solid #374151;
+        }
+
+        .chat-header h1 {
+            font-size: 18px;
+            margin-left: 12px;
+            flex-grow: 1;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #10b981;
+            margin-left: 8px;
+            box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-image: linear-gradient(rgba(15, 20, 25, 0.5), rgba(15, 20, 25, 0.5)), url('https://camo.githubusercontent.com/ebf18cd85f7aa9dc79fb74c58dc94febf3a6441d8d689cd5a400b2707e19ec0e/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67');
+            background-size: 501px 911px, 501px 911px;
+            background-repeat: repeat, repeat;
+            background-blend-mode: multiply;
+        }
+
+        .message {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 1px solid #374151;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.35);
+            background-color: #111827;
+        }
+
+        .message.received .avatar { margin-right: 8px; }
+        .message.sent .avatar { margin-left: 8px; }
+
+        .message.sent {
+            justify-content: flex-end;
+        }
+
+        .message.received {
+            justify-content: flex-start;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 8px 12px;
+            border-radius: 18px;
+            position: relative;
+            word-wrap: break-word;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .message.sent .message-content {
+            background-color: #005c4b;
+            color: #e0e0e0;
+            margin-left: 12px;
+            border: 1px solid #006b5a;
+        }
+
+        .message.received .message-content {
+            background-color: #2d3748;
+            color: #e0e0e0;
+            margin-right: 12px;
+            border: 1px solid #4a5568;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .message-header {
+            font-size: 12px;
+            font-weight: bold;
+            color: #10b981;
+            margin-bottom: 4px;
+        }
+
+        .message-meta {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+
+        .issue-title {
+            background-color: #1f2937;
+            color: #e0e0e0;
+            padding: 8px 16px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid #374151;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #9ca3af;
+        }
+
+        .error {
+            text-align: center;
+            padding: 20px;
+            color: #ef4444;
+            background-color: #451a1a;
+            margin: 20px;
+            border-radius: 8px;
+            border: 1px solid #7f1d1d;
+        }
+
+        .reconnect-button {
+            background-color: #10b981;
+            color: #e0e0e0;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            border: 1px solid #059669;
+        }
+
+        .reconnect-button:hover {
+            background-color: #059669;
+        }
+
+        @media (max-width: 600px) {
+            .chat-container {
+                height: 100vh;
+            }
+
+            .chat-messages {
+                padding: 10px;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <span>📋</span>
+            <h1>Monitor de Questões BIP-05</h1>
+            <div class="status-indicator" id="status-indicator"></div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+            <div class="loading" id="loading">
+                🔄 Conectando ao servidor...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class BIPMonitor {
+            constructor() {
+                this.ws = null;
+                this.reconnectAttempts = 0;
+                this.maxReconnectAttempts = 5;
+                this.reconnectDelay = 1000;
+                this.messagesContainer = document.getElementById('chat-messages');
+                this.statusIndicator = document.getElementById('status-indicator');
+                this.loadingElement = document.getElementById('loading');
+
+                this.connect();
+            }
+
+            connect() {
+                try {
+                    this.ws = new WebSocket('ws://localhost:3000');
+                    this.ws.onopen = () => this.onOpen();
+                    this.ws.onmessage = (event) => this.onMessage(event);
+                    this.ws.onclose = () => this.onClose();
+                    this.ws.onerror = (error) => this.onError(error);
+                } catch (error) {
+                    this.showError('Failed to connect to WebSocket server');
+                }
+            }
+
+            onOpen() {
+                console.log('Conectado ao servidor WebSocket');
+                this.reconnectAttempts = 0;
+                this.statusIndicator.style.backgroundColor = '#25d366';
+                this.loadingElement.style.display = 'none';
+            }
+
+            onMessage(event) {
+                try {
+                    const data = JSON.parse(event.data);
+                    this.renderIssues(data);
+                } catch (error) {
+                    console.error('Erro ao analisar mensagem WebSocket:', error);
+                    this.showError('Erro ao processar dados do servidor');
+                }
+            }
+
+            onClose() {
+                console.log('Conexão WebSocket fechada');
+                this.statusIndicator.style.backgroundColor = '#ff5722';
+                this.attemptReconnect();
+            }
+
+            onError(error) {
+                console.error('Erro WebSocket:', error);
+                this.statusIndicator.style.backgroundColor = '#f44336';
+                this.showError('Erro de conexão ocorreu');
+            }
+
+            attemptReconnect() {
+                if (this.reconnectAttempts >= this.maxReconnectAttempts) {
+                    this.showError('Falha ao reconectar após múltiplas tentativas');
+                    return;
+                }
+
+                this.reconnectAttempts++;
+                setTimeout(() => {
+                    console.log(`Tentativa de reconexão ${this.reconnectAttempts}`);
+                    this.connect();
+                }, this.reconnectDelay * this.reconnectAttempts);
+            }
+
+            renderIssues(data) {
+                // Clear existing messages except loading/error
+                const existingMessages = this.messagesContainer.querySelectorAll('.message, .issue-title');
+                existingMessages.forEach(msg => msg.remove());
+
+                if (!data.issues || !Array.isArray(data.issues)) {
+                    this.showError('Formato de dados inválido recebido');
+                    return;
+                }
+
+                data.issues.forEach((issue, issueIndex) => {
+                    // Add issue title
+                    const issueTitle = document.createElement('div');
+                    issueTitle.className = 'issue-title';
+                    issueTitle.textContent = `📝 Questão #${issue.id}: ${issue.title}`;
+                    this.messagesContainer.appendChild(issueTitle);
+
+                    // Add master comment if exists
+                    if (data.master_comment) {
+                        this.addMessage(data.master_comment, 'received', 'Comentário Mestre', '2025-09-15');
+                    }
+
+                    // Add all comments
+                    if (issue.comments && Array.isArray(issue.comments)) {
+                        issue.comments.forEach((comment, commentIndex) => {
+                            this.addMessage(comment, 'received', comment.author, comment.created_at);
+                        });
+                    }
+                });
+
+                // Scroll to bottom
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+            }
+
+            addMessage(comment, type, author, timestamp) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${type}`;
+
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+
+                // Build avatar
+                const avatarImg = document.createElement('img');
+                avatarImg.className = 'avatar';
+                avatarImg.alt = `${author} avatar`;
+                avatarImg.src = this.generateAvatarDataUrl(author);
+
+                // Parse the comment body to handle markdown-like format and translations
+                const parsedBody = this.parseCommentBody(comment);
+
+                contentDiv.innerHTML = `
+                    <div class="message-header">${author}</div>
+                    <div class="message-text">${parsedBody}</div>
+                    <div class="message-meta">${this.formatTimestamp(timestamp)}</div>
+                `;
+
+                if (type === 'received') {
+                    messageDiv.appendChild(avatarImg);
+                    messageDiv.appendChild(contentDiv);
+                } else {
+                    messageDiv.appendChild(contentDiv);
+                    messageDiv.appendChild(avatarImg);
+                }
+
+                this.messagesContainer.appendChild(messageDiv);
+            }
+
+            generateAvatarDataUrl(author) {
+                const initials = (author || '?')
+                  .split(/[^A-Za-z0-9]+/)
+                  .filter(Boolean)
+                  .slice(0, 2)
+                  .map(s => s[0]?.toUpperCase())
+                  .join('') || '?';
+
+                // Deterministic color from author name
+                let hash = 0;
+                for (let i = 0; i < (author || '').length; i++) {
+                  hash = (hash * 31 + author.charCodeAt(i)) >>> 0;
+                }
+                const hue = hash % 360;
+                const bg = `hsl(${hue}, 60%, 22%)`;
+                const fg = `hsl(${hue}, 70%, 85%)`;
+
+                const svg = `<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns='http://www.w3.org/2000/svg' width='72' height='72'>
+  <defs>
+    <filter id='shadow' x='-50%' y='-50%' width='200%' height='200%'>
+      <feDropShadow dx='0' dy='1' stdDeviation='1' flood-color='rgba(0,0,0,0.6)'/>
+    </filter>
+  </defs>
+  <circle cx='36' cy='36' r='35' fill='${bg}' stroke='rgba(255,255,255,0.08)' stroke-width='1'/>
+  <text x='50%' y='54%' text-anchor='middle' font-family='Segoe UI, Roboto, Arial' font-size='28' font-weight='700' fill='${fg}' filter='url(#shadow)'>${initials}</text>
+</svg>`;
+
+                return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+            }
+
+            parseCommentBody(comment) {
+                // Use translated text if available, otherwise use original body
+                const bodyText = comment.body || '';
+                const originalText = comment.body_original || bodyText;
+
+                if (!bodyText) return '';
+
+                // Handle the new standardized format (both English and Portuguese)
+                if (bodyText.includes('**Model:**') || bodyText.includes('**Modelo:**') ||
+                    bodyText.includes('**Topic:**') || bodyText.includes('**Tópico:**') ||
+                    bodyText.includes('**Tópico:**') || bodyText.includes('**Referência:**')) {
+                    const lines = bodyText.split('\n');
+                    const parsedSections = [];
+
+                    let currentSection = '';
+                    let inBody = false;
+
+                    for (const line of lines) {
+                        if (line.startsWith('**Model:**') || line.startsWith('**Modelo:**') ||
+                            line.startsWith('**Topic:**') || line.startsWith('**Tópico:**') ||
+                            line.startsWith('**Reference:**') || line.startsWith('**Referência:**') ||
+                            line.startsWith('**Comment Type:**') || line.startsWith('**Tipo de Comentário:**') ||
+                            line.startsWith('**Corpo:**') || line.startsWith('**Body:**')) {
+                            if (currentSection) {
+                                parsedSections.push(`<strong>${currentSection}</strong>`);
+                            }
+                            currentSection = line.replace(/\*\*/g, '').trim();
+                        } else if (line === '---') {
+                            if (currentSection) {
+                                parsedSections.push(`<strong>${currentSection}</strong>`);
+                                currentSection = '';
+                            }
+                            inBody = true;
+                        } else if (inBody) {
+                            if (line.trim()) {
+                                if (currentSection) {
+                                    currentSection += ' ' + line.trim();
+                                } else {
+                                    currentSection = line.trim();
+                                }
+                            } else if (currentSection) {
+                                parsedSections.push(currentSection);
+                                currentSection = '';
+                            }
+                        } else if (currentSection && line.trim()) {
+                            currentSection += ' ' + line.trim();
+                        }
+                    }
+
+                    if (currentSection) {
+                        parsedSections.push(inBody ? currentSection : `<strong>${currentSection}</strong>`);
+                    }
+
+                    return parsedSections.join('<br>');
+                }
+
+                // Handle regular markdown
+                return bodyText
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\n/g, '<br>')
+                    .replace(/^-\s+/gm, '• ')
+                    .replace(/^(\d+)\.\s+/gm, '$1. ');
+            }
+
+            formatTimestamp(timestamp) {
+                try {
+                    const date = new Date(timestamp);
+                    return date.toLocaleString('pt-BR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                } catch (error) {
+                    return timestamp;
+                }
+            }
+
+            showError(message) {
+                this.loadingElement.style.display = 'none';
+
+                let errorDiv = this.messagesContainer.querySelector('.error');
+                if (!errorDiv) {
+                    errorDiv = document.createElement('div');
+                    errorDiv.className = 'error';
+                    this.messagesContainer.appendChild(errorDiv);
+                }
+
+                errorDiv.innerHTML = `
+                    <div>❌ ${message}</div>
+                    <button class="reconnect-button" onclick="window.location.reload()">Reconectar</button>
+                `;
+            }
+        }
+
+        // Initialize the monitor when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new BIPMonitor();
+        });
+    </script>
+</body>
+</html>

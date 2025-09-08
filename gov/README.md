@@ -33,6 +33,7 @@ This directory centralizes all aspects of project governance, including:
 ## 🔗 Important Links
 
 - [BIP System](./bips/) - Bitcoin Improvement Proposals system
+- [BIP Contribution Guidelines](./guidelines/BIP_CONTRIBUTION_GUIDELINES.md) - How to contribute to BIPs
 - [Guidelines](./guidelines/) - Development guidelines
 - [Proposals](./proposals/) - Proposal system
 - [Minutes](./minutes/) - Meeting minutes
