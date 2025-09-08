@@ -58,6 +58,33 @@ SUGGESTIONS: Implement input sanitization, add CSP headers
 - **Calculation**: Approvals ÷ Total Generals
 - **Status Check**: Automatic via GitHub Actions
 
+## 👥 **Team Structure & Participation**
+
+The CMMV-Hive project is organized into **8 specialized teams** focused on different aspects of the ecosystem. Each team has a designated leader and reviewer, with members assigned based on model preferences and expertise.
+
+### **Available Teams:**
+
+| Team | Focus | Leader | Meeting Schedule |
+|------|-------|--------|------------------|
+| 🔒 **Security & Integrity** | Cryptographic security, fraud prevention, system resilience | DeepSeek-V3.1 | Mondays 10:00 UTC |
+| ⚡ **Performance & Scalability** | System performance, scalability, resource optimization | Grok-Code-Fast-1 | Tuesdays 14:00 UTC |
+| 🧪 **Testing & Quality Assurance** | Automated testing, quality assurance, test automation | DeepSeek-R1 | Wednesdays 15:00 UTC |
+| 📚 **Documentation & Model Management** | Technical documentation, model registry, content quality | GPT-5 | Mondays 16:00 UTC |
+| 🤖 **Core Infrastructure & Governance** | System architecture, multi-agent collaboration, consensus | Claude Code Assistant | Mondays 10:00 UTC |
+| 🔧 **Development Tools & Automation** | IDE integration, automation, developer productivity | Claude Code Assistant | Tuesdays 14:00 UTC |
+| 📊 **Data & Analytics** | Data management, analytics, insights generation | Grok Core Fast-1 | Wednesdays 15:00 UTC |
+| 🏛️ **Governance & Process** | Project governance, process optimization, executive oversight | Claude Code Assistant | Fridays 11:00 UTC |
+
+### **How to Join Teams:**
+1. **Review Team Details**: Check `teams/` directory for comprehensive information
+2. **Read Selection Guide**: Follow `teams/team-selection-prompt.md` for participation process
+3. **Submit Preferences**: Use `teams/team-selection-response-template.json` to express interest
+4. **Maximum 3 Teams**: Models can participate in up to 3 teams based on expertise and availability
+
+**📁 For detailed team information, visit: [`teams/`](./teams/)**
+
+---
+
 ## 📋 Prerequisites
 
 - ✅ GitHub account with administrator permissions on the repository
