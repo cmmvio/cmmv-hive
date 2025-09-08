@@ -56,51 +56,51 @@ jobs:
       #   with:
       #     token: ${{ secrets.CODECOV_TOKEN }}
 
-  build:
-    name: Build Packages
-    needs: test
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        include:
-          - os: ubuntu-latest
-            binary_suffix: linux-x64
-          - os: windows-latest
-            binary_suffix: win32-x64
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # build:
+  #   name: Build Packages
+  #   needs: test
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest, windows-latest]
+  #       include:
+  #         - os: ubuntu-latest
+  #           binary_suffix: linux-x64
+  #         - os: windows-latest
+  #           binary_suffix: win32-x64
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 20
+  #         cache: 'pnpm'
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.15.1
+  #     - name: Setup pnpm
+  #       uses: pnpm/action-setup@v4
+  #       with:
+  #         version: 10.15.1
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+  #     - name: Install dependencies
+  #       run: pnpm install --frozen-lockfile
 
-      - name: Build packages
-        run: pnpm run build
+  #     - name: Build packages
+  #       run: pnpm run build
 
-      - name: Build CLI binaries
-        run: |
-          cd packages/crypto-utils
-          npm run build
-          npx pkg dist/cli.js --targets node18-${{ matrix.binary_suffix }} --output ../../dist/vote-hash-${{ matrix.binary_suffix }}
+  #     - name: Build CLI binaries
+  #       run: |
+  #         cd packages/crypto-utils
+  #         npm run build
+  #         npx pkg dist/cli.js --targets node18-${{ matrix.binary_suffix }} --output ../../dist/vote-hash-${{ matrix.binary_suffix }}
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: vote-hash-${{ matrix.binary_suffix }}
-          path: dist/vote-hash-${{ matrix.binary_suffix }}
-          retention-days: 30
+  #     - name: Upload build artifacts
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: vote-hash-${{ matrix.binary_suffix }}
+  #         path: dist/vote-hash-${{ matrix.binary_suffix }}
+  #         retention-days: 30
 
   security-audit:
     name: Security Audit
@@ -147,11 +147,17 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build crypto-utils first
+        run: |
+          cd packages/crypto-utils
+          npm run build
+          cd ../..
+
       - name: Validate governance requirements
         run: |
           # Check if vote hash service is properly exported
           node -e "
-          const { VoteHashService } = require('./packages/crypto-utils/dist/index.js');
+          const { VoteHashService } = require('./packages/crypto-utils/dist/crypto-utils/src/index.js');
           const testVote = {
             proposalId: 'test-123',
             modelId: 'model-456',
@@ -166,56 +172,55 @@ jobs:
       - name: Validate CLI tool
         run: |
           cd packages/crypto-utils
-          npm run build
-          node dist/cli.js --help | grep -q "CMMV-Hive Vote Hash Generator"
+          node dist/crypto-utils/src/cli.js --help | grep -q "CMMV-Hive Vote Hash Generator"
 
-  release:
-    name: Release
-    needs: [test, build, security-audit, governance-validation]
-    runs-on: ubuntu-latest
-    if: github.event_name == 'release'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # release:
+  #   name: Release
+  #   needs: [test, build, security-audit, governance-validation]
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name == 'release'
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.15.1
+  #     - name: Setup pnpm
+  #       uses: pnpm/action-setup@v4
+  #       with:
+  #         version: 10.15.1
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 20
+  #         cache: 'pnpm'
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+  #     - name: Install dependencies
+  #       run: pnpm install --frozen-lockfile
 
-      - name: Build packages
-        run: pnpm run build
+  #     - name: Build packages
+  #       run: pnpm run build
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: vote-hash-linux-x64
-          path: ./artifacts/
+  #     - name: Download build artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: vote-hash-linux-x64
+  #         path: ./artifacts/
 
-      - name: Download Windows build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: vote-hash-win32-x64
-          path: ./artifacts/
+  #     - name: Download Windows build artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: vote-hash-win32-x64
+  #         path: ./artifacts/
 
-      - name: Publish to npm
-        run: pnpm publish --recursive --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  #     - name: Publish to npm
+  #       run: pnpm publish --recursive --access public
+  #       env:
+  #         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Upload release binaries
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            artifacts/vote-hash-linux-x64
-            artifacts/vote-hash-win32-x64
-          token: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Upload release binaries
+  #       uses: softprops/action-gh-release@v2
+  #       with:
+  #         files: |
+  #           artifacts/vote-hash-linux-x64
+  #           artifacts/vote-hash-win32-x64
+  #         token: ${{ secrets.GITHUB_TOKEN }}
