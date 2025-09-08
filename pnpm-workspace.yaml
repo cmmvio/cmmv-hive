@@ -3,6 +3,7 @@ packages:
   - packages/testing-utils
   - packages/crypto-utils
   - packages/bip-system
+  - packages/resilience-framework
   - apps/cursor-extension
 
 onlyBuiltDependencies:
