@@ -8,6 +8,8 @@ with comprehensive security controls, resource limits, and audit logging.
 from .executor import SecureScriptExecutor
 from .policy import SecurityPolicy
 from .audit import AuditLogger
+from .monitor import SecurityMonitor
+from .analyzer import SecurityAnalyzer
 from .exceptions import (
     SecurityException,
     ResourceLimitException,
@@ -26,6 +28,8 @@ __all__ = [
     'SecureScriptExecutor',
     'SecurityPolicy',
     'AuditLogger',
+    'SecurityMonitor',
+    'SecurityAnalyzer',
     'SecurityException',
     'ResourceLimitException',
     'FileSystemViolationException',

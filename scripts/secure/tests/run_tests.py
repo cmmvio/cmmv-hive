@@ -5,10 +5,13 @@ Test runner for the secure script execution environment.
 
 import unittest
 import sys
+import os
 from pathlib import Path
 
 # Add the secure package to Python path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+current_dir = Path(__file__).parent.parent
+sys.path.insert(0, str(current_dir))
+sys.path.insert(0, str(current_dir.parent))
 
 def run_tests():
     """Run all unit tests for the secure execution environment."""

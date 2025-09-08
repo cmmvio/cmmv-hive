@@ -139,15 +139,28 @@ class AuditLogger:
         executions = []
 
         try:
+            if not self.execution_log.exists():
+                return executions
+
             with open(self.execution_log, 'r', encoding='utf-8') as f:
-                for line in f:
-                    if line.strip():
-                        record = json.loads(line.strip())
-                        if script_path is None or record['script_path'] == script_path:
+                for line_num, line in enumerate(f, 1):
+                    line = line.strip()
+                    if not line:
+                        continue
+
+                    try:
+                        record = json.loads(line)
+                        if script_path is None or record.get('script_path') == script_path:
                             executions.append(record)
                             if len(executions) >= limit:
                                 break
-        except FileNotFoundError:
+                    except json.JSONDecodeError as e:
+                        # Log the error but continue processing other lines
+                        print(f"Warning: Failed to parse JSON at line {line_num}: {e}")
+                        continue
+
+        except (FileNotFoundError, IOError):
+            # File doesn't exist or can't be read
             pass
 
         return executions
@@ -158,15 +171,28 @@ class AuditLogger:
         events = []
 
         try:
+            if not self.security_log.exists():
+                return events
+
             with open(self.security_log, 'r', encoding='utf-8') as f:
-                for line in f:
-                    if line.strip():
-                        record = json.loads(line.strip())
-                        if event_type is None or record['event_type'] == event_type:
+                for line_num, line in enumerate(f, 1):
+                    line = line.strip()
+                    if not line:
+                        continue
+
+                    try:
+                        record = json.loads(line)
+                        if event_type is None or record.get('event_type') == event_type:
                             events.append(record)
                             if len(events) >= limit:
                                 break
-        except FileNotFoundError:
+                    except json.JSONDecodeError as e:
+                        # Log the error but continue processing other lines
+                        print(f"Warning: Failed to parse JSON at line {line_num}: {e}")
+                        continue
+
+        except (FileNotFoundError, IOError):
+            # File doesn't exist or can't be read
             pass
 
         return events
