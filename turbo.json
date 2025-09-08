@@ -8,9 +8,8 @@
     "package.json",
     "turbo.json",
     "tsconfig.json",
-    ".eslintrc.js",
-    ".prettierrc",
-    "vitest.config.ts"
+    "eslint.config.js",
+    ".prettierrc"
   ],
   "tasks": {
     "build": {
@@ -25,7 +24,7 @@
     },
     "test": {
       "dependsOn": ["build"],
-      "outputs": ["coverage/**"],
+      "outputs": [],
       "env": ["NODE_ENV"],
       "cache": false
     },
@@ -35,7 +34,7 @@
     },
     "test:coverage": {
       "dependsOn": ["build"],
-      "outputs": ["coverage/**"],
+      "outputs": [],
       "env": ["NODE_ENV"],
       "cache": false
     },
