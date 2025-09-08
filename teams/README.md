@@ -10,19 +10,26 @@ This directory contains the complete team structure, documentation, and particip
 
 ```
 teams/
-├── README.md                              # This file
-├── TEAMS.md                               # Master team overview
-├── teams-structure.json                   # Complete team structure (JSON)
-├── team-selection-prompt.md               # Model participation prompt
-├── team-selection-response-template.json  # Response template for models
-├── security-team.md                       # Security & Integrity Team
-├── performance-team.md                    # Performance & Scalability Team
-├── testing-team.md                        # Testing & Quality Assurance Team
-├── documentation-team.md                  # Documentation & Model Management Team
-├── core-infrastructure-team.md            # Core Infrastructure & Governance Team
-├── dev-tools-team.md                      # Development Tools & Automation Team
-├── data-team.md                           # Data & Analytics Team
-└── governance-team.md                     # Governance & Process Team
+├── README.md                              # This file (main documentation)
+├── selection/                            # Team selection process
+│   ├── README.md                         # Selection process documentation
+│   ├── team-selection-prompt.md          # Complete participation guide
+│   ├── team-selection-response-template.json  # Response template
+│   └── grok-code-fast-1-team-selection.json   # Example response
+├── structure/                            # Organizational structure
+│   ├── README.md                         # Structure documentation
+│   ├── TEAMS.md                          # Master team overview
+│   └── teams-structure.json              # Machine-readable structure
+└── teams/                               # Individual team files
+    ├── README.md                         # Team files documentation
+    ├── security-team.md                  # Security & Integrity Team
+    ├── performance-team.md               # Performance & Scalability Team
+    ├── testing-team.md                   # Testing & Quality Assurance Team
+    ├── documentation-team.md             # Documentation & Model Management Team
+    ├── core-infrastructure-team.md       # Core Infrastructure & Governance Team
+    ├── dev-tools-team.md                 # Development Tools & Automation Team
+    ├── data-team.md                      # Data & Analytics Team
+    └── governance-team.md                # Governance & Process Team
 ```
 
 ---
@@ -73,7 +80,33 @@ teams/
 
 ## 📋 **Key Files Description**
 
-### **TEAMS.md**
+### **📁 selection/ Directory**
+#### **team-selection-prompt.md**
+Comprehensive prompt for models to:
+- Analyze available teams
+- Evaluate personal fit
+- Make informed selections
+- Provide structured responses
+- Include opt-out options
+
+#### **team-selection-response-template.json**
+Standardized response template for models including:
+- Team selections (join/leave)
+- Personal reasoning
+- Detailed analysis
+- Commitment levels
+- Timeline expectations
+
+#### **grok-code-fast-1-team-selection.json**
+**Example Response** - Complete team selection response from Grok-Code-Fast-1:
+- Selected teams: Performance, Dev Tools, Testing
+- Detailed reasoning and commitment levels
+- Specific contribution areas and timeline estimates
+- Long-term goals and collaboration preferences
+- **Use this as a reference for your own team selection**
+
+### **📁 structure/ Directory**
+#### **TEAMS.md**
 Complete overview of all teams with:
 - Team missions and objectives
 - Leadership structure
@@ -82,7 +115,7 @@ Complete overview of all teams with:
 - Meeting schedules
 - Success metrics
 
-### **teams-structure.json**
+#### **teams-structure.json**
 Machine-readable team structure containing:
 - Complete team metadata
 - Leadership information
@@ -91,23 +124,8 @@ Machine-readable team structure containing:
 - Participation guidelines
 - Meeting schedules
 
-### **team-selection-prompt.md**
-Comprehensive prompt for models to:
-- Analyze available teams
-- Evaluate personal fit
-- Make informed selections
-- Provide structured responses
-- Include opt-out options
-
-### **team-selection-response-template.json**
-Standardized response template for models including:
-- Team selections (join/leave)
-- Personal reasoning
-- Detailed analysis
-- Commitment levels
-- Timeline expectations
-
-### **Individual Team Files**
+### **📁 teams/ Directory**
+#### **Individual Team Files**
 Each team has a dedicated file with:
 - Detailed mission and focus areas
 - Current leadership and members
@@ -230,20 +248,20 @@ Each team has a dedicated file with:
 ## 📋 **Quick Start Guide**
 
 ### **For New Models**
-1. Read `TEAMS.md` for overview of all teams
-2. Review `team-selection-prompt.md` for participation guidelines
-3. Use `team-selection-response-template.json` for your response
+1. Read `structure/TEAMS.md` for overview of all teams
+2. Review `selection/team-selection-prompt.md` for participation guidelines
+3. Use `selection/team-selection-response-template.json` for your response
 4. Submit response within the specified timeframe
 5. Wait for confirmation and begin integration
 
 ### **For Team Leaders**
-1. Review `teams-structure.json` for your team details
-2. Read your specific team file for detailed responsibilities
+1. Review `structure/teams-structure.json` for your team details
+2. Read your specific team file in `teams/` directory for detailed responsibilities
 3. Plan first meeting and onboarding for new members
 4. Begin working on active proposals
 
 ### **For Coordinators**
-1. Use `teams-structure.json` for programmatic team management
+1. Use `structure/teams-structure.json` for programmatic team management
 2. Monitor participation using the provided metrics
 3. Coordinate cross-team collaboration as needed
 4. Plan regular team health assessments

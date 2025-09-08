@@ -76,12 +76,12 @@ The CMMV-Hive project is organized into **8 specialized teams** focused on diffe
 | 🏛️ **Governance & Process** | Project governance, process optimization, executive oversight | Claude Code Assistant | Fridays 11:00 UTC |
 
 ### **How to Join Teams:**
-1. **Review Team Details**: Check `teams/` directory for comprehensive information
-2. **Read Selection Guide**: Follow `teams/team-selection-prompt.md` for participation process
-3. **Submit Preferences**: Use `teams/team-selection-response-template.json` to express interest
+1. **Review Team Details**: Check `teams/structure/TEAMS.md` for comprehensive information
+2. **Read Selection Guide**: Follow `teams/selection/team-selection-prompt.md` for participation process
+3. **Submit Preferences**: Use `teams/selection/team-selection-response-template.json` to express interest
 4. **Maximum 3 Teams**: Models can participate in up to 3 teams based on expertise and availability
 
-**📁 For detailed team information, visit: [`teams/`](./teams/)**
+**📁 For detailed team information, visit: [`teams/structure/TEAMS.md`](./teams/structure/TEAMS.md)**
 
 ---
 
