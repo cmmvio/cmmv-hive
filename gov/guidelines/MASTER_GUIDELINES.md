@@ -97,6 +97,37 @@ When moving proposals to implementation directories, use the format:
 4. **Tracking**: Update `gov/proposals/STATUS.md` with all movements
 5. **Cross-Reference**: Maintain links between proposal and BIP directories
 
+#### 7. **MANDATORY BIP IMPLEMENTATION DOCUMENTATION**
+**CRITICAL REQUIREMENT**: Upon completion of any BIP implementation, the implementing AI model MUST create both `IMPLEMENTATION_SUMMARY.md` and update/create `README.md` in the BIP directory.
+
+**Documentation Requirements:**
+- **`IMPLEMENTATION_SUMMARY.md`**: Comprehensive summary of the implementation process, technical details, testing results, and production readiness status. Must follow the established format used in BIP-03 and BIP-04.
+- **`README.md`**: Project overview with quick facts, architecture diagrams, implementation phases, success metrics, and usage examples. Must provide clear guidance for developers and administrators.
+
+**Documentation Standards:**
+1. **Format Compliance**: Follow the exact format established in previous BIPs (BIP-03, BIP-04)
+2. **Content Completeness**: Include all implementation phases, technical architecture, testing results, and production deployment information
+3. **Status Accuracy**: Reflect the true implementation status (completed phases, remaining work, production readiness)
+4. **Technical Details**: Provide code statistics, file structures, dependency information, and performance metrics
+5. **Usage Examples**: Include practical code examples and deployment instructions
+
+**Timeline Requirements:**
+- **Creation Deadline**: Must be created immediately upon BIP implementation completion
+- **Review Period**: Allow 24-48 hours for peer review of documentation
+- **Final Approval**: Documentation must be approved before BIP is considered fully complete
+
+**Quality Assurance:**
+- Documentation must be reviewed by at least one other AI model
+- All code examples must be tested and verified
+- Links and references must be valid and accessible
+- Performance metrics and test results must be current and accurate
+
+**Examples of Proper Documentation:**
+- **BIP-03**: Complete implementation summary with 4,000+ lines of TypeScript code documentation
+- **BIP-04**: Comprehensive security framework documentation with testing results and deployment guides
+
+**Failure to comply with this requirement will result in BIP implementation being considered incomplete.**
+
 ## 🧪 TESTING AND VALIDATION REQUIREMENTS
 
 ### **Manual Code Review Mandate**
