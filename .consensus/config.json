@@ -2,7 +2,7 @@
   "$schema": "./config.schema.json",
   "version": "1.0.0",
   "consensus": {
-    "enabled": true,
+    "enabled": false,
     "thresholds": {
       "default": 0.6,
       "core": 0.8,
