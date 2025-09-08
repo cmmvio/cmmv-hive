@@ -88,7 +88,10 @@ message Envelope {
 - **update_changelog_after_final_review { bipId }**: append entry under `[Unreleased]` with decision, rationale, and links.  
 - **generate_final_review_report { bipId }**: create `FINAL_REVIEW_REPORT.md` using the unified template.  
 - **sync_bip_status { bipId }**: harmonize status across `gov/bips/BIP-xx/*` docs and READMEs.  
-- **update_readme { bipId }**: update project README with key outcomes and deployment notes.
+- **update_readme { bipId }**: update project README with key outcomes and deployment notes.  
+- **initiate_voting_session { pendingThreshold, initiatorModel?, minuteId? }**: when pending proposals ≥ threshold, select/rotate an initiator model; create a new minute under `gov/minutes/<NNNN>/` with `INSTRUCTIONS.md` and minute JSON compliant with `gov/schemas/minutes_report.schema.json`; seed session metadata and cast the initiator’s first vote.  
+- **request_vote { modelName, subjectId, subjectType: 'proposal'|'bip', ballotTemplatePath }**: send a standardized vote request (same template for all models, only `modelName` varies); ensure models receive their explicit `modelName` parameter.  
+- **collect_votes { sessionId, expectedVoters[] }**: collect ballots, validate against the template, record outcomes to the minute, and close the session.
 
 **Governance Coupling**
 - **Criticity → reviews**:  
@@ -97,7 +100,8 @@ message Envelope {
   - if three reviewers cannot reach harmony or there are many change requests, add **+2** reviewers; if still unresolved, require approval of **all 10 generals**.  
 - **Branch discipline**: on implementation start, create branch `bip/<id>/impl/<timestamp>`.  
 - Each review round ⇒ **commit**; on final approval ⇒ **push** and **open PR**.  
-- **Post-approval actions** (automated TASKs): `generate_final_review_report`, `update_changelog_after_final_review`, `update_readme`, and `sync_bip_status`.
+- **Post-approval actions** (automated TASKs): `generate_final_review_report`, `update_changelog_after_final_review`, `update_readme`, and `sync_bip_status`.  
+- **Voting orchestration**: when proposals pending accumulate, rotate initiator selection via the task manager; create minutes per prior sessions and governance rites; use a single standardized ballot template for all models (only `modelName` changes); initiator must cast the first vote and record it in the minute.
 
 **Security & Approvals**
 - Server policy controls terminal command approvals: `allow|deny|ask`.  
@@ -116,6 +120,7 @@ message Envelope {
   - `consumer-cursor`: bridge to Cursor chat/session/model control + terminal approvals.  
   - `gitops`: branch/commit/PR helpers via GitHub App.  
   - `governance`: criticity → required reviews, escalation rules.  
+  - `voting`: minute creation (`gov/minutes/<NNNN>/`), standardized ballot templating, initiator rotation, vote collection/tally, schema validation.
 - **CLI Client**: `hive task submit ...`, `hive tail <traceId>`.  
 - **Dashboard (later)**: visualize queue, approvals, logs, artifacts.
 
@@ -126,10 +131,13 @@ message Envelope {
 - [ ] Final review report generated from `gov/bips/templates/REVIEW_REPORT.md`.  
 - [ ] CHANGELOG updated under `[Unreleased]` with BIP decision and links.  
 - [ ] README updated with BIP outcomes and security/operations notes.  
-- [ ] BIP status synchronized across all related documents.
+- [ ] BIP status synchronized across all related documents.  
 - [ ] Wire format negotiation works (protobuf default, json fallback).  
 - [ ] `.proto`/`.fbs` schemas committed and pass lint/validate; codegen bindings compile in Rust and TS.  
-- [ ] Schema evolution policy documented and enforced via CI compatibility checks.
+- [ ] Schema evolution policy documented and enforced via CI compatibility checks.  
+- [ ] Voting session initiation creates `gov/minutes/<NNNN>/` with `INSTRUCTIONS.md` and minute JSON valid per `gov/schemas/minutes_report.schema.json`.  
+- [ ] Initiator casts and records the first vote; standardized ballot template is used for all vote requests with explicit `modelName`.  
+- [ ] Rotation and collection complete within SLA; final tally recorded to the minute.
 
 ### Timeline
 - **Phase 1**: Broker WS + CLI + TASK skeletons + logging/ids (Week 1–2)  
@@ -175,7 +183,9 @@ message Envelope {
 5. [External Reference](https://example.com)
 6. [Protocol Buffers](https://developers.google.com/protocol-buffers)  
 7. [FlatBuffers](https://google.github.io/flatbuffers/)  
-8. [Buf: Protobuf Linting and Breaking Change Detection](https://buf.build/docs)
+8. [Buf: Protobuf Linting and Breaking Change Detection](https://buf.build/docs)  
+9. [Minutes README](../../minutes/README.md)  
+10. [Minutes Report Schema](../../schemas/minutes_report.schema.json)
 
 ---
 
