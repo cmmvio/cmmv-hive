@@ -27,7 +27,7 @@ export interface ModelHealth {
   readonly responseTime: number; // in milliseconds
   readonly errorRate: number; // percentage (0-100)
   readonly failureCount: number;
-  readonly lastError?: Error;
+  readonly lastError?: Error | undefined;
   readonly metadata?: Record<string, unknown>;
 }
 
@@ -57,8 +57,8 @@ export interface CircuitBreakerConfig {
 export interface CircuitBreakerStatus {
   readonly state: CircuitBreakerState;
   readonly failureCount: number;
-  readonly lastFailureTime?: Date;
-  readonly nextRetryTime?: Date;
+  readonly lastFailureTime?: Date | undefined;
+  readonly nextRetryTime?: Date | undefined;
   readonly successCount: number;
 }
 
@@ -136,7 +136,7 @@ export interface ResilienceMetrics {
 /**
  * Alert severity levels
  */
-export type AlertSeverity = 'info' | 'warning' | 'error' | 'critical';
+export type AlertSeverity = 'critical' | 'warning' | 'info';
 
 /**
  * Alert configuration
@@ -298,4 +298,124 @@ export class AllModelsFailedError extends ResilienceError {
       this.cause = lastError;
     }
   }
+}
+
+/**
+ * Alert notification channels
+ */
+export type AlertChannel = 'slack' | 'email' | 'webhook' | 'console';
+
+/**
+ * Alert instance
+ */
+export interface Alert {
+  readonly id: string;
+  readonly configId: string;
+  readonly timestamp: Date;
+  readonly severity: AlertSeverity;
+  readonly title: string;
+  readonly message: string;
+  readonly metric: string;
+  readonly value: number;
+  readonly threshold: number;
+  readonly modelId?: string | undefined;
+  readonly metadata?: Record<string, unknown> | undefined;
+}
+
+/**
+ * Alert delivery status
+ */
+export interface AlertDeliveryStatus {
+  readonly alertId: string;
+  readonly channel: AlertChannel;
+  readonly success: boolean;
+  readonly timestamp: Date;
+  readonly error?: string | undefined;
+  readonly responseTime: number;
+}
+
+/**
+ * Metric data point for time series
+ */
+export interface MetricDataPoint {
+  readonly timestamp: Date;
+  readonly value: number;
+  readonly metadata?: Record<string, unknown> | undefined;
+}
+
+/**
+ * Dashboard widget types
+ */
+export type WidgetType =
+  | 'metric'
+  | 'chart'
+  | 'status'
+  | 'alert'
+  | 'model-grid'
+  | 'performance-summary';
+
+/**
+ * Metric widget data
+ */
+export interface MetricWidget {
+  readonly type: 'metric';
+  readonly metric: string;
+  readonly value: number;
+  readonly unit?: string | undefined;
+  readonly trend?: 'up' | 'down' | 'stable' | undefined;
+  readonly status?: 'good' | 'warning' | 'critical' | undefined;
+  readonly previousValue?: number | undefined;
+}
+
+/**
+ * Status widget data
+ */
+export interface StatusWidget {
+  readonly type: 'status';
+  readonly status: 'operational' | 'degraded' | 'down' | 'maintenance';
+  readonly message: string;
+  readonly uptime: number;
+  readonly lastIncident?: Date | undefined;
+}
+
+/**
+ * Chart widget data
+ */
+export interface ChartWidget {
+  readonly type: 'chart';
+  readonly chartType: 'line' | 'area' | 'bar' | 'pie' | 'gauge';
+  readonly series: unknown[];
+  readonly timeRange: unknown;
+}
+
+/**
+ * Alert widget data
+ */
+export interface AlertWidget {
+  readonly type: 'alert';
+  readonly activeAlerts: number;
+  readonly criticalAlerts: number;
+  readonly warningAlerts: number;
+  readonly recentAlerts: Alert[];
+}
+
+/**
+ * Model grid widget data
+ */
+export interface ModelGridWidget {
+  readonly type: 'model-grid';
+  readonly models: unknown[];
+}
+
+/**
+ * Performance summary widget data
+ */
+export interface PerformanceSummaryWidget {
+  readonly type: 'performance-summary';
+  readonly totalRequests: number;
+  readonly successRate: number;
+  readonly averageResponseTime: number;
+  readonly p95ResponseTime: number;
+  readonly activeModels: number;
+  readonly healthyModels: number;
 }
