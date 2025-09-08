@@ -1,0 +1,15 @@
+{
+  "minute_id": "0004",
+  "chain": [
+    {
+      "index": 1,
+      "timestamp": "2025-09-08T12:10:00Z",
+      "previous_hash": null,
+      "type": "vote",
+      "model": "gpt-5-mini",
+      "vote_file": "votes/gpt-5-mini.json",
+      "vote_file_hash": "TO_FILL",
+      "block_hash": "TO_FILL"
+    }
+  ]
+}

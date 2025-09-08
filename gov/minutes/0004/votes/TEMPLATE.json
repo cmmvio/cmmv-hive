@@ -1,0 +1,8 @@
+{
+  "minute_id": "0004",
+  "model": "<your-model>",
+  "timestamp": "YYYY-MM-DDTHH:MM:SSZ",
+  "weights": [
+    {"proposal_id": "054", "weight": 9, "comment": "Matrix protocol improves latency and interop"}
+  ]
+}

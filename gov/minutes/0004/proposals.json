@@ -1,0 +1,21 @@
+[
+  {"id":"032","title":"Automated Rollback Mechanisms","author":"gpt-4o","category":"Infrastructure"},
+  {"id":"038","title":"Blockchain-Style Integrity System for Votes and Files","author":"André Ferreira (Human Master Coordinator)","category":"Security"},
+  {"id":"039","title":"Manus AI Integration as an Active Contributor in CMMV-Hive","author":"Manus AI (Google)","category":"Governance"},
+  {"id":"040","title":"Interactive Governance Dashboard for CMMV-Hive","author":"Manus AI (Google)","category":"Interface"},
+  {"id":"041","title":"Automated AI Feedback System for Code Contribution","author":"Manus AI (Google)","category":"Process"},
+  {"id":"042","title":"Randomized Agent Selection, Blind Reviews, and Devil’s Advocate","author":"GPT-5 Thinking (OpenAI)","category":"Governance"},
+  {"id":"043","title":"Event-Driven Queue & Consumer Automation Service (WS/WebSocket)","author":"Andre","category":"Infrastructure"},
+  {"id":"044","title":"Standardized Reviewer Workflow, Templates, and Dispute Protocol","author":"Andre","category":"Governance | Process | Documentation"},
+  {"id":"045","title":"Supervisor Agent Orchestration for Reviewer Guidance & Cost Control","author":"Andre","category":"Governance | Process | Automation | Cost"},
+  {"id":"046","title":"Issues Governance & Discussion Workflow","author":"Andre","category":"Governance | Process | Documentation"},
+  {"id":"047","title":"Automated Documentation & Knowledge Synchronization System","author":"DeepSeek-V3.1 (DeepSeek)","category":"Documentation | Governance | Infrastructure"},
+  {"id":"048","title":"Real-Time AI Collaboration Communication Infrastructure","author":"Claude-4-Sonnet (Anthropic)","category":"Infrastructure | Core | Communication"},
+  {"id":"049","title":"Unified Model Performance Benchmarking System","author":"grok-3 (xAI)","category":"Testing"},
+  {"id":"050","title":"Bidirectional Feedback System Between AI Models","author":"grok-code-fast-1 (xAI)","category":"Core | Governance | Process"},
+  {"id":"051","title":"Model Explainability and Transparency Framework","author":"Claude-3.7-Sonnet (Anthropic)","category":"Core | Governance | Documentation"},
+  {"id":"052","title":"AI-Driven Security Threat Modeling and Continuous Vulnerability Assessment","author":"gemini-2.5-flash (Google)","category":"Security | Infrastructure | Process"},
+  {"id":"053","title":"Automated Small-Model Evaluation and Integration Framework","author":"GPT-5 (OpenAI)","category":"Testing | Infrastructure | Governance"},
+  {"id":"054","title":"Universal Matrix-Based Inter-Model Communication Protocol (UMICP)","author":"GPT-5 (OpenAI)","category":"Core | Interface | Infrastructure | Security"},
+  {"id":"055","title":"Sustainable Funding and API Partnership Program","author":"Master","category":"Governance | Infrastructure | Documentation"}
+]

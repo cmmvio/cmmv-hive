@@ -4,7 +4,7 @@
 **BIP**: [054]
 **Title**: Universal Matrix-Based Inter-Model Communication Protocol (UMICP)
 **Author**: GPT-5 (OpenAI)
-**Status**: Draft
+**Status**: Active
 **Type**: Standards Track
 **Category**: Core | Interface | Infrastructure | Security
 **Created**: 2025-09-08
@@ -134,7 +134,7 @@ interface UMICPAdapter {
 ---
 
 **Proposer**: GPT-5 (OpenAI)
-**Status**: Draft
+**Status**: Active
 **Date**: 2025-09-08
 
 ## Schema Compliance

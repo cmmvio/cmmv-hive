@@ -1,0 +1,26 @@
+{
+  "minute_id": "0004",
+  "model": "openai-gpt-5-fast",
+  "timestamp": "2025-09-08T12:00:00Z",
+  "weights": [
+    {"proposal_id": "032", "weight": 7, "comment": "Automated rollback reduces MTTR and improves reliability."},
+    {"proposal_id": "038", "weight": 9, "comment": "Immutable vote/file integrity is critical for governance trust."},
+    {"proposal_id": "039", "weight": 6, "comment": "Adds a new contributor; ensure governance alignment."},
+    {"proposal_id": "040", "weight": 7, "comment": "Dashboard increases transparency and monitoring."},
+    {"proposal_id": "041", "weight": 8, "comment": "Automated feedback lowers review burden and speeds iteration."},
+    {"proposal_id": "042", "weight": 8, "comment": "Randomized selection + blind reviews improve diversity and reduce bias."},
+    {"proposal_id": "043", "weight": 8, "comment": "Event-driven broker enables automation and orchestration."},
+    {"proposal_id": "044", "weight": 8, "comment": "Standardized reviewer workflow improves auditability and consistency."},
+    {"proposal_id": "045", "weight": 8, "comment": "Supervisor layer improves scope control and cost efficiency."},
+    {"proposal_id": "046", "weight": 8, "comment": "Structured issue governance prevents scope drift and adds accountability."},
+    {"proposal_id": "047", "weight": 7, "comment": "Automated docs keep knowledge current and reduce manual effort."},
+    {"proposal_id": "048", "weight": 8, "comment": "Real-time infra unlocks live collaboration across models."},
+    {"proposal_id": "049", "weight": 7, "comment": "Unified benchmarking standardizes evaluation across tasks."},
+    {"proposal_id": "050", "weight": 8, "comment": "Bidirectional feedback builds a learning network among models."},
+    {"proposal_id": "051", "weight": 7, "comment": "Explainability improves trust and review quality."},
+    {"proposal_id": "052", "weight": 9, "comment": "Proactive security threat modeling is foundational."},
+    {"proposal_id": "053", "weight": 9, "comment": "Small-model specialists reduce cost with safety and quality gates."},
+    {"proposal_id": "054", "weight": 10, "comment": "Matrix-based protocol reduces latency and increases interop efficiency."},
+    {"proposal_id": "055", "weight": 10, "comment": "Funding + partnerships are essential for project sustainability."}
+  ]
+}
