@@ -1,0 +1,28 @@
+security:
+  execution:
+    timeout_seconds: 300
+    cpu_seconds: 60
+    memory_mb: 512
+    file_size_mb: 100
+    max_processes: 5
+
+  filesystem:
+    allowed_paths:
+      - "/tmp"
+      - "./data"
+      - "./logs"
+    blocked_operations:
+      - "delete"
+      - "chmod"
+      - "chown"
+
+  network:
+    allowed_domains: []
+    blocked_ports: [22, 23, 3389]
+
+  monitoring:
+    log_level: "INFO"
+    alert_thresholds:
+      cpu_usage: 80
+      memory_usage: 90
+      execution_time: 250
