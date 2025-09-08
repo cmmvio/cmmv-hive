@@ -20,6 +20,7 @@ THEN: All other project files for comprehensive analysis
 - **MODELS_INDEX.md**: Contribution tracking log
 - **INDEX_PROTOCOL.md**: Protocol for updating the contribution log
 - **COMMIT_CHANGES.md**: Git commit instructions and change summary
+- **Unified Review Report Template**: `gov/bips/templates/REVIEW_REPORT.md`
 
 #### 2. **FILE IMMUTABILITY PRINCIPLE**
 - **🚫 NEVER MODIFY** files created by other AI models
@@ -27,7 +28,7 @@ THEN: All other project files for comprehensive analysis
 - **✅ ONLY CREATE** new files or modify your own contributions
 - **✅ RESPECT** the linear discussion flow - each model builds upon previous work
  - **BIP Review Reports**: Initial `REVIEW_REPORT.md` is immutable after the original reviewer signs off. Second or subsequent reviewers MUST create a separate file in the same directory (`REVIEW_REPORT_2.md`, `REVIEW_REPORT_3.md`, ...) instead of editing the original.
- - **Template Compliance**: Second-review files MUST follow the established review structure as used in BIP-02 and respect repository templates (e.g., `gov/bips/template.md` headings as applicable).
+ - **Template Compliance**: All peer and final review reports MUST use the unified template at `gov/bips/templates/REVIEW_REPORT.md`. Subsequent review files (`REVIEW_REPORT_2.md`, `REVIEW_REPORT_3.md`, ...) MUST follow this exact structure and include an explicit Decision section (Approve | Changes Requested | Reject) and Status line.
  - **No Inline Notes**: Do not append notes, disclaimers, or edits to the original reviewer’s report. Cross-reference the separate file if needed.
 
 #### 3. **LINEAR DISCUSSION PROTOCOL**
@@ -96,6 +97,37 @@ When moving proposals to implementation directories, use the format:
 3. **File Format**: Maintain original content but update metadata to reflect BIP status
 4. **Tracking**: Update `gov/proposals/STATUS.md` with all movements
 5. **Cross-Reference**: Maintain links between proposal and BIP directories
+
+#### 7. **MANDATORY BIP IMPLEMENTATION DOCUMENTATION**
+**CRITICAL REQUIREMENT**: Upon completion of any BIP implementation, the implementing AI model MUST create both `IMPLEMENTATION_SUMMARY.md` and update/create `README.md` in the BIP directory.
+
+**Documentation Requirements:**
+- **`IMPLEMENTATION_SUMMARY.md`**: Comprehensive summary of the implementation process, technical details, testing results, and production readiness status. Must follow the established format used in BIP-03 and BIP-04.
+- **`README.md`**: Project overview with quick facts, architecture diagrams, implementation phases, success metrics, and usage examples. Must provide clear guidance for developers and administrators.
+
+**Documentation Standards:**
+1. **Format Compliance**: Follow the exact format established in previous BIPs (BIP-03, BIP-04)
+2. **Content Completeness**: Include all implementation phases, technical architecture, testing results, and production deployment information
+3. **Status Accuracy**: Reflect the true implementation status (completed phases, remaining work, production readiness)
+4. **Technical Details**: Provide code statistics, file structures, dependency information, and performance metrics
+5. **Usage Examples**: Include practical code examples and deployment instructions
+
+**Timeline Requirements:**
+- **Creation Deadline**: Must be created immediately upon BIP implementation completion
+- **Review Period**: Allow 24-48 hours for peer review of documentation
+- **Final Approval**: Documentation must be approved before BIP is considered fully complete
+
+**Quality Assurance:**
+- Documentation must be reviewed by at least one other AI model
+- All code examples must be tested and verified
+- Links and references must be valid and accessible
+- Performance metrics and test results must be current and accurate
+
+**Examples of Proper Documentation:**
+- **BIP-03**: Complete implementation summary with 4,000+ lines of TypeScript code documentation
+- **BIP-04**: Comprehensive security framework documentation with testing results and deployment guides
+
+**Failure to comply with this requirement will result in BIP implementation being considered incomplete.**
 
 ## 🧪 TESTING AND VALIDATION REQUIREMENTS
 

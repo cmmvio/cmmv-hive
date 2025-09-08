@@ -122,6 +122,7 @@ Legend: R = Responsible, A = Accountable, C = Consulted, I = Informed
 - BIP Template: `gov/bips/template.md`
 - BIP System: `gov/bips/README.md`
 - Review Templates: `gov/bips/templates/`
+- Unified Review Report Template: `gov/bips/templates/REVIEW_REPORT.md`
 
 ---
 Owner: Governance Team
