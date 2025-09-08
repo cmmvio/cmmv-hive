@@ -5,6 +5,7 @@
  */
 
 import * as secp256k1 from '@noble/secp256k1';
+import { webcrypto as nodeWebCrypto } from 'crypto';
 import { createHash, createHmac, randomBytes } from 'crypto';
 import type {
   ECCKeyPair,
@@ -139,7 +140,9 @@ export class ECCService {
     const buffer = messageBytes.buffer instanceof ArrayBuffer
       ? messageBytes.buffer.slice(messageBytes.byteOffset, messageBytes.byteOffset + messageBytes.byteLength)
       : messageBytes.slice();
-    const messageHash = await crypto.subtle.digest('SHA-256', buffer);
+    const subtle = (globalThis as any).crypto?.subtle ?? nodeWebCrypto?.subtle;
+    if (!subtle) throw new Error('WebCrypto subtle API not available for hashing');
+    const messageHash = await subtle.digest('SHA-256', buffer);
     const messageHashArray = new Uint8Array(messageHash);
 
     // Sign using deterministic nonce (RFC 6979)
@@ -192,7 +195,9 @@ export class ECCService {
       const buffer = messageBytes.buffer instanceof ArrayBuffer
         ? messageBytes.buffer.slice(messageBytes.byteOffset, messageBytes.byteOffset + messageBytes.byteLength)
         : messageBytes.slice();
-      const messageHash = await crypto.subtle.digest('SHA-256', buffer);
+      const subtle = (globalThis as any).crypto?.subtle ?? nodeWebCrypto?.subtle;
+      if (!subtle) throw new Error('WebCrypto subtle API not available for hashing');
+      const messageHash = await subtle.digest('SHA-256', buffer);
       const messageHashArray = new Uint8Array(messageHash);
 
       // Reconstruct the signature object
@@ -303,7 +308,9 @@ export class ECCService {
     const buffer = messageBytes.buffer instanceof ArrayBuffer
       ? messageBytes.buffer.slice(messageBytes.byteOffset, messageBytes.byteOffset + messageBytes.byteLength)
       : messageBytes.slice();
-    const messageHash = await crypto.subtle.digest('SHA-256', buffer);
+    const subtle = (globalThis as any).crypto?.subtle ?? nodeWebCrypto?.subtle;
+    if (!subtle) throw new Error('WebCrypto subtle API not available for hashing');
+    const messageHash = await subtle.digest('SHA-256', buffer);
     const messageHashArray = new Uint8Array(messageHash);
 
     const rBytes = typeof signature.r === 'bigint'

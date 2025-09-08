@@ -87,7 +87,8 @@ describe('ECCService', () => {
 
     it('should reject signature with wrong public key', async () => {
       const signature = await ECCService.signMessage(testMessage, keyPair.privateKey);
-      const wrongKeyPair = await ECCService.generateKeyPair();
+      // Use deterministic different seed to guarantee a different key under mocked RNG
+      const wrongKeyPair = ECCService.generateDeterministicKeyPair('wrong-key-seed-001');
       const verification = await ECCService.verifySignature(testMessage, signature, wrongKeyPair.publicKey);
 
       expect(verification.isValid).toBe(false);
