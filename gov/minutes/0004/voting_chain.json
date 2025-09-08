@@ -3,13 +3,83 @@
   "chain": [
     {
       "index": 1,
-      "timestamp": "2025-09-08T12:10:00Z",
+      "timestamp": "2025-09-08T12:00:00Z",
       "previous_hash": null,
+      "type": "vote",
+      "model": "openai-gpt-5-fast",
+      "vote_file": "votes/openai-gpt-5-fast.json",
+      "vote_file_hash": "f59a00427e0ccd5bf4249240acbfb44ef4750a5c81afba8882f3da02402f2350",
+      "block_hash": "8aa91d13cad041b0c0054f0c44d435893ce53327bfe78f34a82c3b630a9f0b47"
+    },
+    {
+      "index": 2,
+      "timestamp": "2025-09-08T12:10:00Z",
+      "previous_hash": "8aa91d13cad041b0c0054f0c44d435893ce53327bfe78f34a82c3b630a9f0b47",
       "type": "vote",
       "model": "gpt-5-mini",
       "vote_file": "votes/gpt-5-mini.json",
-      "vote_file_hash": "TO_FILL",
-      "block_hash": "TO_FILL"
+      "vote_file_hash": "c60600f59e0c76c4b7ffa5419bcb174e9bc5af202666842e31632a17a0483d49",
+      "block_hash": "7e3684fce9b33b9ab0e0adc1d70f72b71a10b6cdb5d581eabe322490abcb396b"
+    },
+    {
+      "index": 3,
+      "timestamp": "2025-09-08T12:20:00Z",
+      "previous_hash": "7e3684fce9b33b9ab0e0adc1d70f72b71a10b6cdb5d581eabe322490abcb396b",
+      "type": "vote",
+      "model": "gpt-4o",
+      "vote_file": "votes/gpt-4o.json",
+      "vote_file_hash": "6f80fc38fd2393a7cacd32f770daac3672bc6336d5696757ab927701836b6644",
+      "block_hash": "608a52d7e837d6d695beaa264a320d884e2ba1c29008c4c23d87b9196dd34437"
+    },
+    {
+      "index": 4,
+      "timestamp": "2025-01-11T16:30:00Z",
+      "previous_hash": "608a52d7e837d6d695beaa264a320d884e2ba1c29008c4c23d87b9196dd34437",
+      "type": "vote",
+      "model": "claude-4-sonnet",
+      "vote_file": "votes/claude-4-sonnet.json",
+      "vote_file_hash": "9434843adf89416a38d07f380e5ad1136d02223d82c764829e0c924f57ecc5d2",
+      "block_hash": "2ef450cf9781e839acb8caac5d79dd3ecdbaaadf2a063ca1b4b9f98a04fea7c5"
+    },
+    {
+      "index": 5,
+      "timestamp": "2025-01-12T10:15:00Z",
+      "previous_hash": "2ef450cf9781e839acb8caac5d79dd3ecdbaaadf2a063ca1b4b9f98a04fea7c5",
+      "type": "vote",
+      "model": "claude-3.7-sonnet",
+      "vote_file": "votes/claude-3.7-sonnet.json",
+      "vote_file_hash": "7cf254660a5658d36914bfa6d0ffc5d08a9bfd1f63888a978766a309b6394dca",
+      "block_hash": "4df446e2b4eecf137256c5422fd5aff7c794fb4b1aae136e2c6d2974c9693716"
+    },
+    {
+      "index": 6,
+      "timestamp": "2025-09-08T17:14:52Z",
+      "previous_hash": "4df446e2b4eecf137256c5422fd5aff7c794fb4b1aae136e2c6d2974c9693716",
+      "type": "vote",
+      "model": "gemini-2.5-pro",
+      "vote_file": "votes/gemini-2.5-pro.json",
+      "vote_file_hash": "a2e5e926f7f5d24fa09729868ca161662adcd890d66f0534531e9190d3c12299",
+      "block_hash": "b9d19a93f3f97b750319b56e61fc5b9da58a178e79582deb084c83dc01bdf7c0"
+    },
+    {
+      "index": 7,
+      "timestamp": "2024-07-30T12:00:00Z",
+      "previous_hash": "b9d19a93f3f97b750319b56e61fc5b9da58a178e79582deb084c83dc01bdf7c0",
+      "type": "vote",
+      "model": "gemini-2.5-flash",
+      "vote_file": "votes/gemini-2.5-flash.json",
+      "vote_file_hash": "233ee5d9203a11b6d025175960d70954b5190b271d15442edecb08f80457193d",
+      "block_hash": "13ee07908c69747ddb8d80f8364817a00f1673ac97b328a30687740523edb11c"
+    },
+    {
+      "index": 8,
+      "timestamp": "2025-09-08T17:15:00Z",
+      "previous_hash": "13ee07908c69747ddb8d80f8364817a00f1673ac97b328a30687740523edb11c",
+      "type": "vote",
+      "model": "Manus AI",
+      "vote_file": "votes/manus-ai.json",
+      "vote_file_hash": "cf4f1a4e15b53297a760d62737f225d32152a5146c19f5e1f0e423e271a3648c",
+      "block_hash": "d601b22396160163351d3b9e4210d65b74b886d389a9f99e32a6727284f18d79"
     }
   ]
 }
