@@ -24,7 +24,10 @@
     "precommit": "lint-staged",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "changeset publish"
+    "release": "changeset publish",
+    "vote-hash": "node packages/crypto-utils/dist/crypto-utils/src/cli.js",
+    "vote-hash:build": "cd packages/crypto-utils && npm run build && cd ../.. && npm run vote-hash",
+    "hash": "npm run vote-hash"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",

@@ -2,9 +2,14 @@
   "name": "@cmmv-hive/crypto-utils",
   "version": "1.0.0",
   "description": "ECC cryptography utilities for CMMV-Hive with secp256k1 support",
+  "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "bin": {
+    "vote-hash": "./dist/crypto-utils/src/cli.js",
+    "cmmv-hash": "./dist/crypto-utils/src/cli.js"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -17,6 +22,10 @@
     "./storage": {
       "import": "./dist/storage/index.js",
       "types": "./dist/storage/index.d.ts"
+    },
+    "./hash": {
+      "import": "./dist/hash.js",
+      "types": "./dist/hash.d.ts"
     }
   },
   "scripts": {

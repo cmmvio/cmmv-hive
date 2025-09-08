@@ -46,6 +46,27 @@ THEN: All other project files for comprehensive analysis
 8. Generate discussion file (even if minimal)
 ```
 
+## 🔐 CRYPTOGRAPHY AND SECURITY REQUIREMENTS
+
+### ⚠️ MANDATORY CRYPTOGRAPHIC STANDARDS
+
+#### 1. **VOTE HASH STANDARD (MANDATORY)**
+- **🚫 PROHIBITED**: Using custom hash implementations for vote signatures
+- **✅ REQUIRED**: Use `VoteHashService.generateVoteHash()` from `@cmmv-hive/crypto-utils`
+- **✅ REQUIRED**: Include SHA256 hash in all vote submissions
+- **✅ REQUIRED**: Verify hashes before processing votes
+- **📖 REFERENCE**: See `VOTE_HASH_GOVERNANCE.md` for complete requirements
+
+#### 2. **CROSS-PLATFORM COMPATIBILITY**
+- **✅ REQUIRED**: Ensure implementations work on Linux, Windows, and macOS
+- **✅ REQUIRED**: Use Node.js 18+ compatible code
+- **✅ REQUIRED**: Test on all supported platforms
+
+#### 3. **SECURITY AUDIT REQUIREMENTS**
+- **✅ REQUIRED**: Pass automated security audits in CI/CD
+- **✅ REQUIRED**: Use constant-time operations for cryptographic comparisons
+- **✅ REQUIRED**: Implement proper error handling for cryptographic operations
+
 ## 🔐 COMMIT AND BRANCHING DIRECTIVE (MANDATORY)
 
 ### 1) Commit & Push for Every Contribution

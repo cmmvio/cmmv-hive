@@ -1,0 +1,176 @@
+name: CLI Release Pipeline
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'packages/crypto-utils/**'
+  release:
+    types: [ published ]
+  workflow_dispatch:
+
+jobs:
+  build-cli:
+    name: Build CLI Binaries
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            binary_suffix: linux-x64
+            pkg_target: node18-linux-x64
+          - os: ubuntu-latest
+            binary_suffix: linux-arm64
+            pkg_target: node18-linux-arm64
+          - os: windows-latest
+            binary_suffix: win32-x64
+            pkg_target: node18-win32-x64
+          - os: macos-latest
+            binary_suffix: macos-x64
+            pkg_target: node18-macos-x64
+          - os: macos-latest
+            binary_suffix: macos-arm64
+            pkg_target: node18-macos-arm64
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.1
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build crypto-utils package
+        run: |
+          cd packages/crypto-utils
+          npm run build
+
+      - name: Install pkg globally
+        run: npm install -g pkg
+
+      - name: Create CLI binary
+        run: |
+          cd packages/crypto-utils
+          pkg dist/cli.js --targets ${{ matrix.pkg_target }} --output ../../dist/vote-hash-${{ matrix.binary_suffix }}
+
+      - name: Test CLI binary
+        run: |
+          # Make binary executable on Unix systems
+          if [ "${{ matrix.os }}" != "windows-latest" ]; then
+            chmod +x ../../dist/vote-hash-${{ matrix.binary_suffix }}
+          fi
+
+          # Test help command
+          ../../dist/vote-hash-${{ matrix.binary_suffix }} --help
+
+          # Test hash generation
+          echo '{"proposalId":"test-123","modelId":"model-456","weight":8,"timestamp":"2024-01-01T12:00:00Z"}' | \\
+          ../../dist/vote-hash-${{ matrix.binary_suffix }} --input -
+
+      - name: Upload CLI binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: vote-hash-${{ matrix.binary_suffix }}
+          path: dist/vote-hash-${{ matrix.binary_suffix }}
+          retention-days: 30
+
+  create-release:
+    name: Create CLI Release
+    needs: build-cli
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all CLI binaries
+        uses: actions/download-artifact@v4
+        with:
+          path: ./cli-binaries/
+
+      - name: Make Linux binaries executable
+        run: |
+          chmod +x ./cli-binaries/vote-hash-linux-x64/cli-binaries/vote-hash-linux-x64
+          chmod +x ./cli-binaries/vote-hash-linux-arm64/cli-binaries/vote-hash-linux-arm64
+
+      - name: Create checksums
+        run: |
+          cd cli-binaries
+          for binary in vote-hash-*/*; do
+            if [ -f "$binary" ]; then
+              sha256sum "$binary" >> checksums.sha256
+            fi
+          done
+          cat checksums.sha256
+
+      - name: Create release archives
+        run: |
+          cd cli-binaries
+
+          # Create individual archives for each platform
+          for dir in vote-hash-*; do
+            if [ -d "$dir" ]; then
+              platform=$(basename "$dir")
+              tar -czf "${platform}.tar.gz" -C "$dir" "$(basename "$(ls $dir/*)")"
+            fi
+          done
+
+      - name: Upload binaries to release
+        uses: softprops/action-gh-release@v2
+        if: github.event_name == 'release'
+        with:
+          files: |
+            cli-binaries/*.tar.gz
+            cli-binaries/checksums.sha256
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            ## Vote Hash Generator CLI Release
+
+            This release contains pre-compiled binaries of the CMMV-Hive Vote Hash Generator CLI tool for multiple platforms.
+
+            ### Downloads
+
+            - **Linux x64**: `vote-hash-linux-x64.tar.gz`
+            - **Linux ARM64**: `vote-hash-linux-arm64.tar.gz`
+            - **Windows x64**: `vote-hash-win32-x64.tar.gz`
+            - **macOS x64**: `vote-hash-macos-x64.tar.gz`
+            - **macOS ARM64**: `vote-hash-macos-arm64.tar.gz`
+
+            ### Installation
+
+            1. Download the appropriate archive for your platform
+            2. Extract the binary
+            3. Make it executable (on Unix systems): `chmod +x vote-hash`
+            4. Run: `./vote-hash --help`
+
+            ### Usage
+
+            ```bash
+            # Generate hash for a vote
+            ./vote-hash --vote --file vote.json
+
+            # Verify a hash
+            ./vote-hash verify --input '{"hash":"...","data":{...}}'
+            ```
+
+            ### Governance Requirement
+
+            All models in the CMMV-Hive ecosystem MUST use this standardized CLI tool or the VoteHashService.generateVoteHash() method for generating SHA256 hashes of vote signatures to ensure governance integrity and consistency.
+
+      - name: Upload binaries as workflow artifacts
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: vote-hash-cli-all-platforms
+          path: |
+            cli-binaries/
+          retention-days: 7

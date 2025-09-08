@@ -13,6 +13,9 @@ export { SignatureService } from './signature/index.js';
 // Secure key storage
 export { SecureKeyStorage } from './storage/index.js';
 
+// Vote hash service for standardized SHA256 generation
+export { VoteHashService } from './hash.js';
+
 // Re-export shared types for convenience
 export type {
   ECCKeyPair,

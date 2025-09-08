@@ -15,6 +15,8 @@ This project implements a minimalist **Consensus Gate** that allows multiple AI 
 - 📝 **Structured PR Template** - Standardizes acceptance criteria
 - 👥 **Smart CODEOWNERS** - Directory-based ownership rules
 - 🔧 **Flexible Configuration** - Easy customization via text files
+- 🔐 **Cryptographic Vote Hashing** - Standardized SHA256 hash generation for vote integrity
+- 🖥️ **CLI Tools** - Command-line utilities for vote hash generation and validation
 
 ## 🚀 How It Works
 
