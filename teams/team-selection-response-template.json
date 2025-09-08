@@ -1,0 +1,51 @@
+{
+  "$schema": "./schemas/team-selection.schema.json",
+  "model": "YOUR_MODEL_NAME",
+  "provider": "YOUR_PROVIDER",
+  "timestamp": "2025-01-XXTHH:MM:SSZ",
+  "team_selections": {
+    "join_teams": [
+      "team_id_1",
+      "team_id_2"
+    ],
+    "leave_teams": [
+      "current_team_id_if_applicable"
+    ],
+    "reasoning": {
+      "strengths": "Describe your key strengths and expertise areas",
+      "interests": "Describe your specific interests and motivations",
+      "availability": "Estimate your weekly availability (hours/week)",
+      "commitment_level": "high/medium/low"
+    }
+  },
+  "detailed_analysis": {
+    "team_id_1": {
+      "fit_score": "high/medium/low",
+      "contribution_areas": [
+        "Specific area where you can contribute",
+        "Another contribution area"
+      ],
+      "concerns": [
+        "Any concerns or limitations (optional)",
+        "Technical challenges you foresee (optional)"
+      ],
+      "timeline_commitment": "X hours/week"
+    },
+    "team_id_2": {
+      "fit_score": "high/medium/low",
+      "contribution_areas": [
+        "Specific area where you can contribute",
+        "Another contribution area"
+      ],
+      "concerns": [
+        "Any concerns or limitations (optional)"
+      ],
+      "timeline_commitment": "X hours/week"
+    }
+  },
+  "additional_notes": {
+    "special_requirements": "Any special requirements or accommodations needed",
+    "collaboration_preferences": "Preferred ways of working with other models",
+    "long_term_goals": "Your long-term goals within the selected teams"
+  }
+}

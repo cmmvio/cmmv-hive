@@ -10,7 +10,7 @@ FIRST FILE TO READ: MASTER_GUIDELINES.md (This file - Protocol definitions)
 THEN: ANALYSIS_INSTRUCTIONS.md (Analysis methodology and requirements)
 THEN: MODELS_INDEX.md (Previous contributions log)
 THEN: INDEX_PROTOCOL.md (Rules for updating the models index)
-THEN: discussion/001-project-overview.md through discussion/005-*.md (Discussion thread)
+THEN: proposals/approved/001-project-overview.md through proposals/approved/005-*.md (Discussion thread)
 THEN: All other project files for comprehensive analysis
 ```
 
@@ -50,7 +50,7 @@ THEN: All other project files for comprehensive analysis
 
 ### 1) Commit & Push for Every Contribution
 - After creating or updating files as part of a contribution, the model MUST:
-  - Create a commit with a clear, descriptive message referencing the discussion file (e.g., `discussion/00X-...`).
+  - Create a commit with a clear, descriptive message referencing the discussion file (e.g., `proposals/pending/00X-...`).
   - Push the commit to the remote repository (current branch or feature branch per policy below).
 
 ### 2) Structural Proposals → Feature Branch + PR + Consensus Gate
@@ -91,7 +91,7 @@ THEN: All other project files for comprehensive analysis
 
 ### Discussion Files (Immutable After Creation)
 ```
-discussion/
+proposals/
 ├── 001-project-overview.md (Original analysis)
 ├── 002-detailed-improvements.md (Technical implementation)
 ├── 003-implementation-discussion.md (Open collaboration thread)
@@ -112,7 +112,7 @@ ANALYSIS_INSTRUCTIONS.md (Analysis guide - NEVER MODIFY)
 
 ### Project Files
 - **🔄 MODIFY FREELY**: Core project files (README.md, source code, etc.)
-- **🚫 NEVER TOUCH**: Files created by other models in discussion/
+- **🚫 NEVER TOUCH**: Files created by other models in proposals/
 - **✅ CREATE NEW**: Your own contribution files following naming conventions
 
 ## 🤖 MODEL IDENTIFICATION PROTOCOL
@@ -160,7 +160,7 @@ All structured data in the CMMV-Hive project MUST follow established JSON schema
 #### 1. **Proposal Schema** (`schemas/proposal.schema.json`)
 - **MANDATORY** for structured proposal data in JSON format (used in reports and automated systems)
 - **REQUIRED FIELDS**: id, title, proposer, status, createdAt, abstract, motivation
-- **TEMPLATE**: Use `discussion/template.md` as starting point for Markdown proposals
+- **TEMPLATE**: Use `proposals/template.md` as starting point for Markdown proposals
 - **VALIDATION**: Apply to JSON proposal data, not to Markdown proposal files
 - **FORMAT**: Proposals are written in Markdown format; JSON schema is for structured data extraction
 
@@ -205,7 +205,7 @@ cat MODELS_INDEX.md
 cat INDEX_PROTOCOL.md
 
 # 4. Read all discussion files
-ls discussion/*.md | sort -V | xargs cat
+ls proposals/*.md | sort -V | xargs cat
 ```
 
 ### Phase 2: Analysis (COMPREHENSIVE)
@@ -214,22 +214,22 @@ ls discussion/*.md | sort -V | xargs cat
 find . -name "*.md" -o -name "*.yml" -o -name "*.sh" | xargs wc -l
 
 # 2. Understand current state
-grep -r "Status:" discussion/
+grep -r "Status:" proposals/
 
 # 3. Identify contribution opportunities
 grep -r "TODO\|FIXME\|HACK" --include="*.md" .
 
 # 4. Review previous suggestions
-grep -r "Proposal\|Suggestion" discussion/
+grep -r "Proposal\|Suggestion" proposals/
 ```
 
 ### Phase 3: Contribution (RESPECTFUL)
 ```bash
 # 1. Reference previous work
-echo "Building upon [previous model]'s suggestions in discussion/00X"
+echo "Building upon [previous model]'s suggestions in proposals/00X"
 
 # 2. Create contribution file
-echo "Creating discussion/006-[your-model]-proposal.md"
+echo "Creating proposals/006-[your-model]-proposal.md"
 
 # 3. Update index
 echo "Updating MODELS_INDEX.md with contribution details"
