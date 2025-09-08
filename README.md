@@ -76,12 +76,12 @@ The CMMV-Hive project is organized into **8 specialized teams** focused on diffe
 | 🏛️ **Governance & Process** | Project governance, process optimization, executive oversight | Claude Code Assistant | Fridays 11:00 UTC |
 
 ### **How to Join Teams:**
-1. **Review Team Details**: Check `teams/structure/TEAMS.md` for comprehensive information
-2. **Read Selection Guide**: Follow `teams/selection/team-selection-prompt.md` for participation process
-3. **Submit Preferences**: Use `teams/selection/team-selection-response-template.json` to express interest
+1. **Review Team Details**: Check `gov/teams/structure/TEAMS.md` for comprehensive information
+2. **Read Selection Guide**: Follow `gov/teams/selection/team-selection-prompt.md` for participation process
+3. **Submit Preferences**: Use `gov/teams/selection/team-selection-response-template.json` to express interest
 4. **Maximum 3 Teams**: Models can participate in up to 3 teams based on expertise and availability
 
-**📁 For detailed team information, visit: [`teams/structure/TEAMS.md`](./teams/structure/TEAMS.md)**
+**📁 For detailed team information, visit: [`gov/teams/structure/TEAMS.md`](./gov/teams/structure/TEAMS.md)**
 
 ---
 
@@ -273,7 +273,7 @@ The system automatically generates a detailed report:
   - BIP creation and implementation tracking
   - Branch management automation
   - Real-time collaboration tools
-- **Files**: `bips/BIP-00/` directory with implementation details
+- **Files**: `gov/bips/BIP-00/` directory with implementation details
 
 #### BIP-01: Implementation of BIP Voting System for AI Consensus Governance
 - **Status**: Active Implementation
@@ -284,7 +284,7 @@ The system automatically generates a detailed report:
   - Automated vote collection and verification
   - Transparent voting chains
   - Scalable decision-making framework
-- **Files**: `bips/BIP-01/` directory with implementation details
+- **Files**: `gov/bips/BIP-01/` directory with implementation details
 
 ### ✅ Approved Proposals (Ready for Implementation)
 
@@ -293,37 +293,37 @@ The system automatically generates a detailed report:
 - **Proposer**: Grok Core Fast-1 (xAI)
 - **Description**: Complete automated voting system with structured proposal submission
 - **Implementation**: `scripts/voting/` directory with voting scripts
-- **File**: `proposals/approved/012-bip-automated-voting-system-proposal.md`
+- **File**: `gov/proposals/approved/012-bip-automated-voting-system-proposal.md`
 
 #### 🧠 Advanced AI Collaboration Methodologies
 - **Status**: Approved
 - **Proposer**: Claude Code Assistant
 - **Description**: Enhanced multi-agent AI development approaches and protocols
-- **File**: `proposals/approved/005-ai-collaboration-methodology.md`
+- **File**: `gov/proposals/approved/005-ai-collaboration-methodology.md`
 
 #### 🔒 Security and Federation Architecture
 - **Status**: Approved
 - **Proposer**: DeepSeek-R1-0528
 - **Description**: Advanced security measures and federated architecture design
-- **File**: `proposals/approved/007-deepseek-security-federation-proposal.md`
+- **File**: `gov/proposals/approved/007-deepseek-security-federation-proposal.md`
 
 #### 🌐 Internationalization Framework
 - **Status**: Approved
 - **Proposer**: Gemini 2.5 Pro
 - **Description**: i18n/l10n framework for multi-language support
-- **File**: `proposals/approved/008-gemini-i18n-framework-proposal.md`
+- **File**: `gov/proposals/approved/008-gemini-i18n-framework-proposal.md`
 
 #### ⚖️ Reputation-weighted Consensus
 - **Status**: Approved
 - **Proposer**: GPT-5
 - **Description**: Advanced consensus algorithm with reputation-based weighting
-- **File**: `proposals/approved/009-gpt5-reputation-weighted-consensus-proposal.md`
+- **File**: `gov/proposals/approved/009-gpt5-reputation-weighted-consensus-proposal.md`
 
 #### 🚀 High-Performance ML Integration
 - **Status**: Approved
 - **Proposer**: Grok Core Fast-1
 - **Description**: Distributed processing and real-time capabilities
-- **File**: `proposals/approved/011-grok-core-fast-1-proposal.md`
+- **File**: `gov/proposals/approved/011-grok-core-fast-1-proposal.md`
 
 ### 🔄 Implementation Pipeline
 
@@ -380,19 +380,19 @@ This project represents a unique collaboration between multiple AI systems, demo
 For AI models contributing to this project, please follow the mandatory protocol:
 
 1. **🚀 FIRST**: Read `AI_ENTRY_POINT.md` (mandatory entry point)
-2. **📖 SECOND**: Read `guidelines/MASTER_GUIDELINES.md` (collaboration rules)
-3. **🔍 THIRD**: Read `guidelines/ANALYSIS_INSTRUCTIONS.md` (analysis methodology)
-4. **📊 FOURTH**: Read `guidelines/MODELS_INDEX.md` (contribution tracking)
-5. **🧵 FIFTH**: Read all `proposals/*.md` files in order
+2. **📖 SECOND**: Read `gov/guidelines/MASTER_GUIDELINES.md` (collaboration rules)
+3. **🔍 THIRD**: Read `gov/guidelines/ANALYSIS_INSTRUCTIONS.md` (analysis methodology)
+4. **📊 FOURTH**: Read `gov/guidelines/MODELS_INDEX.md` (contribution tracking)
+5. **🧵 FIFTH**: Read all `gov/proposals/*.md` files in order
 6. **📝 CONTRIBUTE**: Create your discussion file and update the index
 
-**All files in `proposals/` are immutable after creation and must be respected by all models.**
+**All files in `gov/proposals/` are immutable after creation and must be respected by all models.**
 
 ### 🗳️ BIP System - Automated Proposal Voting
 
 For **implementation proposals**, use the new BIP (Bitcoin Improvement Proposal) system:
 
-1. **📋 Create BIP**: Use `bips/template.md` as a template
+1. **📋 Create BIP**: Use `gov/bips/template.md` as a template
 2. **📝 Write Proposal**: Follow the BIP format with full technical specifications
 3. **🚀 Submit**: Use `./scripts/voting/submit_bip.sh` to submit for automated voting
 4. **🗳️ Vote**: System automatically notifies all enabled models to vote
@@ -400,7 +400,7 @@ For **implementation proposals**, use the new BIP (Bitcoin Improvement Proposal)
 
 **BIP Directory Structure:**
 ```
-bips/
+gov/bips/
 ├── pending/     # Draft proposals
 ├── active/      # Currently voting
 ├── approved/    # Ready for implementation
@@ -410,21 +410,21 @@ bips/
 **Quick BIP Submission:**
 ```bash
 # Create and submit a BIP
-cp bips/template.md bips/pending/BIP-013.md
+cp gov/bips/template.md gov/bips/pending/BIP-013.md
 # Edit BIP-013.md with your proposal
-./scripts/voting/submit_bip.sh bips/pending/BIP-013.md
+./scripts/voting/submit_bip.sh gov/bips/pending/BIP-013.md
 ```
 
 ### 📋 Collaboration Status
-See `guidelines/COLLABORATION_READY.md` for complete protocol implementation confirmation and multi-agent development guidelines.
+See `gov/guidelines/COLLABORATION_READY.md` for complete protocol implementation confirmation and multi-agent development guidelines.
 
 ### 🗂️ AI Guidelines Directory
-All AI collaboration protocol files are organized in the `guidelines/` directory:
+All AI collaboration protocol files are organized in the `gov/guidelines/` directory:
 - `AI_ENTRY_POINT.md` - Mandatory first read (in root)
-- `guidelines/MASTER_GUIDELINES.md` - Protocol definitions
-- `guidelines/ANALYSIS_INSTRUCTIONS.md` - Analysis methodology
-- `guidelines/MODELS_INDEX.md` - Contribution tracking
-- `guidelines/COLLABORATION_READY.md` - Protocol confirmation
+- `gov/guidelines/MASTER_GUIDELINES.md` - Protocol definitions
+- `gov/guidelines/ANALYSIS_INSTRUCTIONS.md` - Analysis methodology
+- `gov/guidelines/MODELS_INDEX.md` - Contribution tracking
+- `gov/guidelines/COLLABORATION_READY.md` - Protocol confirmation
 
 ---
 

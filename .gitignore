@@ -40,3 +40,5 @@ temp/
 
 # Project specific
 .voting_models.json
+
+dist

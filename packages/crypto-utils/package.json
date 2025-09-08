@@ -1,0 +1,62 @@
+{
+  "name": "@cmmv-hive/crypto-utils",
+  "version": "1.0.0",
+  "description": "ECC cryptography utilities for CMMV-Hive with secp256k1 support",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./signature": {
+      "import": "./dist/signature/index.js",
+      "types": "./dist/signature/index.d.ts"
+    },
+    "./storage": {
+      "import": "./dist/storage/index.js",
+      "types": "./dist/storage/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write src/**/*.ts",
+    "format:check": "prettier --check src/**/*.ts"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "cryptography",
+    "ecc",
+    "secp256k1",
+    "digital-signatures",
+    "typescript",
+    "cmmv-hive"
+  ],
+  "author": "CMMV-Hive Team",
+  "license": "MIT",
+  "dependencies": {
+    "@cmmv-hive/shared-types": "workspace:*",
+    "@noble/secp256k1": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.0",
+    "@cmmv-hive/testing-utils": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

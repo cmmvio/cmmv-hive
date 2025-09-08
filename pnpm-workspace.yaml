@@ -1,0 +1,4 @@
+packages:
+  - 'packages/shared-types'
+  - 'packages/testing-utils'
+  - 'packages/crypto-utils'
