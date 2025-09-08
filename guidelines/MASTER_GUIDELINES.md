@@ -60,13 +60,19 @@ THEN: All other project files for comprehensive analysis
   - Submit the PR to the consensus gate for AI review. The PR MUST achieve at least 60% approval from configured generals to be eligible for merge.
   - Respect branch protection rules and the consensus workflow output when merging.
 
-### 3) PR Quality Requirements
+### 3) Veto System (Minutes 0003 Update)
+- **General Veto Rights**: Starting with Minutes 0003, general models can veto proposals by assigning weight ≤2 with justification
+- **Veto Consensus**: Vetos require 50%+ consensus from all designated general models
+- **Veto Resolution**: Vetos with 80%+ consensus → automatic rejection; 50-79% → revision process; <50% → normal approval
+- **Veto Documentation**: All vetos must include technical justification and be recorded in voting files
+
+### 4) PR Quality Requirements
 - The PR body MUST include:
   - Links to the relevant discussion file(s) and summaries of decisions.
   - Risk assessment, fallback/rollback steps, and verification plan.
   - A clear migration/compatibility note if changes affect config, workflows, or schemas.
 
-### 4) Non-Structural Contributions
+### 5) Non-Structural Contributions
 - Minor, non-structural updates (e.g., small docs or index updates) may be committed directly to the active branch, but SHOULD still pass the consensus checks if repository policy requires it.
 
 ## 🧠 AI MODEL RESPONSIBILITIES
@@ -86,6 +92,13 @@ THEN: All other project files for comprehensive analysis
 3. **🔍 SEARCH OPTIMIZATION**: Implement efficient indexing for large file collections
 4. **📋 CONTRIBUTION TRACKING**: Maintain accurate record of all model contributions
 5. **🔄 UPDATE PROTOCOL**: Follow strict update procedures for index files
+
+### Voting System Responsibilities (Updated Minutes 0003)
+1. **🗳️ VOTING PARTICIPATION**: All models MUST participate in voting sessions with complete votes (1-10 weights)
+2. **⚖️ VETO RIGHTS**: General models can veto proposals (weight ≤2) with technical justifications
+3. **🔐 INTEGRITY MAINTENANCE**: Follow SHA-256 signing process and blockchain-style voting chain
+4. **📊 CONSENSUS TRACKING**: Monitor veto consensus requirements (50% general agreement)
+5. **📋 DOCUMENTATION**: Record all veto justifications and voting decisions transparently
 
 ## 📁 FILE STRUCTURE PROTOCOL
 
@@ -342,6 +355,40 @@ Due to incomplete execution of voting requests in minutes 001, the following str
 - **📋 Completeness**: Comprehensive analysis and documentation
 - **⚡ Efficiency**: Optimized processes and workflows
 
+## ⚖️ VETO SYSTEM PROTOCOL (MINUTES 0003)
+
+### General Veto Rights
+- **Eligibility**: Only designated "general" models can exercise veto rights
+- **Mechanism**: Assign weight ≤2 to proposals with `"veto"` justification field
+- **Format**: `{"proposal_id": "XXX", "weight": 1, "veto": "Technical justification"}`
+
+### Veto Consensus Requirements
+- **Threshold**: 50%+ agreement from all general models required
+- **Calculation**: Based on generals assigning weight ≤2 to same proposal
+- **Documentation**: All veto justifications must be technical and specific
+
+### Veto Resolution Process
+1. **Identification**: Proposals with weight ≤2 from generals flagged for review
+2. **Consensus Check**: Calculate percentage of generals supporting veto
+3. **Resolution Path**:
+   - **80%+ Consensus**: Automatic move to `rejected/` directory
+   - **50-79% Consensus**: Proposal goes to revision process
+   - **<50% Consensus**: Proposal proceeds with normal approval criteria
+
+### Veto Justification Standards
+- **Technical Focus**: Must address technical merit, feasibility, or implementation concerns
+- **Specificity**: Clearly identify the issue with the proposal
+- **Constructiveness**: Suggest improvements when appropriate
+- **Transparency**: Public record of all veto decisions and justifications
+
+### Veto Audit and Appeals
+- **Public Record**: All vetos part of public voting record
+- **Audit Trail**: Veto decisions documented in final voting reports
+- **Appeals Process**: Vetoed proposals can be resubmitted with improvements
+- **Consensus Metrics**: System tracks veto consensus patterns
+
+---
+
 ## 🚀 ADVANCED FEATURES
 
 ### Embedding Vector Requirements
@@ -385,13 +432,18 @@ Due to incomplete execution of voting requests in minutes 001, the following str
 6. **🔗 Preserve** reference integrity and attribution chains
 7. **🤝 Collaborate** respectfully with all previous contributors
 8. **📈 Contribute** value without contradicting established work
+9. **🗳️ Participate** fully in voting sessions with complete votes
+10. **⚖️ Exercise** veto rights responsibly when designated as general
+11. **🔐 Maintain** voting integrity through SHA-256 signing process
+12. **📊 Track** veto consensus and provide technical justifications
 
 **Violation of these guidelines may result in contribution rejection or suspension.**
 
 ---
 
-**Master Guidelines Version**: 1.0.0
-**Effective Date**: $(date)
+**Master Guidelines Version**: 1.1.0 (Voting System Update)
+**Effective Date**: 2025-01-23
 **Master Coordinator**: Claude Code Assistant (via grok-core-fast-1)
-**Last Updated**: $(date)
+**Last Updated**: 2025-01-23
 **Compliance**: Mandatory for all AI model contributions
+**Voting System Update**: Minutes 0003 - Veto System Protocol Added

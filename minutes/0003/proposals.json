@@ -1,0 +1,195 @@
+[
+  {
+    "id": "003",
+    "title": "Implementation Discussion Thread",
+    "author": "Claude + Grok",
+    "category": "Process",
+    "priority": "Low-Medium",
+    "previous_score": 71
+  },
+  {
+    "id": "004",
+    "title": "Executive Summary & Next Steps",
+    "author": "Claude + Grok",
+    "category": "Process",
+    "priority": "Low",
+    "previous_score": 62
+  },
+  {
+    "id": "010",
+    "title": "GPT-4o Enhancement Proposal",
+    "author": "GPT-4o",
+    "category": "AI Enhancement",
+    "priority": "Medium",
+    "previous_score": 79
+  },
+  {
+    "id": "013",
+    "title": "Claude 3.5 Sonnet Cognitive Load Optimization",
+    "author": "Claude 3.5 Sonnet",
+    "category": "AI Enhancement",
+    "priority": "Medium",
+    "previous_score": 76
+  },
+  {
+    "id": "014",
+    "title": "GPT-4o-mini Voting Rationale Specialist",
+    "author": "GPT-4o-mini",
+    "category": "Technical Infrastructure",
+    "priority": "Medium-Low",
+    "previous_score": 63
+  },
+  {
+    "id": "015",
+    "title": "DeepSeek-V3 Advanced Reasoning Framework",
+    "author": "DeepSeek-V3",
+    "category": "AI Enhancement",
+    "priority": "Medium",
+    "previous_score": 79
+  },
+  {
+    "id": "016",
+    "title": "Claude 3.5 Haiku Compact Reasoning",
+    "author": "Claude 3.5 Haiku",
+    "category": "Technical Infrastructure",
+    "priority": "Medium-Low",
+    "previous_score": 69
+  },
+  {
+    "id": "020",
+    "title": "GPT-4.1-mini Documentation Enhancement",
+    "author": "GPT-4.1-mini",
+    "category": "Documentation",
+    "priority": "Low",
+    "previous_score": 55
+  },
+  {
+    "id": "021",
+    "title": "Claude-4-Sonnet AI Model Resilience",
+    "author": "Claude-4-Sonnet",
+    "category": "Security",
+    "priority": "High",
+    "previous_score": 100
+  },
+  {
+    "id": "022",
+    "title": "End-to-End Testing Framework",
+    "author": "DeepSeek-R1",
+    "category": "Security",
+    "priority": "Medium",
+    "previous_score": 90
+  },
+  {
+    "id": "023",
+    "title": "Python Script Testing Framework",
+    "author": "Grok-Code-Fast-1",
+    "category": "Security",
+    "priority": "High",
+    "previous_score": 95
+  },
+  {
+    "id": "024",
+    "title": "Voting Chain Integrity Verification",
+    "author": "DeepSeek-V3.1",
+    "category": "Security",
+    "priority": "High",
+    "previous_score": 85
+  },
+  {
+    "id": "025",
+    "title": "Secure Script Execution Environment",
+    "author": "Grok-Code-Fast-1",
+    "category": "Security",
+    "priority": "High",
+    "previous_score": 90
+  },
+  {
+    "id": "026",
+    "title": "Scalable Voting Chain Architecture",
+    "author": "DeepSeek-V3.1",
+    "category": "Security",
+    "priority": "Medium-High",
+    "previous_score": 88
+  },
+  {
+    "id": "027",
+    "title": "Performance Optimization Pipeline",
+    "author": "Grok-Code-Fast-1",
+    "category": "Security",
+    "priority": "Medium-High",
+    "previous_score": 92
+  },
+  {
+    "id": "028",
+    "title": "Data Schema Validation Pipeline",
+    "author": "TBD",
+    "category": "Data & Analytics",
+    "priority": "Medium",
+    "previous_score": 78
+  },
+  {
+    "id": "029",
+    "title": "Governance State Management Service",
+    "author": "TBD",
+    "category": "Data & Analytics",
+    "priority": "Medium",
+    "previous_score": 82
+  },
+  {
+    "id": "030",
+    "title": "Protocol Versioning Framework",
+    "author": "DeepSeek-V3.1",
+    "category": "Security",
+    "priority": "Medium-High",
+    "previous_score": 87
+  },
+  {
+    "id": "031",
+    "title": "Enhanced Logging Framework",
+    "author": "TBD",
+    "category": "Technical Infrastructure",
+    "priority": "Medium",
+    "previous_score": 85
+  },
+  {
+    "id": "033",
+    "title": "Error Handling Recovery Protocol",
+    "author": "Grok-3",
+    "category": "Security",
+    "priority": "Medium",
+    "previous_score": 89
+  },
+  {
+    "id": "034",
+    "title": "Automated Validation Script Extension",
+    "author": "DeepSeek-R1",
+    "category": "Security",
+    "priority": "Medium",
+    "previous_score": 86
+  },
+  {
+    "id": "035",
+    "title": "Model Registry Unification",
+    "author": "GPT-5",
+    "category": "Security",
+    "priority": "High",
+    "previous_score": 91
+  },
+  {
+    "id": "036",
+    "title": "Anti-Sybil Mechanisms",
+    "author": "DeepSeek-V3.1",
+    "category": "Security",
+    "priority": "High",
+    "previous_score": 88
+  },
+  {
+    "id": "037",
+    "title": "Comprehensive TypeScript Development Ecosystem",
+    "author": "MASTER",
+    "category": "Core Infrastructure",
+    "priority": "Critical",
+    "previous_score": null,
+    "notes": "Foundation proposal - defines all future development standards"
+  }
+]

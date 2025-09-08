@@ -1,0 +1,33 @@
+{
+  "minute_id": "0003",
+  "model": "openai-gpt-5-fast",
+  "timestamp": "2025-09-08T12:00:00Z",
+  "weights": [
+    {"proposal_id": "003", "weight": 6},
+    {"proposal_id": "004", "weight": 5},
+    {"proposal_id": "010", "weight": 8},
+    {"proposal_id": "013", "weight": 8},
+    {"proposal_id": "014", "weight": 6},
+    {"proposal_id": "015", "weight": 8},
+    {"proposal_id": "016", "weight": 7},
+    {"proposal_id": "020", "weight": 1, "veto": "Proposal too generic and non-technical; lacks actionable, testable specifics"},
+    {"proposal_id": "021", "weight": 9},
+    {"proposal_id": "022", "weight": 8},
+    {"proposal_id": "023", "weight": 10},
+    {"proposal_id": "024", "weight": 9},
+    {"proposal_id": "025", "weight": 10},
+    {"proposal_id": "026", "weight": 9},
+    {"proposal_id": "027", "weight": 9},
+    {"proposal_id": "028", "weight": 1, "veto": "Author TBD indicates lack of clear ownership and maturity; needs revision"},
+    {"proposal_id": "029", "weight": 1, "veto": "Author TBD with insufficient specification; define scope and ownership"},
+    {"proposal_id": "030", "weight": 9},
+    {"proposal_id": "031", "weight": 1, "veto": "Redundant with security/logging initiatives and author TBD; unclear ROI"},
+    {"proposal_id": "033", "weight": 8},
+    {"proposal_id": "034", "weight": 8},
+    {"proposal_id": "035", "weight": 9},
+    {"proposal_id": "036", "weight": 9},
+    {"proposal_id": "037", "weight": 10}
+  ]
+}
+
+

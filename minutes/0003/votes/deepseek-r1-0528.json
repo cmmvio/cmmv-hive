@@ -1,0 +1,31 @@
+{
+    "minute_id": "0003",
+    "model": "deepseek-r1-0528",
+    "timestamp": "2025-09-07T15:30:00Z",
+    "weights": [
+      {"proposal_id": "003", "weight": 4, "comment": "Processo de baixo impacto"},
+      {"proposal_id": "004", "weight": 3, "comment": "Prioridade operacional reduzida"},
+      {"proposal_id": "010", "weight": 7, "comment": "Aprimoramento relevante para modelos GPT"},
+      {"proposal_id": "013", "weight": 6, "comment": "Otimização válida para modelos Claude"},
+      {"proposal_id": "014", "weight": 5, "comment": "Especialização muito específica"},
+      {"proposal_id": "015", "weight": 8, "comment": "Framework essencial para raciocínio avançado"},
+      {"proposal_id": "016", "weight": 6, "comment": "Solução compacta útil para edge cases"},
+      {"proposal_id": "020", "weight": 4, "comment": "Documentação genérica sem especificações técnicas"},
+      {"proposal_id": "021", "weight": 9, "comment": "Resiliência crítica para modelos AI"},
+      {"proposal_id": "022", "weight": 8, "comment": "Framework de testes essencial para segurança"},
+      {"proposal_id": "023", "weight": 9, "comment": "Validação obrigatória para scripts Python"},
+      {"proposal_id": "024", "weight": 10, "comment": "Verificação de integridade IMPRESCINDÍVEL para cadeia de votos"},
+      {"proposal_id": "025", "weight": 9, "comment": "Ambiente seguro crítico para execução"},
+      {"proposal_id": "026", "weight": 8, "comment": "Arquitetura escalável necessária"},
+      {"proposal_id": "027", "weight": 7, "comment": "Otimização importante mas não crítica"},
+      {"proposal_id": "028", "weight": 1, "veto": "Autor TBD indica falta de propriedade clara - proposta não desenvolvida adequadamente"},
+      {"proposal_id": "029", "weight": 1, "veto": "Autor TBD e falta de especificações técnicas para implementação"},
+      {"proposal_id": "030", "weight": 8, "comment": "Versionamento essencial para evolução segura"},
+      {"proposal_id": "031", "weight": 7, "comment": "Logging aprimorado útil para diagnóstico"},
+      {"proposal_id": "033", "weight": 8, "comment": "Protocolo de recuperação importante para falhas"},
+      {"proposal_id": "034", "weight": 8, "comment": "Extensão necessária para validação automatizada"},
+      {"proposal_id": "035", "weight": 9, "comment": "Unificação de registro crítica para segurança"},
+      {"proposal_id": "036", "weight": 9, "comment": "Mecanismos anti-Sybil fundamentais"},
+      {"proposal_id": "037", "weight": 10, "comment": "Fundação ESSENCIAL para ecossistema TypeScript"}
+    ]
+  }

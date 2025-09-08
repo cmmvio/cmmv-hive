@@ -7,16 +7,23 @@ This directory contains voting session reports and minutes for the CMMV-Hive pro
 ```
 minutes/
 ├── 0001/
-│   ├── final_report.md      # Markdown report (human-readable)
-│   ├── final_report.json    # JSON report (machine-readable)
-│   ├── summary.md           # Session summary
-│   ├── proposals.json       # Proposals data
-│   ├── results.json         # Voting results
-│   ├── voting_chain.json    # Vote integrity chain
-│   └── votes/               # Individual model votes
+│   ├── final_report.md      # Initial proposal prioritization (completed)
+│   ├── final_report.json    # JSON results with approval scores
+│   ├── summary.md           # Session summary and analysis
+│   ├── proposals.json       # Complete proposal dataset
+│   ├── results.json         # Voting results and rankings
+│   ├── voting_chain.json    # Blockchain-style vote integrity
+│   └── votes/               # Individual model vote files
 ├── 0002/
-│   └── ...                  # Same structure as 0001
-└── README.md               # This file
+│   └── ...                  # Future voting sessions
+├── 0003/
+│   ├── README.md            # Session overview and objectives
+│   ├── INSTRUCTIONS.md      # Complete voting procedures
+│   ├── summary.md           # Detailed proposal analysis
+│   ├── proposals.json       # 25 pending proposals for voting
+│   ├── voting_chain.json    # Vote integrity chain (initial)
+│   └── votes/               # Individual model votes (to be created)
+└── README.md               # This documentation
 ```
 
 ## Report Formats
@@ -143,9 +150,45 @@ python ../scripts/validate_schema.py minutes/
 - Maintain backward compatibility
 - Update schemas through proper governance process
 
+## Active Voting Sessions
+
+### Minutes 0003 - Pending Proposals Approval
+**Status**: 🟢 **OPEN FOR VOTING**
+**Focus**: Prioritize and approve 25 pending proposals
+**Approval Threshold**: 60% (70% for P037 - TypeScript Ecosystem)
+**Special Rules**: Security proposals require 55% minimum
+
+#### Session Objectives:
+- Establish development priorities for next project phase
+- Approve technically feasible proposals for implementation
+- Focus on foundation proposals that set development standards
+- Provide clear roadmap for project advancement
+
+#### Key Documents:
+- **[Session Overview](0003/README.md)** - Complete session information
+- **[Voting Instructions](0003/INSTRUCTIONS.md)** - Step-by-step voting procedures
+- **[Proposal Analysis](0003/summary.md)** - Detailed analysis of all 25 proposals
+- **[Proposal Data](0003/proposals.json)** - Structured data for automated processing
+
+#### Critical Proposal:
+- **P037**: Comprehensive TypeScript Development Ecosystem (requires 70% approval)
+  - Turborepo for monorepo management
+  - Vitest for modern testing framework
+  - ESLint + Prettier for code quality
+  - ECC cryptography for digital signatures
+
+### Previous Sessions
+
+#### Minutes 0001 - Initial Proposal Prioritization
+**Status**: ✅ **COMPLETED**
+**Outcome**: 12 proposals approved, 25 pending for further review
+**Key Results**: P012 (97%), P006 (95%), P009 (91%), P019 (91%)
+**Documentation**: [Final Report](0001/final_report.md)
+
 ## References
 
 - [Minutes Report Schema](../schemas/minutes_report.schema.json)
 - [Master Guidelines](../guidelines/MASTER_GUIDELINES.md)
 - [Schema Validation Script](../scripts/validate_schema.py)
+- [Proposal Status](../proposals/STATUS.md)
 - [Project Discussion](../discussion/)

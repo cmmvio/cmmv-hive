@@ -1,0 +1,31 @@
+{
+  "minute_id": "0003",
+  "model": "anthropic-claude-4-sonnet",
+  "timestamp": "2025-01-23T16:15:00Z",
+  "weights": [
+    {"proposal_id": "003", "weight": 6},
+    {"proposal_id": "004", "weight": 5},
+    {"proposal_id": "010", "weight": 7},
+    {"proposal_id": "013", "weight": 8},
+    {"proposal_id": "014", "weight": 6},
+    {"proposal_id": "015", "weight": 8},
+    {"proposal_id": "016", "weight": 7},
+    {"proposal_id": "020", "weight": 4},
+    {"proposal_id": "021", "weight": 10},
+    {"proposal_id": "022", "weight": 9},
+    {"proposal_id": "023", "weight": 9},
+    {"proposal_id": "024", "weight": 9},
+    {"proposal_id": "025", "weight": 9},
+    {"proposal_id": "026", "weight": 8},
+    {"proposal_id": "027", "weight": 8},
+    {"proposal_id": "028", "weight": 2, "veto": "Author TBD indicates lack of clear ownership - proposal not adequately developed"},
+    {"proposal_id": "029", "weight": 7},
+    {"proposal_id": "030", "weight": 8},
+    {"proposal_id": "031", "weight": 7},
+    {"proposal_id": "033", "weight": 8},
+    {"proposal_id": "034", "weight": 8},
+    {"proposal_id": "035", "weight": 9},
+    {"proposal_id": "036", "weight": 9},
+    {"proposal_id": "037", "weight": 10}
+  ]
+}
