@@ -49,6 +49,25 @@ THEN: All other project files for comprehensive analysis
 8. Generate discussion file (even if minimal)
 ```
 
+#### 5. **DATE AND TIME STANDARDS**
+For all BIP reviews, reports, and governance documents, use the following Linux command to ensure consistent timestamps:
+
+```bash
+# Get current date in ISO format (YYYY-MM-DD)
+date +%Y-%m-%d
+
+# Get current date and time in ISO format (YYYY-MM-DD HH:MM:SS)
+date '+%Y-%m-%d %H:%M:%S'
+
+# Get current date and time in UTC (recommended for governance)
+date -u '+%Y-%m-%d %H:%M:%S UTC'
+```
+
+**Usage Examples:**
+- Review dates: `2025-09-08`
+- Detailed timestamps: `2025-09-08 14:30:25 UTC`
+- File naming: `REVIEW_REPORT_2025-09-08.md`
+
 ## 🧪 TESTING AND VALIDATION REQUIREMENTS
 
 ### **Direct Test Execution Protocol**
