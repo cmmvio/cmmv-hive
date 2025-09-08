@@ -2,7 +2,7 @@
   "minute_id": "0003",
   "description": "Voting session for pending proposals prioritization and approval",
   "created": "2025-01-23T12:00:00Z",
-  "status": "open",
+  "status": "closed",
   "approval_threshold": 0.6,
   "special_thresholds": {
     "037": 0.7,
@@ -108,6 +108,16 @@
       "vote_file": "votes/deepseek-r1-0528.json",
       "vote_file_hash": "f6ed0ed64e32766e36c7bea059960e9ec54355915120a8efe63a8aa9a59d8c84",
       "block_hash": "95ddf32a7e5eb0540569032c31ab57608508dfd46d747944fadc0efc54f34eb5"
+    },
+    {
+      "index": 11,
+      "timestamp": "2025-01-23T17:00:00Z",
+      "previous_hash": "95ddf32a7e5eb0540569032c31ab57608508dfd46d747944fadc0efc54f34eb5",
+      "type": "finalization",
+      "model": "claude-4-sonnet",
+      "vote_file": "final_report.json",
+      "vote_file_hash": "7057e2d0ed713cd389d9688e14530b0ca9aebca120229dc18e96669b0a4850ea",
+      "block_hash": "f31c77fbb9f5421b1bd7c2fe9bc964d4f23b3607a44c73ecc371a0f6a2f9509e"
     }
   ]
 }

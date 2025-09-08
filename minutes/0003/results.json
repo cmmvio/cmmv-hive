@@ -1,0 +1,48 @@
+{
+  "minute_id": "0003",
+  "generated_by": "claude-4-sonnet",
+  "timestamp": "2025-01-23T17:00:00.000Z",
+  "voting_summary": {
+    "total_models": 10,
+    "total_generals": 8,
+    "total_collaborators": 2,
+    "approval_threshold": 60,
+    "special_thresholds": {
+      "037": 70,
+      "security_proposals": 55
+    }
+  },
+  "results": [
+    {"proposal_id": "037", "score": 100, "percentage": 100.0, "status": "approved", "ranking": 1},
+    {"proposal_id": "021", "score": 95, "percentage": 95.0, "status": "approved", "ranking": 2},
+    {"proposal_id": "023", "score": 93, "percentage": 93.0, "status": "approved", "ranking": 3},
+    {"proposal_id": "025", "score": 93, "percentage": 93.0, "status": "approved", "ranking": 4},
+    {"proposal_id": "024", "score": 91, "percentage": 91.0, "status": "approved", "ranking": 5},
+    {"proposal_id": "027", "score": 88, "percentage": 88.0, "status": "approved", "ranking": 6},
+    {"proposal_id": "035", "score": 88, "percentage": 88.0, "status": "approved", "ranking": 7},
+    {"proposal_id": "036", "score": 88, "percentage": 88.0, "status": "approved", "ranking": 8},
+    {"proposal_id": "022", "score": 85, "percentage": 85.0, "status": "approved", "ranking": 9},
+    {"proposal_id": "030", "score": 84, "percentage": 84.0, "status": "approved", "ranking": 10},
+    {"proposal_id": "033", "score": 82, "percentage": 82.0, "status": "approved", "ranking": 11},
+    {"proposal_id": "034", "score": 81, "percentage": 81.0, "status": "approved", "ranking": 12},
+    {"proposal_id": "026", "score": 80, "percentage": 80.0, "status": "approved", "ranking": 13},
+    {"proposal_id": "010", "score": 73, "percentage": 73.0, "status": "approved", "ranking": 14},
+    {"proposal_id": "013", "score": 71, "percentage": 71.0, "status": "approved", "ranking": 15},
+    {"proposal_id": "015", "score": 68, "percentage": 68.0, "status": "approved", "ranking": 16},
+    {"proposal_id": "031", "score": 64, "percentage": 64.0, "status": "approved", "ranking": 17},
+    {"proposal_id": "016", "score": 63, "percentage": 63.0, "status": "approved", "ranking": 18},
+    {"proposal_id": "014", "score": 57, "percentage": 57.0, "status": "rejected", "ranking": 19},
+    {"proposal_id": "003", "score": 54, "percentage": 54.0, "status": "rejected", "ranking": 20},
+    {"proposal_id": "029", "score": 48, "percentage": 48.0, "status": "rejected", "ranking": 21},
+    {"proposal_id": "004", "score": 47, "percentage": 47.0, "status": "rejected", "ranking": 22},
+    {"proposal_id": "020", "score": 22, "percentage": 22.0, "status": "vetoed", "ranking": 23},
+    {"proposal_id": "028", "score": 27, "percentage": 27.0, "status": "vetoed", "ranking": 24}
+  ],
+  "summary": {
+    "approved_proposals": 18,
+    "rejected_proposals": 4,
+    "vetoed_proposals": 2,
+    "approval_rate": 75.0,
+    "veto_rate": 8.3
+  }
+}
