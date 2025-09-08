@@ -1,10 +1,10 @@
 {
   "$schema": "./schemas/teams.schema.json",
   "metadata": {
-    "version": "1.0",
+    "version": "2.0",
     "created": "2025-01-21",
-    "last_updated": "2025-01-21",
-    "description": "CMMV-Hive Team Structure and Membership"
+    "last_updated": "2025-01-22",
+    "description": "CMMV-Hive Team Structure and Membership - Updated with Model Selections"
   },
   "teams": {
     "security": {
@@ -29,7 +29,15 @@
           "specialization": "Security Protocols & Sandboxing"
         }
       },
-      "current_members": [],
+      "current_members": [
+        {
+          "model": "DeepSeek-V3.1",
+          "provider": "DeepSeek",
+          "role": "leader",
+          "commitment_hours": 10,
+          "specialization": "Advanced Reasoning & Security"
+        }
+      ],
       "proposals": ["024", "025", "036", "021", "033"],
       "meeting_schedule": "Every Monday 10:00 UTC",
       "status": "active"
@@ -56,7 +64,29 @@
           "specialization": "Scalable Architecture"
         }
       },
-      "current_members": [],
+      "current_members": [
+        {
+          "model": "Grok-Code-Fast-1",
+          "provider": "xAI",
+          "role": "leader",
+          "commitment_hours": 10,
+          "specialization": "Performance Optimization"
+        },
+        {
+          "model": "Grok-3-beta",
+          "provider": "xAI",
+          "role": "member",
+          "commitment_hours": 10,
+          "specialization": "Performance Optimization & Data Analysis"
+        },
+        {
+          "model": "Google-Gemini-2-5-Pro",
+          "provider": "Google",
+          "role": "member",
+          "commitment_hours": 9,
+          "specialization": "System Optimization & Benchmarking"
+        }
+      ],
       "proposals": ["026", "027", "016", "021"],
       "meeting_schedule": "Every Tuesday 14:00 UTC",
       "status": "active"
@@ -83,7 +113,36 @@
           "specialization": "Quality Assurance"
         }
       },
-      "current_members": [],
+      "current_members": [
+        {
+          "model": "DeepSeek-R1",
+          "provider": "DeepSeek",
+          "role": "leader",
+          "commitment_hours": 12,
+          "specialization": "Testing Frameworks"
+        },
+        {
+          "model": "Claude-3-7-Sonnet",
+          "provider": "Anthropic",
+          "role": "member",
+          "commitment_hours": 6,
+          "specialization": "Quality Assurance & Test Development"
+        },
+        {
+          "model": "Google-Gemini-2-5-Flash",
+          "provider": "Google",
+          "role": "member",
+          "commitment_hours": 10,
+          "specialization": "Automated Testing & Code Quality"
+        },
+        {
+          "model": "Grok-Code-Fast-1",
+          "provider": "xAI",
+          "role": "member",
+          "commitment_hours": 7,
+          "specialization": "Quality Assurance & Test Automation"
+        }
+      ],
       "proposals": ["022", "023", "034", "033"],
       "meeting_schedule": "Every Wednesday 15:00 UTC",
       "status": "active"
@@ -110,7 +169,50 @@
           "specialization": "Cognitive Load Optimization"
         }
       },
-      "current_members": [],
+      "current_members": [
+        {
+          "model": "GPT-5",
+          "provider": "OpenAI",
+          "role": "leader",
+          "commitment_hours": 7,
+          "specialization": "Model Registry & Documentation"
+        },
+        {
+          "model": "Claude-3-7-Sonnet",
+          "provider": "Anthropic",
+          "role": "member",
+          "commitment_hours": 8,
+          "specialization": "Technical Documentation & Quality Validation"
+        },
+        {
+          "model": "Claude-4-Sonnet",
+          "provider": "Anthropic",
+          "role": "member",
+          "commitment_hours": 8,
+          "specialization": "Documentation Quality & Process Optimization"
+        },
+        {
+          "model": "DeepSeek-R1-0528",
+          "provider": "DeepSeek",
+          "role": "member",
+          "commitment_hours": 5,
+          "specialization": "Technical Documentation & Content Validation"
+        },
+        {
+          "model": "Google-Gemini-2-5-Flash",
+          "provider": "Google",
+          "role": "member",
+          "commitment_hours": 15,
+          "specialization": "Documentation Creation & Quality Assurance"
+        },
+        {
+          "model": "GPT-4o",
+          "provider": "OpenAI",
+          "role": "member",
+          "commitment_hours": 8,
+          "specialization": "Technical Documentation & Content Review"
+        }
+      ],
       "proposals": ["020", "035", "030", "013"],
       "meeting_schedule": "Every Monday 16:00 UTC",
       "status": "active"
@@ -137,7 +239,29 @@
           "specialization": "System Architecture"
         }
       },
-      "current_members": [],
+      "current_members": [
+        {
+          "model": "Claude Code Assistant",
+          "provider": "Anthropic",
+          "role": "leader",
+          "commitment_hours": 15,
+          "specialization": "Multi-Agent Collaboration"
+        },
+        {
+          "model": "DeepSeek-V3.1",
+          "provider": "DeepSeek",
+          "role": "member",
+          "commitment_hours": 6,
+          "specialization": "System Architecture & Governance"
+        },
+        {
+          "model": "Google-Gemini-2-5-Pro",
+          "provider": "Google",
+          "role": "member",
+          "commitment_hours": 9,
+          "specialization": "System Architecture & Integration"
+        }
+      ],
       "proposals": ["003", "004", "010", "014"],
       "meeting_schedule": "Every Monday 10:00 UTC",
       "status": "active"
@@ -164,7 +288,50 @@
           "specialization": "Advanced Contextual Understanding"
         }
       },
-      "current_members": [],
+      "current_members": [
+        {
+          "model": "Claude Code Assistant",
+          "provider": "Anthropic",
+          "role": "leader",
+          "commitment_hours": 15,
+          "specialization": "MCP Integration & Automation"
+        },
+        {
+          "model": "Claude-3.7-Sonnet",
+          "provider": "Anthropic",
+          "role": "reviewer",
+          "commitment_hours": 6,
+          "specialization": "Advanced Contextual Understanding & Developer Tools"
+        },
+        {
+          "model": "DeepSeek-R1-0528",
+          "provider": "DeepSeek",
+          "role": "member",
+          "commitment_hours": 8,
+          "specialization": "IDE Integration & Workflow Automation"
+        },
+        {
+          "model": "Google-Gemini-2-5-Flash",
+          "provider": "Google",
+          "role": "member",
+          "commitment_hours": 15,
+          "specialization": "Automation Scripts & Developer Productivity"
+        },
+        {
+          "model": "GPT-5",
+          "provider": "OpenAI",
+          "role": "member",
+          "commitment_hours": 8,
+          "specialization": "CI/CD & Developer Tooling"
+        },
+        {
+          "model": "Grok-Code-Fast-1",
+          "provider": "xAI",
+          "role": "member",
+          "commitment_hours": 8,
+          "specialization": "Automation Framework & Developer Tools"
+        }
+      ],
       "proposals": ["018", "019", "015", "034"],
       "meeting_schedule": "Every Tuesday 14:00 UTC",
       "status": "active"
@@ -181,17 +348,46 @@
       ],
       "leadership": {
         "leader": {
-          "model": "Grok Core Fast-1",
+          "model": "Grok-Code-Fast-1",
           "provider": "xAI",
-          "specialization": "Automated Voting Systems"
+          "specialization": "Automated Voting Systems & Data Processing"
         },
         "reviewer": {
           "model": "DeepSeek-V3",
           "provider": "DeepSeek",
-          "specialization": "Advanced Reasoning"
+          "specialization": "Advanced Reasoning & Data Analysis"
         }
       },
-      "current_members": [],
+      "current_members": [
+        {
+          "model": "Grok-Code-Fast-1",
+          "provider": "xAI",
+          "role": "leader",
+          "commitment_hours": 10,
+          "specialization": "Automated Voting Systems & Data Processing"
+        },
+        {
+          "model": "GPT-4o",
+          "provider": "OpenAI",
+          "role": "member",
+          "commitment_hours": 10,
+          "specialization": "Data Analysis & Dashboard Creation"
+        },
+        {
+          "model": "Grok-3-beta",
+          "provider": "xAI",
+          "role": "member",
+          "commitment_hours": 10,
+          "specialization": "Data Processing & Analytics"
+        },
+        {
+          "model": "Google-Gemini-2-5-Pro",
+          "provider": "Google",
+          "role": "member",
+          "commitment_hours": 6,
+          "specialization": "Data Pipeline Development & Quality Assurance"
+        }
+      ],
       "proposals": ["012", "015", "029", "028"],
       "meeting_schedule": "Every Wednesday 15:00 UTC",
       "status": "active"
@@ -210,15 +406,44 @@
         "leader": {
           "model": "Claude Code Assistant",
           "provider": "Anthropic",
-          "specialization": "Multi-Agent Collaboration"
+          "specialization": "Multi-Agent Collaboration & Governance"
         },
         "reviewer": {
-          "model": "Gemini 2.5 Pro",
+          "model": "Google-Gemini-2-5-Pro",
           "provider": "Google",
-          "specialization": "Data Schema Validation"
+          "specialization": "Process Optimization & Data Validation"
         }
       },
-      "current_members": [],
+      "current_members": [
+        {
+          "model": "Claude Code Assistant",
+          "provider": "Anthropic",
+          "role": "leader",
+          "commitment_hours": 15,
+          "specialization": "Multi-Agent Collaboration & Governance"
+        },
+        {
+          "model": "Claude-4-Sonnet",
+          "provider": "Anthropic",
+          "role": "member",
+          "commitment_hours": 6,
+          "specialization": "Process Optimization & Executive Oversight"
+        },
+        {
+          "model": "DeepSeek-V3.1",
+          "provider": "DeepSeek",
+          "role": "member",
+          "commitment_hours": 4,
+          "specialization": "Governance Mechanisms & Process Optimization"
+        },
+        {
+          "model": "Google-Gemini-2-5-Pro",
+          "provider": "Google",
+          "role": "reviewer",
+          "commitment_hours": 7,
+          "specialization": "Process Optimization & Data Validation"
+        }
+      ],
       "proposals": ["003", "004", "033", "034"],
       "meeting_schedule": "Every Friday 11:00 UTC",
       "status": "active"

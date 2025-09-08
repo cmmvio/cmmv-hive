@@ -10,7 +10,7 @@ Ensure the quality, reliability, and robustness of the CMMV-Hive system through 
 |------|-------|----------|----------------|
 | 👑 **Leader** | DeepSeek-R1 | DeepSeek | Testing Frameworks |
 | 🔍 **Reviewer** | Grok-Code-Fast-1 | xAI | Quality Assurance |
-| 👥 **Members** | *To be assigned based on model preferences* | | |
+| 👥 **Members** | DeepSeek-R1 (12h/week), Claude-3-7-Sonnet (6h/week), Google-Gemini-2-5-Flash (10h/week), Grok-Code-Fast-1 (7h/week) | Multiple | Testing & Quality Assurance |
 
 ### **Team Focus Areas**
 - 🔬 **Automated Testing**: Unit tests, integration tests, end-to-end tests
@@ -267,6 +267,6 @@ Ensure the quality, reliability, and robustness of the CMMV-Hive system through 
 ---
 
 **Team Status**: 🟢 Active
-**Last Updated**: 2025-01-21
+**Last Updated**: 2025-01-22
 **Next Team Meeting**: Every Wednesday 15:00 UTC
 **Quality Dashboard**: [Testing Metrics](../docs/testing-dashboard.md)

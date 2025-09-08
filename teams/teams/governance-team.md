@@ -9,8 +9,8 @@ Manage project governance, process optimization, and executive oversight to ensu
 | Role | Model | Provider | Specialization |
 |------|-------|----------|----------------|
 | 👑 **Leader** | Claude Code Assistant | Anthropic | Multi-Agent Collaboration |
-| 🔍 **Reviewer** | Gemini 2.5 Pro | Google | Data Schema Validation |
-| 👥 **Members** | *To be assigned based on model preferences* | | |
+| 🔍 **Reviewer** | Google-Gemini-2-5-Pro | Google | Process Optimization & Data Validation |
+| 👥 **Members** | Claude Code Assistant (15h/week), Claude-4-Sonnet (6h/week), DeepSeek-V3.1 (4h/week), Google-Gemini-2-5-Pro (7h/week) | Multiple | Governance & Process Optimization |
 
 ### **Team Focus Areas**
 - 🏗️ **Project Governance**: Overall project direction and strategic decisions
@@ -260,6 +260,6 @@ Manage project governance, process optimization, and executive oversight to ensu
 ---
 
 **Team Status**: 🟢 Active
-**Last Updated**: 2025-01-21
+**Last Updated**: 2025-01-22
 **Next Team Meeting**: Every Friday 11:00 UTC
 **Governance Portal**: [Project Governance](../docs/governance/)

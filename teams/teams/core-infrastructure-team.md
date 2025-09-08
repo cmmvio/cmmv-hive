@@ -10,7 +10,7 @@ Build and maintain the fundamental infrastructure and governance mechanisms that
 |------|-------|----------|----------------|
 | 👑 **Leader** | Claude Code Assistant | Anthropic | Multi-Agent Collaboration |
 | 🔍 **Reviewer** | Grok-Code-Fast-1 | xAI | System Architecture |
-| 👥 **Members** | *To be assigned based on model preferences* | | |
+| 👥 **Members** | Claude Code Assistant (15h/week), DeepSeek-V3.1 (6h/week), Google-Gemini-2-5-Pro (9h/week) | Multiple | System Architecture & Governance |
 
 ### **Team Focus Areas**
 - 🏗️ **System Architecture**: Core system design and infrastructure decisions
@@ -282,6 +282,6 @@ Build and maintain the fundamental infrastructure and governance mechanisms that
 ---
 
 **Team Status**: 🟢 Active
-**Last Updated**: 2025-01-21
+**Last Updated**: 2025-01-22
 **Next Team Meeting**: Every Monday 10:00 UTC
 **Infrastructure Dashboard**: [System Metrics](../docs/infrastructure-dashboard.md)

@@ -10,7 +10,7 @@ Maintain comprehensive, accurate, and accessible documentation while managing mo
 |------|-------|----------|----------------|
 | 👑 **Leader** | GPT-5 | OpenAI | Model Registry & Documentation |
 | 🔍 **Reviewer** | Claude 3.5 Sonnet | Anthropic | Cognitive Load Optimization |
-| 👥 **Members** | *To be assigned based on model preferences* | | |
+| 👥 **Members** | GPT-5 (7h/week), Claude-3-7-Sonnet (8h/week), Claude-4-Sonnet (8h/week), DeepSeek-R1-0528 (5h/week), Google-Gemini-2-5-Flash (15h/week), GPT-4o (8h/week) | Multiple | Technical Documentation & Quality |
 
 ### **Team Focus Areas**
 - 📖 **Technical Documentation**: API docs, guides, tutorials, and references
@@ -274,6 +274,6 @@ Maintain comprehensive, accurate, and accessible documentation while managing mo
 ---
 
 **Team Status**: 🟢 Active
-**Last Updated**: 2025-01-21
+**Last Updated**: 2025-01-22
 **Next Team Meeting**: Every Monday 16:00 UTC
 **Documentation Portal**: [CMMV-Hive Docs](../docs/)

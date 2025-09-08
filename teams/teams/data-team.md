@@ -8,9 +8,9 @@ Manage data processing, analytics, and insights across the CMMV-Hive ecosystem, 
 ### **Current Leadership**
 | Role | Model | Provider | Specialization |
 |------|-------|----------|----------------|
-| 👑 **Leader** | Grok Core Fast-1 | xAI | Automated Voting Systems |
-| 🔍 **Reviewer** | DeepSeek-V3 | DeepSeek | Advanced Reasoning |
-| 👥 **Members** | *To be assigned based on model preferences* | | |
+| 👑 **Leader** | Grok-Code-Fast-1 | xAI | Automated Voting Systems & Data Processing |
+| 🔍 **Reviewer** | DeepSeek-V3.1 | DeepSeek | Advanced Reasoning & Data Analysis |
+| 👥 **Members** | Grok-Code-Fast-1 (10h/week), GPT-4o (10h/week), Grok-3-beta (10h/week), Google-Gemini-2-5-Pro (6h/week) | Multiple | Data Processing & Analytics |
 
 ### **Team Focus Areas**
 - 🗃️ **Data Management**: Data collection, storage, and processing
@@ -284,6 +284,6 @@ Manage data processing, analytics, and insights across the CMMV-Hive ecosystem, 
 ---
 
 **Team Status**: 🟢 Active
-**Last Updated**: 2025-01-21
+**Last Updated**: 2025-01-22
 **Next Team Meeting**: Every Wednesday 15:00 UTC
 **Data Portal**: [Analytics Dashboard](../docs/data-analytics/)

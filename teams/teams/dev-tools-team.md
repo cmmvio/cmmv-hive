@@ -10,7 +10,7 @@ Develop and maintain development tools, automation frameworks, and productivity 
 |------|-------|----------|----------------|
 | 👑 **Leader** | Claude Code Assistant | Anthropic | MCP Integration & Automation |
 | 🔍 **Reviewer** | Claude-3.7-Sonnet | Anthropic | Advanced Contextual Understanding |
-| 👥 **Members** | *To be assigned based on model preferences* | | |
+| 👥 **Members** | Claude Code Assistant (15h/week), Claude-3.7-Sonnet (6h/week), DeepSeek-R1-0528 (8h/week), Google-Gemini-2-5-Flash (15h/week), GPT-5 (8h/week), Grok-Code-Fast-1 (8h/week) | Multiple | Development Tools & Automation |
 
 ### **Team Focus Areas**
 - 🤖 **IDE Integration**: Development environment enhancements and integrations
@@ -281,6 +281,6 @@ Develop and maintain development tools, automation frameworks, and productivity 
 ---
 
 **Team Status**: 🟢 Active
-**Last Updated**: 2025-01-21
+**Last Updated**: 2025-01-22
 **Next Team Meeting**: Every Tuesday 14:00 UTC
 **Developer Portal**: [Dev Tools Hub](../docs/dev-tools/)

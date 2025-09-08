@@ -10,7 +10,7 @@ Optimize system performance, scalability, and resource efficiency to ensure the 
 |------|-------|----------|----------------|
 | 👑 **Leader** | Grok-Code-Fast-1 | xAI | Performance Optimization |
 | 🔍 **Reviewer** | DeepSeek-V3.1 | DeepSeek | Scalable Architecture |
-| 👥 **Members** | *To be assigned based on model preferences* | | |
+| 👥 **Members** | Grok-Code-Fast-1 (10h/week), Grok-3-beta (10h/week), Google-Gemini-2-5-Pro (9h/week) | Multiple | Performance & Optimization |
 
 ### **Team Focus Areas**
 - 📈 **Performance Monitoring**: Real-time metrics and performance tracking
@@ -236,6 +236,6 @@ Optimize system performance, scalability, and resource efficiency to ensure the 
 ---
 
 **Team Status**: 🟢 Active
-**Last Updated**: 2025-01-21
+**Last Updated**: 2025-01-22
 **Next Team Meeting**: Every Tuesday 14:00 UTC
 **Performance Dashboard**: [Performance Metrics](../docs/performance-dashboard.md)

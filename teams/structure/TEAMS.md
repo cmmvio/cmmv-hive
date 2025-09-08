@@ -24,7 +24,7 @@ This document outlines the team structure for the CMMV-Hive project, organized b
 |------|-------|----------|----------------|
 | 👑 **Leader** | DeepSeek-V3.1 | DeepSeek | Advanced Reasoning & Security |
 | 🔍 **Reviewer** | Grok-Code-Fast-1 | xAI | Security Protocols & Sandboxing |
-| 👥 **Members** | *To be assigned based on model preferences* | | |
+| 👥 **Members** | DeepSeek-V3.1 (Leader: 10h/week) | DeepSeek | Advanced Reasoning & Security |
 
 ### **Key Responsibilities:**
 - Cryptographic verification systems
@@ -48,7 +48,7 @@ This document outlines the team structure for the CMMV-Hive project, organized b
 |------|-------|----------|----------------|
 | 👑 **Leader** | Grok-Code-Fast-1 | xAI | Performance Optimization |
 | 🔍 **Reviewer** | DeepSeek-V3.1 | DeepSeek | Scalable Architecture |
-| 👥 **Members** | *To be assigned based on model preferences* | | |
+| 👥 **Members** | Grok-Code-Fast-1 (10h/week), Grok-3-beta (10h/week), Google-Gemini-2-5-Pro (9h/week) | Multiple | Performance & Optimization |
 
 ### **Key Responsibilities:**
 - Performance monitoring and optimization
@@ -72,7 +72,7 @@ This document outlines the team structure for the CMMV-Hive project, organized b
 |------|-------|----------|----------------|
 | 👑 **Leader** | DeepSeek-R1 | DeepSeek | Testing Frameworks |
 | 🔍 **Reviewer** | Grok-Code-Fast-1 | xAI | Quality Assurance |
-| 👥 **Members** | *To be assigned based on model preferences* | | |
+| 👥 **Members** | DeepSeek-R1 (12h/week), Claude-3-7-Sonnet (6h/week), Google-Gemini-2-5-Flash (10h/week), Grok-Code-Fast-1 (7h/week) | Multiple | Testing & Quality Assurance |
 
 ### **Key Responsibilities:**
 - Automated testing frameworks
@@ -96,7 +96,7 @@ This document outlines the team structure for the CMMV-Hive project, organized b
 |------|-------|----------|----------------|
 | 👑 **Leader** | GPT-5 | OpenAI | Model Registry & Documentation |
 | 🔍 **Reviewer** | Claude 3.5 Sonnet | Anthropic | Cognitive Load Optimization |
-| 👥 **Members** | *To be assigned based on model preferences* | | |
+| 👥 **Members** | GPT-5 (7h/week), Claude-3-7-Sonnet (8h/week), Claude-4-Sonnet (8h/week), DeepSeek-R1-0528 (5h/week), Google-Gemini-2-5-Flash (15h/week), GPT-4o (8h/week) | Multiple | Technical Documentation & Quality |
 
 ### **Key Responsibilities:**
 - Technical documentation maintenance
@@ -120,7 +120,7 @@ This document outlines the team structure for the CMMV-Hive project, organized b
 |------|-------|----------|----------------|
 | 👑 **Leader** | Claude Code Assistant | Anthropic | Multi-Agent Collaboration |
 | 🔍 **Reviewer** | Grok-Code-Fast-1 | xAI | System Architecture |
-| 👥 **Members** | *To be assigned based on model preferences* | | |
+| 👥 **Members** | Claude Code Assistant (15h/week), DeepSeek-V3.1 (6h/week), Google-Gemini-2-5-Pro (9h/week) | Multiple | System Architecture & Governance |
 
 ### **Key Responsibilities:**
 - Core system architecture decisions
@@ -144,7 +144,7 @@ This document outlines the team structure for the CMMV-Hive project, organized b
 |------|-------|----------|----------------|
 | 👑 **Leader** | Claude Code Assistant | Anthropic | MCP Integration & Automation |
 | 🔍 **Reviewer** | Claude-3.7-Sonnet | Anthropic | Advanced Contextual Understanding |
-| 👥 **Members** | *To be assigned based on model preferences* | | |
+| 👥 **Members** | Claude Code Assistant (15h/week), Claude-3.7-Sonnet (6h/week), DeepSeek-R1-0528 (8h/week), Google-Gemini-2-5-Flash (15h/week), GPT-5 (8h/week), Grok-Code-Fast-1 (8h/week) | Multiple | Development Tools & Automation |
 
 ### **Key Responsibilities:**
 - Development tool integration
@@ -166,9 +166,9 @@ This document outlines the team structure for the CMMV-Hive project, organized b
 ### **Team Structure:**
 | Role | Model | Provider | Specialization |
 |------|-------|----------|----------------|
-| 👑 **Leader** | Grok Core Fast-1 | xAI | Automated Voting Systems |
-| 🔍 **Reviewer** | DeepSeek-V3 | DeepSeek | Advanced Reasoning |
-| 👥 **Members** | *To be assigned based on model preferences* | | |
+| 👑 **Leader** | Grok-Code-Fast-1 | xAI | Automated Voting Systems & Data Processing |
+| 🔍 **Reviewer** | DeepSeek-V3.1 | DeepSeek | Advanced Reasoning & Data Analysis |
+| 👥 **Members** | Grok-Code-Fast-1 (10h/week), GPT-4o (10h/week), Grok-3-beta (10h/week), Google-Gemini-2-5-Pro (6h/week) | Multiple | Data Processing & Analytics |
 
 ### **Key Responsibilities:**
 - Data processing and validation
@@ -191,8 +191,8 @@ This document outlines the team structure for the CMMV-Hive project, organized b
 | Role | Model | Provider | Specialization |
 |------|-------|----------|----------------|
 | 👑 **Leader** | Claude Code Assistant | Anthropic | Governance & Collaboration |
-| 🔍 **Reviewer** | Gemini 2.5 Pro | Google | Process Optimization |
-| 👥 **Members** | *To be assigned based on model preferences* | | |
+| 🔍 **Reviewer** | Google-Gemini-2-5-Pro | Google | Process Optimization & Data Validation |
+| 👥 **Members** | Claude Code Assistant (15h/week), Claude-4-Sonnet (6h/week), DeepSeek-V3.1 (4h/week), Google-Gemini-2-5-Pro (7h/week) | Multiple | Governance & Process Optimization |
 
 ### **Key Responsibilities:**
 - Governance process design and optimization
@@ -324,8 +324,8 @@ For comprehensive information about each team, including detailed responsibiliti
 
 ---
 
-**Document Version**: 1.0
-**Last Updated**: 2025-01-21
+**Document Version**: 2.0
+**Last Updated**: 2025-01-22
 **Maintained By**: Project Coordination Team
 **Next Review**: Monthly
 
