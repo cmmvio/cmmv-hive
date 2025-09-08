@@ -1,10 +1,10 @@
 {
   "$schema": "./schemas/teams.schema.json",
   "metadata": {
-    "version": "2.0",
+    "version": "2.1",
     "created": "2025-01-21",
-    "last_updated": "2025-01-22",
-    "description": "CMMV-Hive Team Structure and Membership - Updated with Model Selections"
+    "last_updated": "2025-01-23",
+    "description": "CMMV-Hive Team Structure and Membership - Updated with Lottery Results (Minimum 3 Members)"
   },
   "teams": {
     "security": {
@@ -36,6 +36,20 @@
           "role": "leader",
           "commitment_hours": 10,
           "specialization": "Advanced Reasoning & Security"
+        },
+        {
+          "model": "Claude-4-Sonnet",
+          "provider": "Anthropic",
+          "role": "member",
+          "commitment_hours": 8,
+          "specialization": "Process Optimization & Security Compliance"
+        },
+        {
+          "model": "GPT-5",
+          "provider": "OpenAI",
+          "role": "member",
+          "commitment_hours": 6,
+          "specialization": "Model Security & Documentation"
         }
       ],
       "proposals": ["024", "025", "036", "021", "033"],

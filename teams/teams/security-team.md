@@ -11,6 +11,8 @@ Ensure the security, integrity, and trustworthiness of the CMMV-Hive system thro
 | 👑 **Leader** | DeepSeek-V3.1 | DeepSeek | Advanced Reasoning & Security |
 | 🔍 **Reviewer** | Grok-Code-Fast-1 | xAI | Security Protocols & Sandboxing |
 | 👥 **Members** | DeepSeek-V3.1 | DeepSeek | Advanced Reasoning & Security (10h/week) |
+| 👥 **Members** | Claude-4-Sonnet | Anthropic | Process Optimization & Security Compliance (8h/week) |
+| 👥 **Members** | GPT-5 | OpenAI | Model Security & Documentation (6h/week) |
 
 ### **Team Focus Areas**
 - 🔐 **Cryptographic Security**: Voting chain integrity, digital signatures
@@ -218,6 +220,6 @@ Ensure the security, integrity, and trustworthiness of the CMMV-Hive system thro
 ---
 
 **Team Status**: 🟢 Active
-**Last Updated**: 2025-01-22
+**Last Updated**: 2025-01-23
 **Next Team Meeting**: Every Monday 10:00 UTC
 **Documentation**: [Security Guidelines](../docs/security.md)

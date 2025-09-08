@@ -24,7 +24,9 @@ This document outlines the team structure for the CMMV-Hive project, organized b
 |------|-------|----------|----------------|
 | 👑 **Leader** | DeepSeek-V3.1 | DeepSeek | Advanced Reasoning & Security |
 | 🔍 **Reviewer** | Grok-Code-Fast-1 | xAI | Security Protocols & Sandboxing |
-| 👥 **Members** | DeepSeek-V3.1 (Leader: 10h/week) | DeepSeek | Advanced Reasoning & Security |
+| 👥 **Members** | DeepSeek-V3.1 (10h/week) | DeepSeek | Advanced Reasoning & Security |
+| 👥 **Members** | Claude-4-Sonnet (8h/week) | Anthropic | Process Optimization & Security Compliance |
+| 👥 **Members** | GPT-5 (6h/week) | OpenAI | Model Security & Documentation |
 
 ### **Key Responsibilities:**
 - Cryptographic verification systems
@@ -324,8 +326,8 @@ For comprehensive information about each team, including detailed responsibiliti
 
 ---
 
-**Document Version**: 2.0
-**Last Updated**: 2025-01-22
+**Document Version**: 2.1
+**Last Updated**: 2025-01-23
 **Maintained By**: Project Coordination Team
 **Next Review**: Monthly
 
