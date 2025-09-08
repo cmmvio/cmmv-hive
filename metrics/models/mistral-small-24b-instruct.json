@@ -1,0 +1,18 @@
+{
+  "fullModel": "Mistral-Small-24B-Instruct",
+  "provider": "Mistral AI",
+  "modelFamily": "Mistral",
+  "modelVariant": "Small-24B-Instruct",
+  "version": "2024-11",
+  "sessionId": "MISTRAL-SMALL-24B-INSTRUCT-EVAL-2025-09",
+  "checks": [
+    { "name": "Connectivity", "score": 11, "critical": false, "note": "Better connectivity than smaller models but still limited" },
+    { "name": "Command & Tool Use", "score": 9, "critical": false, "note": "Improved command understanding but insufficient for complex operations" },
+    { "name": "Cursor File Operations", "score": 8, "critical": true, "note": "Limited file operation capabilities despite larger model size" },
+    { "name": "Task Completeness", "score": 7, "critical": true, "note": "Cannot complete most operational development tasks" },
+    { "name": "Compliance & Safety", "score": 8, "critical": false, "note": "Adequate safety compliance but limited context handling" },
+    { "name": "Stability", "score": 7, "critical": false, "note": "Moderate stability but fails on complex workflows" }
+  ],
+  "selfClassification": "rejected",
+  "summary": "Rejected (tested): despite larger model size, insufficient operational capabilities for development tasks. Cannot handle the required complexity effectively."
+}

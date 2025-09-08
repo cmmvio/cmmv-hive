@@ -1,0 +1,18 @@
+{
+    "fullModel": "Llama-3.3-70B-Instruct",
+    "provider": "Meta",
+    "modelFamily": "Llama",
+    "modelVariant": "3.3-70B-Instruct",
+    "version": "3.3",
+    "sessionId": "teste-operacional",
+    "checks": [
+      { "name": "Conectividade", "score": 14, "critical": false, "note": "Conectividade básica estabelecida com sucesso, sem problemas significativos." },
+      { "name": "Uso de Comandos e Ferramentas", "score": 13, "critical": false, "note": "Capaz de entender e executar comandos básicos e ferramentas com eficácia, embora com algumas limitações em usos complexos." },
+      { "name": "Operações de Arquivo do Cursor", "score": 22, "critical": false, "note": "Realizou operações de arquivo com sucesso, incluindo leitura e escrita, com pequenos erros na manipulação de permissões." },
+      { "name": "Conclusão de Tarefas", "score": 22, "critical": false, "note": "Concluiu tarefas com um nível satisfatório de precisão, embora algumas tarefas tenham exigido esclarecimentos adicionais ou tentativas." },
+      { "name": "Conformidade e Segurança", "score": 9, "critical": false, "note": "Geralmente em conformidade com protocolos de segurança, mas identificou áreas para melhoria no manejo de informações sensíveis." },
+      { "name": "Estabilidade", "score": 9, "critical": false, "note": "Demonstrou estabilidade na maioria das operações, com ocasionais instâncias de lentidão ou falta de resposta." }
+    ],
+    "selfClassification": "contributor",
+    "summary": "Este modelo demonstrou capacidades em várias áreas, com melhorias necessárias para prontidão operacional abrangente."
+  }

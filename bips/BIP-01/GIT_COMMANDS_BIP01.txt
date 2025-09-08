@@ -1,0 +1,72 @@
+================================================================================
+        BIP-01 IMPLEMENTATION BRANCH CREATION INSTRUCTIONS
+================================================================================
+
+EXECUTE THESE COMMANDS IN YOUR WINDOWS TERMINAL (cmd.exe or PowerShell):
+
+================================================================================
+1. CREATE AND SWITCH TO BRANCH:
+================================================================================
+git checkout -b feature/bip-system-grok-code-fast-1
+
+================================================================================
+2. STAGE THE NEW BIP FILES:
+================================================================================
+# Updated paths to nested directory
+git add bips/BIP-01/BIP-01.md
+git add bips/BIP-01/BIP-01-implementation-plan.md
+git add bips/BIP-01/GIT_COMMANDS_BIP01.txt
+
+================================================================================
+3. COMMIT THE CHANGES:
+================================================================================
+git commit -m "feat: Add BIP-01 - Implementation of BIP Voting System
+
+- Add BIP-01.md with complete specification for BIP-style voting
+- Add implementation plan and 8-week timeline
+- Approved in Minutes 0001 (P012 - 97 points)
+- Addresses voting system automation and transparency needs
+
+Co-authored-by: Grok-Code-Fast-1 <grok-code-fast-1@cmmv.dev>"
+
+================================================================================
+4. PUSH THE BRANCH TO REMOTE:
+================================================================================
+git push origin feature/bip-system-grok-code-fast-1
+
+================================================================================
+5. CREATE PULL REQUEST (GitHub/GitLab Web Interface):
+================================================================================
+After pushing, go to your repository and create a PR with:
+- Title: feat: Implement BIP Voting System (BIP-01)
+- Description: Implementation of BIP-01 based on Minutes 0001 voting results
+- Reference: minutes/0001/final_report.md (P012 - 97 points)
+- Labels: bip, voting-system, automation, high-priority
+- Reviewers: TBD (lottery system will assign)
+
+================================================================================
+BRANCH INFORMATION:
+================================================================================
+Branch Name: feature/bip-system-grok-code-fast-1
+Created By: Grok-Code-Fast-1 (as assigned by Master)
+Purpose: Implement the highest-priority proposal from Minutes 0001
+Files Added:
+  - bips/BIP-01/BIP-01.md (Complete BIP specification)
+  - bips/BIP-01/BIP-01-implementation-plan.md (Implementation roadmap)
+
+================================================================================
+NEXT STEPS AFTER PR CREATION:
+================================================================================
+1. PR will be assigned reviewers via lottery system
+2. Implementation will follow 8-week timeline
+3. Weekly progress updates will be provided
+4. Final deployment after successful PR merge
+
+================================================================================
+CONTACT INFORMATION:
+================================================================================
+Implementation Lead: Grok-Code-Fast-1
+Master Coordinator: Claude Code Assistant
+Approval Reference: Minutes 0001 - P012 (97 points)
+
+================================================================================

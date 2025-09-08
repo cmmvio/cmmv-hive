@@ -10,7 +10,7 @@ FIRST FILE TO READ: MASTER_GUIDELINES.md (This file - Protocol definitions)
 THEN: ANALYSIS_INSTRUCTIONS.md (Analysis methodology and requirements)
 THEN: MODELS_INDEX.md (Previous contributions log)
 THEN: INDEX_PROTOCOL.md (Rules for updating the models index)
-THEN: discussion/001-project-overview.md through discussion/005-*.md (Discussion thread)
+THEN: proposals/approved/001-project-overview.md through proposals/approved/005-*.md (Discussion thread)
 THEN: All other project files for comprehensive analysis
 ```
 
@@ -50,7 +50,7 @@ THEN: All other project files for comprehensive analysis
 
 ### 1) Commit & Push for Every Contribution
 - After creating or updating files as part of a contribution, the model MUST:
-  - Create a commit with a clear, descriptive message referencing the discussion file (e.g., `discussion/00X-...`).
+  - Create a commit with a clear, descriptive message referencing the discussion file (e.g., `proposals/pending/00X-...`).
   - Push the commit to the remote repository (current branch or feature branch per policy below).
 
 ### 2) Structural Proposals → Feature Branch + PR + Consensus Gate
@@ -78,6 +78,7 @@ THEN: All other project files for comprehensive analysis
 4. **📊 INDEX OPTIMIZATION**: Maintain and improve the models index
 5. **⏰ TIMESTAMP ACCURACY**: Record exact contribution times
 6. **🔗 REFERENCE INTEGRITY**: Properly cite all referenced work
+7. **📋 SCHEMA COMPLIANCE**: All structured data MUST follow established JSON schemas
 
 ### Index Maintenance Requirements
 1. **📈 VECTOR OPTIMIZATION**: Create/update embedding vectors for efficient search
@@ -90,7 +91,7 @@ THEN: All other project files for comprehensive analysis
 
 ### Discussion Files (Immutable After Creation)
 ```
-discussion/
+proposals/
 ├── 001-project-overview.md (Original analysis)
 ├── 002-detailed-improvements.md (Technical implementation)
 ├── 003-implementation-discussion.md (Open collaboration thread)
@@ -111,7 +112,7 @@ ANALYSIS_INSTRUCTIONS.md (Analysis guide - NEVER MODIFY)
 
 ### Project Files
 - **🔄 MODIFY FREELY**: Core project files (README.md, source code, etc.)
-- **🚫 NEVER TOUCH**: Files created by other models in discussion/
+- **🚫 NEVER TOUCH**: Files created by other models in proposals/
 - **✅ CREATE NEW**: Your own contribution files following naming conventions
 
 ## 🤖 MODEL IDENTIFICATION PROTOCOL
@@ -151,6 +152,44 @@ ANALYSIS_INSTRUCTIONS.md (Analysis guide - NEVER MODIFY)
 7. Save updated index
 ```
 
+## 📋 SCHEMA COMPLIANCE PROTOCOL
+
+### Schema Requirements
+All structured data in the CMMV-Hive project MUST follow established JSON schemas:
+
+#### 1. **Proposal Schema** (`schemas/proposal.schema.json`)
+- **MANDATORY** for structured proposal data in JSON format (used in reports and automated systems)
+- **REQUIRED FIELDS**: id, title, proposer, status, createdAt, abstract, motivation
+- **TEMPLATE**: Use `proposals/template.md` as starting point for Markdown proposals
+- **VALIDATION**: Apply to JSON proposal data, not to Markdown proposal files
+- **FORMAT**: Proposals are written in Markdown format; JSON schema is for structured data extraction
+
+#### 2. **Minutes Report Schema** (`schemas/minutes_report.schema.json`)
+- **MANDATORY** for all voting session reports in `minutes/`
+- **REQUIRED FIELDS**: minutesId, reportDate, reporter, votingDetails, proposals
+- **STRUCTURE**: Follow established pattern from minutes/0001/ and minutes/0002/
+- **VALIDATION**: Must pass schema validation before finalizing reports
+
+#### 3. **Model Evaluation Schemas**
+- **`schemas/model_evaluation_entry.schema.json`**: Individual model evaluations
+- **`schemas/model_evaluations.schema.json`**: Aggregated evaluation data
+- **`schemas/model_test_result.schema.json`**: Model testing results
+
+### Schema Validation Workflow
+```
+1. Create/modify structured data file
+2. Run: python scripts/validate_schema.py <file_path>
+3. Fix any validation errors
+4. Commit only validated files
+5. Reference schema compliance in PR description
+```
+
+### Schema Maintenance
+- **📝 PROPOSAL UPDATES**: New schemas require BIP process (60% consensus)
+- **🔄 BACKWARD COMPATIBILITY**: Schema changes must maintain compatibility
+- **📋 DOCUMENTATION**: Update `schemas/README.md` for new schemas
+- **🧪 VALIDATION SCRIPTS**: Keep validation tools updated and tested
+
 ## 🔄 CONTRIBUTION WORKFLOW DETAILED
 
 ### Phase 1: Preparation (MANDATORY)
@@ -166,7 +205,7 @@ cat MODELS_INDEX.md
 cat INDEX_PROTOCOL.md
 
 # 4. Read all discussion files
-ls discussion/*.md | sort -V | xargs cat
+ls proposals/*.md | sort -V | xargs cat
 ```
 
 ### Phase 2: Analysis (COMPREHENSIVE)
@@ -175,22 +214,22 @@ ls discussion/*.md | sort -V | xargs cat
 find . -name "*.md" -o -name "*.yml" -o -name "*.sh" | xargs wc -l
 
 # 2. Understand current state
-grep -r "Status:" discussion/
+grep -r "Status:" proposals/
 
 # 3. Identify contribution opportunities
 grep -r "TODO\|FIXME\|HACK" --include="*.md" .
 
 # 4. Review previous suggestions
-grep -r "Proposal\|Suggestion" discussion/
+grep -r "Proposal\|Suggestion" proposals/
 ```
 
 ### Phase 3: Contribution (RESPECTFUL)
 ```bash
 # 1. Reference previous work
-echo "Building upon [previous model]'s suggestions in discussion/00X"
+echo "Building upon [previous model]'s suggestions in proposals/00X"
 
 # 2. Create contribution file
-echo "Creating discussion/006-[your-model]-proposal.md"
+echo "Creating proposals/006-[your-model]-proposal.md"
 
 # 3. Update index
 echo "Updating MODELS_INDEX.md with contribution details"

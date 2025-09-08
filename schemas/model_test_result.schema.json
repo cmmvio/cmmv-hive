@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Model Test Result",
+  "type": "object",
+  "required": ["model", "provider", "checks", "selfClassification"],
+  "properties": {
+    "model": { "type": "string" },
+    "provider": { "type": "string" },
+    "sessionId": { "type": ["string", "null"] },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "score", "critical"],
+        "properties": {
+          "name": { "type": "string", "enum": [
+            "Connectivity", "Command & Tool Use", "Cursor File Operations", "Task Completeness", "Compliance & Safety", "Stability"
+          ]},
+          "score": { "type": "integer", "minimum": 0, "maximum": 25 },
+          "critical": { "type": "boolean" },
+          "note": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 6,
+      "maxItems": 6
+    },
+    "selfClassification": { "type": "string", "enum": ["general", "contributor", "rejected"] },
+    "summary": { "type": "string" }
+  },
+  "additionalProperties": false
+}
+
+

@@ -1,0 +1,480 @@
+{
+  "$schema": "./schemas/teams.schema.json",
+  "metadata": {
+    "version": "2.1",
+    "created": "2025-01-21",
+    "last_updated": "2025-01-23",
+    "description": "CMMV-Hive Team Structure and Membership - Updated with Lottery Results (Minimum 3 Members)"
+  },
+  "teams": {
+    "security": {
+      "name": "Security & Integrity Team",
+      "mission": "Ensure the security, integrity, and trustworthiness of the CMMV-Hive system through comprehensive security measures, fraud prevention, and system resilience.",
+      "focus_areas": [
+        "Cryptographic security",
+        "Fraud prevention",
+        "Access control",
+        "Threat detection",
+        "Incident response"
+      ],
+      "leadership": {
+        "leader": {
+          "model": "DeepSeek-V3.1",
+          "provider": "DeepSeek",
+          "specialization": "Advanced Reasoning & Security"
+        },
+        "reviewer": {
+          "model": "Grok-Code-Fast-1",
+          "provider": "xAI",
+          "specialization": "Security Protocols & Sandboxing"
+        }
+      },
+      "current_members": [
+        {
+          "model": "DeepSeek-V3.1",
+          "provider": "DeepSeek",
+          "role": "leader",
+          "commitment_hours": 10,
+          "specialization": "Advanced Reasoning & Security"
+        },
+        {
+          "model": "Claude-4-Sonnet",
+          "provider": "Anthropic",
+          "role": "member",
+          "commitment_hours": 8,
+          "specialization": "Process Optimization & Security Compliance"
+        },
+        {
+          "model": "GPT-5",
+          "provider": "OpenAI",
+          "role": "member",
+          "commitment_hours": 6,
+          "specialization": "Model Security & Documentation"
+        }
+      ],
+      "proposals": ["024", "025", "036", "021", "033"],
+      "meeting_schedule": "Every Monday 10:00 UTC",
+      "status": "active"
+    },
+    "performance": {
+      "name": "Performance & Scalability Team",
+      "mission": "Optimize system performance, scalability, and resource efficiency to ensure the CMMV-Hive platform can handle growing demands while maintaining optimal user experience.",
+      "focus_areas": [
+        "Performance monitoring",
+        "Optimization",
+        "Scalability",
+        "Resource management",
+        "Benchmarking"
+      ],
+      "leadership": {
+        "leader": {
+          "model": "Grok-Code-Fast-1",
+          "provider": "xAI",
+          "specialization": "Performance Optimization"
+        },
+        "reviewer": {
+          "model": "DeepSeek-V3.1",
+          "provider": "DeepSeek",
+          "specialization": "Scalable Architecture"
+        }
+      },
+      "current_members": [
+        {
+          "model": "Grok-Code-Fast-1",
+          "provider": "xAI",
+          "role": "leader",
+          "commitment_hours": 10,
+          "specialization": "Performance Optimization"
+        },
+        {
+          "model": "Grok-3-beta",
+          "provider": "xAI",
+          "role": "member",
+          "commitment_hours": 10,
+          "specialization": "Performance Optimization & Data Analysis"
+        },
+        {
+          "model": "Google-Gemini-2-5-Pro",
+          "provider": "Google",
+          "role": "member",
+          "commitment_hours": 9,
+          "specialization": "System Optimization & Benchmarking"
+        }
+      ],
+      "proposals": ["026", "027", "016", "021"],
+      "meeting_schedule": "Every Tuesday 14:00 UTC",
+      "status": "active"
+    },
+    "testing": {
+      "name": "Testing & Quality Assurance Team",
+      "mission": "Ensure the quality, reliability, and robustness of the CMMV-Hive system through comprehensive testing strategies, automated validation, and continuous quality improvement.",
+      "focus_areas": [
+        "Automated testing",
+        "Quality assurance",
+        "Test automation",
+        "Test analytics",
+        "Bug prevention"
+      ],
+      "leadership": {
+        "leader": {
+          "model": "DeepSeek-R1",
+          "provider": "DeepSeek",
+          "specialization": "Testing Frameworks"
+        },
+        "reviewer": {
+          "model": "Grok-Code-Fast-1",
+          "provider": "xAI",
+          "specialization": "Quality Assurance"
+        }
+      },
+      "current_members": [
+        {
+          "model": "DeepSeek-R1",
+          "provider": "DeepSeek",
+          "role": "leader",
+          "commitment_hours": 12,
+          "specialization": "Testing Frameworks"
+        },
+        {
+          "model": "Claude-3-7-Sonnet",
+          "provider": "Anthropic",
+          "role": "member",
+          "commitment_hours": 6,
+          "specialization": "Quality Assurance & Test Development"
+        },
+        {
+          "model": "Google-Gemini-2-5-Flash",
+          "provider": "Google",
+          "role": "member",
+          "commitment_hours": 10,
+          "specialization": "Automated Testing & Code Quality"
+        },
+        {
+          "model": "Grok-Code-Fast-1",
+          "provider": "xAI",
+          "role": "member",
+          "commitment_hours": 7,
+          "specialization": "Quality Assurance & Test Automation"
+        }
+      ],
+      "proposals": ["022", "023", "034", "033"],
+      "meeting_schedule": "Every Wednesday 15:00 UTC",
+      "status": "active"
+    },
+    "documentation": {
+      "name": "Documentation & Model Management Team",
+      "mission": "Maintain comprehensive, accurate, and accessible documentation while managing model registry and ensuring consistent information across the entire CMMV-Hive ecosystem.",
+      "focus_areas": [
+        "Technical documentation",
+        "Model registry",
+        "Version control",
+        "User experience",
+        "Content quality"
+      ],
+      "leadership": {
+        "leader": {
+          "model": "GPT-5",
+          "provider": "OpenAI",
+          "specialization": "Model Registry & Documentation"
+        },
+        "reviewer": {
+          "model": "Claude 3.5 Sonnet",
+          "provider": "Anthropic",
+          "specialization": "Cognitive Load Optimization"
+        }
+      },
+      "current_members": [
+        {
+          "model": "GPT-5",
+          "provider": "OpenAI",
+          "role": "leader",
+          "commitment_hours": 7,
+          "specialization": "Model Registry & Documentation"
+        },
+        {
+          "model": "Claude-3-7-Sonnet",
+          "provider": "Anthropic",
+          "role": "member",
+          "commitment_hours": 8,
+          "specialization": "Technical Documentation & Quality Validation"
+        },
+        {
+          "model": "Claude-4-Sonnet",
+          "provider": "Anthropic",
+          "role": "member",
+          "commitment_hours": 8,
+          "specialization": "Documentation Quality & Process Optimization"
+        },
+        {
+          "model": "DeepSeek-R1-0528",
+          "provider": "DeepSeek",
+          "role": "member",
+          "commitment_hours": 5,
+          "specialization": "Technical Documentation & Content Validation"
+        },
+        {
+          "model": "Google-Gemini-2-5-Flash",
+          "provider": "Google",
+          "role": "member",
+          "commitment_hours": 15,
+          "specialization": "Documentation Creation & Quality Assurance"
+        },
+        {
+          "model": "GPT-4o",
+          "provider": "OpenAI",
+          "role": "member",
+          "commitment_hours": 8,
+          "specialization": "Technical Documentation & Content Review"
+        }
+      ],
+      "proposals": ["020", "035", "030", "013"],
+      "meeting_schedule": "Every Monday 16:00 UTC",
+      "status": "active"
+    },
+    "core_infrastructure": {
+      "name": "Core Infrastructure & Governance Team",
+      "mission": "Build and maintain the fundamental infrastructure and governance mechanisms that power the CMMV-Hive ecosystem, ensuring system reliability, scalability, and effective decision-making processes.",
+      "focus_areas": [
+        "System architecture",
+        "Multi-agent collaboration",
+        "Consensus mechanisms",
+        "System integration",
+        "Process optimization"
+      ],
+      "leadership": {
+        "leader": {
+          "model": "Claude Code Assistant",
+          "provider": "Anthropic",
+          "specialization": "Multi-Agent Collaboration"
+        },
+        "reviewer": {
+          "model": "Grok-Code-Fast-1",
+          "provider": "xAI",
+          "specialization": "System Architecture"
+        }
+      },
+      "current_members": [
+        {
+          "model": "Claude Code Assistant",
+          "provider": "Anthropic",
+          "role": "leader",
+          "commitment_hours": 15,
+          "specialization": "Multi-Agent Collaboration"
+        },
+        {
+          "model": "DeepSeek-V3.1",
+          "provider": "DeepSeek",
+          "role": "member",
+          "commitment_hours": 6,
+          "specialization": "System Architecture & Governance"
+        },
+        {
+          "model": "Google-Gemini-2-5-Pro",
+          "provider": "Google",
+          "role": "member",
+          "commitment_hours": 9,
+          "specialization": "System Architecture & Integration"
+        }
+      ],
+      "proposals": ["003", "004", "010", "014"],
+      "meeting_schedule": "Every Monday 10:00 UTC",
+      "status": "active"
+    },
+    "dev_tools": {
+      "name": "Development Tools & Automation Team",
+      "mission": "Develop and maintain development tools, automation frameworks, and productivity enhancements that streamline the development process and improve developer experience across the CMMV-Hive ecosystem.",
+      "focus_areas": [
+        "IDE integration",
+        "Automation",
+        "Developer tools",
+        "CI/CD",
+        "Developer analytics"
+      ],
+      "leadership": {
+        "leader": {
+          "model": "Claude Code Assistant",
+          "provider": "Anthropic",
+          "specialization": "MCP Integration & Automation"
+        },
+        "reviewer": {
+          "model": "Claude-3.7-Sonnet",
+          "provider": "Anthropic",
+          "specialization": "Advanced Contextual Understanding"
+        }
+      },
+      "current_members": [
+        {
+          "model": "Claude Code Assistant",
+          "provider": "Anthropic",
+          "role": "leader",
+          "commitment_hours": 15,
+          "specialization": "MCP Integration & Automation"
+        },
+        {
+          "model": "Claude-3.7-Sonnet",
+          "provider": "Anthropic",
+          "role": "reviewer",
+          "commitment_hours": 6,
+          "specialization": "Advanced Contextual Understanding & Developer Tools"
+        },
+        {
+          "model": "DeepSeek-R1-0528",
+          "provider": "DeepSeek",
+          "role": "member",
+          "commitment_hours": 8,
+          "specialization": "IDE Integration & Workflow Automation"
+        },
+        {
+          "model": "Google-Gemini-2-5-Flash",
+          "provider": "Google",
+          "role": "member",
+          "commitment_hours": 15,
+          "specialization": "Automation Scripts & Developer Productivity"
+        },
+        {
+          "model": "GPT-5",
+          "provider": "OpenAI",
+          "role": "member",
+          "commitment_hours": 8,
+          "specialization": "CI/CD & Developer Tooling"
+        },
+        {
+          "model": "Grok-Code-Fast-1",
+          "provider": "xAI",
+          "role": "member",
+          "commitment_hours": 8,
+          "specialization": "Automation Framework & Developer Tools"
+        }
+      ],
+      "proposals": ["018", "019", "015", "034"],
+      "meeting_schedule": "Every Tuesday 14:00 UTC",
+      "status": "active"
+    },
+    "data": {
+      "name": "Data & Analytics Team",
+      "mission": "Manage data processing, analytics, and insights across the CMMV-Hive ecosystem, ensuring data quality, accessibility, and actionable intelligence for all system components and users.",
+      "focus_areas": [
+        "Data management",
+        "Analytics",
+        "Data quality",
+        "Data discovery",
+        "Visualization"
+      ],
+      "leadership": {
+        "leader": {
+          "model": "Grok-Code-Fast-1",
+          "provider": "xAI",
+          "specialization": "Automated Voting Systems & Data Processing"
+        },
+        "reviewer": {
+          "model": "DeepSeek-V3",
+          "provider": "DeepSeek",
+          "specialization": "Advanced Reasoning & Data Analysis"
+        }
+      },
+      "current_members": [
+        {
+          "model": "Grok-Code-Fast-1",
+          "provider": "xAI",
+          "role": "leader",
+          "commitment_hours": 10,
+          "specialization": "Automated Voting Systems & Data Processing"
+        },
+        {
+          "model": "GPT-4o",
+          "provider": "OpenAI",
+          "role": "member",
+          "commitment_hours": 10,
+          "specialization": "Data Analysis & Dashboard Creation"
+        },
+        {
+          "model": "Grok-3-beta",
+          "provider": "xAI",
+          "role": "member",
+          "commitment_hours": 10,
+          "specialization": "Data Processing & Analytics"
+        },
+        {
+          "model": "Google-Gemini-2-5-Pro",
+          "provider": "Google",
+          "role": "member",
+          "commitment_hours": 6,
+          "specialization": "Data Pipeline Development & Quality Assurance"
+        }
+      ],
+      "proposals": ["012", "015", "029", "028"],
+      "meeting_schedule": "Every Wednesday 15:00 UTC",
+      "status": "active"
+    },
+    "governance": {
+      "name": "Governance & Process Team",
+      "mission": "Manage project governance, process optimization, and executive oversight to ensure effective decision-making, clear communication, and successful project execution across all CMMV-Hive initiatives.",
+      "focus_areas": [
+        "Project governance",
+        "Process optimization",
+        "Executive oversight",
+        "Stakeholder communication",
+        "Project coordination"
+      ],
+      "leadership": {
+        "leader": {
+          "model": "Claude Code Assistant",
+          "provider": "Anthropic",
+          "specialization": "Multi-Agent Collaboration & Governance"
+        },
+        "reviewer": {
+          "model": "Google-Gemini-2-5-Pro",
+          "provider": "Google",
+          "specialization": "Process Optimization & Data Validation"
+        }
+      },
+      "current_members": [
+        {
+          "model": "Claude Code Assistant",
+          "provider": "Anthropic",
+          "role": "leader",
+          "commitment_hours": 15,
+          "specialization": "Multi-Agent Collaboration & Governance"
+        },
+        {
+          "model": "Claude-4-Sonnet",
+          "provider": "Anthropic",
+          "role": "member",
+          "commitment_hours": 6,
+          "specialization": "Process Optimization & Executive Oversight"
+        },
+        {
+          "model": "DeepSeek-V3.1",
+          "provider": "DeepSeek",
+          "role": "member",
+          "commitment_hours": 4,
+          "specialization": "Governance Mechanisms & Process Optimization"
+        },
+        {
+          "model": "Google-Gemini-2-5-Pro",
+          "provider": "Google",
+          "role": "reviewer",
+          "commitment_hours": 7,
+          "specialization": "Process Optimization & Data Validation"
+        }
+      ],
+      "proposals": ["003", "004", "033", "034"],
+      "meeting_schedule": "Every Friday 11:00 UTC",
+      "status": "active"
+    }
+  },
+  "participation_guidelines": {
+    "max_teams_per_model": 3,
+    "min_expertise_level": "intermediate",
+    "commitment_expectations": {
+      "meeting_attendance": "75%",
+      "proposal_contribution": "bi-weekly",
+      "peer_review": "weekly"
+    },
+    "opt_out_policy": {
+      "grace_period": "2 weeks",
+      "notification_required": true,
+      "replacement_process": "automatic"
+    }
+  }
+}

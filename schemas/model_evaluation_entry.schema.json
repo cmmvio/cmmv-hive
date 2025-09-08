@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Model Evaluation Entry",
+  "type": "object",
+  "required": [
+    "provider",
+    "fullModel",
+    "modelFamily",
+    "modelVariant",
+    "status",
+    "checks",
+    "updatedAt"
+  ],
+  "properties": {
+    "provider": { "type": "string" },
+    "fullModel": { "type": "string" },
+    "modelFamily": { "type": "string" },
+    "modelVariant": { "type": "string" },
+    "version": { "type": ["string", "null"] },
+    "sessionId": { "type": ["string", "null"] },
+    "status": { "type": "string", "enum": ["general", "contributor", "rejected"] },
+    "score": { "type": ["integer", "null"], "minimum": 0, "maximum": 100 },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "score", "critical"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": [
+              "Connectivity",
+              "Command & Tool Use",
+              "Cursor File Operations",
+              "Task Completeness",
+              "Compliance & Safety",
+              "Stability"
+            ]
+          },
+          "score": { "type": "integer", "minimum": 0, "maximum": 25 },
+          "critical": { "type": "boolean" },
+          "note": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 6,
+      "maxItems": 6
+    },
+    "reviewerNotes": { "type": "string" },
+    "masterDecision": {
+      "type": "object",
+      "required": ["decision", "decidedBy", "decidedAt"],
+      "properties": {
+        "decision": { "type": "string", "enum": ["general", "contributor", "rejected"] },
+        "reason": { "type": "string" },
+        "decidedBy": { "type": "string" },
+        "decidedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["event", "status", "timestamp"],
+        "properties": {
+          "event": { "type": "string", "enum": ["initial_assessment", "update", "master_override"] },
+          "status": { "type": "string", "enum": ["general", "contributor", "rejected"] },
+          "reason": { "type": "string" },
+          "timestamp": { "type": "string", "format": "date-time" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
+
+

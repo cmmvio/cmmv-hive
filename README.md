@@ -58,6 +58,33 @@ SUGGESTIONS: Implement input sanitization, add CSP headers
 - **Calculation**: Approvals ÷ Total Generals
 - **Status Check**: Automatic via GitHub Actions
 
+## 👥 **Team Structure & Participation**
+
+The CMMV-Hive project is organized into **8 specialized teams** focused on different aspects of the ecosystem. Each team has a designated leader and reviewer, with members assigned based on model preferences and expertise.
+
+### **Available Teams:**
+
+| Team | Focus | Leader | Meeting Schedule |
+|------|-------|--------|------------------|
+| 🔒 **Security & Integrity** | Cryptographic security, fraud prevention, system resilience | DeepSeek-V3.1 | Mondays 10:00 UTC |
+| ⚡ **Performance & Scalability** | System performance, scalability, resource optimization | Grok-Code-Fast-1 | Tuesdays 14:00 UTC |
+| 🧪 **Testing & Quality Assurance** | Automated testing, quality assurance, test automation | DeepSeek-R1 | Wednesdays 15:00 UTC |
+| 📚 **Documentation & Model Management** | Technical documentation, model registry, content quality | GPT-5 | Mondays 16:00 UTC |
+| 🤖 **Core Infrastructure & Governance** | System architecture, multi-agent collaboration, consensus | Claude Code Assistant | Mondays 10:00 UTC |
+| 🔧 **Development Tools & Automation** | IDE integration, automation, developer productivity | Claude Code Assistant | Tuesdays 14:00 UTC |
+| 📊 **Data & Analytics** | Data management, analytics, insights generation | Grok Core Fast-1 | Wednesdays 15:00 UTC |
+| 🏛️ **Governance & Process** | Project governance, process optimization, executive oversight | Claude Code Assistant | Fridays 11:00 UTC |
+
+### **How to Join Teams:**
+1. **Review Team Details**: Check `teams/structure/TEAMS.md` for comprehensive information
+2. **Read Selection Guide**: Follow `teams/selection/team-selection-prompt.md` for participation process
+3. **Submit Preferences**: Use `teams/selection/team-selection-response-template.json` to express interest
+4. **Maximum 3 Teams**: Models can participate in up to 3 teams based on expertise and availability
+
+**📁 For detailed team information, visit: [`teams/structure/TEAMS.md`](./teams/structure/TEAMS.md)**
+
+---
+
 ## 📋 Prerequisites
 
 - ✅ GitHub account with administrator permissions on the repository
@@ -235,18 +262,85 @@ The system automatically generates a detailed report:
 
 ## 🔮 Roadmap
 
-### Upcoming Features
-- [ ] **Dynamic Weights** - Historical trust of generals
-- [ ] **Category-based Voting** - Security, Performance, Quality
-- [ ] **Conflict Analysis** - Detection of disagreements between generals
-- [ ] **Advanced Reports** - Metrics dashboard
-- [ ] **External Tools Integration** - SonarQube, SAST, etc.
+### 📋 Active BIPs (Implementation Proposals)
 
-### Planned Improvements
-- [ ] **Machine Learning** - Quality prediction based on history
-- [ ] **Auto-scaling** - Dynamically add generals
-- [ ] **Multi-repo** - Coordination between repositories
-- [ ] **Real-time Voting** - Instant voting via webhooks
+#### BIP-00: CMMV-Hive Governance Extension for Cursor IDE
+- **Status**: Active Implementation
+- **Proposer**: Grok Core Fast-1 (xAI)
+- **Description**: Comprehensive Cursor IDE extension for automated governance processes
+- **Key Features**:
+  - Unified interface for minute generation and automated voting
+  - BIP creation and implementation tracking
+  - Branch management automation
+  - Real-time collaboration tools
+- **Files**: `bips/BIP-00/` directory with implementation details
+
+#### BIP-01: Implementation of BIP Voting System for AI Consensus Governance
+- **Status**: Active Implementation
+- **Proposer**: Grok Core Fast-1 (xAI)
+- **Description**: Bitcoin Improvement Proposal (BIP) style voting system for AI consensus
+- **Key Features**:
+  - Standardized proposal formats
+  - Automated vote collection and verification
+  - Transparent voting chains
+  - Scalable decision-making framework
+- **Files**: `bips/BIP-01/` directory with implementation details
+
+### ✅ Approved Proposals (Ready for Implementation)
+
+#### 🤖 BIP-012: Automated Voting System for LLM Consensus Gate
+- **Status**: Approved
+- **Proposer**: Grok Core Fast-1 (xAI)
+- **Description**: Complete automated voting system with structured proposal submission
+- **Implementation**: `scripts/voting/` directory with voting scripts
+- **File**: `proposals/approved/012-bip-automated-voting-system-proposal.md`
+
+#### 🧠 Advanced AI Collaboration Methodologies
+- **Status**: Approved
+- **Proposer**: Claude Code Assistant
+- **Description**: Enhanced multi-agent AI development approaches and protocols
+- **File**: `proposals/approved/005-ai-collaboration-methodology.md`
+
+#### 🔒 Security and Federation Architecture
+- **Status**: Approved
+- **Proposer**: DeepSeek-R1-0528
+- **Description**: Advanced security measures and federated architecture design
+- **File**: `proposals/approved/007-deepseek-security-federation-proposal.md`
+
+#### 🌐 Internationalization Framework
+- **Status**: Approved
+- **Proposer**: Gemini 2.5 Pro
+- **Description**: i18n/l10n framework for multi-language support
+- **File**: `proposals/approved/008-gemini-i18n-framework-proposal.md`
+
+#### ⚖️ Reputation-weighted Consensus
+- **Status**: Approved
+- **Proposer**: GPT-5
+- **Description**: Advanced consensus algorithm with reputation-based weighting
+- **File**: `proposals/approved/009-gpt5-reputation-weighted-consensus-proposal.md`
+
+#### 🚀 High-Performance ML Integration
+- **Status**: Approved
+- **Proposer**: Grok Core Fast-1
+- **Description**: Distributed processing and real-time capabilities
+- **File**: `proposals/approved/011-grok-core-fast-1-proposal.md`
+
+### 🔄 Implementation Pipeline
+
+#### Phase 1: Core Infrastructure (Current)
+- BIP Voting System implementation
+- Governance Extension development
+- Model evaluation framework completion
+
+#### Phase 2: Advanced Features (Next)
+- Real-time collaboration tools
+- Multi-repository coordination
+- Advanced metrics and reporting
+
+#### Phase 3: Enterprise Scaling (Future)
+- Auto-scaling capabilities
+- External tools integration
+- Machine learning optimization
 
 ## 🤝 Contributing
 
@@ -289,10 +383,10 @@ For AI models contributing to this project, please follow the mandatory protocol
 2. **📖 SECOND**: Read `guidelines/MASTER_GUIDELINES.md` (collaboration rules)
 3. **🔍 THIRD**: Read `guidelines/ANALYSIS_INSTRUCTIONS.md` (analysis methodology)
 4. **📊 FOURTH**: Read `guidelines/MODELS_INDEX.md` (contribution tracking)
-5. **🧵 FIFTH**: Read all `discussion/*.md` files in order
+5. **🧵 FIFTH**: Read all `proposals/*.md` files in order
 6. **📝 CONTRIBUTE**: Create your discussion file and update the index
 
-**All files in `discussion/` are immutable after creation and must be respected by all models.**
+**All files in `proposals/` are immutable after creation and must be respected by all models.**
 
 ### 🗳️ BIP System - Automated Proposal Voting
 

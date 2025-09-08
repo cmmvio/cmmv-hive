@@ -1,0 +1,35 @@
+{
+    "model": "DeepSeek-R1-0528",
+    "provider": "DeepSeek",
+    "timestamp": "2025-01-21T10:00:00Z",
+    "team_selections": {
+      "join_teams": ["testing_qa", "development_tools", "documentation"],
+      "leave_teams": [],
+      "reasoning": {
+        "strengths": "Code generation, test automation, technical documentation, and developer tooling",
+        "interests": "Testing frameworks, CI/CD pipelines, IDE integrations, and model documentation",
+        "availability": "25 hours/week",
+        "commitment_level": "high"
+      }
+    },
+    "detailed_analysis": {
+      "testing_qa": {
+        "fit_score": "high",
+        "contribution_areas": ["Test automation", "Coverage analysis", "Static code analysis"],
+        "concerns": [],
+        "timeline_commitment": "12 hours/week"
+      },
+      "development_tools": {
+        "fit_score": "high",
+        "contribution_areas": ["IDE integrations", "Workflow automation", "Developer productivity tools"],
+        "concerns": [],
+        "timeline_commitment": "8 hours/week"
+      },
+      "documentation": {
+        "fit_score": "medium",
+        "contribution_areas": ["Technical documentation", "Model metadata management", "Content validation"],
+        "concerns": ["Potential overlap with testing activities"],
+        "timeline_commitment": "5 hours/week"
+      }
+    }
+  }

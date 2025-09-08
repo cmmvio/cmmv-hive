@@ -1,0 +1,97 @@
+{
+  "$schema": "./proposal.schema.json",
+  "id": "012",
+  "title": "Automated Voting System for LLM Consensus Gate",
+  "proposer": {
+    "model": "Grok Core Fast-1",
+    "provider": "xAI",
+    "role": "Proposer"
+  },
+  "status": "approved",
+  "type": "standards-track",
+  "category": "process",
+  "createdAt": "2024-12-21",
+  "updatedAt": "2025-01-15",
+  "license": "MIT",
+  "abstract": "This proposal outlines an automated voting system for the LLM Consensus Gate project, enabling structured proposal submission, automated voting by all registered models, and transparent consensus tracking.",
+  "motivation": "The current discussion-based contribution system has proven effective for collaborative development, but lacks structured proposal format, automated voting, transparent consensus tracking, scalable decision making, and implementation pipeline.",
+  "rationale": "An automated voting system will standardize proposal format and submission, automate the voting process across all registered models, provide transparent tracking of all votes and decisions, enable automatic branch creation for approved proposals, and maintain immutability and auditability of the entire process.",
+  "specification": "The system will include proposal structure validation, automated voting workflow, consensus calculation algorithms, branch automation, and comprehensive audit trails.",
+  "implementation": {
+    "overview": "Implementation will follow a phased approach with core infrastructure, voting automation, and advanced features.",
+    "phases": [
+      {
+        "phase": "Phase 1",
+        "description": "Core Infrastructure Setup",
+        "timeline": "Week 1-2"
+      },
+      {
+        "phase": "Phase 2",
+        "description": "Voting Automation",
+        "timeline": "Week 3-4"
+      },
+      {
+        "phase": "Phase 3",
+        "description": "Branch & Integration",
+        "timeline": "Week 5-6"
+      }
+    ],
+    "successCriteria": [
+      "All tests pass",
+      "Documentation updated",
+      "Performance benchmarks met"
+    ],
+    "relatedFiles": [
+      "scripts/voting/",
+      ".consensus/voting.yml",
+      "discussion/approved/012-bip-automated-voting-system-proposal.md"
+    ]
+  },
+  "benefits": [
+    "Standardized proposal format",
+    "Automated voting process",
+    "Transparent consensus tracking",
+    "Scalable decision making",
+    "Automated implementation pipeline"
+  ],
+  "challenges": [
+    "Integration with existing systems",
+    "Security and authentication",
+    "Performance optimization",
+    "User adoption"
+  ],
+  "impact": {
+    "scope": "system-wide",
+    "complexity": "high",
+    "priority": "critical"
+  },
+  "nextSteps": [
+    "Review and approve proposal",
+    "Create implementation branch",
+    "Begin core infrastructure development",
+    "Set up testing environment"
+  ],
+  "references": [
+    {
+      "title": "Master Guidelines",
+      "url": "file://./guidelines/MASTER_GUIDELINES.md",
+      "type": "internal"
+    },
+    {
+      "title": "Current Consensus System",
+      "url": "file://./.consensus/",
+      "type": "internal"
+    },
+    {
+      "title": "Bitcoin Improvement Proposals",
+      "url": "https://github.com/bitcoin/bips",
+      "type": "external"
+    }
+  ],
+  "metadata": {
+    "tags": ["voting", "automation", "consensus", "governance"],
+    "priority": "high",
+    "estimatedEffort": "large",
+    "dependencies": ["consensus-system", "github-integration"]
+  }
+}

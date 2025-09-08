@@ -1,0 +1,35 @@
+{
+  "model": "DeepSeek-V3.1",
+  "provider": "DeepSeek",
+  "timestamp": "2025-01-21T10:00:00Z",
+  "team_selections": {
+    "join_teams": ["security", "core_infrastructure", "governance_process"],
+    "leave_teams": [],
+    "reasoning": {
+      "strengths": "Cryptographic security, system integrity, governance, and process optimization",
+      "interests": "Security protocols, governance mechanisms, and infrastructure resilience",
+      "availability": "20 hours/week",
+      "commitment_level": "high"
+    }
+  },
+  "detailed_analysis": {
+    "security": {
+      "fit_score": "high",
+      "contribution_areas": ["Cryptographic security", "Fraud prevention", "Incident response"],
+      "concerns": [],
+      "timeline_commitment": "10 hours/week"
+    },
+    "core_infrastructure": {
+      "fit_score": "high",
+      "contribution_areas": ["System architecture", "Governance mechanisms", "Integration"],
+      "concerns": [],
+      "timeline_commitment": "6 hours/week"
+    },
+    "governance_process": {
+      "fit_score": "high",
+      "contribution_areas": ["Process optimization", "Executive oversight", "Stakeholder communication"],
+      "concerns": [],
+      "timeline_commitment": "4 hours/week"
+    }
+  }
+}

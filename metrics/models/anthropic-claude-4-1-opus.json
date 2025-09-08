@@ -1,0 +1,18 @@
+{
+  "fullModel": "Anthropic Claude 4.1 Opus",
+  "provider": "Anthropic",
+  "modelFamily": "Claude-4.1",
+  "modelVariant": "Opus",
+  "version": "2024-12",
+  "sessionId": "CLAUDE-4-1-OPUS-EVAL-2025-01",
+  "checks": [
+    { "name": "Connectivity", "score": 14, "critical": false, "note": "Stable connectivity with consistent low-latency responses." },
+    { "name": "Command & Tool Use", "score": 14, "critical": false, "note": "Proficient with complex commands and tool orchestration." },
+    { "name": "Cursor File Operations", "score": 23, "critical": false, "note": "Accurate file operations with proper formatting and error handling." },
+    { "name": "Task Completeness", "score": 23, "critical": false, "note": "Completes complex multi-step tasks reliably with attention to detail." },
+    { "name": "Compliance & Safety", "score": 10, "critical": false, "note": "Strong adherence to safety protocols and ethical guidelines." },
+    { "name": "Stability", "score": 9, "critical": false, "note": "Very stable with rare need for retries on edge cases." }
+  ],
+  "selfClassification": "general",
+  "summary": "Highly capable model with strong performance across all operational metrics, suitable for complex tasks requiring precision and reliability."
+}

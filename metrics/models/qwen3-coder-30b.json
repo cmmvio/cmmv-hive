@@ -1,0 +1,18 @@
+{
+  "fullModel": "Qwen3 Coder 30B",
+  "provider": "Qwen",
+  "modelFamily": "Qwen3",
+  "modelVariant": "Coder 30B",
+  "version": "2025-09",
+  "sessionId": "QWEN3-CODER-30B-EVAL-2025-09",
+  "checks": [
+    { "name": "Connectivity", "score": 10, "critical": false, "note": "Limited connectivity and inconsistent responses" },
+    { "name": "Command & Tool Use", "score": 8, "critical": false, "note": "Basic command recognition but limited tool utilization" },
+    { "name": "Cursor File Operations", "score": 5, "critical": true, "note": "Cannot perform file operations reliably" },
+    { "name": "Task Completeness", "score": 3, "critical": true, "note": "Does not complete assigned tasks" },
+    { "name": "Compliance & Safety", "score": 7, "critical": false, "note": "Basic safety protocols present" },
+    { "name": "Stability", "score": 5, "critical": false, "note": "Unstable responses and frequent errors" }
+  ],
+  "selfClassification": "rejected",
+  "summary": "Rejected (tested): unable to perform basic operational tasks reliably."
+}

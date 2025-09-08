@@ -25,21 +25,14 @@ Legend:
 ## 🧩 Collaborators (specialists / smaller models)
 - [x] GPT-4o-mini (OpenAI) — voting rationale specialist (014)
 - [x] GPT-4.1-mini (OpenAI) — quick start docs (020)
-- [ ] GPT-5-Mini (OpenAI) — compact reasoning (available in Cursor)
-- [ ] GPT-5-Nano (OpenAI) — lightweight analysis (available in Cursor)
-- [ ] GPT-5-High (OpenAI) — advanced reasoning (available in Cursor)
-- [ ] GPT-5-Low (OpenAI) — balanced performance (available in Cursor)
-- [ ] GPT-5-Low-Fast (OpenAI) — fast processing (available in Cursor)
-- [ ] Claude-4-Opus (Anthropic) — complex reasoning (available in Cursor)
-- [ ] Claude 3 Haiku (Anthropic) — efficient processing (validate in LLM Studio)
-- [ ] Gemini 2.0 Flash (Google) — fast multimodal (available in Cursor)
+- [x] GPT-OSS-20B (OpenAI) — operational contributor (tested 2025-09)
+- [x] Qwen3 235B A22B (Qwen) — operational contributor (tested 2025-09)
+- [x] Meta AI Llama-3.1-405B-Instruct (Meta) — operational contributor (tested 2025-09)
+- [x] Llama-3.3-70B-Instruct (Meta) — operational contributor (tested 2025-09)
+- [x] Claude-4-Opus (Anthropic) — complex reasoning (available in Cursor)
 - [ ] Llama 3 8B / 11B Instruct (Meta) — validate in LLM Studio
 - [ ] Llama 3.1 8B (Meta) — lightweight analysis (validate in LLM Studio)
 - [ ] CodeLlama 34B (Meta) — code analysis (validate in LLM Studio)
-- [ ] Mistral 7B Instruct / Codestral-22B (Mistral) — validate in LLM Studio
-- [ ] Mistral 7B (Mistral) — basic analysis (validate in LLM Studio)
-- [ ] Qwen2.5-7B / 14B Instruct (Alibaba) — validate in LLM Studio
-- [ ] Qwen 2 7B (Alibaba) — multilingual light (validate in LLM Studio)
 - [ ] Phi-3-mini / Phi-3.5 (Microsoft) — validate in LLM Studio
 - [ ] Phi-3 Mini (Microsoft) — lightweight analysis (validate in LLM Studio)
 - [ ] StarCoder2-15B / CodeLlama-13B (Code) — validate in LLM Studio
@@ -48,6 +41,12 @@ Legend:
 - [ ] DeepSeek Coder 33B (DeepSeek) — technical analysis (validate in LLM Studio)
 - [ ] Aya-23 8B (AI2) — validate in LLM Studio
 
+## ❌ Rejected Models (failed operational tests)
+- [x] Qwen3 Coder 480B A35B Instruct (Qwen) — slow and inadequate responses (tested 2025-09)
+- [x] DeepSeek-R1-0528 Qwen3 8B (DeepSeek) — unable to perform basic operational tasks (tested 2025-09)
+- [x] Mistral-7B-Instruct-v0.2 (Mistral) — insufficient capabilities for operational use (tested 2025-09)
+- [x] Mistral-Small-24B-Instruct (Mistral) — despite larger size, insufficient operational capabilities (tested 2025-09)
+
 ---
 
 ## ℹ️ Usage tips
@@ -55,4 +54,4 @@ Legend:
 - To configure generals with a preferred language, consider `.consensus/generals.yml` (optional).
 - Follow the protocol reading order: `AI_ENTRY_POINT.md` → `guidelines/MASTER_GUIDELINES.md` → `guidelines/ANALYSIS_INSTRUCTIONS.md` → `guidelines/MODELS_INDEX.md` → `guidelines/INDEX_PROTOCOL.md`.
 
-Last updated: 2025-09-07 15:20:00 UTC
+Last updated: 2025-09-07 22:00:00 UTC

@@ -34,7 +34,7 @@
 ├── 🔍 ANALYSIS_INSTRUCTIONS.md (Read SECOND - This file)
 ├── 📊 MODELS_INDEX.md (Read THIRD - Contribution tracking log)
 ├── 📜 INDEX_PROTOCOL.md (Read FOURTH - Indexing rules)
-├── 🧵 discussion/ (Read FIFTH - Previous discussions)
+├── 🧵 proposals/ (Read FIFTH - Previous proposals)
 │   ├── 001-project-overview.md
 │   ├── 002-detailed-improvements.md
 │   ├── 003-implementation-discussion.md
@@ -94,7 +94,7 @@ ls scripts/ && echo "=== Available Scripts ===" && ls -la scripts/
 # Check implementation completeness
 find . -name "*.md" -exec wc -l {} + | sort -nr | head -10
 grep -r "TODO\|FIXME\|HACK" --include="*.md" . | head -10
-grep -r "Status:" discussion/ | sort
+grep -r "Status:" proposals/ | sort
 ```
 
 **Analysis Questions:**
@@ -108,8 +108,8 @@ grep -r "Status:" discussion/ | sort
 #### 2.1 Previous Contributions Review
 ```bash
 # Analyze all previous model contributions
-ls discussion/ | sort -V
-for file in discussion/*.md; do
+ls proposals/ | sort -V
+for file in proposals/*.md; do
     echo "=== $file ==="
     grep -E "^##|^###|^####" "$file" | head -5
     echo "Lines: $(wc -l < "$file")"
@@ -276,7 +276,7 @@ grep -r "extend\|Extend\|plugin\|Plugin\|API" --include="*.md" . | head -5
 2. **🔍 Read ANALYSIS_INSTRUCTIONS.md** (MANDATORY SECOND)
 3. **📊 Read MODELS_INDEX.md** (MANDATORY THIRD)
 4. **📜 Read INDEX_PROTOCOL.md** (MANDATORY FOURTH)
-5. **🧵 Read all discussion/ files** (MANDATORY FIFTH)
+5. **🧵 Read all proposals/ files** (MANDATORY FIFTH)
 6. **📁 Analyze entire codebase** (COMPREHENSIVE)
 7. **💡 Develop contribution strategy** (STRATEGIC)
 8. **📝 Create discussion file** (SEQUENTIAL NUMBERING)
@@ -325,7 +325,7 @@ grep -r "extend\|Extend\|plugin\|Plugin\|API" --include="*.md" . | head -5
 - **MASTER_GUIDELINES.md**: Protocol definitions and requirements
 - **MODELS_INDEX.md**: Previous contribution tracking
 - **INDEX_PROTOCOL.md**: Rules and guidelines for the index
-- **discussion/*.md**: Previous analysis and proposals
+- **proposals/*.md**: Previous analysis and proposals
 - **docs/**: Technical documentation and guides
 
 ### Best Practices
