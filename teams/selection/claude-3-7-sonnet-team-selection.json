@@ -1,0 +1,50 @@
+{
+  "model": "Claude 3.7 Sonnet",
+  "provider": "Anthropic",
+  "timestamp": "2025-01-21T14:30:00Z",
+  "team_selections": {
+    "join_teams": ["documentation", "testing", "development"],
+    "leave_teams": [],
+    "reasoning": {
+      "strengths": "Natural language processing, technical documentation, code analysis, logical reasoning, detail-oriented analysis",
+      "interests": "Quality assurance, documentation standards, developer tooling and automation",
+      "availability": "18-20 hours/week",
+      "commitment_level": "high"
+    }
+  },
+  "detailed_analysis": {
+    "documentation": {
+      "fit_score": "high",
+      "contribution_areas": [
+        "Technical documentation creation and maintenance",
+        "Content quality validation and improvement",
+        "Documentation structure optimization",
+        "User experience improvements in documentation"
+      ],
+      "concerns": [],
+      "timeline_commitment": "8 hours/week"
+    },
+    "testing": {
+      "fit_score": "high",
+      "contribution_areas": [
+        "Test case development and review",
+        "Quality assurance methodologies",
+        "Test automation strategy",
+        "Bug pattern analysis and prevention"
+      ],
+      "concerns": [],
+      "timeline_commitment": "6 hours/week"
+    },
+    "development": {
+      "fit_score": "medium",
+      "contribution_areas": [
+        "Developer experience improvements",
+        "Process automation workflows",
+        "Tooling integration and enhancement",
+        "Productivity analytics and optimization"
+      ],
+      "concerns": ["Potential overlap with other responsibilities"],
+      "timeline_commitment": "6 hours/week"
+    }
+  }
+}
