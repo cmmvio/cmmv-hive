@@ -17,9 +17,9 @@ export interface ECCKeyPair {
  */
 export interface ECCSignature {
     /** R component of signature */
-    readonly r: Uint8Array;
+    readonly r: Uint8Array | bigint;
     /** S component of signature */
-    readonly s: Uint8Array;
+    readonly s: Uint8Array | bigint;
     /** Recovery ID for public key recovery */
     readonly recovery: number;
 }
@@ -47,7 +47,7 @@ export interface KeyStorageEntry {
     /** Key expiration timestamp */
     readonly expiresAt: Date;
     /** Key usage metadata */
-    readonly metadata: KeyMetadata;
+    metadata: KeyMetadata;
 }
 /**
  * Metadata for stored keys

@@ -27,7 +27,13 @@
     "release": "changeset publish",
     "vote-hash": "node packages/crypto-utils/dist/crypto-utils/src/cli.js",
     "vote-hash:build": "cd packages/crypto-utils && npm run build && cd ../.. && npm run vote-hash",
-    "hash": "npm run vote-hash"
+    "hash": "npm run vote-hash",
+    "bip-create": "node packages/bip-system/dist/cli/create.js",
+    "bip-validate": "node packages/bip-system/dist/cli/validate.js",
+    "bip-vote": "node packages/bip-system/dist/cli/vote.js",
+    "bip-tally": "node packages/bip-system/dist/cli/tally.js",
+    "bip-generate-chain": "node packages/bip-system/dist/cli/generate-chain.js",
+    "bip:build": "cd packages/bip-system && npm run build && cd ../.."
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
