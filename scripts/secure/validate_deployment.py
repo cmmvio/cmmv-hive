@@ -192,8 +192,12 @@ print(f"Performance test completed in {end - start:.3f} seconds")
                 script_time = result['execution_time']
                 overhead = total_time - script_time
 
-                check_result("Performance Test", True, ".3f")
-                check_result("Overhead Check", overhead < 1.0, ".3f")
+                check_result(
+                    "Performance Test",
+                    True,
+                    f"Total time: {total_time:.3f}s, Script time: {script_time:.3f}s"
+                )
+                check_result("Overhead Check", overhead < 1.0, f"Overhead: {overhead:.3f}s")
             else:
                 check_result("Performance Test", False, "Script execution failed")
         except Exception as e:

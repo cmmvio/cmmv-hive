@@ -11,6 +11,9 @@ security:
       - "/tmp"
       - "./data"
       - "./logs"
+      - "./scripts/examples"
+      - "/mnt/f/Node/cmmv-hive/scripts/examples"
+      - "scripts/examples"
     blocked_operations:
       - "delete"
       - "chmod"
@@ -22,7 +25,12 @@ security:
 
   monitoring:
     log_level: "INFO"
+    max_stderr_length: 1000
     alert_thresholds:
       cpu_usage: 80
       memory_usage: 90
       execution_time: 250
+    security_events:
+      enable_detailed_logging: true
+      log_network_activity: true
+      log_filesystem_access: true
