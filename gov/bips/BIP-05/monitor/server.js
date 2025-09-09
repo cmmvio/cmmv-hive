@@ -421,13 +421,14 @@ const MODEL_CATEGORIES = {
 
         // DeepSeek - Advanced reasoning (excluding R1-0528)
         'deepseek/deepseek-chat': { provider: 'deepseek', key: 'DEEPSEEK_API_KEY', model: 'deepseek-chat' },
+        'deepseek/deepseek-coder': { provider: 'deepseek', key: 'DEEPSEEK_API_KEY', model: 'deepseek-coder' },
 
         // Groq - High performance Llama models
         'groq/llama-3.1-70b-versatile': { provider: 'groq', key: 'GROQ_API_KEY', model: 'llama-3.1-70b-versatile' },
         'groq/llama-3.1-8b-instant': { provider: 'groq', key: 'GROQ_API_KEY', model: 'llama-3.1-8b-instant' },
         'groq/llama-3.3-70b-versatile': { provider: 'groq', key: 'GROQ_API_KEY', model: 'llama-3.3-70b-versatile' },
-        'groq/openai/gpt-oss-120': { provider: 'groq', key: 'GROQ_API_KEY', model: 'openai/gpt-oss-120' },
-        'groq/qwen/qwen3-32b': { provider: 'groq', key: 'GROQ_API_KEY', model: 'qwen/qwen3-32b' }
+        'groq/openai/gpt-oss-120': { provider: 'groq', key: 'GROQ_API_KEY', model: 'groq/openai/gpt-oss-120' },
+        'groq/qwen/qwen3-32b': { provider: 'groq', key: 'GROQ_API_KEY', model: 'groq/qwen/qwen3-32b' }
     },
 
     // Model selection for different tasks - from MODELS_CHECKLIST.md
@@ -516,6 +517,8 @@ async function callLLMViaAider(modelId, prompt) {
                 '--api-key', `${modelConfig.provider}=${apiKey}`,
                 '--no-pretty',
                 '--yes',
+                '--no-stream',
+                '--exit',
                 '--message', prompt
             ];
 
@@ -1074,6 +1077,9 @@ app.post('/api/model', async (req, res) => {
 // Global store for active opinion collection sessions
 let activeOpinionSessions = new Map();
 
+// Global store for active hello handshake sessions
+let activeHelloSessions = new Map();
+
 // API endpoint to collect opinions from all models
 app.post('/api/models/opinions', async (req, res) => {
     const { topic, issueId = 1 } = req.body;
@@ -1194,8 +1200,8 @@ function sanitizeForJSON(text) {
         .replace(/\n/g, '\\n')   // Handle Unix line endings
         .replace(/\r/g, '\\n')   // Handle Mac line endings
         .replace(/\t/g, '\\t')   // Handle tabs
-        .replace(/\f/g, '\\f')   // Handle form feeds
-        .replace(/\b/g, '\\b');  // Handle backspaces
+        .replace(/\f/g, '\\f');  // Handle form feeds
+        // REMOVED: .replace(/\b/g, '\\b') - This was incorrectly escaping word boundaries!
 }
 
 // Function to collect opinion from a single model
@@ -1590,28 +1596,29 @@ function broadcastIssues() {
       let successfulSends = 0;
       let failedSends = 0;
 
-      clients.forEach((client, index) => {
+      let clientIndex = 0;
+      clients.forEach((client) => {
+        clientIndex++;
         if (client.readyState === WebSocket.OPEN) {
           try {
             const payload = JSON.stringify(simplifiedPayload);
             client.send(payload);
             successfulSends++;
-            logDebug('BROADCAST', `Successfully sent to client ${index}`, {
-              clientIndex: index,
+            logDebug('BROADCAST', `Successfully sent to client #${clientIndex}`, {
               payloadLength: payload.length
             });
           } catch (sendErr) {
             failedSends++;
-            logError('BROADCAST', `Failed to send to client ${index}`, {
-              clientIndex: index,
+            logError('BROADCAST', `Failed to send to client ${clientIndex}`, {
+              clientIndex: clientIndex,
               error: sendErr.message,
               clientState: client.readyState
             });
           }
         } else {
           failedSends++;
-          logWarn('BROADCAST', `Client ${index} not ready`, {
-            clientIndex: index,
+          logWarn('BROADCAST', `Client ${clientIndex} not ready`, {
+            clientIndex: clientIndex,
             readyState: client.readyState
           });
         }
@@ -1713,7 +1720,10 @@ async function handleUserComment(text) {
     const lowerText = text.toLowerCase();
 
     // Detect action type based on user intent
-    if (isOpinionCollectionRequest(lowerText)) {
+    if (isHelloHandshakeRequest(lowerText)) {
+        // Hello/Handshake test: teste de conectividade de todos os modelos
+        await handleHelloHandshakeRequest(text);
+    } else if (isOpinionCollectionRequest(lowerText)) {
         // Coleta de opiniões: pergunta para todos os modelos
         await handleOpinionCollectionRequest(text);
     } else if (isGeneralContributionRequest(lowerText)) {
@@ -1822,6 +1832,18 @@ function isOpinionCollectionRequest(text) {
     );
 }
 
+function isHelloHandshakeRequest(text) {
+    const helloKeywords = [
+        'hello', 'handshake', 'teste hello', 'hello modelos', 'hello task',
+        'testar modelos', 'cumprimentar modelos', 'saudar modelos',
+        'teste de conectividade', 'ping modelos', 'hello test'
+    ];
+
+    return helloKeywords.some(keyword =>
+        text.toLowerCase().includes(keyword.toLowerCase())
+    );
+}
+
 // Function to extract topic from opinion request
 function extractOpinionTopic(text) {
     // Try to extract topic after keywords
@@ -1843,6 +1865,276 @@ function extractOpinionTopic(text) {
 
     // Fallback: use the whole text as topic
     return text.trim();
+}
+
+// Function to handle hello handshake request
+async function handleHelloHandshakeRequest(userText) {
+    logInfo('HELLO', 'Starting hello handshake test', {
+        initiatedBy: 'master',
+        userText: userText
+    });
+
+    const sessionId = `hello_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+    // Get all available models (cursor-agent + aider)
+    const allModels = [
+        ...MODEL_CATEGORIES.cursor_models,
+        ...WORKING_APIS
+    ];
+
+    const sessionData = {
+        sessionId: sessionId,
+        startTime: Date.now(),
+        totalModels: allModels.length,
+        completedModels: 0,
+        results: [],
+        status: 'running'
+    };
+
+    activeHelloSessions.set(sessionId, sessionData);
+
+    // Send initial message via chat
+    broadcastChatMessage({
+        type: 'chat_message',
+        author: 'auto',
+        text: `🤝 Iniciando teste Hello/Handshake com ${allModels.length} modelos disponíveis...`,
+        timestamp: new Date().toISOString(),
+        isSystemMessage: true
+    });
+
+    // Start handshake with all models
+    helloHandshakeAllModels(sessionId, allModels);
+
+    return sessionData;
+}
+
+// Function to execute hello handshake with all models
+async function helloHandshakeAllModels(sessionId, models) {
+    const session = activeHelloSessions.get(sessionId);
+    if (!session) return;
+
+    logInfo('HELLO', 'Starting handshake with all models', {
+        sessionId: sessionId,
+        totalModels: models.length
+    });
+
+    // Process models in parallel with controlled concurrency
+    const concurrency = 3; // Max 3 models at once to avoid rate limits
+    const batches = [];
+
+    for (let i = 0; i < models.length; i += concurrency) {
+        batches.push(models.slice(i, i + concurrency));
+    }
+
+    for (const batch of batches) {
+        const promises = batch.map(modelId =>
+            helloSingleModel(sessionId, modelId)
+        );
+
+        await Promise.allSettled(promises);
+
+        // Small delay between batches
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+
+    // Session complete
+    const finalSession = activeHelloSessions.get(sessionId);
+    if (finalSession) {
+        finalSession.status = 'completed';
+        finalSession.endTime = Date.now();
+        finalSession.duration = finalSession.endTime - finalSession.startTime;
+
+        logInfo('HELLO', 'Hello handshake session completed', {
+            sessionId: sessionId,
+            totalModels: finalSession.totalModels,
+            successfulResponses: finalSession.results.filter(r => r.success).length,
+            failedResponses: finalSession.results.filter(r => !r.success).length,
+            duration: finalSession.duration
+        });
+
+        // Send completion summary via chat
+        const successCount = finalSession.results.filter(r => r.success).length;
+        const failCount = finalSession.results.filter(r => !r.success).length;
+
+        broadcastChatMessage({
+            type: 'chat_message',
+            author: 'auto',
+            text: `✅ Teste Hello/Handshake concluído!\n📊 Resultados: ${successCount} sucessos, ${failCount} falhas\n⏱️ Duração: ${Math.round(finalSession.duration / 1000)}s`,
+            timestamp: new Date().toISOString(),
+            isSystemMessage: true
+        });
+
+        // Cleanup session after 5 minutes
+        setTimeout(() => {
+            activeHelloSessions.delete(sessionId);
+            logInfo('HELLO', 'Hello session cleaned up', { sessionId });
+        }, 5 * 60 * 1000);
+    }
+}
+
+// Function to hello handshake with a single model
+async function helloSingleModel(sessionId, modelId) {
+    const session = activeHelloSessions.get(sessionId);
+    if (!session) return;
+
+    const startTime = Date.now();
+
+    logDebug('HELLO', 'Starting hello with single model', {
+        sessionId: sessionId,
+        modelId: modelId
+    });
+
+    try {
+        const helloPrompt = `Olá ${modelId}! Este é um teste de conectividade/handshake. Por favor, responda brevemente confirmando que você recebeu esta mensagem e se identifique.`;
+
+        // Send hello message via chat first
+        broadcastChatMessage({
+            type: 'chat_message',
+            author: 'auto',
+            text: `📡 Enviando hello para ${modelId}...`,
+            timestamp: new Date().toISOString(),
+            isSystemMessage: true
+        });
+
+        const response = await callLLM(modelId, helloPrompt);
+        const duration = Date.now() - startTime;
+
+        const result = {
+            modelId: modelId,
+            success: response && !response.includes('❌') && response.length > 10,
+            response: response,
+            duration: duration,
+            timestamp: new Date().toISOString()
+        };
+
+        session.results.push(result);
+        session.completedModels++;
+
+        if (result.success) {
+            logInfo('HELLO', 'Hello handshake successful', {
+                sessionId: sessionId,
+                modelId: modelId,
+                duration: duration,
+                responseLength: response.length
+            });
+
+            // Send success message via chat
+            broadcastChatMessage({
+                type: 'chat_message',
+                author: 'auto',
+                text: `✅ ${modelId}: ${response.substring(0, 100)}${response.length > 100 ? '...' : ''}`,
+                timestamp: new Date().toISOString(),
+                isSystemMessage: true
+            });
+        } else {
+            logWarn('HELLO', 'Hello handshake failed', {
+                sessionId: sessionId,
+                modelId: modelId,
+                duration: duration,
+                response: response
+            });
+
+            // Send failure message via chat
+            broadcastChatMessage({
+                type: 'chat_message',
+                author: 'auto',
+                text: `❌ ${modelId}: Falha na conectividade (${response || 'sem resposta'})`,
+                timestamp: new Date().toISOString(),
+                isSystemMessage: true
+            });
+        }
+
+        // Broadcast progress update
+        broadcastHelloProgress(sessionId, session);
+
+    } catch (error) {
+        const duration = Date.now() - startTime;
+
+        logError('HELLO', 'Hello handshake error', {
+            sessionId: sessionId,
+            modelId: modelId,
+            error: error.message,
+            duration: duration
+        });
+
+        const result = {
+            modelId: modelId,
+            success: false,
+            response: `Error: ${error.message}`,
+            duration: duration,
+            timestamp: new Date().toISOString()
+        };
+
+        session.results.push(result);
+        session.completedModels++;
+
+        // Send error message via chat
+        broadcastChatMessage({
+            type: 'chat_message',
+            author: 'auto',
+            text: `💥 ${modelId}: Erro na conectividade (${error.message})`,
+            timestamp: new Date().toISOString(),
+            isSystemMessage: true
+        });
+
+        // Broadcast progress update
+        broadcastHelloProgress(sessionId, session);
+    }
+}
+
+// Function to broadcast hello progress updates
+function broadcastHelloProgress(sessionId, session) {
+    const progressData = {
+        type: 'hello_progress',
+        sessionId: sessionId,
+        completed: session.completedModels,
+        total: session.totalModels,
+        progress: Math.round((session.completedModels / session.totalModels) * 100),
+        results: session.results,
+        status: session.status
+    };
+
+    logDebug('HELLO', 'Broadcasting hello progress', {
+        sessionId: sessionId,
+        progress: progressData.progress,
+        completed: session.completedModels,
+        total: session.totalModels
+    });
+
+    clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            try {
+                client.send(JSON.stringify(progressData));
+            } catch (error) {
+                logError('HELLO', 'Failed to broadcast hello progress', {
+                    error: error.message,
+                    sessionId: sessionId
+                });
+            }
+        }
+    });
+}
+
+// Function to broadcast chat messages
+function broadcastChatMessage(messageData) {
+    logDebug('CHAT', 'Broadcasting chat message', {
+        author: messageData.author,
+        messageLength: messageData.text.length,
+        isSystemMessage: messageData.isSystemMessage || false
+    });
+
+    clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            try {
+                client.send(JSON.stringify(messageData));
+            } catch (error) {
+                logError('CHAT', 'Failed to broadcast chat message', {
+                    error: error.message,
+                    author: messageData.author
+                });
+            }
+        }
+    });
 }
 
 // Function to validate that a model isn't speaking for others

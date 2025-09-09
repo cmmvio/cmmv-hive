@@ -516,18 +516,22 @@
             onMessage(event) {
                 try {
                     const data = JSON.parse(event.data);
+                    console.log('[WEBSOCKET] Received message:', data.type || 'issues_update', data);
 
                     // Handle different message types
                     if (data.type === 'chat_message') {
-                        this.handleChatMessage(data.data);
+                        this.handleChatMessage(data);
                     } else if (data.type === 'opinion_update') {
                         this.handleOpinionUpdate(data);
+                    } else if (data.type === 'hello_progress') {
+                        this.handleHelloProgress(data);
                     } else {
                         // Handle regular issues update
                         this.renderIssues(data);
                     }
                 } catch (error) {
                     console.error('Erro ao analisar mensagem WebSocket:', error);
+                    console.error('Raw message data:', event.data);
                     this.showError('Erro ao processar dados do servidor');
                 }
             }
@@ -563,7 +567,20 @@
                 this.messagesContainer.appendChild(this.loadingElement);
                 this.loadingElement.style.display = 'none';
 
+                // Validate data structure
+                if (!data || typeof data !== 'object') {
+                    console.error('[VALIDATION] Invalid data type:', typeof data, data);
+                    this.showError('Dados inválidos recebidos do servidor');
+                    return;
+                }
+
                 if (!data.comments || !Array.isArray(data.comments)) {
+                    console.error('[VALIDATION] Invalid comments field:', {
+                        hasComments: !!data.comments,
+                        commentsType: typeof data.comments,
+                        isArray: Array.isArray(data.comments),
+                        dataKeys: Object.keys(data)
+                    });
                     this.showError('Formato de dados de chat inválido recebido');
                     return;
                 }
@@ -600,11 +617,17 @@
             }
 
             handleChatMessage(messageData) {
+                // Validate messageData
+                if (!messageData || typeof messageData !== 'object') {
+                    console.error('[CHAT] Invalid message data:', messageData);
+                    return;
+                }
+
                 // Handle real-time chat messages (simple responses, general contributions, etc.)
-                const messageType = messageData.type;
+                const messageType = messageData.type || 'unknown';
                 let messageClass = 'received';
-                let displayAuthor = messageData.author;
-                let displayText = messageData.message;
+                let displayAuthor = messageData.author || 'Sistema';
+                let displayText = messageData.text || messageData.message || 'Mensagem vazia';
 
                 // Handle typing indicators
                 if (messageType === 'typing') {
@@ -642,7 +665,7 @@
                 this.addMessage({
                     body: displayText,
                     author: displayAuthor
-                }, messageClass, displayAuthor, messageData.timestamp);
+                }, messageClass, displayAuthor, messageData.timestamp || new Date().toISOString());
 
                 // Auto-scroll to bottom
                 this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
@@ -692,8 +715,14 @@
             }
 
             addMessage(comment, type, author, timestamp) {
+                // Validate and sanitize inputs
+                const safeComment = comment || { body: 'Mensagem vazia' };
+                const safeType = type || 'received';
+                const safeAuthor = author || 'Desconhecido';
+                const safeTimestamp = timestamp || new Date().toISOString();
+
                 const messageDiv = document.createElement('div');
-                messageDiv.className = `message ${type}`;
+                messageDiv.className = `message ${safeType}`;
 
                 const contentDiv = document.createElement('div');
                 contentDiv.className = 'message-content';
@@ -701,16 +730,16 @@
                 // Build avatar
                 const avatarImg = document.createElement('img');
                 avatarImg.className = 'avatar';
-                avatarImg.alt = `${author} avatar`;
-                avatarImg.src = this.generateAvatarDataUrl(author);
+                avatarImg.alt = `${safeAuthor} avatar`;
+                avatarImg.src = this.generateAvatarDataUrl(safeAuthor);
 
                 // Parse the comment body to handle markdown-like format and translations
-                const parsedBody = this.parseCommentBody(comment);
+                const parsedBody = this.parseCommentBody(safeComment);
 
                 contentDiv.innerHTML = `
-                    <div class="message-header">${author}</div>
+                    <div class="message-header">${safeAuthor}</div>
                     <div class="message-text">${parsedBody}</div>
-                    <div class="message-meta">${this.formatTimestamp(timestamp)}</div>
+                    <div class="message-meta">${this.formatTimestamp(safeTimestamp)}</div>
                 `;
 
                 if (type === 'received') {
@@ -756,11 +785,20 @@
             }
 
             parseCommentBody(comment) {
+                // Safely handle undefined/null comment
+                if (!comment || typeof comment !== 'object') {
+                    console.warn('[PARSE] Invalid comment object:', comment);
+                    return typeof comment === 'string' ? comment : 'Mensagem inválida';
+                }
+
                 // Use translated text if available, otherwise use original body
-                const bodyText = comment.body || '';
+                const bodyText = comment.body || comment.text || '';
                 const originalText = comment.body_original || bodyText;
 
-                if (!bodyText) return '';
+                if (!bodyText) {
+                    console.warn('[PARSE] Empty comment body:', comment);
+                    return 'Mensagem vazia';
+                }
 
                 // Handle the new standardized format (both English and Portuguese)
                 if (bodyText.includes('**Model:**') || bodyText.includes('**Modelo:**') ||
@@ -821,7 +859,18 @@
 
             formatTimestamp(timestamp) {
                 try {
+                    if (!timestamp) {
+                        return 'Agora';
+                    }
+
                     const date = new Date(timestamp);
+
+                    // Check if date is valid
+                    if (isNaN(date.getTime())) {
+                        console.warn('[TIMESTAMP] Invalid date:', timestamp);
+                        return 'Data inválida';
+                    }
+
                     return date.toLocaleString('pt-BR', {
                         day: '2-digit',
                         month: '2-digit',
@@ -829,7 +878,8 @@
                         minute: '2-digit'
                     });
                 } catch (error) {
-                    return timestamp;
+                    console.error('[TIMESTAMP] Error formatting timestamp:', error, timestamp);
+                    return 'Agora';
                 }
             }
 
@@ -1034,6 +1084,42 @@
                 if (this.currentOpinionSession && data.sessionId === this.currentOpinionSession) {
                     this.updateOpinionProgress(data);
                 }
+            }
+
+            handleHelloProgress(data) {
+                console.log('[HELLO] Progress update received:', data);
+
+                // Validate data
+                if (!data || typeof data !== 'object') {
+                    console.error('[HELLO] Invalid progress data:', data);
+                    return;
+                }
+
+                // Show hello handshake progress in chat
+                if (data.type === 'hello_progress') {
+                    const completed = data.completed || 0;
+                    const total = data.total || 1;
+                    const progress = data.progress || 0;
+
+                    const message = {
+                        body: `🤝 Hello Handshake: ${completed}/${total} modelos testados (${progress}%)`,
+                        author: 'Sistema'
+                    };
+                    this.addMessage(message, 'received', 'Sistema', new Date().toISOString());
+                } else if (data.type === 'hello_completed') {
+                    const successCount = data.successfulResponses || 0;
+                    const failCount = data.failedResponses || 0;
+                    const duration = data.duration ? Math.round(data.duration/1000) : 0;
+
+                    const message = {
+                        body: `✅ Hello Handshake concluído!\n📊 Resultados: ${successCount} sucessos, ${failCount} falhas\n⏱️ Duração: ${duration}s`,
+                        author: 'Sistema'
+                    };
+                    this.addMessage(message, 'received', 'Sistema', new Date().toISOString());
+                }
+
+                // Auto-scroll to bottom
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
             }
 
             setupOpinionsPanel() {
