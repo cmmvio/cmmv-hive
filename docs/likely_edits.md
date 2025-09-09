@@ -1,0 +1,4 @@
+- src/factorial.py (ou factorial.py): contém get_factorial / factorial
+- src/hello.py (se existir): hello() - refatorar para módulo separado
+- src/main.py ou app.py: entrypoint que importa e usa get_factorial/hello
+- src/routes.py ou api/*.py: handlers web que chamam essas funções
