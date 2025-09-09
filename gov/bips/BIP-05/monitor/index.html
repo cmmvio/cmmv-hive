@@ -120,6 +120,70 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
 
+        .message.received.summary .message-content {
+            background-color: #1a365d;
+            border: 1px solid #2d5a8a;
+        }
+
+        .message.received.error .message-content {
+            background-color: #451a1a;
+            border: 1px solid #7f1d1d;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            margin: 8px 0;
+            background-color: #202c33;
+            border-radius: 18px;
+            border: 1px solid #26343c;
+            max-width: 120px;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .typing-dots {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .typing-dots span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #8696a0;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.4;
+            }
+            30% {
+                transform: translateY(-8px);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .message-header {
             font-size: 12px;
             font-weight: bold;
@@ -159,6 +223,76 @@
             text-align: center;
             padding: 40px;
             color: #9ca3af;
+        }
+
+        .api-status-panel {
+            position: absolute;
+            top: 60px;
+            left: 10px;
+            right: 10px;
+            background-color: #202c33;
+            border: 1px solid #1f2c33;
+            border-radius: 8px;
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        .api-status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            border-bottom: 1px solid #1f2c33;
+            background-color: #273339;
+        }
+
+        .api-status-header h3 {
+            margin: 0;
+            font-size: 14px;
+            color: #e0e0e0;
+        }
+
+        .api-provider {
+            padding: 10px 15px;
+            border-bottom: 1px solid #1f2c33;
+        }
+
+        .api-provider:last-child {
+            border-bottom: none;
+        }
+
+        .provider-name {
+            font-weight: bold;
+            color: #128c7e;
+            margin-bottom: 5px;
+        }
+
+        .model-status {
+            display: flex;
+            align-items: center;
+            margin: 2px 0;
+            font-size: 12px;
+        }
+
+        .status-working {
+            color: #4caf50;
+        }
+
+        .status-failed {
+            color: #ff4444;
+        }
+
+        .status-missing {
+            color: #ffa726;
+        }
+
+        .loading-status {
+            padding: 20px;
+            text-align: center;
+            color: #a0a0a0;
+            font-style: italic;
         }
 
         .error {
@@ -247,7 +381,24 @@
         <div class="chat-header">
             <span>📋</span>
             <h1>Monitor de Questões BIP-05</h1>
+            <button id="api-status-toggle" style="background: #128c7e; border: none; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-right: 10px;">
+                🔗 APIs
+            </button>
             <div class="status-indicator" id="status-indicator"></div>
+        </div>
+
+        <!-- API Status Panel (hidden by default) -->
+        <div id="api-status-panel" class="api-status-panel" style="display: none;">
+            <div class="api-status-header">
+                <h3>🔗 Status das APIs</h3>
+                <div>
+                    <button id="retest-apis" style="background: #ff9800; border: none; color: white; padding: 3px 8px; border-radius: 3px; cursor: pointer; margin-right: 5px;">🔄 Retest</button>
+                    <button id="close-status" style="background: #ff4444; border: none; color: white; padding: 3px 8px; border-radius: 3px; cursor: pointer;">✕</button>
+                </div>
+            </div>
+            <div id="api-status-content">
+                <div class="loading-status">🔄 Carregando status das APIs...</div>
+            </div>
         </div>
 
         <div class="chat-messages" id="chat-messages">
@@ -276,10 +427,11 @@
                 this.loadingElement = document.getElementById('loading');
                 this.chatForm = document.getElementById('chat-form');
                 this.messageInput = document.getElementById('message-input');
-
+                this.typingIndicators = new Map(); // Track typing indicators by author
 
                 this.connect();
                 this.setupEventListeners();
+                this.setupApiStatusPanel();
             }
 
             setupEventListeners() {
@@ -323,7 +475,14 @@
             onMessage(event) {
                 try {
                     const data = JSON.parse(event.data);
-                    this.renderIssues(data);
+
+                    // Handle different message types
+                    if (data.type === 'chat_message') {
+                        this.handleChatMessage(data.data);
+                    } else {
+                        // Handle regular issues update
+                        this.renderIssues(data);
+                    }
                 } catch (error) {
                     console.error('Erro ao analisar mensagem WebSocket:', error);
                     this.showError('Erro ao processar dados do servidor');
@@ -395,6 +554,98 @@
                 masterCommentContainer.appendChild(header);
                 masterCommentContainer.appendChild(bodyDiv);
                 this.messagesContainer.appendChild(masterCommentContainer);
+            }
+
+            handleChatMessage(messageData) {
+                // Handle real-time chat messages (simple responses, general contributions, etc.)
+                const messageType = messageData.type;
+                let messageClass = 'received';
+                let displayAuthor = messageData.author;
+                let displayText = messageData.message;
+
+                // Handle typing indicators
+                if (messageType === 'typing') {
+                    this.showTypingIndicator(displayAuthor);
+                    return;
+                } else if (messageType === 'stop_typing') {
+                    this.hideTypingIndicator(displayAuthor);
+                    return;
+                }
+
+                // Remove typing indicator when message arrives
+                this.hideTypingIndicator(displayAuthor);
+
+                // Add visual indicators for different message types
+                switch (messageType) {
+                    case 'simple_response':
+                        displayAuthor = `💬 ${displayAuthor}`;
+                        break;
+                    case 'general_contribution':
+                        displayAuthor = `📝 ${displayAuthor}`;
+                        if (messageData.added_to_issues) {
+                            displayText += '\n\n✅ Adicionado ao issues.json';
+                        }
+                        break;
+                    case 'summary_generated':
+                        displayAuthor = `📊 ${displayAuthor}`;
+                        messageClass = 'received summary';
+                        break;
+                    case 'error':
+                        displayAuthor = '❌ Sistema';
+                        messageClass = 'received error';
+                        break;
+                }
+
+                this.addMessage({
+                    body: displayText,
+                    author: displayAuthor
+                }, messageClass, displayAuthor, messageData.timestamp);
+
+                // Auto-scroll to bottom
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+            }
+
+            showTypingIndicator(author) {
+                // Remove existing typing indicator for this author
+                this.hideTypingIndicator(author);
+
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'message received';
+                typingDiv.id = `typing-${author}`;
+
+                const avatarImg = document.createElement('img');
+                avatarImg.className = 'avatar';
+                avatarImg.alt = `${author} avatar`;
+                avatarImg.src = this.generateAvatarDataUrl(author);
+
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'typing-indicator';
+                typingIndicator.innerHTML = `
+                    <div class="message-header">${author} está digitando...</div>
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                `;
+
+                typingDiv.appendChild(avatarImg);
+                typingDiv.appendChild(typingIndicator);
+                this.messagesContainer.appendChild(typingDiv);
+
+                // Store reference
+                this.typingIndicators.set(author, typingDiv);
+
+                // Auto-scroll to bottom
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+            }
+
+            hideTypingIndicator(author) {
+                const typingElement = this.typingIndicators.get(author);
+                if (typingElement) {
+                    typingElement.remove();
+                    this.typingIndicators.delete(author);
+                }
             }
 
             addMessage(comment, type, author, timestamp) {
@@ -553,6 +804,154 @@
                     <div>❌ ${message}</div>
                     <button class="reconnect-button" onclick="window.location.reload()">Reconectar</button>
                 `;
+            }
+
+            setupApiStatusPanel() {
+                const toggleButton = document.getElementById('api-status-toggle');
+                const statusPanel = document.getElementById('api-status-panel');
+                const closeButton = document.getElementById('close-status');
+                const retestButton = document.getElementById('retest-apis');
+
+                toggleButton.addEventListener('click', () => {
+                    if (statusPanel.style.display === 'none') {
+                        statusPanel.style.display = 'block';
+                        this.loadApiStatus();
+                    } else {
+                        statusPanel.style.display = 'none';
+                    }
+                });
+
+                closeButton.addEventListener('click', () => {
+                    statusPanel.style.display = 'none';
+                });
+
+                retestButton.addEventListener('click', () => {
+                    this.retestApis();
+                });
+            }
+
+            async loadApiStatus() {
+                const statusContent = document.getElementById('api-status-content');
+                statusContent.innerHTML = '<div class="loading-status">🔄 Carregando status das APIs...</div>';
+
+                try {
+                    const response = await fetch('/api/status');
+                    const data = await response.json();
+                    this.renderApiStatus(data);
+                } catch (error) {
+                    statusContent.innerHTML = '<div class="loading-status">❌ Erro ao carregar status das APIs</div>';
+                }
+            }
+
+            async retestApis() {
+                const statusContent = document.getElementById('api-status-content');
+                const retestButton = document.getElementById('retest-apis');
+
+                // Disable button and show loading
+                retestButton.disabled = true;
+                retestButton.textContent = '🔄 Testing...';
+                statusContent.innerHTML = '<div class="loading-status">🧪 Executando novos testes de API...</div>';
+
+                try {
+                    const response = await fetch('/api/retest', { method: 'POST' });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        // Refresh status display
+                        this.loadApiStatus();
+                    } else {
+                        statusContent.innerHTML = `<div class="loading-status">❌ Erro no reteste: ${result.error}</div>`;
+                    }
+                } catch (error) {
+                    statusContent.innerHTML = `<div class="loading-status">❌ Erro na comunicação: ${error.message}</div>`;
+                } finally {
+                    // Re-enable button
+                    retestButton.disabled = false;
+                    retestButton.textContent = '🔄 Retest';
+                }
+            }
+
+            renderApiStatus(data) {
+                const statusContent = document.getElementById('api-status-content');
+
+                // Add cache info header
+                let cacheInfo = '';
+                if (data.cache_info) {
+                    if (data.cache_info.from_cache) {
+                        const expiresIn = data.cache_info.expires_in_minutes;
+                        cacheInfo = `<div style="background: #273339; padding: 8px; margin-bottom: 10px; border-radius: 4px; font-size: 11px;">
+                            📋 Dados do cache • Último teste: ${new Date(data.cache_info.last_test).toLocaleString()} • Expira em: ${expiresIn}min
+                        </div>`;
+                    } else {
+                        cacheInfo = `<div style="background: #273339; padding: 8px; margin-bottom: 10px; border-radius: 4px; font-size: 11px;">
+                            🧪 Dados de teste ao vivo • Cache será usado por 60 minutos
+                        </div>`;
+                    }
+                }
+
+                const providers = {
+                    'Cursor Agent': {
+                        models: data.available_models.cursor_agent || [],
+                        working: data.available_models.cursor_agent || [],
+                        key: 'Built-in'
+                    },
+                    'OpenAI': {
+                        models: ['openai/gpt-5-nano', 'openai/gpt-5-mini', 'openai/gpt-4o'],
+                        working: data.working_apis.filter(api => api.startsWith('openai/')),
+                        key: 'OPENAI_API_KEY'
+                    },
+                    'Anthropic': {
+                        models: ['anthropic/claude-3-7-sonnet-latest', 'anthropic/claude-3-5-haiku-latest', 'anthropic/claude-opus-4-1-20250805'],
+                        working: data.working_apis.filter(api => api.startsWith('anthropic/')),
+                        key: 'ANTHROPIC_API_KEY'
+                    },
+                    'Gemini': {
+                        models: ['gemini/gemini-2.5-pro', 'gemini/gemini-2.5-flash', 'gemini/gemini-2.0-flash-lite', 'gemini/gemini-2.0-flash'],
+                        working: data.working_apis.filter(api => api.startsWith('gemini/')),
+                        key: 'GEMINI_API_KEY'
+                    },
+                    'xAI': {
+                        models: ['xai/grok-3', 'xai/grok-3-mini', 'xai/grok-4', 'xai/grok-code-fast-1'],
+                        working: data.working_apis.filter(api => api.startsWith('xai/')),
+                        key: 'XAI_API_KEY'
+                    },
+                    'DeepSeek': {
+                        models: ['deepseek-chat'],
+                        working: data.working_apis.filter(api => api.includes('deepseek')),
+                        key: 'DEEPSEEK_API_KEY'
+                    },
+                    'Groq': {
+                        models: ['groq/openai/gpt-oss-20b', 'groq/openai/gpt-oss-120b', 'groq/qwen/qwen3-32b'],
+                        working: data.working_apis.filter(api => api.startsWith('groq/')),
+                        key: 'GROQ_API_KEY'
+                    }
+                };
+
+                let html = '';
+
+                Object.entries(providers).forEach(([providerName, providerData]) => {
+                    const hasKey = data.api_keys_status.availableKeys.includes(providerData.key) || providerData.key === 'Built-in';
+                    const workingCount = providerData.working.length;
+                    const totalCount = providerData.models.length;
+
+                    html += `<div class="api-provider">`;
+                    html += `<div class="provider-name">${providerName} (${workingCount}/${totalCount})</div>`;
+
+                    if (providerData.key !== 'Built-in' && !hasKey) {
+                        html += `<div class="model-status status-missing">❌ API Key não configurada (${providerData.key})</div>`;
+                    } else {
+                        providerData.models.forEach(model => {
+                            const isWorking = providerData.working.includes(model);
+                            const statusClass = isWorking ? 'status-working' : 'status-failed';
+                            const icon = isWorking ? '✅' : '❌';
+                            html += `<div class="model-status ${statusClass}">${icon} ${model}</div>`;
+                        });
+                    }
+
+                    html += `</div>`;
+                });
+
+                statusContent.innerHTML = cacheInfo + html;
             }
         }
 

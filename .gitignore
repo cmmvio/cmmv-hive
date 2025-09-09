@@ -44,3 +44,4 @@ temp/
 dist
 .code-workspace
 cmmv-hive.code-workspace
+.aider*

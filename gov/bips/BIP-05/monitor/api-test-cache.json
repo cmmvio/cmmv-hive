@@ -1,0 +1,13 @@
+{
+  "timestamp": 1757434179172,
+  "workingProviders": [
+    "openai",
+    "anthropic",
+    "gemini",
+    "xai",
+    "deepseek",
+    "groq"
+  ],
+  "failedProviders": [],
+  "lastTest": "2025-09-09T16:09:39.172Z"
+}
