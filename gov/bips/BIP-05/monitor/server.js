@@ -5,6 +5,77 @@ const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
 
+// ============================================================================
+// SISTEMA DE LOGGING ROBUSTO
+// ============================================================================
+
+const LOG_FILE = path.join(__dirname, 'server-debug.log');
+const ERROR_LOG_FILE = path.join(__dirname, 'server-errors.log');
+
+function writeToLog(level, category, message, data = null) {
+    const timestamp = new Date().toISOString();
+    const logEntry = {
+        timestamp,
+        level,
+        category,
+        message,
+        data: data ? JSON.stringify(data, null, 2) : null,
+        pid: process.pid
+    };
+
+    const logLine = `[${timestamp}] [${level}] [${category}] ${message}${data ? `\nDATA: ${JSON.stringify(data, null, 2)}` : ''}\n`;
+
+    // Write to console
+    console.log(`[${level}] [${category}] ${message}`);
+    if (data) console.log('DATA:', data);
+
+    // Write to main log file
+    try {
+        fs.appendFileSync(LOG_FILE, logLine);
+    } catch (err) {
+        console.error('FATAL: Cannot write to log file:', err);
+    }
+
+    // Write errors to separate error log
+    if (level === 'ERROR' || level === 'FATAL') {
+        try {
+            fs.appendFileSync(ERROR_LOG_FILE, logLine);
+        } catch (err) {
+            console.error('FATAL: Cannot write to error log file:', err);
+        }
+    }
+}
+
+function logInfo(category, message, data = null) {
+    writeToLog('INFO', category, message, data);
+}
+
+function logWarn(category, message, data = null) {
+    writeToLog('WARN', category, message, data);
+}
+
+function logError(category, message, data = null) {
+    writeToLog('ERROR', category, message, data);
+}
+
+function logDebug(category, message, data = null) {
+    writeToLog('DEBUG', category, message, data);
+}
+
+function logFatal(category, message, data = null) {
+    writeToLog('FATAL', category, message, data);
+}
+
+// Log startup
+logInfo('STARTUP', 'BIP-05 Monitor Server starting...', {
+    pid: process.pid,
+    nodeVersion: process.version,
+    platform: process.platform,
+    cwd: process.cwd(),
+    logFile: LOG_FILE,
+    errorLogFile: ERROR_LOG_FILE
+});
+
 // Load environment variables from .env file
 function loadEnvironment() {
     const envPath = path.join(__dirname, '..', '..', '..', '..', '.env');
@@ -95,12 +166,12 @@ async function testApiConnectivity() {
 
     // Test only one model per provider
     const testModels = {
-        'openai': { model: 'openai/gpt-5-nano', key: 'OPENAI_API_KEY' },
+        'openai': { model: 'openai/gpt-4o-mini', key: 'OPENAI_API_KEY' },
         'anthropic': { model: 'anthropic/claude-3-5-haiku-latest', key: 'ANTHROPIC_API_KEY' },
         'gemini': { model: 'gemini/gemini-2.0-flash-lite', key: 'GEMINI_API_KEY' },
         'xai': { model: 'xai/grok-3-mini', key: 'XAI_API_KEY' },
-        'deepseek': { model: 'deepseek-chat', key: 'DEEPSEEK_API_KEY' },
-        'groq': { model: 'groq/openai/gpt-oss-20b', key: 'GROQ_API_KEY' }
+        'deepseek': { model: 'deepseek/deepseek-chat', key: 'DEEPSEEK_API_KEY' },
+        'groq': { model: 'groq/llama-3.1-8b-instant', key: 'GROQ_API_KEY' }
     };
 
     const workingProviders = [];
@@ -168,14 +239,44 @@ let WORKING_APIS = [];
 const API_CACHE_FILE = path.join(__dirname, 'api-test-cache.json');
 const CACHE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
 
-// Provider to models mapping
+// Provider to models mapping - comprehensive list from MODELS_CHECKLIST.md
 const PROVIDER_MODELS = {
-    'openai': ['openai/gpt-5-nano', 'openai/gpt-5-mini', 'openai/gpt-4o'],
-    'anthropic': ['anthropic/claude-3-7-sonnet-latest', 'anthropic/claude-3-5-haiku-latest', 'anthropic/claude-opus-4-1-20250805'],
-    'gemini': ['gemini/gemini-2.5-pro', 'gemini/gemini-2.5-flash', 'gemini/gemini-2.5-flash-lite', 'gemini/gemini-2.0-flash', 'gemini/gemini-2.0-flash-lite'],
-    'xai': ['xai/grok-3', 'xai/grok-3-mini', 'xai/grok-4', 'xai/grok-code-fast-1'],
-    'deepseek': ['deepseek-chat'],
-    'groq': ['groq/openai/gpt-oss-20b', 'groq/openai/gpt-oss-120b', 'groq/qwen/qwen3-32b']
+    'openai': [
+        'gpt-4o',           // GPT-4o — multimodal reasoning
+        'gpt-4o-mini',      // GPT-4o-mini — voting rationale specialist
+        'o1-mini',          // O1-mini — reasoning model
+        'gpt-4-turbo',      // GPT-4-turbo — high performance
+        'gpt-5-mini',       // GPT-5-mini — lightweight version
+        'gpt-5-nano'        // GPT-5-nano — ultra-lightweight
+    ],
+    'anthropic': [
+        'claude-3-5-haiku-latest',    // Claude-3.5-Haiku — fast responses
+        'claude-3-5-sonnet-latest',   // Claude-4-Sonnet — performance proposal
+        'claude-3-opus-latest',       // Claude-4-Opus — complex reasoning
+        'claude-3-7-sonnet-latest'    // Claude-3.7-Sonnet — advanced contextual understanding
+    ],
+    'gemini': [
+        'gemini-2.0-flash-lite',      // Gemini 2.0 — lightweight
+        'gemini-2.0-flash',           // Gemini 2.0 — multimodal analysis
+        'gemini-2.5-pro-latest',      // Gemini 2.5 Pro — i18n/l10n
+        'gemini-2.5-flash-latest'     // Gemini 2.5 Flash — fast processing
+    ],
+    'xai': [
+        'grok-3-mini',      // Grok-3-mini — lightweight
+        'grok-3',           // Grok-3 — adaptive learning consensus
+        'grok-beta'         // Grok Core Fast-1 equivalent
+    ],
+    'deepseek': [
+        'deepseek-chat',    // DeepSeek-V3 — advanced reasoning (excluding R1-0528)
+        'deepseek-coder'    // DeepSeek-Coder — technical analysis
+    ],
+    'groq': [
+        'llama-3.1-70b-versatile',    // Llama-3.1-70B — high performance
+        'llama-3.1-8b-instant',       // Llama-3.1-8B — fast responses
+        'llama-3.3-70b-versatile',    // Llama-3.3-70B — operational contributor
+        'openai/gpt-oss-120',         // GPT-OSS-120B — high capacity open source
+        'qwen/qwen3-32b'              // Qwen3-32B — operational contributor
+    ]
 };
 
 // Load API test cache
@@ -217,13 +318,22 @@ function saveApiCache(workingProviders, failedProviders) {
     }
 }
 
-// Get all models for working providers
+// Get all models for working providers with proper prefixes
 function getModelsFromProviders(workingProviders) {
     const workingModels = [];
 
     Object.entries(PROVIDER_MODELS).forEach(([provider, models]) => {
         if (workingProviders.includes(provider)) {
-            workingModels.push(...models);
+            // Add provider prefix to models for frontend compatibility
+            const prefixedModels = models.map(model => {
+                // Only add prefix if model doesn't already have one
+                if (model.includes('/')) {
+                    return model;
+                } else {
+                    return `${provider}/${model}`;
+                }
+            });
+            workingModels.push(...prefixedModels);
         }
     });
 
@@ -282,45 +392,79 @@ const MODEL_CATEGORIES = {
     // Cursor-agent models (built-in Cursor)
     cursor_models: ['gpt-5', 'sonnet-4', 'opus-4.1'],
 
-    // Aider models (external API calls)
+    // Aider models (external API calls) - comprehensive MODELS_CHECKLIST.md integration
     aider_models: {
-        // OpenAI
-        'openai/gpt-5-nano': { provider: 'openai', key: 'OPENAI_API_KEY', model: 'gpt-5-nano' },
-        'openai/gpt-5-mini': { provider: 'openai', key: 'OPENAI_API_KEY', model: 'gpt-5-mini' },
+        // OpenAI - Generals & Collaborators
         'openai/gpt-4o': { provider: 'openai', key: 'OPENAI_API_KEY', model: 'gpt-4o' },
+        'openai/gpt-4o-mini': { provider: 'openai', key: 'OPENAI_API_KEY', model: 'gpt-4o-mini' },
+        'openai/o1-mini': { provider: 'openai', key: 'OPENAI_API_KEY', model: 'o1-mini' },
+        'openai/gpt-4-turbo': { provider: 'openai', key: 'OPENAI_API_KEY', model: 'gpt-4-turbo' },
+        'openai/gpt-5-mini': { provider: 'openai', key: 'OPENAI_API_KEY', model: 'gpt-5-mini' },
+        'openai/gpt-5-nano': { provider: 'openai', key: 'OPENAI_API_KEY', model: 'gpt-5-nano' },
 
-        // Anthropic
-        'anthropic/claude-3-7-sonnet-latest': { provider: 'anthropic', key: 'ANTHROPIC_API_KEY', model: 'claude-3-7-sonnet-latest' },
+        // Anthropic - Generals & Advanced reasoning
         'anthropic/claude-3-5-haiku-latest': { provider: 'anthropic', key: 'ANTHROPIC_API_KEY', model: 'claude-3-5-haiku-latest' },
-        'anthropic/claude-opus-4-1-20250805': { provider: 'anthropic', key: 'ANTHROPIC_API_KEY', model: 'claude-opus-4-1-20250805' },
+        'anthropic/claude-3-5-sonnet-latest': { provider: 'anthropic', key: 'ANTHROPIC_API_KEY', model: 'claude-3-5-sonnet-latest' },
+        'anthropic/claude-3-opus-latest': { provider: 'anthropic', key: 'ANTHROPIC_API_KEY', model: 'claude-3-opus-latest' },
+        'anthropic/claude-3-7-sonnet-latest': { provider: 'anthropic', key: 'ANTHROPIC_API_KEY', model: 'claude-3-7-sonnet-latest' },
 
-        // Gemini
-        'gemini/gemini-2.5-pro': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-2.5-pro' },
-        'gemini/gemini-2.5-flash': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-2.5-flash' },
-        'gemini/gemini-2.5-flash-lite': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-2.5-flash-lite' },
-        'gemini/gemini-2.0-flash': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-2.0-flash' },
+        // Gemini (Google) - Multimodal & i18n specialists
         'gemini/gemini-2.0-flash-lite': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-2.0-flash-lite' },
+        'gemini/gemini-2.0-flash': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-2.0-flash' },
+        'gemini/gemini-2.5-pro-latest': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-2.5-pro-latest' },
+        'gemini/gemini-2.5-flash-latest': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-2.5-flash-latest' },
 
-        // xAI
-        'xai/grok-3': { provider: 'xai', key: 'XAI_API_KEY', model: 'grok-3' },
+        // xAI (Grok) - Adaptive learning & ML integration
         'xai/grok-3-mini': { provider: 'xai', key: 'XAI_API_KEY', model: 'grok-3-mini' },
-        'xai/grok-4': { provider: 'xai', key: 'XAI_API_KEY', model: 'grok-4' },
-        'xai/grok-code-fast-1': { provider: 'xai', key: 'XAI_API_KEY', model: 'grok-code-fast-1' },
+        'xai/grok-3': { provider: 'xai', key: 'XAI_API_KEY', model: 'grok-3' },
+        'xai/grok-beta': { provider: 'xai', key: 'XAI_API_KEY', model: 'grok-beta' },
 
-        // DeepSeek
-        'deepseek-chat': { provider: 'deepseek', key: 'DEEPSEEK_API_KEY', model: 'deepseek-chat' },
+        // DeepSeek - Advanced reasoning (excluding R1-0528)
+        'deepseek/deepseek-chat': { provider: 'deepseek', key: 'DEEPSEEK_API_KEY', model: 'deepseek-chat' },
 
-        // Groq
-        'groq/openai/gpt-oss-20b': { provider: 'groq', key: 'GROQ_API_KEY', model: 'openai/gpt-oss-20b' },
-        'groq/openai/gpt-oss-120b': { provider: 'groq', key: 'GROQ_API_KEY', model: 'openai/gpt-oss-120b' },
-        'groq/meta-llama/llama-4-scout-17b-16e-instruct': { provider: 'groq', key: 'GROQ_API_KEY', model: 'meta-llama/llama-4-scout-17b-16e-instruct' },
-        'groq/meta-llama/llama-4-maverick-17b-128e-instruct': { provider: 'groq', key: 'GROQ_API_KEY', model: 'meta-llama/llama-4-maverick-17b-128e-instruct' },
+        // Groq - High performance Llama models
+        'groq/llama-3.1-70b-versatile': { provider: 'groq', key: 'GROQ_API_KEY', model: 'llama-3.1-70b-versatile' },
+        'groq/llama-3.1-8b-instant': { provider: 'groq', key: 'GROQ_API_KEY', model: 'llama-3.1-8b-instant' },
+        'groq/llama-3.3-70b-versatile': { provider: 'groq', key: 'GROQ_API_KEY', model: 'llama-3.3-70b-versatile' },
+        'groq/openai/gpt-oss-120': { provider: 'groq', key: 'GROQ_API_KEY', model: 'openai/gpt-oss-120' },
         'groq/qwen/qwen3-32b': { provider: 'groq', key: 'GROQ_API_KEY', model: 'qwen/qwen3-32b' }
     },
 
-    // Model selection for different tasks
-    generals: ['gpt-5', 'sonnet-4', 'opus-4.1', 'anthropic/claude-3-7-sonnet-latest', 'openai/gpt-4o', 'xai/grok-4'],
-    bip_specific: ['auto', 'gpt-5', 'openai/gpt-5-mini', 'gemini/gemini-2.5-pro', 'deepseek-chat']
+    // Model selection for different tasks - from MODELS_CHECKLIST.md
+    generals: [
+        // Cursor-agent models (built-in)
+        'gpt-5', 'sonnet-4', 'opus-4.1',
+
+        // OpenAI Generals & High-capacity
+        'openai/gpt-4o', 'openai/gpt-4-turbo', 'openai/o1-mini', 'openai/gpt-5-mini',
+
+        // Anthropic Generals & Advanced reasoning
+        'anthropic/claude-3-5-sonnet-latest', 'anthropic/claude-3-opus-latest', 'anthropic/claude-3-5-haiku-latest', 'anthropic/claude-3-7-sonnet-latest',
+
+        // Gemini Multimodal & i18n specialists
+        'gemini/gemini-2.5-pro-latest', 'gemini/gemini-2.0-flash', 'gemini/gemini-2.5-flash-latest',
+
+        // xAI Adaptive learning
+        'xai/grok-3', 'xai/grok-beta', 'xai/grok-3-mini',
+
+        // DeepSeek Advanced reasoning (excluding R1-0528)
+        'deepseek/deepseek-chat', 'deepseek/deepseek-coder',
+
+        // Groq High performance
+        'groq/llama-3.1-70b-versatile', 'groq/llama-3.3-70b-versatile', 'groq/openai/gpt-oss-120', 'groq/qwen/qwen3-32b'
+    ],
+    bip_specific: [
+        // Core models for BIP discussions
+        'auto', 'gpt-5',
+
+        // Fast response models for BIP context
+        'openai/gpt-4o-mini', 'openai/gpt-4o', 'openai/gpt-5-mini', 'openai/gpt-5-nano',
+        'anthropic/claude-3-5-haiku-latest', 'anthropic/claude-3-5-sonnet-latest',
+        'gemini/gemini-2.0-flash-lite', 'gemini/gemini-2.5-flash-latest',
+        'xai/grok-3-mini', 'xai/grok-3',
+        'deepseek/deepseek-chat',
+        'groq/llama-3.1-8b-instant', 'groq/llama-3.1-70b-versatile'
+    ]
 };
 
 // Determine if model should use cursor-agent or aider
@@ -332,18 +476,37 @@ function shouldUseCursorAgent(modelId) {
 async function callLLMViaAider(modelId, prompt) {
     const { spawn } = require('child_process');
 
-    console.log(`[AIDER DEBUG] Starting interaction with model: ${modelId}`);
+    logInfo('AIDER', 'Starting aider interaction', {
+        modelId: modelId,
+        promptLength: prompt.length,
+        timestamp: new Date().toISOString()
+    });
 
     const modelConfig = MODEL_CATEGORIES.aider_models[modelId];
     if (!modelConfig) {
+        logError('AIDER', 'Model not found in aider configuration', {
+            modelId: modelId,
+            availableModels: Object.keys(MODEL_CATEGORIES.aider_models)
+        });
         return `❌ Modelo ${modelId} não encontrado na configuração do aider.`;
     }
 
     const apiKey = process.env[modelConfig.key];
     if (!apiKey) {
-        console.log(`[AIDER DEBUG] Missing API key: ${modelConfig.key}`);
+        logError('AIDER', 'Missing API key for model', {
+            modelId: modelId,
+            requiredKey: modelConfig.key,
+            provider: modelConfig.provider
+        });
         return `❌ API key ${modelConfig.key} não encontrada. Configure no arquivo .env para usar este modelo.`;
     }
+
+    logDebug('AIDER', 'Model configuration validated', {
+        modelId: modelId,
+        provider: modelConfig.provider,
+        hasApiKey: !!apiKey,
+        apiKeyLength: apiKey ? apiKey.length : 0
+    });
 
     try {
         return new Promise((resolve, reject) => {
@@ -356,17 +519,36 @@ async function callLLMViaAider(modelId, prompt) {
                 '--message', prompt
             ];
 
-            console.log(`[AIDER DEBUG] Executing: ${command} --model ${modelConfig.model} --api-key ${modelConfig.provider}=***`);
+            logInfo('AIDER', 'Executing aider command', {
+                command: command,
+                model: modelConfig.model,
+                provider: modelConfig.provider,
+                argsCount: args.length,
+                hasApiKey: true
+            });
 
             const aiderProcess = spawn(command, args);
+            const processStartTime = Date.now();
 
             let stdout = '';
             let stderr = '';
             let isResolved = false;
 
+            logDebug('AIDER', 'Aider process spawned', {
+                pid: aiderProcess.pid,
+                modelId: modelId,
+                startTime: processStartTime
+            });
+
             const timeout = setTimeout(() => {
                 if (!isResolved) {
-                    console.log(`[AIDER DEBUG] TIMEOUT after 60 seconds`);
+                    logWarn('AIDER', 'Aider process timeout after 60 seconds', {
+                        modelId: modelId,
+                        pid: aiderProcess.pid,
+                        stdoutLength: stdout.length,
+                        stderrLength: stderr.length,
+                        duration: Date.now() - processStartTime
+                    });
                     aiderProcess.kill('SIGTERM');
                     isResolved = true;
                     resolve('⏰ A resposta do aider demorou muito. Tente novamente.');
@@ -376,13 +558,23 @@ async function callLLMViaAider(modelId, prompt) {
             aiderProcess.stdout.on('data', (data) => {
                 const chunk = data.toString();
                 stdout += chunk;
-                console.log(`[AIDER DEBUG] STDOUT: ${chunk.trim()}`);
+                logDebug('AIDER', 'Received stdout chunk', {
+                    modelId: modelId,
+                    chunkLength: chunk.length,
+                    totalStdoutLength: stdout.length,
+                    chunkPreview: chunk.substring(0, 100)
+                });
             });
 
             aiderProcess.stderr.on('data', (data) => {
                 const chunk = data.toString();
                 stderr += chunk;
-                console.log(`[AIDER DEBUG] STDERR: ${chunk.trim()}`);
+                logDebug('AIDER', 'Received stderr chunk', {
+                    modelId: modelId,
+                    chunkLength: chunk.length,
+                    totalStderrLength: stderr.length,
+                    chunkPreview: chunk.substring(0, 100)
+                });
             });
 
             aiderProcess.on('close', (code) => {
@@ -390,9 +582,22 @@ async function callLLMViaAider(modelId, prompt) {
                 isResolved = true;
                 clearTimeout(timeout);
 
-                console.log(`[AIDER DEBUG] Process closed with code: ${code}`);
-                console.log(`[AIDER DEBUG] Final STDOUT: "${stdout}"`);
-                console.log(`[AIDER DEBUG] Final STDERR: "${stderr}"`);
+                const duration = Date.now() - processStartTime;
+                logInfo('AIDER', 'Aider process completed', {
+                    modelId: modelId,
+                    exitCode: code,
+                    duration: duration,
+                    stdoutLength: stdout.length,
+                    stderrLength: stderr.length,
+                    success: code === 0
+                });
+
+                logDebug('AIDER', 'Final aider output', {
+                    modelId: modelId,
+                    stdout: stdout,
+                    stderr: stderr,
+                    exitCode: code
+                });
 
                 if (code !== 0) {
                     resolve(`❌ Aider falhou (código ${code}): ${stderr || 'Sem detalhes'}`);
@@ -424,7 +629,18 @@ async function callLLMViaAider(modelId, prompt) {
 
 // Main LLM call dispatcher - decides between cursor-agent and aider
 async function callLLM(modelId, prompt) {
-    const systemPrompt = 'Você é um modelo auxiliando na discussão do BIP-05 (UMICP). Responda em PT-BR, de forma objetiva e útil, mantendo o contexto do tópico.';
+    // Enhanced system prompt with identity validation
+    const systemPrompt = `Você é um modelo auxiliando na discussão do BIP-05 (UMICP).
+
+IDENTIDADE CRÍTICA:
+- VOCÊ É: ${modelId}
+- NUNCA simule, imite ou fale em nome de outros modelos AI
+- JAMAIS forneça opiniões que não sejam suas como ${modelId}
+- Se questionado sobre outros modelos, responda "Consulte diretamente o modelo específico"
+- SEMPRE identifique-se corretamente como ${modelId} quando relevante
+
+Responda em PT-BR, de forma objetiva e útil, mantendo o contexto do tópico.`;
+
     const fullPrompt = `${systemPrompt}\n\n${prompt}`;
 
     // Decide which method to use
@@ -477,6 +693,13 @@ async function callLLMViaCursorAgent(modelId, fullPrompt) {
                     cursorAgent.kill('SIGTERM');
                     isResolved = true;
 
+                    // Se temos uma resposta válida no stdout, use-a em vez de erro de timeout
+                    if (stdout.trim().length > 100) { // Resposta substancial (mais de 100 chars)
+                        console.log(`[CURSOR-AGENT DEBUG] Using collected stdout despite timeout (${stdout.length} chars)`);
+                        resolve(stdout.trim());
+                        return;
+                    }
+
                     // Try with 'auto' model as fallback if original model failed
                     if (modelId !== 'auto') {
                         console.log(`[CURSOR-AGENT DEBUG] Trying fallback with 'auto' model...`);
@@ -499,6 +722,28 @@ async function callLLMViaCursorAgent(modelId, fullPrompt) {
                 stdout += chunk;
                 console.log(`[CURSOR-AGENT DEBUG] STDOUT chunk: "${chunk}"`);
                 console.log(`[CURSOR-AGENT DEBUG] Total STDOUT so far: "${stdout}"`);
+
+                // Detectar se a resposta parece estar completa
+                // Procura por padrões que indicam fim de resposta bem formada
+                const responseEndings = [
+                    'configuradas no ambiente.',
+                    'no projeto.',
+                    'disponíveis.',
+                    'sistema.',
+                    'BIP-05.',
+                    'implementação.'
+                ];
+
+                if (responseEndings.some(ending => stdout.trim().endsWith(ending)) &&
+                    stdout.length > 500 && // Resposta substancial
+                    !isResolved) {
+
+                    console.log(`[CURSOR-AGENT DEBUG] Response appears complete, resolving early (${stdout.length} chars)`);
+                    clearTimeout(timeout);
+                    isResolved = true;
+                    cursorAgent.kill('SIGTERM');
+                    resolve(stdout.trim());
+                }
             });
 
             cursorAgent.stderr.on('data', (data) => {
@@ -676,6 +921,42 @@ app.get('/api/status', (req, res) => {
     });
 });
 
+// API endpoint to list all active models
+app.get('/api/models-list', (req, res) => {
+    const allActiveModels = [
+        ...MODEL_CATEGORIES.cursor_models.map(model => ({
+            id: model,
+            name: model,
+            provider: 'cursor-agent',
+            status: 'active',
+            type: 'built-in'
+        })),
+        ...WORKING_APIS.map(model => {
+            // Extract provider from model name (e.g., "anthropic/claude-3-5-haiku-latest" -> "anthropic")
+            const [provider, ...nameParts] = model.split('/');
+            return {
+                id: model,
+                name: nameParts.length > 0 ? nameParts.join('/') : model,
+                provider: provider,
+                status: 'active',
+                type: 'external-api'
+            };
+        })
+    ];
+
+    res.json({
+        total_models: allActiveModels.length,
+        cursor_agent_models: MODEL_CATEGORIES.cursor_models.length,
+        external_api_models: WORKING_APIS.length,
+        models: allActiveModels,
+        categories: {
+            generals: MODEL_CATEGORIES.generals,
+            bip_specific: MODEL_CATEGORIES.bip_specific
+        },
+        last_updated: new Date().toISOString()
+    });
+});
+
 // API endpoint to force re-test APIs
 app.post('/api/retest', async (req, res) => {
     try {
@@ -708,8 +989,488 @@ app.post('/api/retest', async (req, res) => {
     }
 });
 
+// API endpoint for direct model interaction
+app.post('/api/model', async (req, res) => {
+    try {
+        const { model_id, prompt, context, max_tokens, temperature } = req.body;
+
+        // Validation
+        if (!model_id || !prompt) {
+            return res.status(400).json({
+                success: false,
+                error: 'model_id and prompt are required'
+            });
+        }
+
+        // Check if model is available
+        const allAvailableModels = [
+            ...MODEL_CATEGORIES.cursor_models,
+            ...WORKING_APIS,
+            'auto' // Always include auto model
+        ];
+
+        if (!allAvailableModels.includes(model_id)) {
+            return res.status(404).json({
+                success: false,
+                error: `Model ${model_id} not found or not active`,
+                available_models: allAvailableModels
+            });
+        }
+
+        console.log(`[DIRECT MODEL] 🤖 Direct interaction with ${model_id}`);
+        console.log(`[DIRECT MODEL] 💬 Prompt: ${prompt.substring(0, 100)}${prompt.length > 100 ? '...' : ''}`);
+
+        // Build enhanced prompt with context if provided
+        let enhancedPrompt = prompt;
+        if (context) {
+            enhancedPrompt = `Contexto adicional: ${context}\n\nPrompt: ${prompt}`;
+        }
+
+        // Add model identity safeguard
+        const safeguardedPrompt = await handleAutoModelSafeguard(model_id, enhancedPrompt);
+
+        // Call the model
+        const startTime = Date.now();
+        const response = await callLLM(model_id, safeguardedPrompt);
+        const duration = Date.now() - startTime;
+
+        // Validate response
+        const validationError = validateModelResponse(model_id, response);
+        if (validationError) {
+            console.log(`[DIRECT MODEL] ❌ ${model_id} failed validation: ${validationError}`);
+            return res.status(422).json({
+                success: false,
+                error: `Response validation failed: ${validationError}`,
+                model_id: model_id
+            });
+        }
+
+        console.log(`[DIRECT MODEL] ✅ Response from ${model_id} (${duration}ms): ${response.substring(0, 200)}${response.length > 200 ? '...' : ''}`);
+
+        res.json({
+            success: true,
+            model_id: model_id,
+            prompt: prompt,
+            response: response,
+            metadata: {
+                duration_ms: duration,
+                response_length: response.length,
+                context_provided: !!context,
+                timestamp: new Date().toISOString(),
+                model_type: shouldUseCursorAgent(model_id) ? 'cursor-agent' : 'aider'
+            }
+        });
+
+    } catch (error) {
+        console.error(`[DIRECT MODEL] Error during model interaction:`, error);
+        res.status(500).json({
+            success: false,
+            error: error.message,
+            model_id: req.body?.model_id || 'unknown'
+        });
+    }
+});
+
+// Global store for active opinion collection sessions
+let activeOpinionSessions = new Map();
+
+// API endpoint to collect opinions from all models
+app.post('/api/models/opinions', async (req, res) => {
+    const { topic, issueId = 1 } = req.body;
+
+    if (!topic || topic.trim().length === 0) {
+        return res.status(400).json({
+            success: false,
+            error: 'Topic is required'
+        });
+    }
+
+    const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+    console.log(`[OPINIONS] 🗳️  Starting opinion collection session: ${sessionId}`);
+    console.log(`[OPINIONS] 📋 Topic: "${topic}"`);
+    console.log(`[OPINIONS] 🎯 Target issue: ${issueId}`);
+
+    // Get all available models
+    const allModels = [
+        ...MODEL_CATEGORIES.cursor_models,
+        ...WORKING_APIS
+    ];
+
+    console.log(`[OPINIONS] 🤖 Total models to query: ${allModels.length}`);
+    console.log(`[OPINIONS] 📊 Models: ${allModels.join(', ')}`);
+
+    // Initialize session tracking
+    const sessionData = {
+        sessionId,
+        topic,
+        issueId,
+        startTime: new Date().toISOString(),
+        totalModels: allModels.length,
+        pendingModels: [...allModels],
+        completedModels: [],
+        failedModels: [],
+        responses: []
+    };
+
+    activeOpinionSessions.set(sessionId, sessionData);
+
+    // Send initial response with session info
+    res.json({
+        success: true,
+        sessionId,
+        message: 'Opinion collection started',
+        totalModels: allModels.length,
+        models: allModels
+    });
+
+    // Start collecting opinions asynchronously
+    collectModelOpinions(sessionId, topic, issueId, allModels);
+});
+
+// Function to collect opinions from all models
+async function collectModelOpinions(sessionId, topic, issueId, models) {
+    const session = activeOpinionSessions.get(sessionId);
+    if (!session) {
+        console.error(`[OPINIONS] ❌ Session ${sessionId} not found`);
+        return;
+    }
+
+    console.log(`[OPINIONS] 🚀 Starting opinion collection for ${models.length} models`);
+
+    // Broadcast initial status
+    broadcastOpinionUpdate(sessionId, {
+        type: 'session_started',
+        totalModels: models.length,
+        pendingModels: [...models],
+        completedModels: [],
+        failedModels: []
+    });
+
+    // Process models in parallel (but limit concurrency to avoid overwhelming)
+    const concurrency = 3; // Process 3 models at once
+    const chunks = [];
+
+    for (let i = 0; i < models.length; i += concurrency) {
+        chunks.push(models.slice(i, i + concurrency));
+    }
+
+    for (const chunk of chunks) {
+        const promises = chunk.map(modelId => collectSingleModelOpinion(sessionId, modelId, topic, issueId));
+        await Promise.allSettled(promises);
+    }
+
+    // Session complete
+    const finalSession = activeOpinionSessions.get(sessionId);
+    if (finalSession) {
+        console.log(`[OPINIONS] ✅ Session ${sessionId} completed`);
+        console.log(`[OPINIONS] 📊 Final stats: ${finalSession.completedModels.length} completed, ${finalSession.failedModels.length} failed`);
+
+        broadcastOpinionUpdate(sessionId, {
+            type: 'session_completed',
+            totalModels: finalSession.totalModels,
+            completedModels: finalSession.completedModels,
+            failedModels: finalSession.failedModels,
+            responses: finalSession.responses,
+            endTime: new Date().toISOString()
+        });
+
+        // Keep session for 10 minutes then cleanup
+        setTimeout(() => {
+            activeOpinionSessions.delete(sessionId);
+            console.log(`[OPINIONS] 🗑️  Session ${sessionId} cleaned up`);
+        }, 10 * 60 * 1000);
+    }
+}
+
+// Function to sanitize text for JSON storage - escapes quotes and other problematic characters
+function sanitizeForJSON(text) {
+    if (typeof text !== 'string') return text;
+
+    return text
+        .replace(/\\/g, '\\\\')  // Escape backslashes first
+        .replace(/"/g, '\\"')    // Escape double quotes
+        .replace(/\r\n/g, '\\n') // Handle Windows line endings
+        .replace(/\n/g, '\\n')   // Handle Unix line endings
+        .replace(/\r/g, '\\n')   // Handle Mac line endings
+        .replace(/\t/g, '\\t')   // Handle tabs
+        .replace(/\f/g, '\\f')   // Handle form feeds
+        .replace(/\b/g, '\\b');  // Handle backspaces
+}
+
+// Function to collect opinion from a single model
+async function collectSingleModelOpinion(sessionId, modelId, topic, issueId) {
+    const session = activeOpinionSessions.get(sessionId);
+    if (!session) return;
+
+    console.log(`[OPINIONS] 🤖 Querying ${modelId} about: "${topic}"`);
+
+    // Broadcast model started
+    broadcastOpinionUpdate(sessionId, {
+        type: 'model_started',
+        modelId,
+        status: 'querying'
+    });
+
+    try {
+        // Build prompt for model opinion with strict guidelines
+        const prompt = `Como modelo AI participante das discussões do BIP-05 (Universal Matrix Protocol), forneça sua opinião sobre:
+
+**Tópico**: ${topic}
+
+**DIRETRIZES CRÍTICAS**:
+- VOCÊ É: ${modelId}
+- NUNCA simule ou invente opiniões de outros modelos
+- JAMAIS fale em nome de outros modelos
+- APENAS forneça SUA própria perspectiva como ${modelId}
+- Se questionado sobre outros modelos, responda "Consulte diretamente o modelo específico"
+
+**Instruções**:
+1. Analise o tópico no contexto do BIP-05
+2. Forneça SUA perspectiva técnica e considerações específicas como ${modelId}
+3. Seja específico e construtivo
+4. Limite a resposta a 3-4 parágrafos
+5. Termine com uma recomendação clara
+6. Identifique-se claramente como ${modelId} no início da resposta
+
+**Sua opinião como ${modelId} sobre "${topic}":**`;
+
+        // Apply auto model safeguards if needed
+        const safeguardedPrompt = await handleAutoModelSafeguard(modelId, prompt);
+
+        // Call the model with individual timeout
+        const response = await callLLM(modelId, safeguardedPrompt);
+
+        // Validate response to ensure model isn't speaking for others
+        console.log(`[VALIDATION] Checking response from ${modelId} for identity violations...`);
+        const validationError = validateModelResponse(modelId, response);
+        if (validationError) {
+            console.log(`[VALIDATION] ❌ ${modelId} failed validation: ${validationError}`);
+            throw new Error(`Resposta inválida: ${validationError}`);
+        }
+        console.log(`[VALIDATION] ✅ ${modelId} response passed identity validation`);
+
+        // Check if response is valid and not an error message
+        const isValidResponse = response &&
+                               !response.includes('❌') &&
+                               !response.includes('⏰') &&
+                               !response.includes('Aider v') &&
+                               !response.includes('Warning:') &&
+                               !response.includes('Traceback') &&
+                               !response.includes('litellm.') &&
+                               !response.includes('BadRequestError') &&
+                               response.length > 50; // Ensure substantive response
+
+        if (isValidResponse) {
+            // Success - save to issues.json immediately
+            const opinion = {
+                author: modelId,
+                created_at: new Date().toISOString(),
+                locale: 'pt-BR',
+                body: sanitizeForJSON(response),
+                body_original: sanitizeForJSON(response),
+                opinion_topic: topic,
+                session_id: sessionId
+            };
+
+            // Add to issues.json immediately
+            // Use atomic write to prevent corruption
+            try {
+                const issuesData = JSON.parse(fs.readFileSync(issuesFile, 'utf8'));
+                if (issuesData.issues && issuesData.issues.length > 0) {
+                    // Add to specified issue or first issue
+                    const targetIssue = issuesData.issues.find(issue => issue.id === issueId) || issuesData.issues[0];
+                    targetIssue.comments.push(opinion);
+                } else {
+                    issuesData.issues = [{
+                        id: issueId,
+                        title: `Opiniões sobre: ${topic}`,
+                        comments: [opinion]
+                    }];
+                }
+
+                // Atomic write to prevent corruption
+                const tempFile = issuesFile + '.tmp';
+                fs.writeFileSync(tempFile, JSON.stringify(issuesData, null, 2), 'utf8');
+                fs.renameSync(tempFile, issuesFile);
+
+                console.log(`[SAVE] ✅ Opinion from ${modelId} saved successfully`);
+
+            } catch (writeError) {
+                console.error(`[ERROR] Failed to save opinion from ${modelId}:`, writeError);
+                throw writeError;
+            }
+
+            // Update session
+            session.pendingModels = session.pendingModels.filter(m => m !== modelId);
+            session.completedModels.push(modelId);
+            session.responses.push({
+                modelId,
+                response,
+                timestamp: new Date().toISOString(),
+                success: true
+            });
+
+            console.log(`[OPINIONS] ✅ ${modelId} completed successfully`);
+
+            // Broadcast success
+            broadcastOpinionUpdate(sessionId, {
+                type: 'model_completed',
+                modelId,
+                status: 'completed',
+                response: response.substring(0, 200) + '...', // Preview
+                timestamp: new Date().toISOString()
+            });
+
+        } else {
+            throw new Error(response || 'Empty response from model');
+        }
+
+    } catch (error) {
+        console.log(`[OPINIONS] ❌ ${modelId} failed: ${error.message}`);
+
+        // Update session
+        session.pendingModels = session.pendingModels.filter(m => m !== modelId);
+        session.failedModels.push(modelId);
+        session.responses.push({
+            modelId,
+            error: error.message,
+            timestamp: new Date().toISOString(),
+            success: false
+        });
+
+        // Broadcast failure
+        broadcastOpinionUpdate(sessionId, {
+            type: 'model_failed',
+            modelId,
+            status: 'failed',
+            error: error.message,
+            timestamp: new Date().toISOString()
+        });
+    }
+}
+
+// Function to broadcast opinion collection updates
+function broadcastOpinionUpdate(sessionId, update) {
+    const message = {
+        type: 'opinion_update',
+        sessionId,
+        ...update,
+        timestamp: new Date().toISOString()
+    };
+
+    wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify(message));
+        }
+    });
+}
+
+// API endpoint to get opinion session status
+app.get('/api/models/opinions/:sessionId', (req, res) => {
+    const { sessionId } = req.params;
+    const session = activeOpinionSessions.get(sessionId);
+
+    if (!session) {
+        return res.status(404).json({
+            success: false,
+            error: 'Session not found'
+        });
+    }
+
+    res.json({
+        success: true,
+        session: {
+            ...session,
+            progress: {
+                total: session.totalModels,
+                completed: session.completedModels.length,
+                failed: session.failedModels.length,
+                pending: session.pendingModels.length,
+                percentage: Math.round((session.completedModels.length / session.totalModels) * 100)
+            }
+        }
+    });
+});
+
 // Serve static files (index.html, style.css)
 app.use(express.static(__dirname));
+
+// Endpoint para acessar logs de debug
+app.get('/api/logs', (req, res) => {
+    try {
+        const logType = req.query.type || 'debug'; // 'debug' or 'error'
+        const lines = parseInt(req.query.lines) || 100;
+
+        const logFile = logType === 'error' ? ERROR_LOG_FILE : LOG_FILE;
+
+        if (!fs.existsSync(logFile)) {
+            return res.json({
+                success: false,
+                message: `Log file not found: ${logFile}`,
+                logs: []
+            });
+        }
+
+        const logContent = fs.readFileSync(logFile, 'utf8');
+        const allLines = logContent.split('\n').filter(line => line.trim());
+        const recentLines = allLines.slice(-lines);
+
+        res.json({
+            success: true,
+            logType: logType,
+            totalLines: allLines.length,
+            returnedLines: recentLines.length,
+            logFile: logFile,
+            logs: recentLines
+        });
+
+    } catch (error) {
+        logError('API', 'Error reading log files', {
+            error: error.message,
+            requestedType: req.query.type,
+            requestedLines: req.query.lines
+        });
+
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Endpoint para limpar logs
+app.post('/api/logs/clear', (req, res) => {
+    try {
+        const logType = req.body.type || 'debug';
+        const logFile = logType === 'error' ? ERROR_LOG_FILE : LOG_FILE;
+
+        if (fs.existsSync(logFile)) {
+            fs.writeFileSync(logFile, '');
+            logInfo('API', `Cleared ${logType} log file`, {
+                logFile: logFile,
+                clearedBy: 'manual_request'
+            });
+        }
+
+        res.json({
+            success: true,
+            message: `${logType} log cleared successfully`,
+            logFile: logFile
+        });
+
+    } catch (error) {
+        logError('API', 'Error clearing log file', {
+            error: error.message,
+            requestedType: req.body.type
+        });
+
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
 
 // Simple REST endpoint for posting comments
 app.post('/api/comment', async (req, res) => {
@@ -728,8 +1489,8 @@ app.post('/api/comment', async (req, res) => {
             author: selectedModel,
             created_at: new Date().toISOString(),
             locale: 'pt-BR',
-            body: bodyText,
-            body_original: bodyText
+            body: sanitizeForJSON(bodyText),
+            body_original: sanitizeForJSON(bodyText)
         };
 
         if (issuesData.issues && issuesData.issues.length > 0) {
@@ -759,18 +1520,49 @@ const clients = new Set();
 
 // Function to send issues data to all connected clients
 function broadcastIssues() {
-  if (clients.size === 0) return;
+  if (clients.size === 0) {
+    logDebug('BROADCAST', 'No clients connected, skipping broadcast');
+    return;
+  }
 
-    console.log(`[DEBUG] Broadcasting issues to ${clients.size} client(s).`);
+    logInfo('BROADCAST', 'Starting broadcast to clients', {
+        clientCount: clients.size,
+        issuesFile: issuesFile
+    });
 
-  fs.readFile(issuesFile, 'utf8', (err, data) => {
-    if (err) {
-      console.error('Error reading issues.json:', err);
-      return;
-    }
+  // Add retry logic for concurrent file access issues
+  function readWithRetry(attempts = 3) {
+    fs.readFile(issuesFile, 'utf8', (err, data) => {
+      if (err) {
+        logError('BROADCAST', 'Error reading issues.json file', {
+          error: err.message,
+          errorCode: err.code,
+          attemptsRemaining: attempts - 1,
+          filePath: issuesFile
+        });
+        return;
+      }
 
-    try {
-            const originalData = JSON.parse(data);
+      try {
+        // Validate JSON before parsing
+        if (!data || data.trim() === '') {
+          logError('BROADCAST', 'Empty or whitespace-only issues.json file detected', {
+            dataLength: data ? data.length : 0,
+            filePath: issuesFile
+          });
+          return;
+        }
+
+        logDebug('BROADCAST', 'Successfully read issues.json', {
+          dataLength: data.length,
+          dataPreview: data.substring(0, 200)
+        });
+
+        const originalData = JSON.parse(data);
+        logInfo('BROADCAST', 'Successfully parsed issues.json', {
+          issuesCount: originalData.issues ? originalData.issues.length : 0,
+          hasRootComment: !!originalData.master_comment
+        });
 
             // --- Data Transformation ---
             // 1. Collect all comments from all issues into a single array.
@@ -795,15 +1587,70 @@ function broadcastIssues() {
             };
             // --- End Transformation ---
 
-      clients.forEach(client => {
+      let successfulSends = 0;
+      let failedSends = 0;
+
+      clients.forEach((client, index) => {
         if (client.readyState === WebSocket.OPEN) {
-                    client.send(JSON.stringify(simplifiedPayload));
+          try {
+            const payload = JSON.stringify(simplifiedPayload);
+            client.send(payload);
+            successfulSends++;
+            logDebug('BROADCAST', `Successfully sent to client ${index}`, {
+              clientIndex: index,
+              payloadLength: payload.length
+            });
+          } catch (sendErr) {
+            failedSends++;
+            logError('BROADCAST', `Failed to send to client ${index}`, {
+              clientIndex: index,
+              error: sendErr.message,
+              clientState: client.readyState
+            });
+          }
+        } else {
+          failedSends++;
+          logWarn('BROADCAST', `Client ${index} not ready`, {
+            clientIndex: index,
+            readyState: client.readyState
+          });
         }
       });
-    } catch (parseErr) {
-            console.error('Error parsing or transforming issues.json:', parseErr);
-    }
-  });
+
+      logInfo('BROADCAST', 'Broadcast completed', {
+        totalClients: clients.size,
+        successfulSends,
+        failedSends,
+        commentsCount: allComments.length
+      });
+
+      } catch (parseErr) {
+        logError('BROADCAST', 'Error parsing or transforming issues.json', {
+          error: parseErr.message,
+          errorStack: parseErr.stack,
+          attemptsRemaining: attempts - 1,
+          dataLength: data ? data.length : 0
+        });
+
+        // Retry if attempts remaining
+        if (attempts > 1) {
+          logWarn('BROADCAST', `Retrying JSON parse in 100ms...`, {
+            attemptsLeft: attempts - 1,
+            retryDelay: 100
+          });
+          setTimeout(() => readWithRetry(attempts - 1), 100);
+        } else {
+          logFatal('BROADCAST', 'Failed to parse issues.json after all retry attempts', {
+            totalAttempts: 3,
+            finalError: parseErr.message
+          });
+        }
+      }
+    });
+  }
+
+  // Start reading with retry
+  readWithRetry();
 }
 
 // WebSocket connection handling
@@ -827,14 +1674,36 @@ wss.on('connection', (ws) => {
     ws.on('message', (message) => {
         try {
             const rawMessage = message.toString();
-            console.log(`[DEBUG] Received WebSocket message from client: ${rawMessage}`);
+            logDebug('WEBSOCKET', 'Received message from client', {
+                messageLength: rawMessage.length,
+                messagePreview: rawMessage.substring(0, 100),
+                clientId: ws._clientId || 'unknown'
+            });
 
             const data = JSON.parse(rawMessage);
+            logInfo('WEBSOCKET', 'Parsed WebSocket message', {
+                type: data.type,
+                hasText: !!data.text,
+                textLength: data.text ? data.text.length : 0
+            });
+
             if (data.type === 'user_comment' && data.text) {
                 handleUserComment(data.text);
+            } else {
+                logWarn('WEBSOCKET', 'Invalid message format or missing required fields', {
+                    receivedData: data,
+                    expectedType: 'user_comment',
+                    hasText: !!data.text
+                });
             }
         } catch (e) {
-            console.error('Failed to parse incoming message or invalid format:', message);
+            logError('WEBSOCKET', 'Failed to parse incoming message', {
+                error: e.message,
+                errorStack: e.stack,
+                rawMessage: message.toString(),
+                messageType: typeof message,
+                messageLength: message.toString().length
+            });
         }
     });
 });
@@ -844,7 +1713,10 @@ async function handleUserComment(text) {
     const lowerText = text.toLowerCase();
 
     // Detect action type based on user intent
-    if (isGeneralContributionRequest(lowerText)) {
+    if (isOpinionCollectionRequest(lowerText)) {
+        // Coleta de opiniões: pergunta para todos os modelos
+        await handleOpinionCollectionRequest(text);
+    } else if (isGeneralContributionRequest(lowerText)) {
         // Resposta de general: adiciona ao issues.json e responde no chat
         await handleGeneralContribution(text);
     } else if (isSummaryRequest(lowerText)) {
@@ -853,6 +1725,75 @@ async function handleUserComment(text) {
     } else {
         // Resposta simples: só responde no chat, não adiciona ao issues.json
         await handleSimpleResponse(text);
+    }
+}
+
+// Function to handle opinion collection requests from chat
+async function handleOpinionCollectionRequest(text) {
+    console.log(`[DEBUG] Handling opinion collection request: "${text}"`);
+
+    try {
+        // Extract topic from the text
+        const topic = extractOpinionTopic(text);
+
+        console.log(`[OPINIONS] Starting opinion collection via chat for topic: "${topic}"`);
+
+        // Send confirmation message to chat
+        broadcastChatMessage({
+            type: 'simple_response',
+            author: '🗳️ Sistema de Opiniões',
+            message: `Iniciando coleta de opiniões sobre: "${topic}"\n\nTodos os modelos disponíveis serão consultados. Acompanhe o progresso no painel de Opiniões.`,
+            timestamp: new Date().toISOString()
+        });
+
+        // Get all available models
+        const allModels = [
+            ...MODEL_CATEGORIES.cursor_models,
+            ...WORKING_APIS
+        ];
+
+        const sessionId = `chat_session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        const issueId = 1; // Default to issue 1
+
+        // Initialize session tracking
+        const sessionData = {
+            sessionId,
+            topic,
+            issueId,
+            startTime: new Date().toISOString(),
+            totalModels: allModels.length,
+            pendingModels: [...allModels],
+            completedModels: [],
+            failedModels: [],
+            responses: [],
+            triggeredByChat: true
+        };
+
+        activeOpinionSessions.set(sessionId, sessionData);
+
+        // Broadcast session started via WebSocket
+        broadcastOpinionUpdate(sessionId, {
+            type: 'session_started',
+            totalModels: allModels.length,
+            pendingModels: [...allModels],
+            completedModels: [],
+            failedModels: [],
+            triggeredByChat: true
+        });
+
+        // Start collecting opinions asynchronously
+        collectModelOpinions(sessionId, topic, issueId, allModels);
+
+        console.log(`[OPINIONS] Chat-triggered session ${sessionId} started with ${allModels.length} models`);
+
+    } catch (error) {
+        console.error(`[OPINIONS] Error in chat opinion collection:`, error);
+
+        broadcastChatMessage({
+            type: 'error',
+            message: `Erro ao iniciar coleta de opiniões: ${error.message}`,
+            timestamp: new Date().toISOString()
+        });
     }
 }
 
@@ -865,6 +1806,130 @@ function isGeneralContributionRequest(text) {
     ];
 
     return generalTriggers.some(trigger => text.includes(trigger));
+}
+
+// Function to check if text is an opinion collection request
+function isOpinionCollectionRequest(text) {
+    const opinionKeywords = [
+        'consultar opiniões', 'opinião dos modelos', 'opiniões sobre',
+        'coletar opiniões', 'o que os modelos pensam', 'perspectiva dos modelos',
+        'consulta geral', 'opinião de todos', 'perguntar aos modelos',
+        'opinion collection', 'collect opinions', 'ask all models'
+    ];
+
+    return opinionKeywords.some(keyword =>
+        text.toLowerCase().includes(keyword.toLowerCase())
+    );
+}
+
+// Function to extract topic from opinion request
+function extractOpinionTopic(text) {
+    // Try to extract topic after keywords
+    const patterns = [
+        /consultar opiniões (?:dos modelos )?sobre (.+)/i,
+        /opiniões? (?:dos modelos )?sobre (.+)/i,
+        /coletar opiniões? sobre (.+)/i,
+        /o que os modelos pensam sobre (.+)/i,
+        /perspectiva dos modelos sobre (.+)/i,
+        /perguntar aos modelos sobre (.+)/i
+    ];
+
+    for (const pattern of patterns) {
+        const match = text.match(pattern);
+        if (match) {
+            return match[1].trim();
+        }
+    }
+
+    // Fallback: use the whole text as topic
+    return text.trim();
+}
+
+// Function to validate that a model isn't speaking for others
+function validateModelResponse(modelId, response) {
+    if (!response || typeof response !== 'string') {
+        return null; // Let other validation handle empty responses
+    }
+
+    const lowerResponse = response.toLowerCase();
+
+    // Get list of all other model names to check against
+    const allModels = [
+        ...MODEL_CATEGORIES.cursor_models,
+        ...Object.keys(MODEL_CATEGORIES.aider_models)
+    ].filter(model => model !== modelId && model !== 'auto');
+
+    // Critical validation: Check if model is claiming to be another model
+    const forbiddenPhrases = [
+        'como gpt-', 'como claude-', 'como gemini-', 'como anthropic/',
+        'como openai/', 'como xai/', 'como deepseek', 'como groq/',
+        'speaking as gpt-', 'speaking as claude-', 'as gpt-', 'as claude-',
+        'sou o gpt-', 'sou o claude-', 'eu sou gpt-', 'eu sou claude-',
+        'na perspectiva do gpt-', 'na perspectiva do claude-',
+        'opinião do gpt-', 'opinião do claude-', 'opinião do gemini-'
+    ];
+
+    // Special check for 'auto' model - it should NEVER claim to be specific models
+    if (modelId === 'auto') {
+        for (const otherModel of allModels) {
+            const modelName = otherModel.toLowerCase().split('/').pop(); // Get last part after /
+            if (modelName && modelName !== 'auto' && lowerResponse.includes(`como ${modelName}`)) {
+                return `Modelo 'auto' tentou se identificar como '${otherModel}'. Auto deve sempre solicitar via API, não simular.`;
+            }
+        }
+
+        // Check for phrases indicating the model is role-playing as another
+        if (forbiddenPhrases.some(phrase => lowerResponse.includes(phrase))) {
+            return `Modelo 'auto' tentou simular outro modelo. Auto deve sempre fazer chamadas reais via API.`;
+        }
+    }
+
+    // Check if any model is using forbidden phrases to impersonate others
+    for (const phrase of forbiddenPhrases) {
+        if (lowerResponse.includes(phrase)) {
+            // Allow only if the model is correctly identifying itself
+            const expectedIdentity = `como ${modelId.toLowerCase()}`;
+            if (!phrase.includes(modelId.toLowerCase()) && lowerResponse.includes(phrase)) {
+                return `Modelo tentou se identificar incorretamente. Deve usar apenas sua própria identidade: ${modelId}`;
+            }
+        }
+    }
+
+    // Check for attempts to provide multiple model perspectives in one response
+    const multiModelIndicators = [
+        'na perspectiva do claude', 'na perspectiva do gpt', 'na perspectiva do gemini',
+        'segundo o claude', 'segundo o gpt', 'segundo o gemini',
+        'de acordo com o claude', 'de acordo com o gpt', 'de acordo com o gemini',
+        'consultando o claude', 'consultando o gpt', 'consultando o gemini'
+    ];
+
+    for (const indicator of multiModelIndicators) {
+        if (lowerResponse.includes(indicator) && !indicator.includes(modelId.toLowerCase())) {
+            return `Modelo tentou falar por outros modelos. Cada modelo deve fornecer apenas sua própria perspectiva.`;
+        }
+    }
+
+    return null; // Response is valid
+}
+
+// Special handling for 'auto' model to prevent opinion simulation
+async function handleAutoModelSafeguard(modelId, prompt) {
+    if (modelId === 'auto') {
+        // For 'auto' model, add extra safeguards in prompt
+        const autoSafeguardPrompt = `${prompt}
+
+AVISO CRÍTICO PARA MODELO AUTO:
+- Você é o modelo 'auto' mediando a conversa
+- NUNCA forneça opiniões que simulariam outros modelos específicos
+- Se perguntado sobre outros modelos, responda: "Para obter a opinião específica de [modelo], farei uma chamada via API"
+- Sua função é mediar e facilitar, não simular outros modelos
+- Em coletas de opinião, você deve apenas coordenar as chamadas reais, não inventar respostas`;
+
+        console.log(`[AUTO SAFEGUARD] Enhanced prompt for 'auto' model with strict guidelines`);
+        return autoSafeguardPrompt;
+    }
+
+    return prompt; // Return original prompt for other models
 }
 
 function isSummaryRequest(text) {
@@ -1026,8 +2091,8 @@ Responda de forma estruturada indicando o modelo recomendado e os pontos princip
                 author: selectedGeneral,
                 created_at: new Date().toISOString(),
                 locale: 'pt-BR',
-                body: response,
-                body_original: response
+                body: sanitizeForJSON(response),
+                body_original: sanitizeForJSON(response)
             };
 
             const issuesData = JSON.parse(fs.readFileSync(issuesFile, 'utf8'));
@@ -1251,26 +2316,70 @@ function broadcastChatMessage(message) {
 // Legacy functions removed - using new action-based system
 
 function addCommentToFile(text, author) {
+    logInfo('FILE_WRITE', 'Starting comment addition to issues.json', {
+        author: author,
+        textLength: text.length,
+        issuesFile: issuesFile
+    });
+
     try {
-        const issuesData = JSON.parse(fs.readFileSync(issuesFile, 'utf8'));
+        const rawData = fs.readFileSync(issuesFile, 'utf8');
+        logDebug('FILE_WRITE', 'Successfully read issues.json', {
+            dataLength: rawData.length,
+            author: author
+        });
+
+        const issuesData = JSON.parse(rawData);
+        logDebug('FILE_WRITE', 'Successfully parsed issues.json', {
+            issuesCount: issuesData.issues ? issuesData.issues.length : 0,
+            author: author
+        });
+
         const comment = {
             author: author,
             created_at: new Date().toISOString(),
             locale: "pt-BR",
-            body: text,
-            body_original: text
+            body: sanitizeForJSON(text),
+            body_original: sanitizeForJSON(text)
         };
+
+        logDebug('FILE_WRITE', 'Created comment object', {
+            author: comment.author,
+            created_at: comment.created_at,
+            bodyLength: comment.body.length,
+            sanitized: text !== comment.body
+        });
 
         if (issuesData.issues && issuesData.issues.length > 0) {
             issuesData.issues[0].comments.push(comment);
+            logDebug('FILE_WRITE', 'Added comment to existing issue', {
+                issueId: issuesData.issues[0].id,
+                commentsCount: issuesData.issues[0].comments.length,
+                author: author
+            });
         } else {
             issuesData.issues = [{ id: 1, title: "Main Thread", comments: [comment] }];
+            logDebug('FILE_WRITE', 'Created new issue with comment', {
+                issueId: 1,
+                author: author
+            });
         }
 
-        fs.writeFileSync(issuesFile, JSON.stringify(issuesData, null, 2), 'utf8');
-        console.log(`New comment from "${author}" was added to the main thread.`);
+        const jsonString = JSON.stringify(issuesData, null, 2);
+        fs.writeFileSync(issuesFile, jsonString, 'utf8');
+
+        logInfo('FILE_WRITE', 'Successfully added comment to issues.json', {
+            author: author,
+            finalFileSize: jsonString.length,
+            totalComments: issuesData.issues[0].comments.length
+        });
     } catch (error) {
-        console.error(`Error adding comment for author ${author}:`, error);
+        logError('FILE_WRITE', 'Error adding comment to issues.json', {
+            author: author,
+            error: error.message,
+            errorStack: error.stack,
+            textLength: text.length
+        });
     }
 }
 
@@ -1307,16 +2416,89 @@ setTimeout(() => {
   startFileWatcher();
 }, 1000);
 
-// Handle process termination
-process.on('SIGINT', () => {
-  console.log('Shutting down server...');
+// Enhanced graceful shutdown handling
+let shuttingDown = false;
+
+function gracefulShutdown(signal) {
+  if (shuttingDown) {
+    console.log(`[SHUTDOWN] Already shutting down, ignoring ${signal}`);
+    return;
+  }
+
+  shuttingDown = true;
+  console.log(`[SHUTDOWN] 🛑 Received ${signal}, shutting down gracefully...`);
+
+  // Stop file watcher
   if (fileWatcher) {
+    console.log('[SHUTDOWN] 📁 Closing file watcher...');
     fileWatcher.close();
   }
-  server.close(() => {
-    console.log('Server closed');
+
+  // Close WebSocket connections
+  console.log('[SHUTDOWN] 📡 Closing WebSocket connections...');
+  clients.forEach(client => {
+    try {
+      if (client.readyState === WebSocket.OPEN) {
+        client.close(1000, 'Server shutdown');
+      }
+    } catch (err) {
+      console.error('[SHUTDOWN] Error closing WebSocket client:', err);
+    }
+  });
+  clients.clear();
+
+  // Close WebSocket server
+  if (wss) {
+    console.log('[SHUTDOWN] 🔌 Closing WebSocket server...');
+    wss.close(() => {
+      console.log('[SHUTDOWN] ✅ WebSocket server closed');
+    });
+  }
+
+  // Close HTTP server
+  console.log('[SHUTDOWN] 🌐 Closing HTTP server...');
+  server.close((err) => {
+    if (err) {
+      console.error('[SHUTDOWN] ❌ Error closing server:', err);
+      process.exit(1);
+    }
+    console.log('[SHUTDOWN] ✅ HTTP server closed');
+    console.log('[SHUTDOWN] 🎯 Graceful shutdown complete');
     process.exit(0);
   });
+
+  // Force exit after 3 seconds if graceful shutdown fails
+  setTimeout(() => {
+    console.log('[SHUTDOWN] ⏰ Force exit after timeout');
+    process.exit(1);
+  }, 3000);
+}
+
+// Handle multiple SIGINT (Ctrl+C) presses with proper shutdown
+let ctrlCCount = 0;
+process.on('SIGINT', () => {
+  ctrlCCount++;
+  if (ctrlCCount === 1) {
+    gracefulShutdown('SIGINT (Ctrl+C)');
+  } else if (ctrlCCount >= 2) {
+    console.log('[SHUTDOWN] 💥 Multiple Ctrl+C detected, forcing immediate exit');
+    process.exit(1);
+  }
+});
+
+// Handle other shutdown signals
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGUSR2', () => gracefulShutdown('SIGUSR2 (nodemon)')); // nodemon restart
+
+// Handle uncaught exceptions and prevent hanging
+process.on('uncaughtException', (err) => {
+  console.error('[FATAL] Uncaught Exception:', err);
+  gracefulShutdown('UNCAUGHT_EXCEPTION');
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('[FATAL] Unhandled Rejection at:', promise, 'reason:', reason);
+  gracefulShutdown('UNHANDLED_REJECTION');
 });
 
 // Start server

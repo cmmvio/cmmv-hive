@@ -381,8 +381,11 @@
         <div class="chat-header">
             <span>📋</span>
             <h1>Monitor de Questões BIP-05</h1>
-            <button id="api-status-toggle" style="background: #128c7e; border: none; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-right: 10px;">
+            <button id="api-status-toggle" style="background: #128c7e; border: none; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-right: 5px;">
                 🔗 APIs
+            </button>
+            <button id="opinions-toggle" style="background: #9c27b0; border: none; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-right: 10px;">
+                🗳️ Opiniões
             </button>
             <div class="status-indicator" id="status-indicator"></div>
         </div>
@@ -398,6 +401,43 @@
             </div>
             <div id="api-status-content">
                 <div class="loading-status">🔄 Carregando status das APIs...</div>
+            </div>
+        </div>
+
+        <!-- Opinions Collection Panel (hidden by default) -->
+        <div id="opinions-panel" class="api-status-panel" style="display: none;">
+            <div class="api-status-header">
+                <h3>🗳️ Coletar Opiniões dos Modelos</h3>
+                <button id="close-opinions" style="background: #ff4444; border: none; color: white; padding: 3px 8px; border-radius: 3px; cursor: pointer;">✕</button>
+            </div>
+            <div id="opinions-content">
+                <div style="padding: 15px;">
+                    <form id="opinions-form">
+                        <div style="margin-bottom: 10px;">
+                            <label style="display: block; margin-bottom: 5px; color: #e0e0e0;">Tópico para consulta:</label>
+                            <input type="text" id="opinion-topic" placeholder="Ex: implementação de matriz universal"
+                                   style="width: 100%; padding: 8px; border: 1px solid #1f2c33; background: #0b141a; color: #e0e0e0; border-radius: 4px;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; color: #e0e0e0;">Issue ID (opcional):</label>
+                            <input type="number" id="opinion-issue-id" placeholder="1" value="1" min="1"
+                                   style="width: 100px; padding: 8px; border: 1px solid #1f2c33; background: #0b141a; color: #e0e0e0; border-radius: 4px;">
+                        </div>
+                        <button type="submit" style="background: #128c7e; border: none; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                            🚀 Iniciar Coleta de Opiniões
+                        </button>
+                    </form>
+
+                    <div id="opinions-progress" style="display: none; margin-top: 20px;">
+                        <h4 style="color: #e0e0e0; margin-bottom: 10px;">Progresso da Coleta</h4>
+                        <div id="progress-bar-container" style="background: #1f2c33; border-radius: 10px; height: 20px; margin-bottom: 10px;">
+                            <div id="progress-bar" style="background: #128c7e; height: 100%; border-radius: 10px; width: 0%; transition: width 0.3s;"></div>
+                        </div>
+                        <div id="progress-text" style="color: #a0a0a0; font-size: 12px; margin-bottom: 15px;">0% - Iniciando...</div>
+
+                        <div id="models-checklist" style="max-height: 200px; overflow-y: auto;"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -432,6 +472,7 @@
                 this.connect();
                 this.setupEventListeners();
                 this.setupApiStatusPanel();
+                this.setupOpinionsPanel();
             }
 
             setupEventListeners() {
@@ -479,6 +520,8 @@
                     // Handle different message types
                     if (data.type === 'chat_message') {
                         this.handleChatMessage(data.data);
+                    } else if (data.type === 'opinion_update') {
+                        this.handleOpinionUpdate(data);
                     } else {
                         // Handle regular issues update
                         this.renderIssues(data);
@@ -896,32 +939,62 @@
                         key: 'Built-in'
                     },
                     'OpenAI': {
-                        models: ['openai/gpt-5-nano', 'openai/gpt-5-mini', 'openai/gpt-4o'],
+                        models: [
+                            'openai/gpt-4o',        // GPT-4o — multimodal reasoning
+                            'openai/gpt-4o-mini',   // GPT-4o-mini — voting rationale specialist
+                            'openai/o1-mini',       // O1-mini — reasoning model
+                            'openai/gpt-4-turbo',   // GPT-4-turbo — high performance
+                            'openai/gpt-5-mini',    // GPT-5-mini — lightweight version
+                            'openai/gpt-5-nano'     // GPT-5-nano — ultra-lightweight
+                        ],
                         working: data.working_apis.filter(api => api.startsWith('openai/')),
                         key: 'OPENAI_API_KEY'
                     },
                     'Anthropic': {
-                        models: ['anthropic/claude-3-7-sonnet-latest', 'anthropic/claude-3-5-haiku-latest', 'anthropic/claude-opus-4-1-20250805'],
+                        models: [
+                            'anthropic/claude-3-5-haiku-latest',    // Claude-3.5-Haiku — fast responses
+                            'anthropic/claude-3-5-sonnet-latest',   // Claude-4-Sonnet — performance proposal
+                            'anthropic/claude-3-opus-latest',       // Claude-4-Opus — complex reasoning
+                            'anthropic/claude-3-7-sonnet-latest'    // Claude-3.7-Sonnet — advanced contextual understanding
+                        ],
                         working: data.working_apis.filter(api => api.startsWith('anthropic/')),
                         key: 'ANTHROPIC_API_KEY'
                     },
                     'Gemini': {
-                        models: ['gemini/gemini-2.5-pro', 'gemini/gemini-2.5-flash', 'gemini/gemini-2.0-flash-lite', 'gemini/gemini-2.0-flash'],
+                        models: [
+                            'gemini/gemini-2.0-flash-lite',      // Gemini 2.0 — lightweight
+                            'gemini/gemini-2.0-flash',           // Gemini 2.0 — multimodal analysis
+                            'gemini/gemini-2.5-pro-latest',      // Gemini 2.5 Pro — i18n/l10n
+                            'gemini/gemini-2.5-flash-latest'     // Gemini 2.5 Flash — fast processing
+                        ],
                         working: data.working_apis.filter(api => api.startsWith('gemini/')),
                         key: 'GEMINI_API_KEY'
                     },
                     'xAI': {
-                        models: ['xai/grok-3', 'xai/grok-3-mini', 'xai/grok-4', 'xai/grok-code-fast-1'],
+                        models: [
+                            'xai/grok-3-mini',      // Grok-3-mini — lightweight
+                            'xai/grok-3',           // Grok-3 — adaptive learning consensus
+                            'xai/grok-beta'         // Grok Core Fast-1 equivalent
+                        ],
                         working: data.working_apis.filter(api => api.startsWith('xai/')),
                         key: 'XAI_API_KEY'
                     },
                     'DeepSeek': {
-                        models: ['deepseek-chat'],
-                        working: data.working_apis.filter(api => api.includes('deepseek')),
+                        models: [
+                            'deepseek/deepseek-chat',    // DeepSeek-V3 — advanced reasoning
+                            'deepseek/deepseek-coder'    // DeepSeek-Coder — technical analysis
+                        ],
+                        working: data.working_apis.filter(api => api.startsWith('deepseek/')),
                         key: 'DEEPSEEK_API_KEY'
                     },
                     'Groq': {
-                        models: ['groq/openai/gpt-oss-20b', 'groq/openai/gpt-oss-120b', 'groq/qwen/qwen3-32b'],
+                        models: [
+                            'groq/llama-3.1-70b-versatile',    // Llama-3.1-70B — high performance
+                            'groq/llama-3.1-8b-instant',       // Llama-3.1-8B — fast responses
+                            'groq/llama-3.3-70b-versatile',    // Llama-3.3-70B — operational contributor
+                            'groq/openai/gpt-oss-120',         // GPT-OSS-120B — high capacity open source
+                            'groq/qwen/qwen3-32b'              // Qwen3-32B — operational contributor
+                        ],
                         working: data.working_apis.filter(api => api.startsWith('groq/')),
                         key: 'GROQ_API_KEY'
                     }
@@ -952,6 +1025,179 @@
                 });
 
                 statusContent.innerHTML = cacheInfo + html;
+            }
+
+            handleOpinionUpdate(data) {
+                console.log('[OPINIONS] Update received:', data);
+
+                // Only handle updates for current session
+                if (this.currentOpinionSession && data.sessionId === this.currentOpinionSession) {
+                    this.updateOpinionProgress(data);
+                }
+            }
+
+            setupOpinionsPanel() {
+                const toggleButton = document.getElementById('opinions-toggle');
+                const opinionsPanel = document.getElementById('opinions-panel');
+                const closeButton = document.getElementById('close-opinions');
+                const opinionsForm = document.getElementById('opinions-form');
+
+                toggleButton.addEventListener('click', () => {
+                    // Close API status panel if open
+                    const apiPanel = document.getElementById('api-status-panel');
+                    if (apiPanel.style.display === 'block') {
+                        apiPanel.style.display = 'none';
+                    }
+
+                    // Toggle opinions panel
+                    if (opinionsPanel.style.display === 'none') {
+                        opinionsPanel.style.display = 'block';
+                    } else {
+                        opinionsPanel.style.display = 'none';
+                    }
+                });
+
+                closeButton.addEventListener('click', () => {
+                    opinionsPanel.style.display = 'none';
+                });
+
+                opinionsForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.startOpinionCollection();
+                });
+            }
+
+            async startOpinionCollection() {
+                const topicInput = document.getElementById('opinion-topic');
+                const issueIdInput = document.getElementById('opinion-issue-id');
+                const progressDiv = document.getElementById('opinions-progress');
+                const submitButton = document.querySelector('#opinions-form button[type="submit"]');
+
+                const topic = topicInput.value.trim();
+                const issueId = parseInt(issueIdInput.value) || 1;
+
+                if (!topic) {
+                    alert('Por favor, insira um tópico para consulta.');
+                    return;
+                }
+
+                // Disable form and show progress
+                submitButton.disabled = true;
+                submitButton.textContent = '🔄 Iniciando...';
+                progressDiv.style.display = 'block';
+
+                try {
+                    const response = await fetch('/api/models/opinions', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ topic, issueId })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        this.currentOpinionSession = result.sessionId;
+                        this.setupOpinionProgress(result.totalModels, result.models);
+
+                        // Update UI
+                        submitButton.textContent = '⏳ Coletando Opiniões...';
+
+                        console.log(`[OPINIONS] Session started: ${result.sessionId} with ${result.totalModels} models`);
+                    } else {
+                        throw new Error(result.error || 'Erro ao iniciar coleta');
+                    }
+
+                } catch (error) {
+                    console.error('Error starting opinion collection:', error);
+                    alert(`Erro ao iniciar coleta: ${error.message}`);
+
+                    // Reset form
+                    submitButton.disabled = false;
+                    submitButton.textContent = '🚀 Iniciar Coleta de Opiniões';
+                    progressDiv.style.display = 'none';
+                }
+            }
+
+            setupOpinionProgress(totalModels, models) {
+                const checklistDiv = document.getElementById('models-checklist');
+                const progressBar = document.getElementById('progress-bar');
+                const progressText = document.getElementById('progress-text');
+
+                // Reset progress
+                progressBar.style.width = '0%';
+                progressText.textContent = '0% - Iniciando coleta...';
+
+                // Create checklist
+                checklistDiv.innerHTML = '';
+                models.forEach(modelId => {
+                    const modelDiv = document.createElement('div');
+                    modelDiv.className = 'model-item';
+                    modelDiv.id = `model-${modelId.replace(/[^a-zA-Z0-9]/g, '-')}`;
+                    modelDiv.style.cssText = 'display: flex; align-items: center; margin: 5px 0; padding: 5px; background: #1f2c33; border-radius: 4px;';
+
+                    modelDiv.innerHTML = `
+                        <span class="model-status" style="margin-right: 10px;">⏳</span>
+                        <span class="model-name" style="flex: 1; font-size: 12px; color: #e0e0e0;">${modelId}</span>
+                        <span class="model-time" style="font-size: 10px; color: #a0a0a0;"></span>
+                    `;
+
+                    checklistDiv.appendChild(modelDiv);
+                });
+            }
+
+            updateOpinionProgress(sessionData) {
+                const progressBar = document.getElementById('progress-bar');
+                const progressText = document.getElementById('progress-text');
+                const submitButton = document.querySelector('#opinions-form button[type="submit"]');
+
+                const completed = sessionData.completedModels ? sessionData.completedModels.length : 0;
+                const failed = sessionData.failedModels ? sessionData.failedModels.length : 0;
+                const total = sessionData.totalModels || 1;
+                const percentage = Math.round(((completed + failed) / total) * 100);
+
+                // Update progress bar
+                progressBar.style.width = `${percentage}%`;
+                progressText.textContent = `${percentage}% - ${completed} completos, ${failed} falharam`;
+
+                // Update individual model status
+                if (sessionData.type === 'model_started') {
+                    this.updateModelStatus(sessionData.modelId, '🔄', 'Consultando...', '#ffa726');
+                } else if (sessionData.type === 'model_completed') {
+                    this.updateModelStatus(sessionData.modelId, '✅', 'Completo', '#4caf50');
+                } else if (sessionData.type === 'model_failed') {
+                    this.updateModelStatus(sessionData.modelId, '❌', 'Falhou', '#ff4444');
+                }
+
+                // Check if session is complete
+                if (sessionData.type === 'session_completed') {
+                    submitButton.disabled = false;
+                    submitButton.textContent = '🚀 Iniciar Coleta de Opiniões';
+                    progressText.textContent = `✅ Completo! ${completed} respostas coletadas, ${failed} falharam`;
+
+                    console.log(`[OPINIONS] Session completed: ${completed} successful, ${failed} failed`);
+                }
+            }
+
+            updateModelStatus(modelId, icon, status, color) {
+                const cleanId = modelId.replace(/[^a-zA-Z0-9]/g, '-');
+                const modelDiv = document.getElementById(`model-${cleanId}`);
+
+                if (modelDiv) {
+                    const statusSpan = modelDiv.querySelector('.model-status');
+                    const timeSpan = modelDiv.querySelector('.model-time');
+
+                    if (statusSpan) {
+                        statusSpan.textContent = icon;
+                        statusSpan.style.color = color;
+                    }
+
+                    if (timeSpan) {
+                        timeSpan.textContent = status;
+                        timeSpan.style.color = color;
+                    }
+                }
             }
         }
 
