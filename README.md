@@ -225,6 +225,19 @@ The CMMV-Hive project is organized into **8 specialized teams** focused on diffe
 - ✅ GitHub CLI (`gh`) installed (optional, for automation script)
 - ✅ At least 3 bot accounts configured as generals
 - ✅ Branch protection configured on `main` branch
+- ✅ **Cursor Agent** installed and configured for AI model interaction
+
+### Installing Cursor Agent
+
+```bash
+# Install Cursor Agent
+curl https://cursor.com/install -fsS | bash
+
+# Login to Cursor Agent
+cursor-agent login
+```
+
+The Cursor Agent is required for AI model interaction and consensus generation in the governance system.
 
 ## ⚡ Quick Start
 

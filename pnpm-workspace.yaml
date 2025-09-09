@@ -5,6 +5,7 @@ packages:
   - packages/bip-system
   - packages/resilience-framework
   - apps/cursor-extension
+  - gov/bips/BIP-05/monitor
 
 onlyBuiltDependencies:
   - esbuild

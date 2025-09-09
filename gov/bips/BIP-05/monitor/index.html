@@ -13,7 +13,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #0a0a0a;
+            background-color: #0b141a;
             height: 100vh;
             overflow: hidden;
             color: #e0e0e0;
@@ -23,23 +23,23 @@
             max-width: 800px;
             height: 100vh;
             margin: 0 auto;
-            background-color: #1a1a1a;
+            background-color: #111b21;
             position: relative;
             display: flex;
             flex-direction: column;
-            border: 1px solid #333;
+            border: 1px solid #1f2c33;
             border-radius: 8px;
             overflow: hidden;
         }
 
         .chat-header {
-            background-color: #1f2937;
+            background-color: #202c33;
             color: #e0e0e0;
             padding: 16px 20px;
             display: flex;
             align-items: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            border-bottom: 1px solid #374151;
+            border-bottom: 1px solid #1f2c33;
         }
 
         .chat-header h1 {
@@ -52,16 +52,16 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background-color: #10b981;
+            background-color: #25d366;
             margin-left: 8px;
-            box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 0 6px rgba(37, 211, 102, 0.35);
         }
 
         .chat-messages {
             flex-grow: 1;
             padding: 20px;
             overflow-y: auto;
-            background-image: linear-gradient(rgba(15, 20, 25, 0.5), rgba(15, 20, 25, 0.5)), url('https://camo.githubusercontent.com/ebf18cd85f7aa9dc79fb74c58dc94febf3a6441d8d689cd5a400b2707e19ec0e/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67');
+            background-image: linear-gradient(rgba(11, 20, 26, 0.85), rgba(11, 20, 26, 0.85)), url('https://camo.githubusercontent.com/ebf18cd85f7aa9dc79fb74c58dc94febf3a6441d8d689cd5a400b2707e19ec0e/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67');
             background-size: 501px 911px, 501px 911px;
             background-repeat: repeat, repeat;
             background-blend-mode: multiply;
@@ -79,9 +79,9 @@
             border-radius: 50%;
             overflow: hidden;
             flex-shrink: 0;
-            border: 1px solid #374151;
+            border: 1px solid #2a3942;
             box-shadow: 0 1px 2px rgba(0,0,0,0.35);
-            background-color: #111827;
+            background-color: #111b21;
         }
 
         .message.received .avatar { margin-right: 8px; }
@@ -109,21 +109,21 @@
             background-color: #005c4b;
             color: #e0e0e0;
             margin-left: 12px;
-            border: 1px solid #006b5a;
+            border: 1px solid #0a6b5a;
         }
 
         .message.received .message-content {
-            background-color: #2d3748;
+            background-color: #202c33;
             color: #e0e0e0;
             margin-right: 12px;
-            border: 1px solid #4a5568;
+            border: 1px solid #26343c;
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
 
         .message-header {
             font-size: 12px;
             font-weight: bold;
-            color: #10b981;
+            color: #25d366;
             margin-bottom: 4px;
         }
 
@@ -134,14 +134,25 @@
         }
 
         .issue-title {
-            background-color: #1f2937;
-            color: #e0e0e0;
-            padding: 8px 16px;
-            margin: 10px 0;
+            display: none; /* Hide the issue titles as per the new design */
+        }
+
+        .master-comment-container {
+            padding: 15px;
+            margin: 10px 20px;
+            background-color: rgba(32, 44, 51, 0.8);
             border-radius: 8px;
+            border: 1px solid #1f2c33;
+            backdrop-filter: blur(5px);
+        }
+
+        .master-comment-header {
             font-weight: bold;
-            text-align: center;
-            border: 1px solid #374151;
+            color: #8696a0;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #1f2c33;
+            font-size: 13px;
         }
 
         .loading {
@@ -161,18 +172,59 @@
         }
 
         .reconnect-button {
-            background-color: #10b981;
+            background-color: #25d366;
             color: #e0e0e0;
             border: none;
             padding: 8px 16px;
             border-radius: 4px;
             cursor: pointer;
             margin-top: 10px;
-            border: 1px solid #059669;
+            border: 1px solid #1aae5b;
         }
 
         .reconnect-button:hover {
-            background-color: #059669;
+            background-color: #1aae5b;
+        }
+
+        .chat-input-container {
+            padding: 10px 20px;
+            background-color: #202c33;
+            border-top: 1px solid #1f2c33;
+        }
+
+        #chat-form {
+            display: flex;
+        }
+
+        #message-input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 1px solid #2a3942;
+            background-color: #2a3942;
+            color: #e0e0e0;
+            font-size: 14px;
+        }
+
+        #message-input:focus {
+            outline: none;
+            border-color: #25d366;
+        }
+
+        #chat-form button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            background-color: #25d366;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #chat-form button:hover {
+            background-color: #1aae5b;
         }
 
         @media (max-width: 600px) {
@@ -203,6 +255,13 @@
                 🔄 Conectando ao servidor...
             </div>
         </div>
+
+        <div class="chat-input-container">
+            <form id="chat-form">
+                <input type="text" id="message-input" placeholder="Digite sua mensagem aqui..." autocomplete="off">
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
     </div>
 
     <script>
@@ -215,8 +274,31 @@
                 this.messagesContainer = document.getElementById('chat-messages');
                 this.statusIndicator = document.getElementById('status-indicator');
                 this.loadingElement = document.getElementById('loading');
+                this.chatForm = document.getElementById('chat-form');
+                this.messageInput = document.getElementById('message-input');
+
 
                 this.connect();
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                this.chatForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.sendMessage();
+                });
+            }
+
+            sendMessage() {
+                const message = this.messageInput.value.trim();
+                if (message && this.ws && this.ws.readyState === WebSocket.OPEN) {
+                    const payload = {
+                        type: 'user_comment',
+                        text: message
+                    };
+                    this.ws.send(JSON.stringify(payload));
+                    this.messageInput.value = '';
+                }
             }
 
             connect() {
@@ -274,37 +356,45 @@
             }
 
             renderIssues(data) {
-                // Clear existing messages except loading/error
-                const existingMessages = this.messagesContainer.querySelectorAll('.message, .issue-title');
-                existingMessages.forEach(msg => msg.remove());
+                // Clear existing messages
+                this.messagesContainer.innerHTML = '';
+                this.messagesContainer.appendChild(this.loadingElement);
+                this.loadingElement.style.display = 'none';
 
-                if (!data.issues || !Array.isArray(data.issues)) {
-                    this.showError('Formato de dados inválido recebido');
+                if (!data.comments || !Array.isArray(data.comments)) {
+                    this.showError('Formato de dados de chat inválido recebido');
                     return;
                 }
 
-                data.issues.forEach((issue, issueIndex) => {
-                    // Add issue title
-                    const issueTitle = document.createElement('div');
-                    issueTitle.className = 'issue-title';
-                    issueTitle.textContent = `📝 Questão #${issue.id}: ${issue.title}`;
-                    this.messagesContainer.appendChild(issueTitle);
+                // Add master comment at the top if it exists
+                if (data.master_comment) {
+                    this.addMasterComment(data.master_comment);
+                }
 
-                    // Add master comment if exists
-                    if (data.master_comment) {
-                        this.addMessage(data.master_comment, 'received', 'Comentário Mestre', '2025-09-15');
-                    }
-
-                    // Add all comments
-                    if (issue.comments && Array.isArray(issue.comments)) {
-                        issue.comments.forEach((comment, commentIndex) => {
-                            this.addMessage(comment, 'received', comment.author, comment.created_at);
-                        });
-                    }
+                // Render all comments in a single chronological feed
+                data.comments.forEach(comment => {
+                    this.addMessage(comment, 'received', comment.author, comment.created_at);
                 });
 
                 // Scroll to bottom
                 this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+            }
+
+            addMasterComment(comment) {
+                const masterCommentContainer = document.createElement('div');
+                masterCommentContainer.className = 'master-comment-container';
+
+                const header = document.createElement('div');
+                header.className = 'master-comment-header';
+                header.textContent = `📌 Comentário Mestre de ${comment.author || 'Master'}`;
+
+                const bodyDiv = document.createElement('div');
+                bodyDiv.className = 'message-text';
+                bodyDiv.innerHTML = this.parseCommentBody(comment);
+
+                masterCommentContainer.appendChild(header);
+                masterCommentContainer.appendChild(bodyDiv);
+                this.messagesContainer.appendChild(masterCommentContainer);
             }
 
             addMessage(comment, type, author, timestamp) {
