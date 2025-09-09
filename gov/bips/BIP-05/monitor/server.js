@@ -512,15 +512,19 @@ async function callLLMViaAider(modelId, prompt) {
     try {
         return new Promise((resolve, reject) => {
             const command = 'aider';
-            const args = [
-                '--model', modelConfig.model,
-                '--api-key', `${modelConfig.provider}=${apiKey}`,
-                '--no-pretty',
-                '--yes',
-                '--no-stream',
-                '--exit',
-                '--message', prompt
-            ];
+        // For aider, use the full model identifier (provider/model)
+        const fullModelName = modelConfig.model.includes('/') ? modelConfig.model : `${modelConfig.provider}/${modelConfig.model}`;
+
+        const args = [
+            '--model', fullModelName,
+            '--api-key', `${modelConfig.provider}=${apiKey}`,
+            '--no-pretty',
+            '--yes',
+            '--no-stream',
+            '--exit',
+            '--subtree-only',  // Optimize performance for large repos
+            '--message', prompt
+        ];
 
             logInfo('AIDER', 'Executing aider command', {
                 command: command,
@@ -1752,7 +1756,7 @@ async function handleOpinionCollectionRequest(text) {
         broadcastChatMessage({
             type: 'simple_response',
             author: '🗳️ Sistema de Opiniões',
-            message: `Iniciando coleta de opiniões sobre: "${topic}"\n\nTodos os modelos disponíveis serão consultados. Acompanhe o progresso no painel de Opiniões.`,
+            text: `Iniciando coleta de opiniões sobre: "${topic}"\n\nTodos os modelos disponíveis serão consultados. Acompanhe o progresso no painel de Opiniões.`,
             timestamp: new Date().toISOString()
         });
 
@@ -1801,7 +1805,8 @@ async function handleOpinionCollectionRequest(text) {
 
         broadcastChatMessage({
             type: 'error',
-            message: `Erro ao iniciar coleta de opiniões: ${error.message}`,
+            author: 'Sistema',
+            text: `Erro ao iniciar coleta de opiniões: ${error.message}`,
             timestamp: new Date().toISOString()
         });
     }
@@ -2119,7 +2124,7 @@ function broadcastHelloProgress(sessionId, session) {
 function broadcastChatMessage(messageData) {
     logDebug('CHAT', 'Broadcasting chat message', {
         author: messageData.author,
-        messageLength: messageData.text.length,
+        messageLength: messageData.text ? messageData.text.length : 0,
         isSystemMessage: messageData.isSystemMessage || false
     });
 
@@ -2256,7 +2261,7 @@ async function handleSimpleResponse(text) {
     broadcastChatMessage({
         type: 'typing',
         author: selectedModel,
-        message: '',
+        text: '',
         timestamp: new Date().toISOString()
     });
 
@@ -2270,7 +2275,7 @@ async function handleSimpleResponse(text) {
         broadcastChatMessage({
             type: 'stop_typing',
             author: selectedModel,
-            message: '',
+            text: '',
             timestamp: new Date().toISOString()
         });
 
@@ -2287,7 +2292,7 @@ async function handleSimpleResponse(text) {
             broadcastChatMessage({
                 type: 'simple_response',
                 author: selectedModel,
-                message: response,
+                text: response,
                 timestamp: new Date().toISOString()
             });
         }
@@ -2298,13 +2303,13 @@ async function handleSimpleResponse(text) {
         broadcastChatMessage({
             type: 'stop_typing',
             author: selectedModel,
-            message: '',
+            text: '',
             timestamp: new Date().toISOString()
         });
 
         broadcastChatMessage({
             type: 'error',
-            message: `Erro ao gerar resposta: ${error.message}`,
+            text: `Erro ao gerar resposta: ${error.message}`,
             timestamp: new Date().toISOString()
         });
     }
@@ -2320,7 +2325,7 @@ async function handleGeneralContribution(text) {
         broadcastChatMessage({
             type: 'typing',
             author: 'auto (análise)',
-            message: '',
+            text: '',
             timestamp: new Date().toISOString()
         });
 
@@ -2338,7 +2343,7 @@ Responda de forma estruturada indicando o modelo recomendado e os pontos princip
         broadcastChatMessage({
             type: 'stop_typing',
             author: 'auto (análise)',
-            message: '',
+            text: '',
             timestamp: new Date().toISOString()
         });
 
@@ -2346,7 +2351,7 @@ Responda de forma estruturada indicando o modelo recomendado e os pontos princip
         broadcastChatMessage({
             type: 'simple_response',
             author: '🔍 auto (análise)',
-            message: analysis,
+            text: analysis,
             timestamp: new Date().toISOString()
         });
 
@@ -2360,7 +2365,7 @@ Responda de forma estruturada indicando o modelo recomendado e os pontos princip
         broadcastChatMessage({
             type: 'typing',
             author: selectedGeneral,
-            message: '',
+            text: '',
             timestamp: new Date().toISOString()
         });
 
@@ -2373,7 +2378,7 @@ Responda de forma estruturada indicando o modelo recomendado e os pontos princip
         broadcastChatMessage({
             type: 'stop_typing',
             author: selectedGeneral,
-            message: '',
+            text: '',
             timestamp: new Date().toISOString()
         });
 
@@ -2400,7 +2405,7 @@ Responda de forma estruturada indicando o modelo recomendado e os pontos princip
             broadcastChatMessage({
                 type: 'general_contribution',
                 author: selectedGeneral,
-                message: response,
+                text: response,
                 timestamp: new Date().toISOString(),
                 added_to_issues: true
             });
@@ -2412,13 +2417,13 @@ Responda de forma estruturada indicando o modelo recomendado e os pontos princip
         broadcastChatMessage({
             type: 'stop_typing',
             author: 'system',
-            message: '',
+            text: '',
             timestamp: new Date().toISOString()
         });
 
         broadcastChatMessage({
             type: 'error',
-            message: `Erro ao gerar contribuição: ${error.message}`,
+            text: `Erro ao gerar contribuição: ${error.message}`,
             timestamp: new Date().toISOString()
         });
     }
@@ -2434,7 +2439,7 @@ async function handleSummaryRequest(text) {
     broadcastChatMessage({
         type: 'typing',
         author: selectedModel,
-        message: '',
+        text: '',
         timestamp: new Date().toISOString()
     });
 
@@ -2451,7 +2456,7 @@ async function handleSummaryRequest(text) {
         broadcastChatMessage({
             type: 'stop_typing',
             author: selectedModel,
-            message: '',
+            text: '',
             timestamp: new Date().toISOString()
         });
 
@@ -2466,7 +2471,7 @@ async function handleSummaryRequest(text) {
             broadcastChatMessage({
                 type: 'summary_generated',
                 author: selectedModel,
-                message: `Resumo das discussões gerado com sucesso! Arquivo salvo em: discussion-summary.md\n\n**Principais pontos:**\n${summary.slice(0, 500)}...`,
+                text: `Resumo das discussões gerado com sucesso! Arquivo salvo em: discussion-summary.md\n\n**Principais pontos:**\n${summary.slice(0, 500)}...`,
                 timestamp: new Date().toISOString(),
                 file_generated: 'discussion-summary.md'
             });
@@ -2478,13 +2483,13 @@ async function handleSummaryRequest(text) {
         broadcastChatMessage({
             type: 'stop_typing',
             author: selectedModel,
-            message: '',
+            text: '',
             timestamp: new Date().toISOString()
         });
 
         broadcastChatMessage({
             type: 'error',
-            message: `Erro ao gerar resumo: ${error.message}`,
+            text: `Erro ao gerar resumo: ${error.message}`,
             timestamp: new Date().toISOString()
         });
     }
@@ -2591,19 +2596,7 @@ Seja objetivo, técnico e forneça um resumo acionável para o modelo que irá i
 **RESUMO EXECUTIVO:**`;
 }
 
-// Function to broadcast messages to chat only (not issues.json)
-function broadcastChatMessage(message) {
-    const payload = {
-        type: 'chat_message',
-        data: message
-    };
-
-    clients.forEach(client => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify(payload));
-        }
-    });
-}
+// Legacy function removed - using unified broadcastChatMessage
 
 // Legacy functions removed - using new action-based system
 
