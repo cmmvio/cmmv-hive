@@ -176,6 +176,7 @@ async function testApiConnectivity() {
 
     const workingProviders = [];
     const failedProviders = [];
+    const costReports = [];
 
     for (const [provider, config] of Object.entries(testModels)) {
         const apiKey = process.env[config.key];
@@ -190,11 +191,32 @@ async function testApiConnectivity() {
 
         try {
             const testPrompt = "Responda apenas 'OK' para confirmar que a API está funcionando.";
-            const response = await callLLMViaAider(config.model, testPrompt);
+            const result = await callLLMViaAider(config.model, testPrompt);
+
+            // Handle new response format with cost information
+            const response = typeof result === 'object' ? result.response : result;
+            const costInfo = typeof result === 'object' ? result.costInfo : null;
 
             if (response && !response.includes('❌')) {
                 console.log(`[API TEST] ✅ ${provider} provider - WORKING`);
                 workingProviders.push(provider);
+
+                // Store cost information if available
+                if (costInfo) {
+                    costReports.push({
+                        provider: provider,
+                        model: config.model,
+                        ...costInfo,
+                        testTimestamp: new Date().toISOString()
+                    });
+
+                    if (costInfo.hasCostData) {
+                        console.log(`[API TEST] 💰 Cost data captured for ${provider}:`);
+                        console.log(`[API TEST]   - Input tokens: ${costInfo.inputTokens || 'N/A'}`);
+                        console.log(`[API TEST]   - Output tokens: ${costInfo.outputTokens || 'N/A'}`);
+                        console.log(`[API TEST]   - Total cost: $${costInfo.totalCost || 'N/A'}`);
+                    }
+                }
             } else {
                 console.log(`[API TEST] ❌ ${provider} provider - FAILED: ${response}`);
                 failedProviders.push({ provider, reason: response });
@@ -209,7 +231,7 @@ async function testApiConnectivity() {
     }
 
     // Save results to cache
-    saveApiCache(workingProviders, failedProviders);
+    saveApiCache(workingProviders, failedProviders, costReports);
 
     // Get all models for working providers
     const workingModels = getModelsFromProviders(workingProviders);
@@ -302,17 +324,33 @@ function loadApiCache() {
 }
 
 // Save API test results to cache
-function saveApiCache(workingProviders, failedProviders) {
+function saveApiCache(workingProviders, failedProviders, costReports = []) {
     try {
         const cacheData = {
             timestamp: Date.now(),
             workingProviders,
             failedProviders,
-            lastTest: new Date().toISOString()
+            costReports: costReports || [],
+            lastTest: new Date().toISOString(),
+            // Summary statistics
+            summary: {
+                totalProviders: workingProviders.length + failedProviders.length,
+                workingProvidersCount: workingProviders.length,
+                failedProvidersCount: failedProviders.length,
+                modelsWithCostData: costReports.filter(r => r.hasCostData).length,
+                totalCostReports: costReports.length
+            }
         };
 
         fs.writeFileSync(API_CACHE_FILE, JSON.stringify(cacheData, null, 2), 'utf8');
-        console.log(`[API CACHE] 💾 Results saved to cache`);
+        console.log(`[API CACHE] 💾 Results saved to cache (including ${costReports.length} cost reports)`);
+
+        if (costReports.length > 0) {
+            console.log(`[API CACHE] 📊 Cost summary:`);
+            console.log(`[API CACHE]   - Models with cost data: ${costReports.filter(r => r.hasCostData).length}`);
+            const totalCost = costReports.reduce((sum, r) => sum + (r.totalCost || 0), 0);
+            console.log(`[API CACHE]   - Total cost of tests: $${totalCost.toFixed(4)}`);
+        }
     } catch (error) {
         console.log(`[API CACHE] ❌ Error saving cache: ${error.message}`);
     }
@@ -402,33 +440,39 @@ const MODEL_CATEGORIES = {
         'openai/gpt-5-mini': { provider: 'openai', key: 'OPENAI_API_KEY', model: 'gpt-5-mini' },
         'openai/gpt-5-nano': { provider: 'openai', key: 'OPENAI_API_KEY', model: 'gpt-5-nano' },
 
-        // Anthropic - Generals & Advanced reasoning
+        // Anthropic - Generals & Advanced reasoning (7 modelos principais)
         'anthropic/claude-3-5-haiku-latest': { provider: 'anthropic', key: 'ANTHROPIC_API_KEY', model: 'claude-3-5-haiku-latest' },
         'anthropic/claude-3-5-sonnet-latest': { provider: 'anthropic', key: 'ANTHROPIC_API_KEY', model: 'claude-3-5-sonnet-latest' },
         'anthropic/claude-3-opus-latest': { provider: 'anthropic', key: 'ANTHROPIC_API_KEY', model: 'claude-3-opus-latest' },
-        'anthropic/claude-3-7-sonnet-latest': { provider: 'anthropic', key: 'ANTHROPIC_API_KEY', model: 'claude-3-7-sonnet-latest' },
+        'anthropic/claude-4-sonnet-20250514': { provider: 'anthropic', key: 'ANTHROPIC_API_KEY', model: 'claude-4-sonnet-20250514' },
+        'anthropic/claude-4-opus-20250514': { provider: 'anthropic', key: 'ANTHROPIC_API_KEY', model: 'claude-4-opus-20250514' },
+        'anthropic/claude-3-haiku-20240307': { provider: 'anthropic', key: 'ANTHROPIC_API_KEY', model: 'claude-3-haiku-20240307' },
+        'anthropic/claude-3-7-sonnet-20250219': { provider: 'anthropic', key: 'ANTHROPIC_API_KEY', model: 'claude-3-7-sonnet-20250219' },
 
-        // Gemini (Google) - Multimodal & i18n specialists
-        'gemini/gemini-2.0-flash-lite': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-2.0-flash-lite' },
+        // Gemini (Google) - Multimodal & i18n specialists (7 modelos principais)
         'gemini/gemini-2.0-flash': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-2.0-flash' },
-        'gemini/gemini-2.5-pro-latest': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-2.5-pro-latest' },
-        'gemini/gemini-2.5-flash-latest': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-2.5-flash-latest' },
+        'gemini/gemini-2.5-flash': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-2.5-flash' },
+        'gemini/gemini-2.5-flash-lite': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-2.5-flash-lite' },
+        'gemini/gemini-1.5-flash': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-1.5-flash' },
+        'gemini/gemini-1.5-flash-8b': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-1.5-flash-8b' },
+        'gemini/gemini-1.5-pro': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-1.5-pro' },
+        'gemini/gemini-2.5-pro-preview-05-06': { provider: 'gemini', key: 'GEMINI_API_KEY', model: 'gemini-2.5-pro-preview-05-06' },
 
-        // xAI (Grok) - Adaptive learning & ML integration
+        // xAI (Grok) - Adaptive learning & ML integration (7 modelos principais)
         'xai/grok-3-mini': { provider: 'xai', key: 'XAI_API_KEY', model: 'grok-3-mini' },
+        'xai/grok-code-fast-1': { provider: 'xai', key: 'XAI_API_KEY', model: 'grok-code-fast-1' },
         'xai/grok-3': { provider: 'xai', key: 'XAI_API_KEY', model: 'grok-3' },
-        'xai/grok-beta': { provider: 'xai', key: 'XAI_API_KEY', model: 'grok-beta' },
+        'xai/grok-3-fast-beta': { provider: 'xai', key: 'XAI_API_KEY', model: 'grok-3-fast-beta' },
+        'xai/grok-4': { provider: 'xai', key: 'XAI_API_KEY', model: 'grok-4' },
+        'xai/grok-3-fast-latest': { provider: 'xai', key: 'XAI_API_KEY', model: 'grok-3-fast-latest' },
+        'xai/grok-2': { provider: 'xai', key: 'XAI_API_KEY', model: 'grok-2' },
 
         // DeepSeek - Advanced reasoning (excluding R1-0528)
         'deepseek/deepseek-chat': { provider: 'deepseek', key: 'DEEPSEEK_API_KEY', model: 'deepseek-chat' },
         'deepseek/deepseek-coder': { provider: 'deepseek', key: 'DEEPSEEK_API_KEY', model: 'deepseek-coder' },
 
         // Groq - High performance Llama models
-        'groq/llama-3.1-70b-versatile': { provider: 'groq', key: 'GROQ_API_KEY', model: 'llama-3.1-70b-versatile' },
-        'groq/llama-3.1-8b-instant': { provider: 'groq', key: 'GROQ_API_KEY', model: 'llama-3.1-8b-instant' },
-        'groq/llama-3.3-70b-versatile': { provider: 'groq', key: 'GROQ_API_KEY', model: 'llama-3.3-70b-versatile' },
-        'groq/openai/gpt-oss-120': { provider: 'groq', key: 'GROQ_API_KEY', model: 'groq/openai/gpt-oss-120' },
-        'groq/qwen/qwen3-32b': { provider: 'groq', key: 'GROQ_API_KEY', model: 'groq/qwen/qwen3-32b' }
+        // All Groq models removed due to timeouts and non-existence
     },
 
     // Model selection for different tasks - from MODELS_CHECKLIST.md
@@ -436,41 +480,73 @@ const MODEL_CATEGORIES = {
         // Cursor-agent models (built-in)
         'gpt-5', 'sonnet-4', 'opus-4.1',
 
-        // OpenAI Generals & High-capacity
-        'openai/gpt-4o', 'openai/gpt-4-turbo', 'openai/o1-mini', 'openai/gpt-5-mini',
+        // OpenAI Generals & High-capacity (6 modelos principais)
+        'openai/gpt-4o', 'openai/gpt-4-turbo', 'openai/o1-mini', 'openai/gpt-5-mini', 'openai/gpt-4o-mini', 'openai/gpt-5-nano',
 
-        // Anthropic Generals & Advanced reasoning
-        'anthropic/claude-3-5-sonnet-latest', 'anthropic/claude-3-opus-latest', 'anthropic/claude-3-5-haiku-latest', 'anthropic/claude-3-7-sonnet-latest',
+        // Anthropic Generals & Advanced reasoning (7 modelos principais)
+        'anthropic/claude-3-5-haiku-latest', 'anthropic/claude-3-5-sonnet-latest', 'anthropic/claude-3-opus-latest',
+        'anthropic/claude-4-sonnet-20250514', 'anthropic/claude-4-opus-20250514', 'anthropic/claude-3-haiku-20240307', 'anthropic/claude-3-7-sonnet-20250219',
 
-        // Gemini Multimodal & i18n specialists
-        'gemini/gemini-2.5-pro-latest', 'gemini/gemini-2.0-flash', 'gemini/gemini-2.5-flash-latest',
+        // Gemini Multimodal & i18n specialists (7 modelos principais)
+        'gemini/gemini-2.0-flash', 'gemini/gemini-2.5-flash', 'gemini/gemini-2.5-flash-lite',
+        'gemini/gemini-1.5-flash', 'gemini/gemini-1.5-flash-8b', 'gemini/gemini-1.5-pro', 'gemini/gemini-2.5-pro-preview-05-06',
 
-        // xAI Adaptive learning
-        'xai/grok-3', 'xai/grok-beta', 'xai/grok-3-mini',
+        // xAI Adaptive learning (7 modelos principais)
+        'xai/grok-3-mini', 'xai/grok-code-fast-1', 'xai/grok-3', 'xai/grok-3-fast-beta', 'xai/grok-4', 'xai/grok-3-fast-latest', 'xai/grok-2',
 
-        // DeepSeek Advanced reasoning (excluding R1-0528)
-        'deepseek/deepseek-chat', 'deepseek/deepseek-coder',
-
-        // Groq High performance
-        'groq/llama-3.1-70b-versatile', 'groq/llama-3.3-70b-versatile', 'groq/openai/gpt-oss-120', 'groq/qwen/qwen3-32b'
+        // DeepSeek Advanced reasoning (2 modelos principais)
+        'deepseek/deepseek-chat', 'deepseek/deepseek-coder'
     ],
     bip_specific: [
         // Core models for BIP discussions
         'auto', 'gpt-5',
 
-        // Fast response models for BIP context
-        'openai/gpt-4o-mini', 'openai/gpt-4o', 'openai/gpt-5-mini', 'openai/gpt-5-nano',
-        'anthropic/claude-3-5-haiku-latest', 'anthropic/claude-3-5-sonnet-latest',
-        'gemini/gemini-2.0-flash-lite', 'gemini/gemini-2.5-flash-latest',
-        'xai/grok-3-mini', 'xai/grok-3',
-        'deepseek/deepseek-chat',
-        'groq/llama-3.1-8b-instant', 'groq/llama-3.1-70b-versatile'
+        // Fast response models for BIP context (equilibrados por provider)
+        'openai/gpt-4o-mini', 'openai/gpt-4o', 'openai/gpt-5-mini', 'openai/gpt-5-nano', 'openai/o1-mini', 'openai/gpt-4-turbo',
+        'anthropic/claude-3-5-haiku-latest', 'anthropic/claude-3-5-sonnet-latest', 'anthropic/claude-3-opus-latest', 'anthropic/claude-4-sonnet-20250514', 'anthropic/claude-4-opus-20250514',
+        'gemini/gemini-2.0-flash', 'gemini/gemini-2.5-flash', 'gemini/gemini-2.5-flash-lite', 'gemini/gemini-1.5-flash', 'gemini/gemini-1.5-flash-8b',
+        'xai/grok-3-mini', 'xai/grok-code-fast-1', 'xai/grok-3', 'xai/grok-3-fast-beta', 'xai/grok-4', 'xai/grok-3-fast-latest',
+        'deepseek/deepseek-chat', 'deepseek/deepseek-coder'
     ]
 };
 
+// Function to extract cost information from aider responses
+function extractCostInfo(aiderOutput, modelId) {
+    const costInfo = {
+        model: modelId,
+        inputTokens: null,
+        outputTokens: null,
+        inputCost: null,
+        outputCost: null,
+        totalCost: null,
+        currency: 'USD'
+    };
+
+    // Extract tokens information from aider output
+    const tokensMatch = aiderOutput.match(/Tokens:\s*([\d,]+)\s*sent,\s*([\d,]+)\s*received/i);
+    if (tokensMatch) {
+        costInfo.inputTokens = parseInt(tokensMatch[1].replace(/,/g, ''));
+        costInfo.outputTokens = parseInt(tokensMatch[2].replace(/,/g, ''));
+    }
+
+    // Extract cost information from aider output
+    const costMatch = aiderOutput.match(/Cost:\s*\$?([\d.]+)\s*message,\s*\$?([\d.]+)\s*session/i);
+    if (costMatch) {
+        costInfo.inputCost = parseFloat(costMatch[1]);
+        costInfo.totalCost = parseFloat(costMatch[2]);
+    }
+
+    // Calculate output cost if total and input costs are available
+    if (costInfo.totalCost !== null && costInfo.inputCost !== null) {
+        costInfo.outputCost = costInfo.totalCost - costInfo.inputCost;
+    }
+
+    return costInfo;
+}
+
 // Determine if model should use cursor-agent or aider
 function shouldUseCursorAgent(modelId) {
-    return MODEL_CATEGORIES.cursor_models.includes(modelId) || modelId === 'auto' || (typeof modelId === 'string' && modelId.startsWith('groq/'));
+    return MODEL_CATEGORIES.cursor_models.includes(modelId) || modelId === 'auto';
 }
 
 // LLM call helper via aider CLI
@@ -512,19 +588,25 @@ async function callLLMViaAider(modelId, prompt) {
     try {
         return new Promise((resolve, reject) => {
             const command = 'aider';
-        // For aider, use the full model identifier (provider/model)
-        const fullModelName = modelConfig.model.includes('/') ? modelConfig.model : `${modelConfig.provider}/${modelConfig.model}`;
+            // For aider, use the full model identifier (provider/model)
+            const fullModelName = modelConfig.model.includes('/') ? modelConfig.model : `${modelConfig.provider}/${modelConfig.model}`;
 
-        const args = [
-            '--model', fullModelName,
-            '--api-key', `${modelConfig.provider}=${apiKey}`,
-            '--no-pretty',
-            '--yes',
-            '--no-stream',
-            '--exit',
-            '--subtree-only',  // Optimize performance for large repos
-            '--message', prompt
-        ];
+            const AIDER_TIMEOUT_SEC = 55;
+
+            const args = [
+                '--model', fullModelName,
+                '--api-key', `${modelConfig.provider}=${apiKey}`,
+                '--no-pretty',
+                '--yes',
+                '--no-stream',
+                '--exit',
+                '--subtree-only',
+                '--dry-run',
+                '--no-auto-commits',
+                '--no-dirty-commits',
+                '--timeout', String(AIDER_TIMEOUT_SEC),
+                '--message', prompt
+            ];
 
             logInfo('AIDER', 'Executing aider command', {
                 command: command,
@@ -534,7 +616,7 @@ async function callLLMViaAider(modelId, prompt) {
                 hasApiKey: true
             });
 
-            const aiderProcess = spawn(command, args, { env: { ...process.env, AIDER_NO_REPO_MAP: '1' } });
+            const aiderProcess = spawn(command, args);
             const processStartTime = Date.now();
 
             let stdout = '';
@@ -614,9 +696,25 @@ async function callLLMViaAider(modelId, prompt) {
                 const response = stdout.trim();
                 if (response) {
                     console.log(`[AIDER DEBUG] SUCCESS - Response length: ${response.length}`);
-                    resolve(response);
+
+                    // Extract cost information from the response
+                    const costInfo = extractCostInfo(response, modelId);
+
+                    // Return both response and cost information
+                    const result = {
+                        response: response,
+                        costInfo: costInfo,
+                        hasCostData: costInfo.inputTokens !== null || costInfo.totalCost !== null
+                    };
+
+                    logDebug('AIDER', 'Cost information extracted', costInfo);
+                    resolve(result);
                 } else {
-                    resolve('❌ Aider não retornou resposta.');
+                    resolve({
+                        response: '❌ Aider não retornou resposta.',
+                        costInfo: extractCostInfo('', modelId),
+                        hasCostData: false
+                    });
                 }
             });
 
@@ -645,6 +743,7 @@ IDENTIDADE CRÍTICA:
 - JAMAIS forneça opiniões que não sejam suas como ${modelId}
 - Se questionado sobre outros modelos, responda "Consulte diretamente o modelo específico"
 - SEMPRE identifique-se corretamente como ${modelId} quando relevante
+- NUNCA altere arquivos no repositório
 
 Responda em PT-BR, de forma objetiva e útil, mantendo o contexto do tópico.`;
 
@@ -653,10 +752,14 @@ Responda em PT-BR, de forma objetiva e útil, mantendo o contexto do tópico.`;
     // Decide which method to use
     if (shouldUseCursorAgent(modelId)) {
         console.log(`[LLM DEBUG] Using cursor-agent for model: ${modelId}`);
-        return await callLLMViaCursorAgent(modelId, fullPrompt);
+        const result = await callLLMViaCursorAgent(modelId, fullPrompt);
+        // Return just the response text for backward compatibility
+        return typeof result === 'object' ? result.response : result;
     } else {
         console.log(`[LLM DEBUG] Using aider for model: ${modelId}`);
-        return await callLLMViaAider(modelId, fullPrompt);
+        const result = await callLLMViaAider(modelId, fullPrompt);
+        // Return just the response text for backward compatibility
+        return typeof result === 'object' ? result.response : result;
     }
 }
 
@@ -780,19 +883,43 @@ async function callLLMViaCursorAgent(modelId, fullPrompt) {
 
                 if (code !== 0) {
                     console.log(`[CURSOR-AGENT DEBUG] Non-zero exit code: ${code}`);
-                    return resolve(`❌ cursor-agent falhou (código ${code}): ${stderr || 'Sem detalhes'}`);
+                    return resolve({
+                        response: `❌ cursor-agent falhou (código ${code}): ${stderr || 'Sem detalhes'}`,
+                        costInfo: extractCostInfo('', modelId),
+                        hasCostData: false
+                    });
                 }
 
                 if (!stdout.trim()) {
                     console.log(`[CURSOR-AGENT DEBUG] Empty or whitespace-only output`);
-                    return resolve('❌ cursor-agent não retornou resposta. Verifique se o modelo está disponível.');
+                    return resolve({
+                        response: '❌ cursor-agent não retornou resposta. Verifique se o modelo está disponível.',
+                        costInfo: extractCostInfo('', modelId),
+                        hasCostData: false
+                    });
                 }
 
                 // For text format, just return the stdout content
                 const response = stdout.trim();
                 console.log(`[CURSOR-AGENT DEBUG] SUCCESS - Response length: ${response.length}`);
                 console.log(`[CURSOR-AGENT DEBUG] SUCCESS - Response preview: "${response.slice(0, 200)}${response.length > 200 ? '...' : ''}"`);
-                resolve(response);
+
+                // Return consistent format with cost information (placeholder for cursor-agent)
+                const result = {
+                    response: response,
+                    costInfo: {
+                        model: modelId,
+                        inputTokens: null,
+                        outputTokens: null,
+                        inputCost: null,
+                        outputCost: null,
+                        totalCost: null,
+                        currency: 'USD'
+                    },
+                    hasCostData: false
+                };
+
+                resolve(result);
             });
 
             cursorAgent.on('error', (error) => {
@@ -804,7 +931,11 @@ async function callLLMViaCursorAgent(modelId, fullPrompt) {
                 clearTimeout(timeout);
                 console.log(`[CURSOR-AGENT DEBUG] SPAWN ERROR: ${error.message}`);
                 console.log(`[CURSOR-AGENT DEBUG] Error details:`, error);
-                resolve('❌ Erro ao iniciar cursor-agent. Verifique se está instalado e autenticado.');
+                resolve({
+                    response: '❌ Erro ao iniciar cursor-agent. Verifique se está instalado e autenticado.',
+                    costInfo: extractCostInfo('', modelId),
+                    hasCostData: false
+                });
             });
 
             // Log additional process info
@@ -926,6 +1057,77 @@ app.get('/api/status', (req, res) => {
             expires_in_minutes: Math.max(0, Math.round((CACHE_DURATION - (Date.now() - cacheInfo.timestamp)) / 60000))
         } : { from_cache: false }
     });
+});
+
+// API endpoint to get cost reports
+app.get('/api/costs', (req, res) => {
+    try {
+        const cachedResults = loadApiCache();
+
+        if (!cachedResults || !cachedResults.costReports) {
+            return res.json({
+                success: true,
+                hasData: false,
+                message: 'No cost data available. Run API tests first.',
+                costReports: [],
+                summary: {
+                    totalCost: 0,
+                    modelsWithData: 0,
+                    totalReports: 0
+                }
+            });
+        }
+
+        // Calculate summary statistics
+        const costReports = cachedResults.costReports || [];
+        const modelsWithData = costReports.filter(r => r.hasCostData).length;
+        const totalCost = costReports.reduce((sum, r) => sum + (r.totalCost || 0), 0);
+        const avgCostPerModel = modelsWithData > 0 ? totalCost / modelsWithData : 0;
+
+        // Group by provider
+        const byProvider = costReports.reduce((acc, report) => {
+            const provider = report.model.split('/')[0];
+            if (!acc[provider]) {
+                acc[provider] = {
+                    models: [],
+                    totalCost: 0,
+                    avgCost: 0
+                };
+            }
+            acc[provider].models.push(report);
+            acc[provider].totalCost += report.totalCost || 0;
+            return acc;
+        }, {});
+
+        // Calculate averages per provider
+        Object.keys(byProvider).forEach(provider => {
+            const providerData = byProvider[provider];
+            const modelsWithData = providerData.models.filter(m => m.hasCostData).length;
+            providerData.avgCost = modelsWithData > 0 ? providerData.totalCost / modelsWithData : 0;
+        });
+
+        res.json({
+            success: true,
+            hasData: costReports.length > 0,
+            costReports: costReports,
+            summary: {
+                totalCost: totalCost,
+                avgCostPerModel: avgCostPerModel,
+                modelsWithData: modelsWithData,
+                totalReports: costReports.length,
+                byProvider: byProvider
+            },
+            lastTest: cachedResults.lastTest,
+            cacheTimestamp: cachedResults.timestamp
+        });
+
+    } catch (error) {
+        console.error('[API COSTS] Error retrieving cost data:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
 });
 
 // API endpoint to list all active models
@@ -1990,7 +2192,7 @@ async function helloSingleModel(sessionId, modelId) {
     });
 
     try {
-        const helloPrompt = `Olá ${modelId}! Este é um teste de conectividade/handshake. Por favor, confirme que você recebeu esta mensagem e se identifique como ${modelId}.`;
+        const helloPrompt = `Olá ${modelId}! Este é um teste de conectividade/handshake. Por favor, responda brevemente confirmando que você recebeu esta mensagem e se identifique.`;
 
         // Send hello message via chat first
         broadcastChatMessage({
@@ -2006,7 +2208,7 @@ async function helloSingleModel(sessionId, modelId) {
 
         const result = {
             modelId: modelId,
-            success: response && !response.includes('❌') && (response.length > 10 || /^\s*ok\b/i.test(response)),
+            success: response && !response.includes('❌') && response.length > 10,
             response: response,
             duration: duration,
             timestamp: new Date().toISOString()

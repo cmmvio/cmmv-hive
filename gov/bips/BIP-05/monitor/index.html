@@ -130,6 +130,99 @@
             border: 1px solid #7f1d1d;
         }
 
+        /* Costs panel specific styles */
+        .cost-summary {
+            background-color: #2a3942;
+            border: 1px solid #1f2c33;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .cost-summary h4 {
+            margin: 0 0 10px 0;
+            color: #25d366;
+            font-size: 16px;
+        }
+
+        .cost-metric {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            padding: 3px 0;
+        }
+
+        .cost-metric-label {
+            color: #a0a0a0;
+            font-size: 13px;
+        }
+
+        .cost-metric-value {
+            color: #e0e0e0;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .cost-by-provider {
+            margin-bottom: 15px;
+        }
+
+        .provider-cost {
+            background-color: #1f2c33;
+            border: 1px solid #2a3942;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+
+        .provider-cost-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .provider-name-cost {
+            font-weight: bold;
+            color: #e0e0e0;
+        }
+
+        .provider-total-cost {
+            color: #25d366;
+            font-weight: bold;
+        }
+
+        .provider-models {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .model-cost-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 8px;
+            margin-bottom: 2px;
+            background-color: #2a3942;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .model-name {
+            color: #a0a0a0;
+        }
+
+        .model-cost {
+            color: #e0e0e0;
+            font-weight: bold;
+        }
+
+        .no-cost-data {
+            text-align: center;
+            color: #a0a0a0;
+            padding: 20px;
+            font-style: italic;
+        }
+
         .typing-indicator {
             display: flex;
             align-items: center;
@@ -384,6 +477,9 @@
             <button id="api-status-toggle" style="background: #128c7e; border: none; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-right: 5px;">
                 🔗 APIs
             </button>
+            <button id="costs-toggle" style="background: #ff6b35; border: none; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-right: 5px;">
+                💰 Custos
+            </button>
             <button id="opinions-toggle" style="background: #9c27b0; border: none; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-right: 10px;">
                 🗳️ Opiniões
             </button>
@@ -441,6 +537,17 @@
             </div>
         </div>
 
+        <!-- Costs Panel (hidden by default) -->
+        <div id="costs-panel" class="api-status-panel" style="display: none;">
+            <div class="api-status-header">
+                <h3>💰 Relatório de Custos dos Modelos</h3>
+                <button id="close-costs" style="background: #ff4444; border: none; color: white; padding: 3px 8px; border-radius: 3px; cursor: pointer;">✕</button>
+            </div>
+            <div id="costs-content">
+                <div class="loading-status">🔄 Carregando relatório de custos...</div>
+            </div>
+        </div>
+
         <div class="chat-messages" id="chat-messages">
             <div class="loading" id="loading">
                 🔄 Conectando ao servidor...
@@ -472,6 +579,7 @@
                 this.connect();
                 this.setupEventListeners();
                 this.setupApiStatusPanel();
+                this.setupCostsPanel();
                 this.setupOpinionsPanel();
             }
 
@@ -520,7 +628,9 @@
 
                     // Handle different message types
                     if (data.type === 'chat_message') {
-                        this.handleChatMessage(data);
+                        // Handle both nested and flat data structures
+                        const messageData = data.data || data;
+                        this.handleChatMessage(messageData);
                     } else if (data.type === 'opinion_update') {
                         this.handleOpinionUpdate(data);
                     } else if (data.type === 'hello_progress') {
