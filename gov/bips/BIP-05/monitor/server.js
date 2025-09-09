@@ -470,7 +470,7 @@ const MODEL_CATEGORIES = {
 
 // Determine if model should use cursor-agent or aider
 function shouldUseCursorAgent(modelId) {
-    return MODEL_CATEGORIES.cursor_models.includes(modelId) || modelId === 'auto';
+    return MODEL_CATEGORIES.cursor_models.includes(modelId) || modelId === 'auto' || (typeof modelId === 'string' && modelId.startsWith('groq/'));
 }
 
 // LLM call helper via aider CLI
@@ -534,7 +534,7 @@ async function callLLMViaAider(modelId, prompt) {
                 hasApiKey: true
             });
 
-            const aiderProcess = spawn(command, args);
+            const aiderProcess = spawn(command, args, { env: { ...process.env, AIDER_NO_REPO_MAP: '1' } });
             const processStartTime = Date.now();
 
             let stdout = '';
@@ -711,7 +711,7 @@ async function callLLMViaCursorAgent(modelId, fullPrompt) {
                     if (modelId !== 'auto') {
                         console.log(`[CURSOR-AGENT DEBUG] Trying fallback with 'auto' model...`);
                         try {
-                            const fallbackResult = await callLLM('auto', prompt);
+                            const fallbackResult = await callLLM('auto', fullPrompt);
                             resolve(fallbackResult);
                             return;
                         } catch (fallbackError) {
@@ -1990,7 +1990,7 @@ async function helloSingleModel(sessionId, modelId) {
     });
 
     try {
-        const helloPrompt = `Olá ${modelId}! Este é um teste de conectividade/handshake. Por favor, responda brevemente confirmando que você recebeu esta mensagem e se identifique.`;
+        const helloPrompt = `Olá ${modelId}! Este é um teste de conectividade/handshake. Por favor, confirme que você recebeu esta mensagem e se identifique como ${modelId}.`;
 
         // Send hello message via chat first
         broadcastChatMessage({
@@ -2006,7 +2006,7 @@ async function helloSingleModel(sessionId, modelId) {
 
         const result = {
             modelId: modelId,
-            success: response && !response.includes('❌') && response.length > 10,
+            success: response && !response.includes('❌') && (response.length > 10 || /^\s*ok\b/i.test(response)),
             response: response,
             duration: duration,
             timestamp: new Date().toISOString()
