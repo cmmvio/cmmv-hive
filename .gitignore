@@ -45,3 +45,51 @@ dist
 .code-workspace
 cmmv-hive.code-workspace
 .aider*
+
+# C++ Build artifacts (UMICP)
+umicp/cpp/build/
+umicp/cpp/**/build/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+Makefile
+*.cmake
+
+# Compiled binaries and libraries
+*.o
+*.obj
+*.so
+*.so.*
+*.a
+*.lib
+*.dll
+*.exe
+*.out
+
+# Compiler and IDE specific files
+.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# Testing artifacts
+Testing/
+test-results/
+*.test
+*_tests
+*_test
+
+# Package files
+*.deb
+*.rpm
+*.pkg
+
+# Coverage reports
+*.gcno
+*.gcda
+*.gcov
+coverage/
+*.profraw
+*.profdata
