@@ -157,29 +157,75 @@ public:
             return Result<void>(ErrorCode::TIMEOUT, "Connection timeout");
         }
 
-        // Initialize SSL
+        // Initialize SSL with configuration
         SSL_library_init();
         SSL_load_error_strings();
         OpenSSL_add_all_algorithms();
 
-        ssl_ctx_ = SSL_CTX_new(TLS_client_method());
-        if (!ssl_ctx_) {
-            cleanup();
-            return Result<void>(ErrorCode::NETWORK_ERROR, "Failed to create SSL context");
-        }
+        // Configure SSL context based on SSLConfig
+        const SSL_METHOD* method = TLS_client_method();
+        if (config_.ssl_config && config_.ssl_config->enable_ssl) {
+            ssl_ctx_ = SSL_CTX_new(method);
+            if (!ssl_ctx_) {
+                cleanup();
+                return Result<void>(ErrorCode::NETWORK_ERROR, "Failed to create SSL context");
+            }
 
-        ssl_ = SSL_new(ssl_ctx_);
-        if (!ssl_) {
-            cleanup();
-            return Result<void>(ErrorCode::NETWORK_ERROR, "Failed to create SSL");
-        }
+            // Configure SSL context options
+            if (!config_.ssl_config->ca_file.empty()) {
+                if (SSL_CTX_load_verify_locations(ssl_ctx_, config_.ssl_config->ca_file.c_str(), nullptr) != 1) {
+                    cleanup();
+                    return Result<void>(ErrorCode::NETWORK_ERROR, "Failed to load CA certificates");
+                }
+            }
 
-        SSL_set_fd(ssl_, socket_fd_);
+            if (!config_.ssl_config->cert_file.empty()) {
+                if (SSL_CTX_use_certificate_file(ssl_ctx_, config_.ssl_config->cert_file.c_str(), SSL_FILETYPE_PEM) != 1) {
+                    cleanup();
+                    return Result<void>(ErrorCode::NETWORK_ERROR, "Failed to load client certificate");
+                }
+            }
 
-        result = SSL_connect(ssl_);
-        if (result <= 0) {
-            cleanup();
-            return Result<void>(ErrorCode::NETWORK_ERROR, "SSL handshake failed");
+            if (!config_.ssl_config->key_file.empty()) {
+                if (SSL_CTX_use_PrivateKey_file(ssl_ctx_, config_.ssl_config->key_file.c_str(), SSL_FILETYPE_PEM) != 1) {
+                    cleanup();
+                    return Result<void>(ErrorCode::NETWORK_ERROR, "Failed to load private key");
+                }
+
+                if (SSL_CTX_check_private_key(ssl_ctx_) != 1) {
+                    cleanup();
+                    return Result<void>(ErrorCode::NETWORK_ERROR, "Private key does not match certificate");
+                }
+            }
+
+            // Set cipher list if specified
+            if (!config_.ssl_config->cipher_list.empty()) {
+                if (SSL_CTX_set_cipher_list(ssl_ctx_, config_.ssl_config->cipher_list.c_str()) != 1) {
+                    cleanup();
+                    return Result<void>(ErrorCode::NETWORK_ERROR, "Failed to set cipher list");
+                }
+            }
+
+            ssl_ = SSL_new(ssl_ctx_);
+            if (!ssl_) {
+                cleanup();
+                return Result<void>(ErrorCode::NETWORK_ERROR, "Failed to create SSL");
+            }
+
+            // Configure SSL verification
+            if (config_.ssl_config->verify_peer) {
+                SSL_set_verify(ssl_, SSL_VERIFY_PEER, nullptr);
+            } else {
+                SSL_set_verify(ssl_, SSL_VERIFY_NONE, nullptr);
+            }
+
+            SSL_set_fd(ssl_, socket_fd_);
+
+            result = SSL_connect(ssl_);
+            if (result <= 0) {
+                cleanup();
+                return Result<void>(ErrorCode::NETWORK_ERROR, "SSL handshake failed");
+            }
         }
 
         // Initialize nghttp2 session

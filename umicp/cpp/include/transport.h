@@ -102,8 +102,12 @@ private:
 class TransportFactory {
 public:
     static ::std::unique_ptr<Transport> create(TransportType type, const TransportConfig& config);
+    static ::std::unique_ptr<Transport> create(TransportType type, const TransportConfig& config, const UMICPConfig& umicp_config);
     static ::std::unique_ptr<Transport> create_websocket(const TransportConfig& config);
+    static ::std::unique_ptr<Transport> create_websocket(const TransportConfig& config, const UMICPConfig& umicp_config);
     static ::std::unique_ptr<Transport> create_http2(const TransportConfig& config);
+    static ::std::unique_ptr<Transport> create_http2(const TransportConfig& config, const UMICPConfig& umicp_config);
+    static TransportConfig apply_umicp_config(const TransportConfig& transport_config, const UMICPConfig& umicp_config);
 };
 
 } // namespace umicp

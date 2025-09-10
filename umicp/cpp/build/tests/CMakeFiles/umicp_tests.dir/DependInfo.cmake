@@ -22,6 +22,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_protocol.cpp" "tests/CMakeFiles/umicp_tests.dir/unit/test_protocol.cpp.o" "gcc" "tests/CMakeFiles/umicp_tests.dir/unit/test_protocol.cpp.o.d"
   "/mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_security.cpp" "tests/CMakeFiles/umicp_tests.dir/unit/test_security.cpp.o" "gcc" "tests/CMakeFiles/umicp_tests.dir/unit/test_security.cpp.o.d"
   "/mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_serialization.cpp" "tests/CMakeFiles/umicp_tests.dir/unit/test_serialization.cpp.o" "gcc" "tests/CMakeFiles/umicp_tests.dir/unit/test_serialization.cpp.o.d"
+  "/mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_ssl_compression.cpp" "tests/CMakeFiles/umicp_tests.dir/unit/test_ssl_compression.cpp.o" "gcc" "tests/CMakeFiles/umicp_tests.dir/unit/test_ssl_compression.cpp.o.d"
   "/mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_transport.cpp" "tests/CMakeFiles/umicp_tests.dir/unit/test_transport.cpp.o" "gcc" "tests/CMakeFiles/umicp_tests.dir/unit/test_transport.cpp.o.d"
   "/mnt/f/Node/cmmv-hive/umicp/cpp/tests/utils/test_helpers.cpp" "tests/CMakeFiles/umicp_tests.dir/utils/test_helpers.cpp.o" "gcc" "tests/CMakeFiles/umicp_tests.dir/utils/test_helpers.cpp.o.d"
   )

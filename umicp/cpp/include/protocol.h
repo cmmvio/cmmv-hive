@@ -17,6 +17,7 @@ namespace umicp {
 // Forward declarations
 class Transport;
 class SecurityManager;
+class CompressionManager;
 
 // Message handler type
 using MessageHandler = std::function<void(const Envelope&, const ByteBuffer*)>;
@@ -32,6 +33,7 @@ public:
 
     // Transport management
     Result<void> set_transport(std::shared_ptr<Transport> transport);
+    Result<void> set_transport(TransportType type, const TransportConfig& transport_config);
     Result<void> connect();
     Result<void> disconnect();
     bool is_connected() const;
@@ -72,6 +74,7 @@ private:
     UMICPConfig config_;
     std::shared_ptr<Transport> transport_;
     std::shared_ptr<SecurityManager> security_;
+    std::unique_ptr<CompressionManager> compression_;
     std::unordered_map<OperationType, MessageHandler> handlers_;
     Stats stats_;
     uint64_t next_stream_id_;

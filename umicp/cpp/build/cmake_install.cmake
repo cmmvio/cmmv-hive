@@ -136,6 +136,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     "/mnt/f/Node/cmmv-hive/umicp/cpp/include/matrix_ops.h"
     "/mnt/f/Node/cmmv-hive/umicp/cpp/include/serialization.h"
     "/mnt/f/Node/cmmv-hive/umicp/cpp/include/security.h"
+    "/mnt/f/Node/cmmv-hive/umicp/cpp/include/compression.h"
     )
 endif()
 

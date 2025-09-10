@@ -84,7 +84,7 @@ Result<void> SecurityManager::set_peer_public_key(const ByteBuffer& public_key) 
 
 Result<ByteBuffer> SecurityManager::sign_data(const ByteBuffer& data) {
     if (!impl_->keys_generated_) {
-        return Result<ByteBuffer>(ErrorCode::AUTHENTICATION_FAILED, "No keys generated");
+        return Result<ByteBuffer>(ErrorCode::INVALID_ARGUMENT, "No keys generated");
     }
 
     if (data.empty()) {
@@ -120,7 +120,7 @@ Result<bool> SecurityManager::verify_signature(const ByteBuffer& data, const Byt
     }
 
     if (impl_->peer_public_key_.empty()) {
-        return Result<bool>(ErrorCode::AUTHENTICATION_FAILED, "No peer public key set");
+        return Result<bool>(ErrorCode::INVALID_ARGUMENT, "No peer public key set");
     }
 
     // For MVP, simple verification (not cryptographically secure)
@@ -131,11 +131,11 @@ Result<bool> SecurityManager::verify_signature(const ByteBuffer& data, const Byt
         hash = hash * 31 + byte;
     }
 
-    // Check data hash
+    // Check data hash against signature
     for (size_t i = 0; i < 32; ++i) {
-        uint8_t expected = ((hash >> (i % 4 * 8)) & 0xFF);
-        if (signature[i + 32] != expected) {
-            return Result<bool>(false);
+        uint8_t expected = ((hash >> (i * 8 % 32)) & 0xFF);
+        if (signature[i] != expected) {
+            return Result<bool>(ErrorCode::AUTHENTICATION_FAILED, "Invalid signature");
         }
     }
 
@@ -145,7 +145,7 @@ Result<bool> SecurityManager::verify_signature(const ByteBuffer& data, const Byt
 
 Result<ByteBuffer> SecurityManager::encrypt_data(const ByteBuffer& plaintext) {
     if (impl_->session_key_.empty()) {
-        return Result<ByteBuffer>(ErrorCode::AUTHENTICATION_FAILED, "No session key established");
+        return Result<ByteBuffer>(ErrorCode::INVALID_ARGUMENT, "No session key established");
     }
 
     // For MVP, simple XOR encryption (not secure)

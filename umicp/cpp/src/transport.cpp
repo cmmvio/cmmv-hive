@@ -332,12 +332,56 @@ void WebSocketTransport::reset_stats() {
     }
 }
 
+::std::unique_ptr<Transport> TransportFactory::create(TransportType type, const TransportConfig& config, const UMICPConfig& umicp_config) {
+    TransportConfig enhanced_config = apply_umicp_config(config, umicp_config);
+    return create(type, enhanced_config);
+}
+
 ::std::unique_ptr<Transport> TransportFactory::create_websocket(const TransportConfig& config) {
     return ::std::make_unique<WebSocketLWS>(config);
 }
 
+::std::unique_ptr<Transport> TransportFactory::create_websocket(const TransportConfig& config, const UMICPConfig& umicp_config) {
+    TransportConfig enhanced_config = apply_umicp_config(config, umicp_config);
+    return create_websocket(enhanced_config);
+}
+
 ::std::unique_ptr<Transport> TransportFactory::create_http2(const TransportConfig& config) {
     return ::std::make_unique<HTTP2Transport>(config);
+}
+
+::std::unique_ptr<Transport> TransportFactory::create_http2(const TransportConfig& config, const UMICPConfig& umicp_config) {
+    TransportConfig enhanced_config = apply_umicp_config(config, umicp_config);
+    return create_http2(enhanced_config);
+}
+
+TransportConfig TransportFactory::apply_umicp_config(const TransportConfig& transport_config, const UMICPConfig& umicp_config) {
+    TransportConfig enhanced_config = transport_config;
+
+    // Apply SSL/TLS configuration based on UMICP config
+    if (umicp_config.validate_certificates) {
+        if (!enhanced_config.ssl_config) {
+            enhanced_config.ssl_config = SSLConfig();
+        }
+
+        // Enable SSL if not explicitly configured
+        if (!enhanced_config.ssl_config->enable_ssl) {
+            enhanced_config.ssl_config->enable_ssl = true;
+        }
+
+        // Apply certificate validation settings
+        enhanced_config.ssl_config->verify_peer = true;
+        enhanced_config.ssl_config->verify_host = true;
+
+        // Set default ports for SSL if using standard ports
+        if (enhanced_config.port == 80 && enhanced_config.type == TransportType::WEBSOCKET) {
+            enhanced_config.port = 443; // Default HTTPS port
+        } else if (enhanced_config.port == 8080 && enhanced_config.type == TransportType::HTTP2) {
+            enhanced_config.port = 8443; // Default HTTP/2 SSL port
+        }
+    }
+
+    return enhanced_config;
 }
 
 } // namespace umicp

@@ -57,6 +57,7 @@ set(TEST_SOURCES
     unit/test_protocol.cpp
     unit/test_matrix_ops_edge_cases.cpp
     unit/test_error_conditions.cpp
+    unit/test_ssl_compression.cpp
     unit/test_concurrency_comprehensive.cpp
     unit/test_memory_management.cpp
     integration/test_s2s_transport.cpp

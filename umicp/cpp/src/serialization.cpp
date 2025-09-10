@@ -104,6 +104,11 @@ Result<Envelope> JsonSerializer::deserialize_envelope(const std::string& json_st
         return Result<Envelope>(ErrorCode::INVALID_ARGUMENT, "JSON string cannot be empty");
     }
 
+    // Basic JSON validation - check for basic JSON structure
+    if (json_str.front() != '{' || json_str.back() != '}') {
+        return Result<Envelope>(ErrorCode::SERIALIZATION_FAILED, "Invalid JSON format");
+    }
+
     // Basic JSON parsing for MVP
     // In production, would use a proper JSON library like nlohmann/json
     Envelope envelope;
@@ -165,8 +170,25 @@ Result<Envelope> JsonSerializer::deserialize_envelope(const std::string& json_st
         auto end = json_str.find_first_of(",}", start);
         if (end != std::string::npos) {
             auto op_str = json_str.substr(start, end - start);
-            envelope.op = static_cast<OperationType>(std::stoi(op_str));
+            try {
+                envelope.op = static_cast<OperationType>(std::stoi(op_str));
+            } catch (const std::exception&) {
+                return Result<Envelope>(ErrorCode::SERIALIZATION_FAILED, "Invalid operation type");
+            }
         }
+    }
+
+    // Validate required fields
+    if (envelope.msg_id.empty()) {
+        return Result<Envelope>(ErrorCode::SERIALIZATION_FAILED, "Message ID is required");
+    }
+
+    if (envelope.from.empty()) {
+        return Result<Envelope>(ErrorCode::SERIALIZATION_FAILED, "From field is required");
+    }
+
+    if (envelope.to.empty()) {
+        return Result<Envelope>(ErrorCode::SERIALIZATION_FAILED, "To field is required");
     }
 
     return Result<Envelope>(envelope);
@@ -252,7 +274,7 @@ Result<ByteBuffer> BinarySerializer::serialize_frame(const Frame& frame) {
 
 Result<Frame> BinarySerializer::deserialize_frame(const ByteBuffer& data) {
     if (data.size() < UMICP_FRAME_HEADER_SIZE) {
-        return Result<Frame>(ErrorCode::INVALID_FRAME, "Frame too small");
+        return Result<Frame>(ErrorCode::SERIALIZATION_FAILED, "Frame too small");
     }
 
     Frame frame;
@@ -289,7 +311,7 @@ Result<Frame> BinarySerializer::deserialize_frame(const ByteBuffer& data) {
 
     // Validate frame size
     if (data.size() != UMICP_FRAME_HEADER_SIZE + length) {
-        return Result<Frame>(ErrorCode::INVALID_FRAME, "Frame size mismatch");
+        return Result<Frame>(ErrorCode::SERIALIZATION_FAILED, "Frame size mismatch");
     }
 
     // Extract payload

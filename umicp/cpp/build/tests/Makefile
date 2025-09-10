@@ -830,6 +830,30 @@ unit/test_serialization.cpp.s:
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_serialization.cpp.s
 .PHONY : unit/test_serialization.cpp.s
 
+unit/test_ssl_compression.o: unit/test_ssl_compression.cpp.o
+.PHONY : unit/test_ssl_compression.o
+
+# target to build an object file
+unit/test_ssl_compression.cpp.o:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_ssl_compression.cpp.o
+.PHONY : unit/test_ssl_compression.cpp.o
+
+unit/test_ssl_compression.i: unit/test_ssl_compression.cpp.i
+.PHONY : unit/test_ssl_compression.i
+
+# target to preprocess a source file
+unit/test_ssl_compression.cpp.i:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_ssl_compression.cpp.i
+.PHONY : unit/test_ssl_compression.cpp.i
+
+unit/test_ssl_compression.s: unit/test_ssl_compression.cpp.s
+.PHONY : unit/test_ssl_compression.s
+
+# target to generate assembly for a file
+unit/test_ssl_compression.cpp.s:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_ssl_compression.cpp.s
+.PHONY : unit/test_ssl_compression.cpp.s
+
 unit/test_transport.o: unit/test_transport.cpp.o
 .PHONY : unit/test_transport.o
 
@@ -982,6 +1006,9 @@ help:
 	@echo "... unit/test_serialization.o"
 	@echo "... unit/test_serialization.i"
 	@echo "... unit/test_serialization.s"
+	@echo "... unit/test_ssl_compression.o"
+	@echo "... unit/test_ssl_compression.i"
+	@echo "... unit/test_ssl_compression.s"
 	@echo "... unit/test_transport.o"
 	@echo "... unit/test_transport.i"
 	@echo "... unit/test_transport.s"

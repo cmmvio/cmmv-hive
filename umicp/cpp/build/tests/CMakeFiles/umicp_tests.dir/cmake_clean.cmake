@@ -27,6 +27,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/umicp_tests.dir/unit/test_security.cpp.o.d"
   "CMakeFiles/umicp_tests.dir/unit/test_serialization.cpp.o"
   "CMakeFiles/umicp_tests.dir/unit/test_serialization.cpp.o.d"
+  "CMakeFiles/umicp_tests.dir/unit/test_ssl_compression.cpp.o"
+  "CMakeFiles/umicp_tests.dir/unit/test_ssl_compression.cpp.o.d"
   "CMakeFiles/umicp_tests.dir/unit/test_transport.cpp.o"
   "CMakeFiles/umicp_tests.dir/unit/test_transport.cpp.o.d"
   "CMakeFiles/umicp_tests.dir/utils/test_helpers.cpp.o"

@@ -214,7 +214,11 @@ Result<void> MockTransport::disconnect() {
 
 Result<void> MockTransport::send(const ByteBuffer& data) {
     if (!connected_) {
-        return Result<void>(ErrorCode::NETWORK_ERROR, "Not connected");
+        return Result<void>(ErrorCode::INVALID_ARGUMENT, "Not connected");
+    }
+
+    if (data.empty()) {
+        return Result<void>(ErrorCode::INVALID_ARGUMENT, "Data cannot be empty");
     }
 
     stats_.bytes_sent += data.size();

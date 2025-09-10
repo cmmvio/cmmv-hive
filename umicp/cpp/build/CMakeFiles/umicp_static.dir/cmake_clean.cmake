@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/umicp_static.dir/src/buffer.cpp.o.d"
   "CMakeFiles/umicp_static.dir/src/c_api.cpp.o"
   "CMakeFiles/umicp_static.dir/src/c_api.cpp.o.d"
+  "CMakeFiles/umicp_static.dir/src/compression.cpp.o"
+  "CMakeFiles/umicp_static.dir/src/compression.cpp.o.d"
   "CMakeFiles/umicp_static.dir/src/config.cpp.o"
   "CMakeFiles/umicp_static.dir/src/config.cpp.o.d"
   "CMakeFiles/umicp_static.dir/src/envelope.cpp.o"

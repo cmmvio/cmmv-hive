@@ -29,8 +29,13 @@ public:
     std::string host;
     int port;
     std::string path;
+    TransportConfig config_;
     bool connected;
     std::atomic<bool> should_stop;
+
+    // SSL/TLS support
+    SSL_CTX* ssl_ctx_;
+    SSL* ssl_;
 
     // Threading
     std::thread io_thread;
@@ -48,9 +53,9 @@ public:
     TransportStats stats;
     std::mutex stats_mutex;
 
-    Impl(const std::string& host, int port, const std::string& path = "/")
-        : context(nullptr), wsi(nullptr), host(host), port(port), path(path),
-          connected(false), should_stop(false) {
+    Impl(const TransportConfig& config)
+        : context(nullptr), wsi(nullptr), host(config.host), port(config.port), path(config.path),
+          config_(config), connected(false), should_stop(false), ssl_ctx_(nullptr), ssl_(nullptr) {
         stats.last_activity = std::chrono::steady_clock::now();
     }
 
@@ -59,8 +64,17 @@ public:
         if (io_thread.joinable()) {
             io_thread.join();
         }
+        if (ssl_) {
+            SSL_free(ssl_);
+            ssl_ = nullptr;
+        }
+        if (ssl_ctx_) {
+            SSL_CTX_free(ssl_ctx_);
+            ssl_ctx_ = nullptr;
+        }
         if (context) {
             lws_context_destroy(context);
+            context = nullptr;
         }
     }
 };
@@ -177,13 +191,17 @@ static struct lws_protocols protocols[] = {
     { nullptr, nullptr, 0, 0, 0, nullptr, 0 } // terminator
 };
 
-WebSocketLWS::WebSocketLWS(const std::string& host, int port, const std::string& path)
-    : impl_(std::make_unique<WebSocketLWS::Impl>(host, port, path)) {
+WebSocketLWS::WebSocketLWS(const std::string& host, int port, const std::string& path) {
+    TransportConfig config;
+    config.host = host;
+    config.port = port;
+    config.path = path;
+    impl_ = std::make_unique<WebSocketLWS::Impl>(config);
 }
 
 // Constructor from TransportConfig
 WebSocketLWS::WebSocketLWS(const TransportConfig& config)
-    : impl_(std::make_unique<WebSocketLWS::Impl>(config.host, config.port, config.path)) {
+    : impl_(std::make_unique<WebSocketLWS::Impl>(config)) {
 }
 
 WebSocketLWS::~WebSocketLWS() = default;
@@ -204,7 +222,29 @@ Result<void> WebSocketLWS::connect() {
     info.protocols = protocols;
     info.gid = -1;
     info.uid = -1;
-    info.options = LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
+
+    // Configure SSL/TLS if enabled
+    if (config_.ssl_config && config_.ssl_config->enable_ssl) {
+        info.options |= LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
+
+        // Set SSL context options
+        if (!config_.ssl_config->ca_file.empty()) {
+            info.ssl_ca_filepath = config_.ssl_config->ca_file.c_str();
+        }
+        if (!config_.ssl_config->cert_file.empty()) {
+            info.ssl_cert_filepath = config_.ssl_config->cert_file.c_str();
+        }
+        if (!config_.ssl_config->key_file.empty()) {
+            info.ssl_private_key_filepath = config_.ssl_config->key_file.c_str();
+        }
+
+        // Set SSL verification options
+        if (config_.ssl_config->verify_peer) {
+            info.options |= LWS_SERVER_OPTION_REQUIRE_VALID_OPENSSL_CLIENT_CERT;
+        }
+    } else {
+        info.options = 0; // No SSL
+    }
 
     impl_->context = lws_create_context(&info);
     if (!impl_->context) {
@@ -223,6 +263,15 @@ Result<void> WebSocketLWS::connect() {
     ccinfo.origin = impl_->host.c_str();
     ccinfo.protocol = protocols[0].name;
     ccinfo.ietf_version_or_minus_one = -1;
+
+    // Configure SSL for client connection if enabled
+    if (config_.ssl_config && config_.ssl_config->enable_ssl) {
+        ccinfo.ssl_connection = LCCSCF_USE_SSL;
+        if (config_.ssl_config->verify_peer) {
+            ccinfo.ssl_connection |= LCCSCF_ALLOW_SELFSIGNED;
+            ccinfo.ssl_connection |= LCCSCF_SKIP_SERVER_CERT_HOSTNAME_CHECK;
+        }
+    }
 
     impl_->wsi = lws_client_connect_via_info(&ccinfo);
     if (!impl_->wsi) {

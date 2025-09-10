@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/mnt/f/Node/cmmv-hive/umicp/cpp/src/buffer.cpp" "CMakeFiles/umicp_static.dir/src/buffer.cpp.o" "gcc" "CMakeFiles/umicp_static.dir/src/buffer.cpp.o.d"
   "/mnt/f/Node/cmmv-hive/umicp/cpp/src/c_api.cpp" "CMakeFiles/umicp_static.dir/src/c_api.cpp.o" "gcc" "CMakeFiles/umicp_static.dir/src/c_api.cpp.o.d"
+  "/mnt/f/Node/cmmv-hive/umicp/cpp/src/compression.cpp" "CMakeFiles/umicp_static.dir/src/compression.cpp.o" "gcc" "CMakeFiles/umicp_static.dir/src/compression.cpp.o.d"
   "/mnt/f/Node/cmmv-hive/umicp/cpp/src/config.cpp" "CMakeFiles/umicp_static.dir/src/config.cpp.o" "gcc" "CMakeFiles/umicp_static.dir/src/config.cpp.o.d"
   "/mnt/f/Node/cmmv-hive/umicp/cpp/src/envelope.cpp" "CMakeFiles/umicp_static.dir/src/envelope.cpp.o" "gcc" "CMakeFiles/umicp_static.dir/src/envelope.cpp.o.d"
   "/mnt/f/Node/cmmv-hive/umicp/cpp/src/frame.cpp" "CMakeFiles/umicp_static.dir/src/frame.cpp.o" "gcc" "CMakeFiles/umicp_static.dir/src/frame.cpp.o.d"

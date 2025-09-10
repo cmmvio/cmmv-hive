@@ -80,6 +80,14 @@ enum class TransportType {
     DIRECT = 3
 };
 
+// Compression algorithms
+enum class CompressionAlgorithm {
+    NONE = 0,
+    ZLIB = 1,
+    GZIP = 2,
+    LZ4 = 3
+};
+
 // Error codes
 enum class ErrorCode {
     SUCCESS = 0,
@@ -88,13 +96,14 @@ enum class ErrorCode {
     AUTHENTICATION_FAILED = 3,
     DECRYPTION_FAILED = 4,
     COMPRESSION_FAILED = 5,
-    SERIALIZATION_FAILED = 6,
-    NETWORK_ERROR = 7,
-    TIMEOUT = 8,
-    BUFFER_OVERFLOW = 9,
-    MEMORY_ALLOCATION = 10,
-    INVALID_ARGUMENT = 11,
-    NOT_IMPLEMENTED = 12
+    DECOMPRESSION_FAILED = 6,
+    SERIALIZATION_FAILED = 7,
+    NETWORK_ERROR = 8,
+    TIMEOUT = 9,
+    BUFFER_OVERFLOW = 10,
+    MEMORY_ALLOCATION = 11,
+    INVALID_ARGUMENT = 12,
+    NOT_IMPLEMENTED = 13
 };
 
 // Forward declarations
@@ -183,6 +192,7 @@ struct UMICPConfig {
     ContentType preferred_format;
     bool enable_compression;
     size_t compression_threshold;
+    CompressionAlgorithm compression_algorithm;
     bool require_auth;
     bool require_encryption;
     bool validate_certificates;
@@ -196,9 +206,29 @@ struct UMICPConfig {
         , preferred_format(ContentType::CBOR)
         , enable_compression(true)
         , compression_threshold(1024)
+        , compression_algorithm(CompressionAlgorithm::ZLIB)
         , require_auth(true)
         , require_encryption(false)
         , validate_certificates(true)
+    {}
+};
+
+// SSL/TLS configuration structure
+struct SSLConfig {
+    bool enable_ssl;
+    bool verify_peer;
+    bool verify_host;
+    std::string ca_file;
+    std::string ca_path;
+    std::string cert_file;
+    std::string key_file;
+    std::string key_password;
+    std::string cipher_list;
+
+    SSLConfig()
+        : enable_ssl(false)
+        , verify_peer(true)
+        , verify_host(true)
     {}
 };
 
@@ -210,6 +240,7 @@ struct TransportConfig {
     std::string path;
     StringMap headers;
     std::optional<size_t> max_payload_size;
+    std::optional<SSLConfig> ssl_config;
 
     TransportConfig()
         : type(TransportType::WEBSOCKET)

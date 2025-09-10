@@ -78,6 +78,7 @@ set(UMICP_SOURCES
     src/matrix_ops.cpp
     src/serialization.cpp
     src/security.cpp
+    src/compression.cpp
     src/c_api.cpp
 )
 
@@ -96,6 +97,7 @@ set(UMICP_HEADERS
     include/matrix_ops.h
     include/serialization.h
     include/security.h
+    include/compression.h
 )
 
 # Create static library

@@ -20,6 +20,7 @@ namespace umicp {
 Protocol::Protocol(std::string local_id)
     : local_id_(std::move(local_id))
     , config_(UMICPConfig{})
+    , compression_(std::make_unique<CompressionManager>(CompressionAlgorithm::ZLIB))
     , stats_{0, 0, 0, 0, 0, std::chrono::steady_clock::now()}
     , next_stream_id_(1) {
 }
@@ -41,6 +42,12 @@ Result<void> Protocol::configure(const UMICPConfig& config) {
     }
 
     config_ = config;
+
+    // Configure compression
+    if (compression_) {
+        compression_->set_algorithm(config.compression_algorithm);
+    }
+
     return Result<void>();
 }
 
@@ -51,12 +58,34 @@ Result<void> Protocol::set_transport(std::shared_ptr<Transport> transport) {
 
     transport_ = transport;
 
-    // Set up transport callbacks (would need to be implemented in Transport interface)
-    // transport_->set_message_callback([this](const ByteBuffer& data) {
-    //     on_transport_message(data);
-    // });
+    // Set up transport callbacks
+    transport_->set_message_callback([this](const ByteBuffer& data) {
+        on_transport_message(data);
+    });
+
+    transport_->set_connection_callback([this](bool connected, const std::string& error) {
+        if (connected) {
+            on_transport_connected();
+        } else {
+            on_transport_disconnected();
+        }
+    });
+
+    transport_->set_error_callback([this](ErrorCode code, const std::string& message) {
+        on_transport_error(message);
+    });
 
     return Result<void>();
+}
+
+Result<void> Protocol::set_transport(TransportType type, const TransportConfig& transport_config) {
+    // Create transport with UMICP configuration applied
+    auto transport = TransportFactory::create(type, transport_config, config_);
+    if (!transport) {
+        return Result<void>(ErrorCode::INVALID_ARGUMENT, "Failed to create transport");
+    }
+
+    return set_transport(std::move(transport));
 }
 
 Result<void> Protocol::connect() {
@@ -128,8 +157,12 @@ Result<std::string> Protocol::send_control(const std::string& to, OperationType 
         return Result<std::string>(ErrorCode::INVALID_ARGUMENT, "Invalid operation type");
     }
 
-    if (!transport_ || !transport_->is_connected()) {
-        return Result<std::string>(ErrorCode::NETWORK_ERROR, "Transport not connected");
+    if (!transport_) {
+        return Result<std::string>(ErrorCode::INVALID_ARGUMENT, "No transport configured");
+    }
+
+    if (!transport_->is_connected()) {
+        return Result<std::string>(ErrorCode::INVALID_ARGUMENT, "Transport not connected");
     }
 
     auto envelope_result = create_envelope(to, op);
@@ -147,10 +180,6 @@ Result<std::string> Protocol::send_control(const std::string& to, OperationType 
             envelope_result.value->capabilities = StringMap();
         }
         (*envelope_result.value->capabilities)["params"] = params;
-    }
-
-    if (!transport_ || !transport_->is_connected()) {
-        return Result<std::string>(ErrorCode::NETWORK_ERROR, "Transport not connected");
     }
 
     auto send_result = transport_->send_envelope(*envelope_result.value);
@@ -198,18 +227,27 @@ Result<std::string> Protocol::send_data(const std::string& to, const ByteBuffer&
         // envelope_result.value->payload_hint = hint_obj; // TODO: Convert JsonObject to PayloadHint
     }
 
-    if (!transport_ || !transport_->is_connected()) {
-        return Result<std::string>(ErrorCode::NETWORK_ERROR, "Transport not connected");
+    // Handle compression if enabled and data is large enough
+    ByteBuffer processed_data = data;
+    uint16_t flags = 0;
+
+    if (config_.enable_compression &&
+        CompressionManager::should_compress(data, config_.compression_threshold, config_.compression_algorithm)) {
+        auto compression_result = compression_->compress(data);
+        if (compression_result.is_success()) {
+            processed_data = *compression_result.value;
+            flags |= 0x01; // Set compression flag
+        }
     }
 
-    // For data messages, create a frame with the binary data
+    // For data messages, create a frame with the processed data
     Frame frame;
     frame.header.version = 1;
     frame.header.type = static_cast<uint8_t>(OperationType::DATA);
-    frame.header.flags = 0;
+    frame.header.flags = flags;
     frame.header.stream_id = next_stream_id_++;
     frame.header.sequence = 0;
-    frame.payload = data;
+    frame.payload = processed_data;
 
     auto send_result = transport_->send_frame(frame);
     if (!send_result.is_success()) {
@@ -230,10 +268,6 @@ Result<std::string> Protocol::send_ack(const std::string& to, const std::string&
     envelope_result.value->payload_refs = std::vector<JsonObject>{
         JsonObject{{"message_id", message_id}, {"status", "OK"}}
     };
-
-    if (!transport_ || !transport_->is_connected()) {
-        return Result<std::string>(ErrorCode::NETWORK_ERROR, "Transport not connected");
-    }
 
     auto send_result = transport_->send_envelope(*envelope_result.value);
     if (!send_result.is_success()) {
@@ -268,10 +302,6 @@ Result<std::string> Protocol::send_error(const std::string& to, ErrorCode error,
         if (envelope_result.value->payload_refs && !envelope_result.value->payload_refs->empty()) {
             (*envelope_result.value->payload_refs)[0]["original_message_id"] = original_message_id;
         }
-    }
-
-    if (!transport_ || !transport_->is_connected()) {
-        return Result<std::string>(ErrorCode::NETWORK_ERROR, "Transport not connected");
     }
 
     auto send_result = transport_->send_envelope(*envelope_result.value);
@@ -449,7 +479,19 @@ Result<std::pair<Envelope, std::unique_ptr<ByteBuffer>>> Protocol::deserialize_m
             ss << std::put_time(std::gmtime(&time_t), "%Y-%m-%dT%H:%M:%SZ");
             envelope.ts = ss.str();
 
-            payload = std::make_unique<ByteBuffer>(frame.payload);
+            // Handle decompression if compression flag is set
+            ByteBuffer processed_payload = frame.payload;
+            if (frame.header.flags & 0x01 && compression_) { // Compression flag
+                auto decompression_result = compression_->decompress(frame.payload);
+                if (decompression_result.is_success()) {
+                    processed_payload = *decompression_result.value;
+                } else {
+                    // If decompression fails, use original payload
+                    processed_payload = frame.payload;
+                }
+            }
+
+            payload = std::make_unique<ByteBuffer>(processed_payload);
 
             return Result<std::pair<Envelope, std::unique_ptr<ByteBuffer>>>(
                 std::make_pair(envelope, std::move(payload)));

@@ -223,10 +223,24 @@ CMakeFiles/umicp_static.dir/src/security.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/umicp_static.dir/src/security.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/f/Node/cmmv-hive/umicp/cpp/src/security.cpp -o CMakeFiles/umicp_static.dir/src/security.cpp.s
 
+CMakeFiles/umicp_static.dir/src/compression.cpp.o: CMakeFiles/umicp_static.dir/flags.make
+CMakeFiles/umicp_static.dir/src/compression.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src/compression.cpp
+CMakeFiles/umicp_static.dir/src/compression.cpp.o: CMakeFiles/umicp_static.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/umicp_static.dir/src/compression.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/umicp_static.dir/src/compression.cpp.o -MF CMakeFiles/umicp_static.dir/src/compression.cpp.o.d -o CMakeFiles/umicp_static.dir/src/compression.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/src/compression.cpp
+
+CMakeFiles/umicp_static.dir/src/compression.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/umicp_static.dir/src/compression.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/f/Node/cmmv-hive/umicp/cpp/src/compression.cpp > CMakeFiles/umicp_static.dir/src/compression.cpp.i
+
+CMakeFiles/umicp_static.dir/src/compression.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/umicp_static.dir/src/compression.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/f/Node/cmmv-hive/umicp/cpp/src/compression.cpp -o CMakeFiles/umicp_static.dir/src/compression.cpp.s
+
 CMakeFiles/umicp_static.dir/src/c_api.cpp.o: CMakeFiles/umicp_static.dir/flags.make
 CMakeFiles/umicp_static.dir/src/c_api.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src/c_api.cpp
 CMakeFiles/umicp_static.dir/src/c_api.cpp.o: CMakeFiles/umicp_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/umicp_static.dir/src/c_api.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/umicp_static.dir/src/c_api.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/umicp_static.dir/src/c_api.cpp.o -MF CMakeFiles/umicp_static.dir/src/c_api.cpp.o.d -o CMakeFiles/umicp_static.dir/src/c_api.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/src/c_api.cpp
 
 CMakeFiles/umicp_static.dir/src/c_api.cpp.i: cmake_force
@@ -250,6 +264,7 @@ umicp_static_OBJECTS = \
 "CMakeFiles/umicp_static.dir/src/matrix_ops.cpp.o" \
 "CMakeFiles/umicp_static.dir/src/serialization.cpp.o" \
 "CMakeFiles/umicp_static.dir/src/security.cpp.o" \
+"CMakeFiles/umicp_static.dir/src/compression.cpp.o" \
 "CMakeFiles/umicp_static.dir/src/c_api.cpp.o"
 
 # External object files for target umicp_static
@@ -266,10 +281,11 @@ libumicp.a: CMakeFiles/umicp_static.dir/src/config.cpp.o
 libumicp.a: CMakeFiles/umicp_static.dir/src/matrix_ops.cpp.o
 libumicp.a: CMakeFiles/umicp_static.dir/src/serialization.cpp.o
 libumicp.a: CMakeFiles/umicp_static.dir/src/security.cpp.o
+libumicp.a: CMakeFiles/umicp_static.dir/src/compression.cpp.o
 libumicp.a: CMakeFiles/umicp_static.dir/src/c_api.cpp.o
 libumicp.a: CMakeFiles/umicp_static.dir/build.make
 libumicp.a: CMakeFiles/umicp_static.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX static library libumicp.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX static library libumicp.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/umicp_static.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/umicp_static.dir/link.txt --verbose=$(VERBOSE)
 

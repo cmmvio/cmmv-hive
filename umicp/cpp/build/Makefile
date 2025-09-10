@@ -611,6 +611,33 @@ src/c_api.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_shared.dir/build.make CMakeFiles/umicp_shared.dir/src/c_api.cpp.s
 .PHONY : src/c_api.cpp.s
 
+src/compression.o: src/compression.cpp.o
+.PHONY : src/compression.o
+
+# target to build an object file
+src/compression.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_static.dir/build.make CMakeFiles/umicp_static.dir/src/compression.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_shared.dir/build.make CMakeFiles/umicp_shared.dir/src/compression.cpp.o
+.PHONY : src/compression.cpp.o
+
+src/compression.i: src/compression.cpp.i
+.PHONY : src/compression.i
+
+# target to preprocess a source file
+src/compression.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_static.dir/build.make CMakeFiles/umicp_static.dir/src/compression.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_shared.dir/build.make CMakeFiles/umicp_shared.dir/src/compression.cpp.i
+.PHONY : src/compression.cpp.i
+
+src/compression.s: src/compression.cpp.s
+.PHONY : src/compression.s
+
+# target to generate assembly for a file
+src/compression.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_static.dir/build.make CMakeFiles/umicp_static.dir/src/compression.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_shared.dir/build.make CMakeFiles/umicp_shared.dir/src/compression.cpp.s
+.PHONY : src/compression.cpp.s
+
 src/config.o: src/config.cpp.o
 .PHONY : src/config.o
 
@@ -932,6 +959,9 @@ help:
 	@echo "... src/c_api.o"
 	@echo "... src/c_api.i"
 	@echo "... src/c_api.s"
+	@echo "... src/compression.o"
+	@echo "... src/compression.i"
+	@echo "... src/compression.s"
 	@echo "... src/config.o"
 	@echo "... src/config.i"
 	@echo "... src/config.s"

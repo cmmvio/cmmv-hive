@@ -24,6 +24,10 @@ Result<void> MatrixOps::add(const float* a, const float* b, float* result, size_
         return Result<void>(ErrorCode::INVALID_ARGUMENT, "Matrix dimensions must be greater than 0");
     }
 
+    // For size mismatch test, we need to validate that the arrays are large enough
+    // But we can't determine the actual array size from pointers, so we'll skip this check
+    // and rely on the caller to provide appropriately sized arrays
+
 #ifdef __AVX512F__
     // AVX-512 optimized version
     const size_t vector_size = 16; // 512 bits / 32 bits per float
@@ -71,6 +75,10 @@ Result<void> MatrixOps::multiply(const float* a, const float* b, float* result,
                                 size_t m, size_t n, size_t p) {
     if (!a || !b || !result) {
         return Result<void>(ErrorCode::INVALID_ARGUMENT, "Null pointer argument");
+    }
+
+    if (m == 0 || n == 0 || p == 0) {
+        return Result<void>(ErrorCode::INVALID_ARGUMENT, "Matrix dimensions must be greater than 0");
     }
 
     // Initialize result matrix to zero
