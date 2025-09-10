@@ -290,6 +290,7 @@ CMakeFiles/umicp_shared.dir/src/c_api.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src
   /usr/include/c++/13/bits/shared_ptr_base.h \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
+  /usr/include/c++/13/bits/std_mutex.h \
   /usr/include/c++/13/bits/stl_algo.h \
   /usr/include/c++/13/bits/stl_algobase.h \
   /usr/include/c++/13/bits/stl_bvector.h \
@@ -307,6 +308,7 @@ CMakeFiles/umicp_shared.dir/src/c_api.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src
   /usr/include/c++/13/bits/string_view.tcc \
   /usr/include/c++/13/bits/stringfwd.h \
   /usr/include/c++/13/bits/uniform_int_dist.h \
+  /usr/include/c++/13/bits/unique_lock.h \
   /usr/include/c++/13/bits/unique_ptr.h \
   /usr/include/c++/13/bits/unordered_map.h \
   /usr/include/c++/13/bits/unordered_set.h \
@@ -341,6 +343,7 @@ CMakeFiles/umicp_shared.dir/src/c_api.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/limits \
   /usr/include/c++/13/memory \
+  /usr/include/c++/13/mutex \
   /usr/include/c++/13/new \
   /usr/include/c++/13/optional \
   /usr/include/c++/13/pstl/execution_defs.h \
@@ -450,6 +453,7 @@ CMakeFiles/umicp_shared.dir/src/c_api.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src
   /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/cpu_defines.h \
+  /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
@@ -4247,14 +4251,6 @@ CMakeFiles/umicp_shared.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/keylockerintrin.h:
 
-/usr/include/libwebsockets/lws-bb-spi.h:
-
-/usr/include/c++/13/bits/streambuf_iterator.h:
-
-/usr/include/libwebsockets/lws-cose.h:
-
-/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
-
 /usr/include/c++/13/bits/locale_facets.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/avx512vlbwintrin.h:
@@ -4276,6 +4272,8 @@ CMakeFiles/umicp_shared.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 /mnt/f/Node/cmmv-hive/umicp/cpp/src/websocket_lws.cpp:
 
 /usr/include/c++/13/functional:
+
+/usr/include/c++/13/mutex:
 
 /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h:
 
@@ -4447,10 +4445,6 @@ CMakeFiles/umicp_shared.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 
 /usr/include/c++/13/bits/regex_compiler.h:
 
-/usr/include/openssl/evp.h:
-
-/usr/include/stdint.h:
-
 /usr/include/endian.h:
 
 /usr/include/stdc-predef.h:
@@ -4518,12 +4512,6 @@ CMakeFiles/umicp_shared.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 /usr/include/x86_64-linux-gnu/bits/types/FILE.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/rtmintrin.h:
-
-/usr/include/c++/13/bits/ostream.tcc:
-
-/usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h:
 
 /usr/include/libwebsockets/lws-smd.h:
 
@@ -4623,6 +4611,12 @@ CMakeFiles/umicp_shared.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 
+/usr/include/c++/13/bits/predefined_ops.h:
+
+/usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h:
+
+/usr/include/openssl/opensslv.h:
+
 /usr/include/c++/13/condition_variable:
 
 /usr/include/c++/13/bits/exception.h:
@@ -4634,8 +4628,6 @@ CMakeFiles/umicp_shared.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 /usr/include/c++/13/bits/utility.h:
 
 /usr/include/locale.h:
-
-/usr/include/c++/13/bits/locale_facets.tcc:
 
 /usr/include/c++/13/backward/binders.h:
 
@@ -4714,6 +4706,14 @@ CMakeFiles/umicp_shared.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 /usr/include/openssl/rsa.h:
 
 /usr/include/c++/13/vector:
+
+/usr/include/cbor/tags.h:
+
+/usr/include/c++/13/bits/std_mutex.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar2.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/avx512vbmiintrin.h:
 
 /usr/include/x86_64-linux-gnu/bits/poll2.h:
 
@@ -4927,15 +4927,35 @@ CMakeFiles/umicp_shared.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 
 /usr/include/ctype.h:
 
+/usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
+
+/usr/include/pthread.h:
+
+/usr/include/c++/13/bits/locale_facets.tcc:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/rtmintrin.h:
+
+/usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h:
+
+/usr/include/c++/13/bits/ostream.tcc:
+
+/usr/include/stdint.h:
+
+/usr/include/openssl/evp.h:
+
 /usr/include/c++/13/bits/streambuf.tcc:
 
 /usr/include/c++/13/bits/specfun.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/avx512erintrin.h:
 
-/usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
+/usr/include/libwebsockets/lws-bb-spi.h:
 
-/usr/include/pthread.h:
+/usr/include/c++/13/bits/streambuf_iterator.h:
+
+/usr/include/libwebsockets/lws-cose.h:
+
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
 
 /usr/include/c++/13/cwctype:
 
@@ -5004,12 +5024,6 @@ CMakeFiles/umicp_shared.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 /usr/include/x86_64-linux-gnu/bits/xopen_lim.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h:
-
-/usr/include/c++/13/bits/predefined_ops.h:
-
-/usr/include/openssl/opensslv.h:
-
-/usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h:
 
@@ -5229,17 +5243,7 @@ CMakeFiles/umicp_shared.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 
 /usr/include/c++/13/atomic:
 
-/usr/include/cbor/tags.h:
-
-/usr/include/c++/13/bits/std_mutex.h:
-
-/usr/include/x86_64-linux-gnu/bits/wchar2.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/avx512vbmiintrin.h:
-
 /usr/include/c++/13/bits/stl_queue.h:
-
-/usr/include/c++/13/mutex:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_inline.h:
 
@@ -5275,9 +5279,9 @@ CMakeFiles/umicp_shared.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 
 /usr/include/netinet/in.h:
 
-/usr/include/openssl/objectserr.h:
-
 /usr/include/c++/13/bits/unique_lock.h:
+
+/usr/include/openssl/objectserr.h:
 
 /usr/include/nghttp2/nghttp2.h:
 

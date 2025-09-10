@@ -174,19 +174,20 @@ CMakeFiles/websocket_example.dir/examples/websocket_example.cpp.o: \
  /usr/include/c++/13/chrono /usr/include/c++/13/bits/chrono.h \
  /usr/include/c++/13/ratio /usr/include/c++/13/limits \
  /usr/include/c++/13/ctime /usr/include/c++/13/bits/parse_numbers.h \
- /usr/include/c++/13/functional /usr/include/c++/13/bits/std_function.h \
- /usr/include/c++/13/array /usr/include/c++/13/compare \
- /usr/include/c++/13/bits/stl_algo.h \
+ /mnt/f/Node/cmmv-hive/umicp/cpp/include/schema_registry.h \
+ /usr/include/c++/13/unordered_set \
+ /usr/include/c++/13/bits/unordered_set.h /usr/include/c++/13/functional \
+ /usr/include/c++/13/bits/std_function.h /usr/include/c++/13/array \
+ /usr/include/c++/13/compare /usr/include/c++/13/bits/stl_algo.h \
  /usr/include/c++/13/bits/algorithmfwd.h \
  /usr/include/c++/13/bits/stl_heap.h \
- /usr/include/c++/13/bits/uniform_int_dist.h \
- /mnt/f/Node/cmmv-hive/umicp/cpp/include/transport.h \
- /usr/include/c++/13/thread /usr/include/c++/13/bits/std_thread.h \
- /usr/include/c++/13/bits/this_thread_sleep.h /usr/include/c++/13/atomic \
- /usr/include/c++/13/mutex \
+ /usr/include/c++/13/bits/uniform_int_dist.h /usr/include/c++/13/mutex \
  /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
  /usr/include/c++/13/bits/std_mutex.h \
  /usr/include/c++/13/bits/unique_lock.h \
+ /mnt/f/Node/cmmv-hive/umicp/cpp/include/transport.h \
+ /usr/include/c++/13/thread /usr/include/c++/13/bits/std_thread.h \
+ /usr/include/c++/13/bits/this_thread_sleep.h /usr/include/c++/13/atomic \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/umicp_types.h \
  /usr/include/c++/13/iostream /usr/include/c++/13/ostream \
  /usr/include/c++/13/ios /usr/include/c++/13/bits/ios_base.h \

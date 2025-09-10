@@ -36,13 +36,12 @@ pkg_check_modules(JSON REQUIRED json-c)
 pkg_check_modules(ZLIB REQUIRED zlib)
 pkg_check_modules(OPENSSL REQUIRED openssl)
 
-# WebSocket and HTTP/2 dependencies
-pkg_check_modules(LIBWEBSOCKETS REQUIRED libwebsockets)
-pkg_check_modules(NGHTTP2 REQUIRED libnghttp2)
+# WebSocket and HTTP/2 dependencies moved to bindings
 
 # Optional packages
 pkg_check_modules(CBOR libcbor)
 pkg_check_modules(MSGPACK libmsgpack)
+pkg_check_modules(LZ4 liblz4)
 
 # Include directories
 include_directories(
@@ -50,9 +49,8 @@ include_directories(
     ${JSON_INCLUDE_DIRS}
     ${ZLIB_INCLUDE_DIRS}
     ${OPENSSL_INCLUDE_DIRS}
-    ${LIBWEBSOCKETS_INCLUDE_DIRS}
-    ${NGHTTP2_INCLUDE_DIRS}
     ${CBOR_INCLUDE_DIRS}
+    ${LZ4_INCLUDE_DIRS}
 )
 
 # Link directories
@@ -60,9 +58,8 @@ link_directories(
     ${JSON_LIBRARY_DIRS}
     ${ZLIB_LIBRARY_DIRS}
     ${OPENSSL_LIBRARY_DIRS}
-    ${LIBWEBSOCKETS_LIBRARY_DIRS}
-    ${NGHTTP2_LIBRARY_DIRS}
     ${CBOR_LIBRARY_DIRS}
+    ${LZ4_LIBRARY_DIRS}
 )
 
 # Source files
@@ -71,8 +68,6 @@ set(UMICP_SOURCES
     src/frame.cpp
     src/protocol.cpp
     src/transport.cpp
-    src/websocket_lws.cpp
-    src/http2_transport.cpp
     src/buffer.cpp
     src/config.cpp
     src/matrix_ops.cpp
@@ -90,8 +85,6 @@ set(UMICP_HEADERS
     include/frame.h
     include/protocol.h
     include/transport.h
-    include/websocket_lws.h
-    include/http2_transport.h
     include/buffer.h
     include/config.h
     include/matrix_ops.h
@@ -106,9 +99,8 @@ target_link_libraries(umicp_static
     ${JSON_LIBRARIES}
     ${ZLIB_LIBRARIES}
     ${OPENSSL_LIBRARIES}
-    ${LIBWEBSOCKETS_LIBRARIES}
-    ${NGHTTP2_LIBRARIES}
     ${CBOR_LIBRARIES}
+    ${LZ4_LIBRARIES}
 )
 
 # Create shared library
@@ -117,9 +109,8 @@ target_link_libraries(umicp_shared
     ${JSON_LIBRARIES}
     ${ZLIB_LIBRARIES}
     ${OPENSSL_LIBRARIES}
-    ${LIBWEBSOCKETS_LIBRARIES}
-    ${NGHTTP2_LIBRARIES}
     ${CBOR_LIBRARIES}
+    ${LZ4_LIBRARIES}
 )
 
 # Set library properties
@@ -141,6 +132,8 @@ if(BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
 
+# Examples already defined above
+
 # Build tests
 option(BUILD_TESTS "Build test programs" ON)
 if(BUILD_TESTS)
@@ -161,25 +154,10 @@ if(BUILD_TESTS)
     )
 endif()
 
-# Examples
-add_executable(websocket_example examples/websocket_example.cpp)
-target_link_libraries(websocket_example
-    umicp_static
-    ${JSON_LIBRARIES}
-    ${ZLIB_LIBRARIES}
-    ${OPENSSL_LIBRARIES}
-    ${LIBWEBSOCKETS_LIBRARIES}
-    ${NGHTTP2_LIBRARIES}
-    ${CBOR_LIBRARIES}
-)
-
-add_executable(websocket_server examples/websocket_server.cpp)
-target_link_libraries(websocket_server
-    ${LIBWEBSOCKETS_LIBRARIES}
-)
+# Examples moved to bindings
 
 # Installation
-install(TARGETS umicp_static umicp_shared websocket_example websocket_server
+install(TARGETS umicp_static umicp_shared
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin

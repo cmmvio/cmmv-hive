@@ -457,12 +457,9 @@ bool umicp_security_is_authenticated(UMICP_Security* security) {
     return false;
 }
 
-UMICP_Transport* umicp_transport_create_websocket(const char* url, UMICP_Config* config) {
-    return nullptr; // Not implemented
-}
-
-UMICP_Transport* umicp_transport_create_http2(const char* url, UMICP_Config* config) {
-    return nullptr; // Not implemented
+UMICP_Transport* umicp_transport_create_custom(UMICP_TransportType type, const char* endpoint, UMICP_Config* config) {
+    // Custom transports are implemented in bindings, not in core
+    return nullptr; // Not implemented in core - use bindings
 }
 
 void umicp_transport_destroy(UMICP_Transport* transport) {

@@ -19,6 +19,9 @@ Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
     // Initialize matrix operations bindings
     MatrixWrap::Init(env, exports);
 
+    // Note: WebSocket and HTTP/2 transports are available in TypeScript layer only
+    // They are not included in this C++ binding to keep the core lightweight
+
     // Export version information
     exports.Set("version", Napi::String::New(env, "1.0.0"));
     exports.Set("UMICP_VERSION", Napi::String::New(env, "1.0"));

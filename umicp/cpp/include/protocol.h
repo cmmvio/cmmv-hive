@@ -142,20 +142,20 @@ private:
     // Topic-based routing
     std::unordered_set<std::string> global_subscribed_topics_;
 
-    // Load balancing and failover
-    LoadBalancingStrategy load_balancing_strategy_;
-    bool failover_enabled_;
-    mutable size_t round_robin_index_;
-
     // Legacy support (backward compatibility)
     std::shared_ptr<Transport> transport_; // Kept for backward compatibility
 
     std::shared_ptr<SecurityManager> security_;
     std::unique_ptr<CompressionManager> compression_;
     std::shared_ptr<SchemaRegistry> schema_registry_;
+
+    // Load balancing and failover
+    LoadBalancingStrategy load_balancing_strategy_;
+    bool failover_enabled_;
+    mutable size_t round_robin_index_;
     std::unordered_map<OperationType, MessageHandler> handlers_;
-    Stats stats_;
     uint64_t next_stream_id_;
+    Stats stats_;
 
     // Internal methods
     Result<std::string> generate_message_id();

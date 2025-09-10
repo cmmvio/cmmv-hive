@@ -1,12 +1,18 @@
 /**
  * UMICP Compression Manager Implementation
- * Zlib-based compression and decompression
+ * Zlib and LZ4-based compression and decompression
  */
 
 #include "compression.h"
 #include <zlib.h>
 #include <cstring>
 #include <iostream>
+
+// LZ4 headers (if available)
+#ifdef HAVE_LZ4
+#include <lz4.h>
+#include <lz4hc.h>
+#endif
 
 namespace umicp {
 
@@ -96,6 +102,84 @@ public:
         return Result<ByteBuffer>(decompressed_data);
     }
 
+#ifdef HAVE_LZ4
+    Result<ByteBuffer> compress_lz4(const ByteBuffer& data, int level) {
+        if (data.empty()) {
+            return Result<ByteBuffer>(ByteBuffer{});
+        }
+
+        // LZ4 compression level (1-16, where 16 is LZ4HC)
+        int compression_level = (level > 0 && level <= 16) ? level : 9; // Default to 9
+
+        // Estimate output size (LZ4 usually needs some overhead)
+        size_t max_dst_size = LZ4_compressBound(data.size());
+        ByteBuffer compressed_data(max_dst_size);
+
+        int compressed_size;
+        if (compression_level >= 12) {
+            // Use LZ4HC for higher compression ratios
+            compressed_size = LZ4_compress_HC(
+                reinterpret_cast<const char*>(&data[0]),
+                reinterpret_cast<char*>(&compressed_data[0]),
+                data.size(),
+                max_dst_size,
+                compression_level
+            );
+        } else {
+            // Use fast LZ4 compression
+            compressed_size = LZ4_compress_default(
+                reinterpret_cast<const char*>(&data[0]),
+                reinterpret_cast<char*>(&compressed_data[0]),
+                data.size(),
+                max_dst_size
+            );
+        }
+
+        if (compressed_size <= 0) {
+            return Result<ByteBuffer>(ErrorCode::COMPRESSION_FAILED, "LZ4 compression failed");
+        }
+
+        // Resize to actual compressed size
+        compressed_data.resize(compressed_size);
+        return Result<ByteBuffer>(compressed_data);
+    }
+
+    Result<ByteBuffer> decompress_lz4(const ByteBuffer& compressed_data) {
+        if (compressed_data.empty()) {
+            return Result<ByteBuffer>(ByteBuffer{});
+        }
+
+        // Estimate output size (LZ4 doesn't store original size, so we need to guess)
+        // For safety, assume 4x expansion which is conservative for most data
+        size_t estimated_size = compressed_data.size() * 4;
+        ByteBuffer decompressed_data(estimated_size);
+
+        int decompressed_size = LZ4_decompress_safe(
+            reinterpret_cast<const char*>(&compressed_data[0]),
+            reinterpret_cast<char*>(&decompressed_data[0]),
+            compressed_data.size(),
+            estimated_size
+        );
+
+        if (decompressed_size < 0) {
+            return Result<ByteBuffer>(ErrorCode::DECOMPRESSION_FAILED, "LZ4 decompression failed");
+        }
+
+        // Resize to actual decompressed size
+        decompressed_data.resize(decompressed_size);
+        return Result<ByteBuffer>(decompressed_data);
+    }
+#else
+    // Stub implementations when LZ4 is not available
+    Result<ByteBuffer> compress_lz4(const ByteBuffer& data, int level) {
+        return Result<ByteBuffer>(ErrorCode::NOT_IMPLEMENTED, "LZ4 support not available - please install liblz4-dev");
+    }
+
+    Result<ByteBuffer> decompress_lz4(const ByteBuffer& compressed_data) {
+        return Result<ByteBuffer>(ErrorCode::NOT_IMPLEMENTED, "LZ4 support not available - please install liblz4-dev");
+    }
+#endif
+
     CompressionAlgorithm algorithm_;
 };
 
@@ -110,6 +194,8 @@ Result<ByteBuffer> CompressionManager::compress(const ByteBuffer& data, int leve
         case CompressionAlgorithm::ZLIB:
         case CompressionAlgorithm::GZIP:
             return impl_->compress_zlib(data, level);
+        case CompressionAlgorithm::LZ4:
+            return impl_->compress_lz4(data, level);
         case CompressionAlgorithm::NONE:
             return Result<ByteBuffer>(data);
         default:
@@ -122,6 +208,8 @@ Result<ByteBuffer> CompressionManager::decompress(const ByteBuffer& compressed_d
         case CompressionAlgorithm::ZLIB:
         case CompressionAlgorithm::GZIP:
             return impl_->decompress_zlib(compressed_data);
+        case CompressionAlgorithm::LZ4:
+            return impl_->decompress_lz4(compressed_data);
         case CompressionAlgorithm::NONE:
             return Result<ByteBuffer>(compressed_data);
         default:
@@ -151,6 +239,14 @@ Result<size_t> CompressionManager::estimate_compressed_size(const ByteBuffer& da
         case CompressionAlgorithm::GZIP:
             // Estimate ~50% compression ratio
             return Result<size_t>(data.size() / 2 + 128);
+        case CompressionAlgorithm::LZ4:
+#ifdef HAVE_LZ4
+            // LZ4 compression bound
+            return Result<size_t>(LZ4_compressBound(data.size()));
+#else
+            // Fallback estimate for LZ4 when not available
+            return Result<size_t>(data.size() + 64);
+#endif
         default:
             return Result<size_t>(ErrorCode::NOT_IMPLEMENTED, "Algorithm not supported for size estimation");
     }

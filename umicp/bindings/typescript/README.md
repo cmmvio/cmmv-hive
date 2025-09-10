@@ -18,6 +18,13 @@ High-performance Node.js bindings for the UMICP (Universal Matrix Intelligent Co
 - L2 normalization for embeddings
 - High-precision floating-point operations
 
+### 🌐 **Server-to-Server (S2S) Communication**
+- Direct AI model collaboration protocols
+- Federated learning data exchange
+- Distributed inference pipelines
+- Load balancing and failover mechanisms
+- Secure S2S authentication and encryption
+
 ### 📦 **Protocol Support**
 - JSON envelope serialization/deserialization
 - Canonical JSON formatting for integrity
@@ -429,6 +436,112 @@ xcode-select --install
 - Ensure AVX2/AVX-512 support on target CPU
 - Use release builds for production
 - Profile with Chrome DevTools for optimization
+
+## Testing
+
+### Test Suites
+
+```bash
+# Run all tests
+npm test
+
+# Run specific test suites
+npm run test:unit        # Core functionality tests
+npm run test:integration # WebSocket transport tests
+npm run test:s2s         # Server-to-Server tests
+npm run test:websocket   # WebSocket transport tests
+
+# Development mode
+npm run test:watch       # Watch mode for development
+npm run test:coverage    # Generate coverage reports
+```
+
+### Test Coverage
+
+- **Envelope Tests**: 25+ ✅ - Complete coverage including edge cases, unicode, large payloads, concurrent operations
+- **Matrix Tests**: 20+ ✅ - Full operations coverage with SIMD, numerical edge cases, performance benchmarks
+- **Integration Tests**: WebSocket transport, protocol negotiation, error handling
+- **S2S Tests**: Server-to-Server communication, federated learning, distributed inference
+- **Security Tests**: Input validation, injection prevention, authentication, resource exhaustion
+- **Regression Tests**: Bug fixes validation, performance regression detection, memory leak prevention
+- **Load Tests**: High-throughput testing, concurrent operations, memory stress testing
+- **E2E Tests**: Complete communication workflows, real-world scenarios (IoT, financial, etc.)
+
+### Continuous Integration
+
+This package includes GitHub Actions CI/CD pipeline that:
+- ✅ Tests on multiple Node.js versions (16.x, 18.x, 20.x)
+- ✅ Cross-platform testing (Linux, macOS, Windows)
+- ✅ Automated dependency auditing
+- ✅ Code coverage reporting
+- ✅ Automated publishing on releases
+
+## Publishing
+
+### Automated Publishing
+
+The package includes automated publishing scripts that run before each NPM release:
+
+```bash
+# Pre-publish script (runs automatically)
+npm run prepublishOnly
+```
+
+This script performs:
+1. **Clean build**: Removes all build artifacts
+2. **Fresh install**: Reinstalls all dependencies
+3. **Build process**: Compiles TypeScript and native bindings
+4. **Test execution**: Runs complete test suite
+5. **Validation**: Ensures all tests pass before publishing
+
+### Manual Publishing
+
+```bash
+# Build and test locally
+npm run build
+npm run test:all  # Run comprehensive test suite
+
+# Or run specific test categories
+npm run test:quick      # Fast unit tests only
+npm run test:security   # Security-focused tests
+npm run test:performance # Performance benchmarks
+npm run test:load       # Load and stress tests
+
+# Publish to NPM
+npm publish
+```
+
+### Advanced Testing Features
+
+#### Custom Test Utilities
+
+The test suite includes comprehensive utilities for advanced testing scenarios:
+
+- **Performance Measurement**: Built-in performance tracking and assertions
+- **Memory Pressure Simulation**: Test memory handling under pressure
+- **Concurrent Load Generation**: Simulate high-concurrency scenarios
+- **Security Test Vectors**: Pre-built malicious input patterns
+- **Custom Matchers**: Specialized assertions for envelope and performance validation
+
+#### Test Categories
+
+- **`test:unit`**: Core functionality tests (Envelope, Matrix operations)
+- **`test:integration`**: WebSocket transport and protocol integration
+- **`test:security`**: Security validation and injection prevention
+- **`test:regression`**: Bug fix validation and regression prevention
+- **`test:load`**: Performance and load testing
+- **`test:e2e`**: End-to-end communication workflows
+- **`test:performance`**: Dedicated performance benchmarking
+- **`test:ci`**: Complete CI test suite
+
+### CI/CD Pipeline
+
+The GitHub Actions workflow automatically:
+- Builds on all supported platforms
+- Runs comprehensive test suites
+- Generates coverage reports
+- Publishes to NPM on tagged releases
+- Performs security audits
 
 ## Contributing
 

@@ -5,6 +5,9 @@
 		}
 	],
 	"settings": {
+		"files.associations": {
+			"xstring": "cpp"
+		}
 
 	}
 }

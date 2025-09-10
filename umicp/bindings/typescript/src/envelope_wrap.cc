@@ -4,6 +4,10 @@
 
 #include "envelope_wrap.h"
 #include <napi.h>
+#include <uuid/uuid.h>
+#include <chrono>
+#include <iomanip>
+#include <sstream>
 
 using namespace umicp;
 
@@ -19,6 +23,10 @@ Napi::Object EnvelopeWrap::Init(Napi::Env env, Napi::Object exports) {
         InstanceMethod("deserialize", &EnvelopeWrap::Deserialize),
         InstanceMethod("validate", &EnvelopeWrap::Validate),
         InstanceMethod("getHash", &EnvelopeWrap::GetHash),
+        InstanceMethod("getFrom", &EnvelopeWrap::GetFrom),
+        InstanceMethod("getTo", &EnvelopeWrap::GetTo),
+        InstanceMethod("getMessageId", &EnvelopeWrap::GetMessageId),
+        InstanceMethod("getCapabilities", &EnvelopeWrap::GetCapabilities),
 
         StaticMethod("create", &EnvelopeWrap::CreateEnvelope),
         StaticMethod("serialize", &EnvelopeWrap::SerializeEnvelope),
@@ -35,11 +43,31 @@ EnvelopeWrap::EnvelopeWrap(const Napi::CallbackInfo& info)
     : Napi::ObjectWrap<EnvelopeWrap>(info) {
     // Initialize with default values
     envelope_.version = "1.0";
-    envelope_.msg_id = ""; // Will be set later
-    envelope_.ts = "";     // Will be set later
+    envelope_.msg_id = generate_uuid();
+    envelope_.ts = get_current_timestamp();
     envelope_.from = "";
     envelope_.to = "";
     envelope_.op = OperationType::CONTROL;
+}
+
+std::string EnvelopeWrap::generate_uuid() {
+    uuid_t uuid;
+    char uuid_str[37];
+    uuid_generate(uuid);
+    uuid_unparse_lower(uuid, uuid_str);
+    return std::string(uuid_str);
+}
+
+std::string EnvelopeWrap::get_current_timestamp() {
+    auto now = std::chrono::system_clock::now();
+    auto time_t = std::chrono::system_clock::to_time_t(now);
+    std::stringstream ss;
+    ss << std::put_time(std::gmtime(&time_t), "%Y-%m-%dT%H:%M:%S");
+    ss << "." << std::setfill('0') << std::setw(3)
+       << (std::chrono::duration_cast<std::chrono::milliseconds>(
+           now.time_since_epoch()).count() % 1000);
+    ss << "Z";
+    return ss.str();
 }
 
 Napi::Value EnvelopeWrap::SetFrom(const Napi::CallbackInfo& info) {
@@ -234,4 +262,33 @@ Napi::Value EnvelopeWrap::ValidateEnvelope(const Napi::CallbackInfo& info) {
 
 Napi::Value EnvelopeWrap::HashEnvelope(const Napi::CallbackInfo& info) {
     return info.Env().Undefined();
+}
+
+Napi::Value EnvelopeWrap::GetFrom(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    return Napi::String::New(env, envelope_.from);
+}
+
+Napi::Value EnvelopeWrap::GetTo(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    return Napi::String::New(env, envelope_.to);
+}
+
+Napi::Value EnvelopeWrap::GetMessageId(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    return Napi::String::New(env, envelope_.msg_id);
+}
+
+Napi::Value EnvelopeWrap::GetCapabilities(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    Napi::Object caps_obj = Napi::Object::New(env);
+
+    if (envelope_.capabilities) {
+        for (const auto& pair : *envelope_.capabilities) {
+            caps_obj.Set(Napi::String::New(env, pair.first),
+                        Napi::String::New(env, pair.second));
+        }
+    }
+
+    return caps_obj;
 }

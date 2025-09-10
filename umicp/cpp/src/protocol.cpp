@@ -27,11 +27,11 @@ Protocol::Protocol(std::string local_id)
     , config_(UMICPConfig{})
     , compression_(std::make_unique<CompressionManager>(CompressionAlgorithm::ZLIB))
     , schema_registry_(std::make_shared<SchemaRegistry>())
-    , stats_{0, 0, 0, 0, 0, std::chrono::steady_clock::now()}
     , load_balancing_strategy_(LoadBalancingStrategy::ROUND_ROBIN)
     , failover_enabled_(true)
     , round_robin_index_(0)
-    , next_stream_id_(1) {
+    , next_stream_id_(1)
+    , stats_{0, 0, 0, 0, 0, std::chrono::steady_clock::now()} {
 }
 
 Protocol::~Protocol() = default;
@@ -70,50 +70,6 @@ Result<void> Protocol::configure(const UMICPConfig& config) {
 // ============================================================================
 // Legacy Single-Transport Methods (for backward compatibility)
 // ============================================================================
-
-Result<void> Protocol::set_transport(std::shared_ptr<Transport> transport) {
-    std::lock_guard<std::mutex> lock(protocol_mutex);
-
-    if (!transport) {
-        return Result<void>(ErrorCode::INVALID_ARGUMENT, "Null transport provided");
-    }
-
-    // For backward compatibility, store in legacy transport_ member
-    transport_ = transport;
-
-    // Also add to the transports map with a default ID
-    auto transport_info = std::make_shared<TransportInfo>("legacy-transport", transport, TransportType::WEBSOCKET);
-    transports_["legacy-transport"] = transport_info;
-
-    // Set up transport callbacks
-    transport_->set_message_callback([this](const ByteBuffer& data) {
-        on_transport_message(data);
-    });
-
-    transport_->set_connection_callback([this](bool connected, const std::string& error) {
-        if (connected) {
-            on_transport_connected();
-        } else {
-            on_transport_disconnected();
-        }
-    });
-
-    transport_->set_error_callback([this](ErrorCode code, const std::string& message) {
-        on_transport_error(message);
-    });
-
-    return Result<void>();
-}
-
-Result<void> Protocol::set_transport(TransportType type, const TransportConfig& transport_config) {
-    // Create transport with UMICP configuration applied
-    auto transport = TransportFactory::create(type, transport_config, config_);
-    if (!transport) {
-        return Result<void>(ErrorCode::INVALID_ARGUMENT, "Failed to create transport");
-    }
-
-    return set_transport(std::move(transport));
-}
 
 // Legacy connect method - tries to connect all transports or legacy transport
 Result<void> Protocol::connect() {
@@ -700,48 +656,6 @@ Result<void> Protocol::disconnect_transport(const std::string& transport_id) {
     return result;
 }
 
-Result<void> Protocol::connect() {
-    std::lock_guard<std::mutex> lock(protocol_mutex);
-
-    if (transports_.empty()) {
-        return Result<void>(ErrorCode::INVALID_ARGUMENT, "No transports configured");
-    }
-
-    // Try to connect to all transports
-    bool any_connected = false;
-    for (auto& [id, transport_info] : transports_) {
-        if (!transport_info->connected) {
-            auto result = transport_info->transport->connect();
-            if (result.is_success()) {
-                transport_info->connected = true;
-                transport_info->last_activity = std::chrono::steady_clock::now();
-                any_connected = true;
-            }
-        } else {
-            any_connected = true;
-        }
-    }
-
-    if (!any_connected) {
-        return Result<void>(ErrorCode::NETWORK_ERROR, "Failed to connect to any transport");
-    }
-
-    return Result<void>();
-}
-
-Result<void> Protocol::disconnect() {
-    std::lock_guard<std::mutex> lock(protocol_mutex);
-
-    for (auto& [id, transport_info] : transports_) {
-        if (transport_info->connected) {
-            transport_info->transport->disconnect();
-            transport_info->connected = false;
-            transport_info->active_connections = 0;
-        }
-    }
-
-    return Result<void>();
-}
 
 bool Protocol::is_connected() const {
     std::lock_guard<std::mutex> lock(protocol_mutex);

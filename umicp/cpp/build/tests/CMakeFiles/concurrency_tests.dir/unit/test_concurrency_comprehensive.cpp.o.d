@@ -289,6 +289,9 @@ tests/CMakeFiles/concurrency_tests.dir/unit/test_concurrency_comprehensive.cpp.o
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/protocol.h \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/umicp_types.h \
  /usr/include/c++/13/chrono \
+ /mnt/f/Node/cmmv-hive/umicp/cpp/include/schema_registry.h \
+ /usr/include/c++/13/unordered_set \
+ /usr/include/c++/13/bits/unordered_set.h \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/transport.h \
  /usr/include/c++/13/thread /usr/include/c++/13/bits/std_thread.h \
  /usr/include/c++/13/bits/this_thread_sleep.h \

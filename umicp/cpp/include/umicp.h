@@ -59,10 +59,9 @@ typedef enum {
 
 // Transport types
 typedef enum {
-    UMICP_TRANSPORT_WEBSOCKET = 0,
-    UMICP_TRANSPORT_HTTP2 = 1,
-    UMICP_TRANSPORT_MATRIX = 2,
-    UMICP_TRANSPORT_DIRECT = 3
+    UMICP_TRANSPORT_MATRIX = 0,
+    UMICP_TRANSPORT_DIRECT = 1,
+    UMICP_TRANSPORT_CUSTOM = 2
 } UMICP_TransportType;
 
 // Buffer management
@@ -119,8 +118,7 @@ UMICP_ErrorCode umicp_security_decrypt_frame(UMICP_Security* security, UMICP_Fra
 bool umicp_security_is_authenticated(UMICP_Security* security);
 
 // Transport management
-UMICP_Transport* umicp_transport_create_websocket(const char* url, UMICP_Config* config);
-UMICP_Transport* umicp_transport_create_http2(const char* url, UMICP_Config* config);
+UMICP_Transport* umicp_transport_create_custom(UMICP_TransportType type, const char* endpoint, UMICP_Config* config);
 void umicp_transport_destroy(UMICP_Transport* transport);
 UMICP_ErrorCode umicp_transport_connect(UMICP_Transport* transport);
 UMICP_ErrorCode umicp_transport_disconnect(UMICP_Transport* transport);

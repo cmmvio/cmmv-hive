@@ -63,50 +63,13 @@ public:
     virtual ::std::string get_endpoint() const = 0;
 };
 
-// WebSocket transport implementation
-class WebSocketTransport : public Transport {
-public:
-    explicit WebSocketTransport(const TransportConfig& config);
-    ~WebSocketTransport() override;
-
-    // Transport interface implementation
-    Result<void> connect() override;
-    Result<void> disconnect() override;
-    bool is_connected() const override;
-
-    Result<void> send(const ByteBuffer& data) override;
-    Result<void> send_envelope(const Envelope& envelope) override;
-    Result<void> send_frame(const Frame& frame) override;
-
-    Result<void> configure(const TransportConfig& config) override;
-    TransportConfig get_config() const override;
-
-    void set_message_callback(MessageCallback callback) override;
-    void set_connection_callback(ConnectionCallback callback) override;
-    void set_error_callback(ErrorCallback callback) override;
-
-    TransportStats get_stats() const override;
-    void reset_stats() override;
-
-    TransportType get_type() const override { return TransportType::WEBSOCKET; }
-    ::std::string get_endpoint() const override;
-
-private:
-    class Impl;
-    ::std::unique_ptr<Impl> impl_;
-};
-
-// HTTP/2 transport implementation is now in http2_transport.h
+// Transport implementations are now in bindings, not in core
 
 // Transport factory
 class TransportFactory {
 public:
     static ::std::unique_ptr<Transport> create(TransportType type, const TransportConfig& config);
     static ::std::unique_ptr<Transport> create(TransportType type, const TransportConfig& config, const UMICPConfig& umicp_config);
-    static ::std::unique_ptr<Transport> create_websocket(const TransportConfig& config);
-    static ::std::unique_ptr<Transport> create_websocket(const TransportConfig& config, const UMICPConfig& umicp_config);
-    static ::std::unique_ptr<Transport> create_http2(const TransportConfig& config);
-    static ::std::unique_ptr<Transport> create_http2(const TransportConfig& config, const UMICPConfig& umicp_config);
     static TransportConfig apply_umicp_config(const TransportConfig& transport_config, const UMICPConfig& umicp_config);
 };
 

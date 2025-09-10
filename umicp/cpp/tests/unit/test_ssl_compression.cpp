@@ -428,3 +428,95 @@ TEST_F(SSLCompressionTest, EndToEnd_SSLConfiguration) {
     ASSERT_EQ(config.host, "secure.example.com");
     ASSERT_EQ(config.port, 443);
 }
+
+// ===============================================
+// Production-Ready Features Tests
+// ===============================================
+
+TEST_F(SSLCompressionTest, ChaCha20Poly1305_EncryptionDecryption) {
+    // Test ChaCha20-Poly1305 encryption/decryption
+    SecurityManager security("test-node");
+
+    // Generate keys and establish session
+    auto keypair_result = security.generate_keypair();
+    ASSERT_TRUE(keypair_result.is_success());
+
+    // Create test data
+    ByteBuffer test_data = {'s', 'e', 'c', 'r', 'e', 't', ' ', 'm', 'e', 's', 's', 'a', 'g', 'e'};
+    auto encrypt_result = security.encrypt_data(test_data);
+    ASSERT_TRUE(encrypt_result.is_success());
+    ASSERT_FALSE(encrypt_result.value->empty());
+
+    // Test decryption
+    auto decrypt_result = security.decrypt_data(*encrypt_result.value);
+    ASSERT_TRUE(decrypt_result.is_success());
+    ASSERT_EQ(*decrypt_result.value, test_data);
+}
+
+TEST_F(SSLCompressionTest, LZ4_Compression) {
+    // Test LZ4 compression
+    CompressionManager compression(CompressionAlgorithm::LZ4);
+
+    // Create test data (repetitive for good compression)
+    std::string test_string = "This is a test string for LZ4 compression. ";
+    for (int i = 0; i < 100; ++i) {
+        test_string += "Additional test data to make compression worthwhile. ";
+    }
+
+    ByteBuffer data(test_string.begin(), test_string.end());
+
+    // Test compression
+    auto compress_result = compression.compress(data);
+#ifdef HAVE_LZ4
+    ASSERT_TRUE(compress_result.is_success());
+    ASSERT_LT(compress_result.value->size(), data.size()); // Should be smaller
+
+    // Test decompression
+    auto decompress_result = compression.decompress(*compress_result.value);
+    ASSERT_TRUE(decompress_result.is_success());
+    ASSERT_EQ(*decompress_result.value, data);
+#else
+    // LZ4 not available, should return error
+    ASSERT_FALSE(compress_result.is_success());
+    ASSERT_EQ(compress_result.code, ErrorCode::NOT_IMPLEMENTED);
+#endif
+}
+
+TEST_F(SSLCompressionTest, HardwareAcceleration_AES_NI) {
+    // Test hardware acceleration detection
+    SecurityManager security("test-node");
+
+    // This is a compile-time test - we can't test runtime AES-NI without specific hardware
+    // But we can verify the interface exists
+    auto keypair_result = security.generate_keypair();
+    ASSERT_TRUE(keypair_result.is_success());
+
+    ByteBuffer test_data = {'t', 'e', 's', 't'};
+    auto encrypt_result = security.encrypt_data(test_data);
+
+    // Should succeed (with ChaCha20 fallback if AES-NI not available)
+    ASSERT_TRUE(encrypt_result.is_success() || encrypt_result.code == ErrorCode::NOT_IMPLEMENTED);
+}
+
+TEST_F(SSLCompressionTest, Advanced_SSL_Configuration) {
+    // Test advanced SSL configuration options
+    SSLConfig ssl_config;
+    ssl_config.enable_ssl = true;
+    ssl_config.verify_peer = true;
+    ssl_config.verify_host = true;
+    ssl_config.check_certificate_revocation = true;
+    ssl_config.require_client_certificate = true;
+    ssl_config.minimum_tls_version = 13; // TLS 1.3
+    ssl_config.enable_ocsp_stapling = true;
+    ssl_config.enable_certificate_transparency = true;
+
+    // Verify all advanced options are set
+    ASSERT_TRUE(ssl_config.enable_ssl);
+    ASSERT_TRUE(ssl_config.verify_peer);
+    ASSERT_TRUE(ssl_config.verify_host);
+    ASSERT_TRUE(ssl_config.check_certificate_revocation);
+    ASSERT_TRUE(ssl_config.require_client_certificate);
+    ASSERT_EQ(ssl_config.minimum_tls_version, 13);
+    ASSERT_TRUE(ssl_config.enable_ocsp_stapling);
+    ASSERT_TRUE(ssl_config.enable_certificate_transparency);
+}

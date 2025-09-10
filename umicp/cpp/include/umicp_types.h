@@ -213,22 +213,35 @@ struct UMICPConfig {
     {}
 };
 
-// SSL/TLS configuration structure
+// SSL/TLS configuration structure with advanced certificate validation
 struct SSLConfig {
     bool enable_ssl;
     bool verify_peer;
     bool verify_host;
+    bool check_certificate_revocation;
+    bool require_client_certificate;
     std::string ca_file;
     std::string ca_path;
     std::string cert_file;
     std::string key_file;
     std::string key_password;
     std::string cipher_list;
+    std::string certificate_policies;
+    std::vector<std::string> trusted_certificates;
+    int minimum_tls_version;
+    std::string ciphersuites;
+    bool enable_ocsp_stapling;
+    bool enable_certificate_transparency;
 
     SSLConfig()
         : enable_ssl(false)
         , verify_peer(true)
         , verify_host(true)
+        , check_certificate_revocation(true)
+        , require_client_certificate(false)
+        , minimum_tls_version(12) // TLS 1.2 minimum
+        , enable_ocsp_stapling(false)
+        , enable_certificate_transparency(false)
     {}
 };
 

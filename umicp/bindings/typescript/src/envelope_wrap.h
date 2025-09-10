@@ -25,6 +25,10 @@ private:
     Napi::Value Deserialize(const Napi::CallbackInfo& info);
     Napi::Value Validate(const Napi::CallbackInfo& info);
     Napi::Value GetHash(const Napi::CallbackInfo& info);
+    Napi::Value GetFrom(const Napi::CallbackInfo& info);
+    Napi::Value GetTo(const Napi::CallbackInfo& info);
+    Napi::Value GetMessageId(const Napi::CallbackInfo& info);
+    Napi::Value GetCapabilities(const Napi::CallbackInfo& info);
 
     // Static methods
     static Napi::Value CreateEnvelope(const Napi::CallbackInfo& info);
@@ -34,6 +38,9 @@ private:
     static Napi::Value HashEnvelope(const Napi::CallbackInfo& info);
 
 private:
+    std::string generate_uuid();
+    std::string get_current_timestamp();
+
     umicp::Envelope envelope_;
 };
 

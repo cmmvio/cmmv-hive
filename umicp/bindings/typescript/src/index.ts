@@ -6,6 +6,89 @@
 // Native addon
 const addon = require('../build/Release/umicp_core.node');
 
+// Check if WebSocket transport is available
+const hasWebSocketTransport = typeof addon.WebSocketTransport === 'function';
+const hasHTTP2Transport = typeof addon.HTTP2Transport === 'function';
+
+// Transport classes (conditionally exported based on availability)
+export class WebSocketTransport {
+  private nativeTransport: any;
+
+  constructor(url: string, isServer: boolean = false) {
+    if (!hasWebSocketTransport) {
+      throw new Error('WebSocket transport not available in this build. Please rebuild with WebSocket support.');
+    }
+    this.nativeTransport = new addon.WebSocketTransport(url, isServer);
+  }
+
+  connect(): boolean {
+    return this.nativeTransport.connect();
+  }
+
+  disconnect(): boolean {
+    return this.nativeTransport.disconnect();
+  }
+
+  send(message: string): boolean {
+    return this.nativeTransport.send(message);
+  }
+
+  isConnected(): boolean {
+    return this.nativeTransport.isConnected();
+  }
+
+  getStats(): any {
+    return this.nativeTransport.getStats();
+  }
+
+  setMessageCallback(callback: (message: string) => void): void {
+    this.nativeTransport.setMessageCallback(callback);
+  }
+
+  setConnectionCallback(callback: (connected: boolean) => void): void {
+    this.nativeTransport.setConnectionCallback(callback);
+  }
+}
+
+export class HTTP2Transport {
+  private nativeTransport: any;
+
+  constructor(url: string) {
+    if (!hasHTTP2Transport) {
+      throw new Error('HTTP/2 transport not available in this build. Please rebuild with HTTP/2 support.');
+    }
+    this.nativeTransport = new addon.HTTP2Transport(url);
+  }
+
+  connect(): boolean {
+    return this.nativeTransport.connect();
+  }
+
+  disconnect(): boolean {
+    return this.nativeTransport.disconnect();
+  }
+
+  send(message: string): boolean {
+    return this.nativeTransport.send(message);
+  }
+
+  isConnected(): boolean {
+    return this.nativeTransport.isConnected();
+  }
+
+  getStats(): any {
+    return this.nativeTransport.getStats();
+  }
+
+  setMessageCallback(callback: (message: string) => void): void {
+    this.nativeTransport.setMessageCallback(callback);
+  }
+
+  setConnectionCallback(callback: (connected: boolean) => void): void {
+    this.nativeTransport.setConnectionCallback(callback);
+  }
+}
+
 // Export constants from native addon
 export const OPERATION_CONTROL = addon.OPERATION_CONTROL;
 export const OPERATION_DATA = addon.OPERATION_DATA;
@@ -153,6 +236,22 @@ export class Envelope {
     return this.nativeEnvelope.getHash();
   }
 
+  getFrom(): string {
+    return this.nativeEnvelope.getFrom();
+  }
+
+  getTo(): string {
+    return this.nativeEnvelope.getTo();
+  }
+
+  getMessageId(): string {
+    return this.nativeEnvelope.getMessageId();
+  }
+
+  getCapabilities(): Record<string, string> {
+    return this.nativeEnvelope.getCapabilities();
+  }
+
   // Static methods
   static create(options: EnvelopeOptions = {}): Envelope {
     return new Envelope(options);
@@ -274,9 +373,29 @@ export const UMICP = {
   version: addon.version || '1.0.0',
   UMICP_VERSION: addon.UMICP_VERSION || '1.0',
 
+  // Transport availability
+  hasWebSocketTransport,
+  hasHTTP2Transport,
+
   // Create instances
   createEnvelope: (options?: EnvelopeOptions) => new Envelope(options),
   createMatrix: () => new Matrix(),
+  createWebSocketTransport: (url: string, isServer?: boolean) => {
+    if (!hasWebSocketTransport) {
+      throw new Error('WebSocket transport not available in this build');
+    }
+    return new WebSocketTransport(url, isServer);
+  },
+  createHTTP2Transport: (url: string) => {
+    if (!hasHTTP2Transport) {
+      throw new Error('HTTP/2 transport not available in this build');
+    }
+    return new HTTP2Transport(url);
+  },
+
+  // Classes
+  WebSocketTransport,
+  HTTP2Transport,
 
   // Constants
   OperationType,

@@ -5,6 +5,7 @@
 #include "matrix_wrap.h"
 #include "../../../cpp/include/matrix_ops.h"
 #include <vector>
+#include <stdexcept>
 
 using namespace umicp;
 

@@ -289,6 +289,9 @@ tests/CMakeFiles/umicp_tests.dir/unit/test_protocol.cpp.o: \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/protocol.h \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/umicp_types.h \
  /usr/include/c++/13/chrono \
+ /mnt/f/Node/cmmv-hive/umicp/cpp/include/schema_registry.h \
+ /usr/include/c++/13/unordered_set \
+ /usr/include/c++/13/bits/unordered_set.h \
  /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/../utils/test_helpers.h \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/umicp_types.h \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/serialization.h \

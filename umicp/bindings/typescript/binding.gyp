@@ -2,56 +2,40 @@
   "targets": [
     {
       "target_name": "umicp_core",
+      "cflags!": ["-fno-exceptions"],
+      "cflags_cc!": ["-fno-exceptions"],
       "sources": [
         "src/umicp_core.cc",
         "src/envelope_wrap.cc",
         "src/frame_wrap.cc",
-        "src/matrix_wrap.cc"
+        "src/matrix_wrap.cc",
+        "../../../umicp/cpp/src/envelope.cpp",
+        "../../../umicp/cpp/src/frame.cpp",
+        "../../../umicp/cpp/src/matrix_ops.cpp",
+        "../../../umicp/cpp/src/buffer.cpp",
+        "../../../umicp/cpp/src/config.cpp",
+        "../../../umicp/cpp/src/protocol.cpp",
+        "../../../umicp/cpp/src/serialization.cpp",
+        "../../../umicp/cpp/src/security.cpp",
+        "../../../umicp/cpp/src/compression.cpp",
+        "../../../umicp/cpp/src/transport.cpp"
       ],
       "include_dirs": [
-        "<!(node -e \"require('node-addon-api').include\")",
-        "../../../cpp/include"
+        "<!@(node -p \"require('node-addon-api').include\")",
+        "../../../umicp/cpp/include"
       ],
       "dependencies": [
-        "<!(node -e \"require('node-addon-api').gyp\")"
+        "<!(node -p \"require('node-addon-api').gyp\")"
       ],
-      "defines": [
-        "NAPI_DISABLE_CPP_EXCEPTIONS",
-        "NODE_ADDON_API_DISABLE_DEPRECATED"
-      ],
-      "cflags": [
-        "-std=c++17",
-        "-O3",
-        "-march=native",
-        "-flto"
-      ],
-      "cflags_cc": [
-        "-std=c++17",
-        "-O3",
-        "-march=native",
-        "-flto"
-      ],
+      "defines": ["NAPI_DISABLE_CPP_EXCEPTIONS"],
       "conditions": [
-        ["OS=='mac'", {
-          "xcode_settings": {
-            "GCC_ENABLE_CPP_EXCEPTIONS": "NO",
-            "GCC_ENABLE_CPP_RTTI": "NO",
-            "CLANG_CXX_LANGUAGE_STANDARD": "c++17",
-            "CLANG_CXX_LIBRARY": "libc++",
-            "MACOSX_DEPLOYMENT_TARGET": "10.15",
-            "OTHER_CFLAGS": [
-              "-O3",
-              "-march=native",
-              "-flto"
-            ]
-          }
-        }],
         ["OS=='linux'", {
           "libraries": [
             "-ljson-c",
             "-lz",
             "-lssl",
-            "-lcrypto"
+            "-lcrypto",
+            "-luuid"
           ]
         }],
         ["OS=='win'", {
@@ -59,7 +43,8 @@
             "json-c.lib",
             "zlib.lib",
             "libssl.lib",
-            "libcrypto.lib"
+            "libcrypto.lib",
+            "rpcrt4.lib"
           ]
         }]
       ]
