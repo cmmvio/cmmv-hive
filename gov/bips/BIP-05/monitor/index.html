@@ -19,16 +19,38 @@
             color: #e0e0e0;
         }
 
-        .chat-container {
-            max-width: 800px;
+        .main-container {
             height: 100vh;
-            margin: 0 auto;
+            display: flex;
+            background-color: #0b141a;
+        }
+
+        .chat-container {
+            flex: 1;
+            height: 100vh;
             background-color: #111b21;
             position: relative;
             display: flex;
             flex-direction: column;
             border: 1px solid #1f2c33;
             border-radius: 8px;
+            border-right: none;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 350px;
+            height: 100vh;
+            background-color: #0f1a1f;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #1f2c33;
+            border-left: none;
+            border-radius: 8px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
             overflow: hidden;
         }
 
@@ -332,6 +354,174 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
 
+        /* Sidebar Styles */
+        .sidebar-section {
+            border-bottom: 1px solid #1f2c33;
+        }
+
+        .sidebar-section:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-header {
+            background-color: #202c33;
+            padding: 12px 15px;
+            border-bottom: 1px solid #1f2c33;
+        }
+
+        .sidebar-header h3 {
+            margin: 0;
+            font-size: 14px;
+            color: #e0e0e0;
+        }
+
+        .sidebar-content {
+            padding: 15px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .cost-metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid #1f2c33;
+        }
+
+        .cost-metric:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .cost-label {
+            color: #a0a0a0;
+            font-size: 12px;
+        }
+
+        .cost-value {
+            color: #25d366;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .cost-breakdown {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #1f2c33;
+        }
+
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+            font-size: 11px;
+            color: #c0c0c0;
+        }
+
+        .models-list {
+            max-height: 250px;
+        }
+
+        .model-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #1f2c33;
+            transition: background-color 0.2s;
+        }
+
+        .model-item:hover {
+            background-color: rgba(32, 44, 51, 0.5);
+            border-radius: 4px;
+            padding-left: 8px;
+            margin-left: -8px;
+            margin-right: -8px;
+        }
+
+        .model-name {
+            color: #e0e0e0;
+            font-size: 12px;
+            flex: 1;
+        }
+
+        .model-status {
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 8px;
+        }
+
+        .model-status-working {
+            background-color: #25d366;
+            color: white;
+        }
+
+        .model-status-failed {
+            background-color: #ff4444;
+            color: white;
+        }
+
+        .model-status-responding {
+            background-color: #ff9800;
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+
+        .model-action-btn {
+            background: #128c7e;
+            border: none;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .model-action-btn:hover {
+            background: #25d366;
+        }
+
+        .model-action-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+
+        .quick-action-btn {
+            width: 100%;
+            background: #128c7e;
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 8px;
+            font-size: 12px;
+            transition: background-color 0.2s;
+        }
+
+        .quick-action-btn:hover {
+            background: #25d366;
+        }
+
+        .quick-action-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+
+        .quick-action-btn:last-child {
+            margin-bottom: 0;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
         .api-status-header {
             display: flex;
             justify-content: space-between;
@@ -469,8 +659,9 @@
         }
     </style>
 </head>
-<body>
-    <div class="chat-container">
+  <body>
+     <div class="main-container">
+         <div class="chat-container">
         <div class="chat-header">
             <span>📋</span>
             <h1>Monitor de Questões BIP-05</h1>
@@ -562,6 +753,66 @@
         </div>
     </div>
 
+    <!-- Sidebar Panel -->
+    <div class="sidebar">
+        <!-- Real-time Cost Analysis -->
+        <div class="sidebar-section">
+            <div class="sidebar-header">
+                <h3>💰 Custos em Tempo Real</h3>
+            </div>
+            <div id="real-time-costs" class="sidebar-content">
+                <div class="cost-metric">
+                    <span class="cost-label">Sessão Atual:</span>
+                    <span class="cost-value" id="session-cost">$0.00</span>
+                </div>
+                <div class="cost-metric">
+                    <span class="cost-label">Última Resposta:</span>
+                    <span class="cost-value" id="last-response-cost">$0.00</span>
+                </div>
+                <div class="cost-metric">
+                    <span class="cost-label">Tokens Totais:</span>
+                    <span class="cost-value" id="total-tokens">0</span>
+                </div>
+                <div class="cost-breakdown">
+                    <div class="cost-item">
+                        <span>📤 Enviados:</span>
+                        <span id="tokens-sent">0</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>📥 Recebidos:</span>
+                        <span id="tokens-received">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Available Models -->
+        <div class="sidebar-section">
+            <div class="sidebar-header">
+                <h3>🤖 Modelos Disponíveis</h3>
+            </div>
+            <div id="models-list" class="sidebar-content models-list">
+                <div class="loading-status">🔄 Carregando modelos...</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="sidebar-section">
+            <div class="sidebar-header">
+                <h3>⚡ Ações Rápidas</h3>
+            </div>
+            <div class="sidebar-content">
+                <button id="quick-opinion-btn" class="quick-action-btn" disabled>
+                    🗳️ Solicitar Opinião Rápida
+                </button>
+                <button id="clear-costs-btn" class="quick-action-btn">
+                    🧹 Limpar Custos
+                </button>
+            </div>
+        </div>
+    </div>
+ </div>
+
     <script>
         class BIPMonitor {
             constructor() {
@@ -576,11 +827,19 @@
                 this.messageInput = document.getElementById('message-input');
                 this.typingIndicators = new Map(); // Track typing indicators by author
 
+                // Real-time cost tracking
+                this.sessionCost = 0;
+                this.lastResponseCost = 0;
+                this.totalTokensSent = 0;
+                this.totalTokensReceived = 0;
+                this.respondingModels = new Set();
+
                 this.connect();
                 this.setupEventListeners();
                 this.setupApiStatusPanel();
                 this.setupCostsPanel();
                 this.setupOpinionsPanel();
+                this.setupSidebar();
             }
 
             setupEventListeners() {
@@ -745,11 +1004,24 @@
                     return;
                 }
 
+                // Update costs if this message contains cost information
+                this.updateCostsFromMessage(messageData);
+
+                // Remove model from responding set when response is received
+                if (messageData.author && messageData.author !== 'Sistema') {
+                    const modelId = this.extractModelIdFromAuthor(messageData.author);
+                    if (modelId && this.respondingModels.has(modelId)) {
+                        this.respondingModels.delete(modelId);
+                        this.updateModelStatus(modelId, '✅', 'concluído', '#25d366');
+                        this.loadAvailableModels(); // Refresh the models list
+                    }
+                }
+
                 // Extract normalized data from backend (already processed)
                 const messageType = messageData.type || 'chat_message';
                 let messageClass = 'received';
                 let displayAuthor = messageData.author || 'Sistema';
-                let displayText = messageData.text || 'Sistema: Processando...';
+                let displayText = messageData.text || '';
 
                 // Handle typing indicators
                 if (messageType === 'typing') {
@@ -757,6 +1029,12 @@
                     return;
                 } else if (messageType === 'stop_typing') {
                     this.hideTypingIndicator(displayAuthor);
+                    return;
+                }
+
+                // Skip completely empty messages (unless they're system messages with meaning)
+                if (!displayText.trim() && !messageData.isSystemMessage) {
+                    console.log('[CHAT] Skipping empty message:', messageData);
                     return;
                 }
 
@@ -1111,13 +1389,14 @@
             renderApiStatus(data) {
                 const statusContent = document.getElementById('api-status-content');
 
-                // Add cache info header
+                // Add cache info header with refresh button
                 let cacheInfo = '';
                 if (data.cache_info) {
                     if (data.cache_info.from_cache) {
                         const expiresIn = data.cache_info.expires_in_minutes;
-                        cacheInfo = `<div style="background: #273339; padding: 8px; margin-bottom: 10px; border-radius: 4px; font-size: 11px;">
-                            📋 Dados do cache • Último teste: ${new Date(data.cache_info.last_test).toLocaleString()} • Expira em: ${expiresIn}min
+                        cacheInfo = `<div style="background: #273339; padding: 8px; margin-bottom: 10px; border-radius: 4px; font-size: 11px; display: flex; justify-content: space-between; align-items: center;">
+                            <span>📋 Dados do cache • Último teste: ${new Date(data.cache_info.last_test).toLocaleString()} • Expira em: ${expiresIn}min</span>
+                            <button onclick="chatInterface.loadApiStatus()" style="padding: 3px 6px; font-size: 10px; cursor: pointer;">🔄 Atualizar</button>
                         </div>`;
                     } else {
                         cacheInfo = `<div style="background: #273339; padding: 8px; margin-bottom: 10px; border-radius: 4px; font-size: 11px;">
@@ -1126,99 +1405,61 @@
                     }
                 }
 
-                const providers = {
-                    'Cursor Agent': {
-                        models: data.available_models.cursor_agent || [],
-                        working: data.available_models.cursor_agent || [],
-                        key: 'Built-in'
-                    },
-                    'OpenAI': {
-                        models: [
-                            'openai/gpt-4o',        // GPT-4o — multimodal reasoning
-                            'openai/gpt-4o-mini',   // GPT-4o-mini — voting rationale specialist
-                            'openai/o1-mini',       // O1-mini — reasoning model
-                            'openai/gpt-4-turbo',   // GPT-4-turbo — high performance
-                            'openai/gpt-5-mini',    // GPT-5-mini — lightweight version
-                            'openai/gpt-5-nano'     // GPT-5-nano — ultra-lightweight
-                        ],
-                        working: data.working_apis.filter(api => api.startsWith('openai/')),
-                        key: 'OPENAI_API_KEY'
-                    },
-                    'Anthropic': {
-                        models: [
-                            'anthropic/claude-3-5-haiku-latest',    // Claude-3.5-Haiku — fast responses
-                            'anthropic/claude-3-5-sonnet-latest',   // Claude-4-Sonnet — performance proposal
-                            'anthropic/claude-3-opus-latest',       // Claude-4-Opus — complex reasoning
-                            'anthropic/claude-3-7-sonnet-latest'    // Claude-3.7-Sonnet — advanced contextual understanding
-                        ],
-                        working: data.working_apis.filter(api => api.startsWith('anthropic/')),
-                        key: 'ANTHROPIC_API_KEY'
-                    },
-                    'Gemini': {
-                        models: [
-                            'gemini/gemini-2.0-flash-lite',      // Gemini 2.0 — lightweight
-                            'gemini/gemini-2.0-flash',           // Gemini 2.0 — multimodal analysis
-                            'gemini/gemini-2.5-pro-latest',      // Gemini 2.5 Pro — i18n/l10n
-                            'gemini/gemini-2.5-flash-latest'     // Gemini 2.5 Flash — fast processing
-                        ],
-                        working: data.working_apis.filter(api => api.startsWith('gemini/')),
-                        key: 'GEMINI_API_KEY'
-                    },
-                    'xAI': {
-                        models: [
-                            'xai/grok-3-mini',      // Grok-3-mini — lightweight
-                            'xai/grok-3',           // Grok-3 — adaptive learning consensus
-                            'xai/grok-beta'         // Grok Core Fast-1 equivalent
-                        ],
-                        working: data.working_apis.filter(api => api.startsWith('xai/')),
-                        key: 'XAI_API_KEY'
-                    },
-                    'DeepSeek': {
-                        models: [
-                            'deepseek/deepseek-chat',    // DeepSeek-V3 — advanced reasoning
-                            'deepseek/deepseek-coder'    // DeepSeek-Coder — technical analysis
-                        ],
-                        working: data.working_apis.filter(api => api.startsWith('deepseek/')),
-                        key: 'DEEPSEEK_API_KEY'
-                    },
-                    'Groq': {
-                        models: [
-                            'groq/llama-3.1-70b-versatile',    // Llama-3.1-70B — high performance
-                            'groq/llama-3.1-8b-instant',       // Llama-3.1-8B — fast responses
-                            'groq/llama-3.3-70b-versatile',    // Llama-3.3-70B — operational contributor
-                            'groq/openai/gpt-oss-120',         // GPT-OSS-120B — high capacity open source
-                            'groq/qwen/qwen3-32b'              // Qwen3-32B — operational contributor
-                        ],
-                        working: data.working_apis.filter(api => api.startsWith('groq/')),
-                        key: 'GROQ_API_KEY'
-                    }
-                };
-
                 let html = '';
 
-                Object.entries(providers).forEach(([providerName, providerData]) => {
-                    const hasKey = data.api_keys_status.availableKeys.includes(providerData.key) || providerData.key === 'Built-in';
-                    const workingCount = providerData.working.length;
-                    const totalCount = providerData.models.length;
+                // Use dynamic provider status from backend if available
+                if (data.provider_status) {
+                    const providerDisplayNames = {
+                        'openai': 'OpenAI',
+                        'anthropic': 'Anthropic',
+                        'gemini': 'Gemini',
+                        'xai': 'xAI',
+                        'deepseek': 'DeepSeek',
+                        'groq': 'Groq',
+                        'cursor': 'Cursor Agent'
+                    };
 
-                    html += `<div class="api-provider">`;
-                    html += `<div class="provider-name">${providerName} (${workingCount}/${totalCount})</div>`;
+                    Object.entries(data.provider_status).forEach(([provider, providerData]) => {
+                        const displayName = providerDisplayNames[provider] || provider.charAt(0).toUpperCase() + provider.slice(1);
+                        const workingCount = providerData.working.length;
+                        const totalCount = providerData.models.length;
+                        const hasKey = providerData.hasKey;
 
-                    if (providerData.key !== 'Built-in' && !hasKey) {
-                        html += `<div class="model-status status-missing">❌ API Key não configurada (${providerData.key})</div>`;
-                    } else {
-                        providerData.models.forEach(model => {
-                            const isWorking = providerData.working.includes(model);
-                            const statusClass = isWorking ? 'status-working' : 'status-failed';
-                            const icon = isWorking ? '✅' : '❌';
-                            html += `<div class="model-status ${statusClass}">${icon} ${model}</div>`;
-                        });
-                    }
+                        html += `<div class="api-provider">`;
+                        html += `<div class="provider-name">${displayName} (${workingCount}/${totalCount})</div>`;
 
-                    html += `</div>`;
-                });
+                        if (!hasKey && provider !== 'cursor') {
+                            const keyName = this.getApiKeyForProvider(provider);
+                            html += `<div class="model-status status-missing">❌ API Key não configurada (${keyName})</div>`;
+                        } else {
+                            providerData.models.forEach(model => {
+                                const isWorking = providerData.working.includes(model);
+                                const statusClass = isWorking ? 'status-working' : 'status-failed';
+                                const icon = isWorking ? '✅' : '❌';
+                                html += `<div class="model-status ${statusClass}">${icon} ${model}</div>`;
+                            });
+                        }
+
+                        html += `</div>`;
+                    });
+                } else {
+                    // Fallback message if provider_status is not available
+                    html = '<div class="loading-status">❌ Dados de status não disponíveis. Execute um teste de APIs.</div>';
+                }
 
                 statusContent.innerHTML = cacheInfo + html;
+            }
+
+            getApiKeyForProvider(provider) {
+                const keyMap = {
+                    'openai': 'OPENAI_API_KEY',
+                    'anthropic': 'ANTHROPIC_API_KEY',
+                    'gemini': 'GEMINI_API_KEY',
+                    'xai': 'XAI_API_KEY',
+                    'deepseek': 'DEEPSEEK_API_KEY',
+                    'groq': 'GROQ_API_KEY'
+                };
+                return keyMap[provider] || `${provider.toUpperCase()}_API_KEY`;
             }
 
             setupCostsPanel() {
@@ -1585,6 +1826,218 @@
                         timeSpan.style.color = color;
                     }
                 }
+            }
+
+            // ==================== SIDEBAR FUNCTIONALITY ====================
+
+            setupSidebar() {
+                this.loadAvailableModels();
+                this.setupQuickActions();
+                this.updateCostsDisplay();
+            }
+
+            async loadAvailableModels() {
+                const modelsList = document.getElementById('models-list');
+                modelsList.innerHTML = '<div class="loading-status">🔄 Carregando modelos...</div>';
+
+                try {
+                    const response = await fetch('/api/status');
+                    const data = await response.json();
+
+                    if (data.provider_status) {
+                        let html = '';
+
+                        Object.entries(data.provider_status).forEach(([provider, providerData]) => {
+                            const providerDisplayNames = {
+                                'openai': 'OpenAI',
+                                'anthropic': 'Anthropic',
+                                'gemini': 'Gemini',
+                                'xai': 'xAI',
+                                'deepseek': 'DeepSeek',
+                                'groq': 'Groq',
+                                'cursor': 'Cursor Agent'
+                            };
+
+                            const displayName = providerDisplayNames[provider] || provider.charAt(0).toUpperCase() + provider.slice(1);
+
+                            providerData.models.forEach(model => {
+                                const isWorking = providerData.working.includes(model);
+                                const modelId = `${provider}/${model}`;
+                                const isResponding = this.respondingModels.has(modelId);
+
+                                let statusClass, statusIcon, statusText;
+                                if (isResponding) {
+                                    statusClass = 'model-status-responding';
+                                    statusIcon = '⏳';
+                                    statusText = 'respondendo...';
+                                } else if (isWorking) {
+                                    statusClass = 'model-status-working';
+                                    statusIcon = '✅';
+                                    statusText = 'disponível';
+                                } else {
+                                    statusClass = 'model-status-failed';
+                                    statusIcon = '❌';
+                                    statusText = 'indisponível';
+                                }
+
+                                html += `
+                                    <div class="model-item">
+                                        <span class="model-name">${displayName} - ${model}</span>
+                                        <div class="model-status ${statusClass}">${statusIcon} ${statusText}</div>
+                                        <button class="model-action-btn"
+                                                onclick="chatInterface.requestModelOpinion('${modelId}')"
+                                                ${!isWorking || isResponding ? 'disabled' : ''}>
+                                            🗳️
+                                        </button>
+                                    </div>
+                                `;
+                            });
+                        });
+
+                        modelsList.innerHTML = html;
+                    } else {
+                        modelsList.innerHTML = '<div class="loading-status">❌ Não foi possível carregar modelos</div>';
+                    }
+                } catch (error) {
+                    console.error('[MODELS] Error loading models:', error);
+                    modelsList.innerHTML = '<div class="loading-status">❌ Erro ao carregar modelos</div>';
+                }
+            }
+
+            setupQuickActions() {
+                const quickOpinionBtn = document.getElementById('quick-opinion-btn');
+                const clearCostsBtn = document.getElementById('clear-costs-btn');
+
+                quickOpinionBtn.addEventListener('click', () => {
+                    const selectedModels = Array.from(this.respondingModels);
+                    if (selectedModels.length === 0) {
+                        alert('Selecione pelo menos um modelo para solicitar opinião');
+                        return;
+                    }
+                    this.requestMultipleOpinions(selectedModels);
+                });
+
+                clearCostsBtn.addEventListener('click', () => {
+                    this.clearCosts();
+                });
+            }
+
+            requestModelOpinion(modelId) {
+                const topic = prompt('Digite o tópico para a opinião do modelo:');
+                if (!topic) return;
+
+                const issueId = prompt('Digite o ID do issue (opcional, padrão: 1):') || 1;
+
+                // Mark model as responding
+                this.respondingModels.add(modelId);
+                this.updateModelStatus(modelId, '⏳', 'respondendo...', '#ff9800');
+                this.loadAvailableModels();
+
+                // Send request to auto model to orchestrate
+                const message = `Por favor, solicite a opinião do modelo ${modelId} sobre o tópico: "${topic}" para o issue ${issueId}`;
+                this.sendMessage(message);
+
+                console.log(`[OPINION] Requested opinion from ${modelId} on topic: ${topic}`);
+            }
+
+            requestMultipleOpinions(modelIds) {
+                const topic = prompt('Digite o tópico para as opiniões dos modelos:');
+                if (!topic) return;
+
+                const issueId = prompt('Digite o ID do issue (opcional, padrão: 1):') || 1;
+
+                // Mark all models as responding
+                modelIds.forEach(modelId => {
+                    this.respondingModels.add(modelId);
+                    this.updateModelStatus(modelId, '⏳', 'respondendo...', '#ff9800');
+                });
+                this.loadAvailableModels();
+
+                // Send request to auto model to orchestrate multiple opinions
+                const modelsList = modelIds.join(', ');
+                const message = `Por favor, solicite opiniões dos modelos ${modelsList} sobre o tópico: "${topic}" para o issue ${issueId}`;
+                this.sendMessage(message);
+
+                console.log(`[OPINION] Requested opinions from ${modelIds.length} models on topic: ${topic}`);
+            }
+
+            updateModelStatus(modelId, icon, status, color) {
+                // This will be updated when we reload the models list
+                setTimeout(() => this.loadAvailableModels(), 100);
+            }
+
+            updateCostsFromMessage(messageData) {
+                // Extract cost information from message
+                const text = messageData.text || '';
+
+                // Look for cost pattern like "Tokens: 10k sent, 429 received. Cost: $0.06 message, $0.06 session."
+                const costMatch = text.match(/Cost:\s*\$?([\d.]+)\s*message/i);
+                const tokensMatch = text.match(/Tokens:\s*([\d,.]+k?)\s*sent,\s*([\d,.]+k?)\s*received/i);
+
+                if (costMatch) {
+                    const cost = parseFloat(costMatch[1]);
+                    this.lastResponseCost = cost;
+                    this.sessionCost += cost;
+                    this.updateCostsDisplay();
+                }
+
+                if (tokensMatch) {
+                    const sentTokens = this.parseTokenValue(tokensMatch[1]);
+                    const receivedTokens = this.parseTokenValue(tokensMatch[2]);
+
+                    this.totalTokensSent += sentTokens;
+                    this.totalTokensReceived += receivedTokens;
+                    this.updateCostsDisplay();
+                }
+            }
+
+            parseTokenValue(tokenStr) {
+                const cleanValue = tokenStr.replace(/,/g, '');
+                if (cleanValue.includes('k')) {
+                    return Math.round(parseFloat(cleanValue.replace('k', '')) * 1000);
+                }
+                return parseInt(cleanValue);
+            }
+
+            updateCostsDisplay() {
+                const sessionCostEl = document.getElementById('session-cost');
+                const lastResponseCostEl = document.getElementById('last-response-cost');
+                const totalTokensEl = document.getElementById('total-tokens');
+                const tokensSentEl = document.getElementById('tokens-sent');
+                const tokensReceivedEl = document.getElementById('tokens-received');
+
+                if (sessionCostEl) sessionCostEl.textContent = `$${this.sessionCost.toFixed(4)}`;
+                if (lastResponseCostEl) lastResponseCostEl.textContent = `$${this.lastResponseCost.toFixed(4)}`;
+                if (totalTokensEl) totalTokensEl.textContent = (this.totalTokensSent + this.totalTokensReceived).toLocaleString();
+                if (tokensSentEl) tokensSentEl.textContent = this.totalTokensSent.toLocaleString();
+                if (tokensReceivedEl) tokensReceivedEl.textContent = this.totalTokensReceived.toLocaleString();
+            }
+
+            clearCosts() {
+                this.sessionCost = 0;
+                this.lastResponseCost = 0;
+                this.totalTokensSent = 0;
+                this.totalTokensReceived = 0;
+                this.updateCostsDisplay();
+                console.log('[COSTS] Cost data cleared');
+            }
+
+            extractModelIdFromAuthor(author) {
+                if (!author) return null;
+
+                // Try to extract model ID from author string like "anthropic/claude-3-5-haiku-latest"
+                const modelMatch = author.match(/^([^:]+):/);
+                if (modelMatch) {
+                    return modelMatch[1].trim();
+                }
+
+                // Fallback: try to find provider/model pattern
+                const providerMatch = author.match(/^([a-z]+)\/([a-z0-9\-_]+)$/i);
+                if (providerMatch) {
+                    return `${providerMatch[1]}/${providerMatch[2]}`;
+                }
+
+                return author; // Return as-is if no pattern matches
             }
         }
 

@@ -359,6 +359,26 @@ function loadApiCache() {
     return null;
 }
 
+// Load API cache data regardless of expiration (for status/models display)
+function loadApiCacheForced() {
+    try {
+        if (fs.existsSync(API_CACHE_FILE)) {
+            const cacheData = JSON.parse(fs.readFileSync(API_CACHE_FILE, 'utf8'));
+            const now = Date.now();
+
+            if (cacheData.timestamp) {
+                const ageMinutes = Math.round((now - cacheData.timestamp) / 60000);
+                console.log(`[API CACHE] 📋 Loading cache data (${ageMinutes} minutes old)`);
+                return cacheData;
+            }
+        }
+        console.log(`[API CACHE] 📄 No cache file found`);
+    } catch (error) {
+        console.log(`[API CACHE] ❌ Error loading cache: ${error.message}`);
+    }
+    return null;
+}
+
 // Save API test results to cache
 function saveApiCache(workingProviders, failedProviders, costReports = []) {
     try {
@@ -1263,11 +1283,62 @@ app.use(express.json());
 
 // API endpoint to check working APIs
 app.get('/api/status', (req, res) => {
-    // Load cache info
-    const cacheInfo = loadApiCache();
+    // Load cache info (forced - ignore expiration for status display)
+    const cacheInfo = loadApiCacheForced();
+
+    // Build provider-based status from cache and current model categories
+    const providerStatus = {};
+
+    // Get working providers from cache
+    const workingProviders = cacheInfo?.workingProviders || [];
+    const failedProviders = cacheInfo?.failedProviders || [];
+
+    // Build provider status based on PROVIDER_MODELS structure
+    Object.entries(PROVIDER_MODELS).forEach(([provider, models]) => {
+        const workingModels = [];
+        const failedModels = [];
+
+        models.forEach(model => {
+            const fullModelId = `${provider}/${model}`;
+
+            // Check if this specific model is working based on cache
+            const isWorking = cacheInfo?.costReports?.some(report =>
+                report.model === fullModelId &&
+                (report.hasCostData || report.testTimestamp)
+            ) || workingProviders.includes(provider);
+
+            if (isWorking) {
+                workingModels.push(model);
+            } else {
+                failedModels.push(model);
+            }
+        });
+
+        providerStatus[provider] = {
+            models: models,
+            working: workingModels,
+            failed: failedModels,
+            hasKey: keyStatus.availableKeys.includes(getApiKeyForProvider(provider))
+        };
+    });
+
+    // Add cursor models
+    providerStatus['cursor'] = {
+        models: MODEL_CATEGORIES.cursor_models,
+        working: MODEL_CATEGORIES.cursor_models, // Cursor models are always considered working
+        failed: [],
+        hasKey: true // Built-in, no key needed
+    };
+
+    // Update WORKING_APIS based on cache if it's empty
+    if (WORKING_APIS.length === 0 && cacheInfo && cacheInfo.workingProviders) {
+        WORKING_APIS = getModelsFromProviders(cacheInfo.workingProviders);
+        console.log(`[API STATUS] 🔄 Updated WORKING_APIS from cache: ${WORKING_APIS.length} models`);
+    }
 
     res.json({
         working_apis: WORKING_APIS,
+        provider_status: providerStatus,
         available_models: {
             cursor_agent: MODEL_CATEGORIES.cursor_models,
             aider: WORKING_APIS,
@@ -1282,6 +1353,19 @@ app.get('/api/status', (req, res) => {
         } : { from_cache: false }
     });
 });
+
+// Helper function to get API key environment variable for a provider
+function getApiKeyForProvider(provider) {
+    const keyMap = {
+        'openai': 'OPENAI_API_KEY',
+        'anthropic': 'ANTHROPIC_API_KEY',
+        'gemini': 'GEMINI_API_KEY',
+        'xai': 'XAI_API_KEY',
+        'deepseek': 'DEEPSEEK_API_KEY',
+        'groq': 'GROQ_API_KEY'
+    };
+    return keyMap[provider] || `${provider.toUpperCase()}_API_KEY`;
+}
 
 // API endpoint to refresh cost cache
 app.post('/api/costs/refresh', (req, res) => {
@@ -3172,7 +3256,7 @@ function normalizeChatEnvelope(messageData) {
             text = ''; // This is intentionally empty for stop_typing
         } else {
             console.warn('[NORMALIZE] Empty text detected in messageData:', JSON.stringify(messageData, null, 2));
-            text = 'Sistema: Processando...';
+            text = ''; // Don't show processing message
         }
     }
 
@@ -3190,9 +3274,9 @@ function normalizeChatEnvelope(messageData) {
         isSystemMessage: messageData.isSystemMessage || false
     };
 
-    // Log for debugging problematic messages
-    if (text === 'Sistema: Processando...') {
-        console.warn('[NORMALIZE] Had to use fallback text for message:', normalized);
+    // Log for debugging problematic messages with empty text
+    if (!text && type !== 'stop_typing') {
+        console.warn('[NORMALIZE] Message has empty text:', normalized);
     }
 
     return normalized;
