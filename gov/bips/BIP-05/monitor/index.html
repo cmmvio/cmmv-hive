@@ -626,17 +626,17 @@
                     const data = JSON.parse(event.data);
                     console.log('[WEBSOCKET] Received message:', data.type || 'issues_update', data);
 
-                    // Handle different message types
-                    if (data.type === 'chat_message') {
-                        // Handle both nested and flat data structures
+                    // Route by intent: issues_update -> renderIssues; otherwise treat as chat payload
+                    const isIssuesPayload = data && Array.isArray(data.comments);
+                    const isChatLike = data && (data.type || data.author || data.text);
+
+                    if (isIssuesPayload) {
+                        this.renderIssues(data);
+                    } else if (isChatLike) {
                         const messageData = data.data || data;
                         this.handleChatMessage(messageData);
-                    } else if (data.type === 'opinion_update') {
-                        this.handleOpinionUpdate(data);
-                    } else if (data.type === 'hello_progress') {
-                        this.handleHelloProgress(data);
                     } else {
-                        // Handle regular issues update
+                        // Fallback to issues rendering if structure is unknown
                         this.renderIssues(data);
                     }
                 } catch (error) {
@@ -684,15 +684,27 @@
                     return;
                 }
 
-                if (!data.comments || !Array.isArray(data.comments)) {
-                    console.error('[VALIDATION] Invalid comments field:', {
-                        hasComments: !!data.comments,
-                        commentsType: typeof data.comments,
-                        isArray: Array.isArray(data.comments),
-                        dataKeys: Object.keys(data)
-                    });
-                    this.showError('Formato de dados de chat inválido recebido');
+                // If a non-issues message slipped through, route to chat and exit
+                if (!Array.isArray(data.comments) && (data.type || data.author || data.text)) {
+                    this.handleChatMessage(data);
                     return;
+                }
+
+                // Accept either full issues payload or a minimal chat payload { comments: [...] }
+                if (!data.comments || !Array.isArray(data.comments)) {
+                    // If payload is a single message, normalize to comments array
+                    if (data.author && typeof data.text === 'string') {
+                        data = { comments: [data] };
+                    } else {
+                        console.error('[VALIDATION] Invalid comments field:', {
+                            hasComments: !!data.comments,
+                            commentsType: typeof data.comments,
+                            isArray: Array.isArray(data.comments),
+                            dataKeys: Object.keys(data)
+                        });
+                        this.showError('Formato de dados de chat inválido recebido');
+                        return;
+                    }
                 }
 
                 // Add master comment at the top if it exists
@@ -733,11 +745,11 @@
                     return;
                 }
 
-                // Handle real-time chat messages (simple responses, general contributions, etc.)
-                const messageType = messageData.type || 'unknown';
+                // Extract normalized data from backend (already processed)
+                const messageType = messageData.type || 'chat_message';
                 let messageClass = 'received';
                 let displayAuthor = messageData.author || 'Sistema';
-                let displayText = messageData.text || messageData.message || 'Mensagem vazia';
+                let displayText = messageData.text || 'Sistema: Processando...';
 
                 // Handle typing indicators
                 if (messageType === 'typing') {
@@ -826,7 +838,7 @@
 
             addMessage(comment, type, author, timestamp) {
                 // Validate and sanitize inputs
-                const safeComment = comment || { body: 'Mensagem vazia' };
+                const safeComment = comment || { body: 'Sistema: Conteúdo não disponível' };
                 const safeType = type || 'received';
                 const safeAuthor = author || 'Desconhecido';
                 const safeTimestamp = timestamp || new Date().toISOString();
@@ -907,7 +919,7 @@
 
                 if (!bodyText) {
                     console.warn('[PARSE] Empty comment body:', comment);
-                    return 'Mensagem vazia';
+                    return 'Sistema: Conteúdo não disponível';
                 }
 
                 // Handle the new standardized format (both English and Portuguese)
@@ -1185,6 +1197,134 @@
                 });
 
                 statusContent.innerHTML = cacheInfo + html;
+            }
+
+            setupCostsPanel() {
+                const toggleButton = document.getElementById('costs-toggle');
+                const costsPanel = document.getElementById('costs-panel');
+                const closeButton = document.getElementById('close-costs');
+
+                toggleButton.addEventListener('click', () => {
+                    // Close other panels if open
+                    const apiPanel = document.getElementById('api-status-panel');
+                    if (apiPanel.style.display === 'block') {
+                        apiPanel.style.display = 'none';
+                    }
+                    const opinionsPanel = document.getElementById('opinions-panel');
+                    if (opinionsPanel.style.display === 'block') {
+                        opinionsPanel.style.display = 'none';
+                    }
+
+                    // Toggle costs panel
+                    if (costsPanel.style.display === 'none') {
+                        costsPanel.style.display = 'block';
+                        this.loadCostsReport();
+                    } else {
+                        costsPanel.style.display = 'none';
+                    }
+                });
+
+                closeButton.addEventListener('click', () => {
+                    costsPanel.style.display = 'none';
+                });
+            }
+
+            async loadCostsReport() {
+                const costsContent = document.getElementById('costs-content');
+                costsContent.innerHTML = '<div class="loading-status">🔄 Carregando relatório de custos...</div>';
+
+                try {
+                    const response = await fetch('/api/costs');
+                    const data = await response.json();
+                    this.renderCostsReport(data);
+                } catch (error) {
+                    costsContent.innerHTML = '<div class="loading-status">❌ Erro ao carregar relatório de custos</div>';
+                }
+            }
+
+            renderCostsReport(data) {
+                const costsContent = document.getElementById('costs-content');
+
+                if (!data.success) {
+                    costsContent.innerHTML = '<div class="loading-status">❌ Erro ao obter dados de custos</div>';
+                    return;
+                }
+
+                if (!data.hasData) {
+                    costsContent.innerHTML = `
+                        <div class="no-cost-data">
+                            ${data.message || 'Nenhum dado de custo disponível.'}<br><br>
+                            Execute um teste de conectividade das APIs para gerar dados de custo.
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '';
+
+                // Summary section
+                html += `
+                    <div class="cost-summary">
+                        <h4>📊 Resumo Geral</h4>
+                        <div class="cost-metric">
+                            <span class="cost-metric-label">Total de Custos:</span>
+                            <span class="cost-metric-value">$${data.summary.totalCost.toFixed(4)}</span>
+                        </div>
+                        <div class="cost-metric">
+                            <span class="cost-metric-label">Custo Médio por Modelo:</span>
+                            <span class="cost-metric-value">$${data.summary.avgCostPerModel.toFixed(4)}</span>
+                        </div>
+                        <div class="cost-metric">
+                            <span class="cost-metric-label">Modelos com Dados:</span>
+                            <span class="cost-metric-value">${data.summary.modelsWithData}/${data.summary.totalModels || data.summary.totalReports}</span>
+                        </div>
+                        <div class="cost-metric">
+                            <span class="cost-metric-label">Último Teste:</span>
+                            <span class="cost-metric-value">${new Date(data.lastTest).toLocaleString()}</span>
+                        </div>
+                    </div>
+                `;
+
+                // By provider section
+                if (data.summary.byProvider && Object.keys(data.summary.byProvider).length > 0) {
+                    html += '<div class="cost-by-provider">';
+
+                    Object.entries(data.summary.byProvider).forEach(([provider, providerData]) => {
+                        const totalProviderModels = providerData.models.length;
+                        const providerModelsWithData = providerData.models.filter(m => m.hasCostData).length;
+                        html += `
+                            <div class="provider-cost">
+                                <div class="provider-cost-header">
+                                    <span class="provider-name-cost">${provider.charAt(0).toUpperCase() + provider.slice(1)} (${providerModelsWithData}/${totalProviderModels})</span>
+                                    <span class="provider-total-cost">$${providerData.totalCost.toFixed(4)}</span>
+                                </div>
+                                <div class="provider-models">
+                        `;
+
+                        providerData.models.forEach(model => {
+                            const costText = model.hasCostData ?
+                                `$${model.totalCost ? model.totalCost.toFixed(4) : '0.0000'}` :
+                                'N/A';
+                            const modelName = model.model.split('/')[1] || model.model;
+
+                            html += `
+                                <div class="model-cost-item">
+                                    <span class="model-name">${modelName}</span>
+                                    <span class="model-cost">${costText}</span>
+                                </div>
+                            `;
+                        });
+
+                        html += `
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    html += '</div>';
+                }
+
+                costsContent.innerHTML = html;
             }
 
             handleOpinionUpdate(data) {

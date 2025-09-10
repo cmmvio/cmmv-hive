@@ -147,7 +147,7 @@ function validateApiKeys() {
 loadEnvironment();
 const keyStatus = validateApiKeys();
 
-// Test API connectivity with simple models (one per provider)
+// Test API connectivity with ALL available models
 async function testApiConnectivity() {
     // Check cache first
     const cachedResults = loadApiCache();
@@ -162,72 +162,104 @@ async function testApiConnectivity() {
         };
     }
 
-    console.log(`[API TEST] 🧪 Testing API connectivity with simple models (one per provider)...`);
+    console.log(`[API TEST] 🧪 Testing API connectivity with ALL available models...`);
 
-    // Test only one model per provider
-    const testModels = {
-        'openai': { model: 'openai/gpt-4o-mini', key: 'OPENAI_API_KEY' },
-        'anthropic': { model: 'anthropic/claude-3-5-haiku-latest', key: 'ANTHROPIC_API_KEY' },
-        'gemini': { model: 'gemini/gemini-2.0-flash-lite', key: 'GEMINI_API_KEY' },
-        'xai': { model: 'xai/grok-3-mini', key: 'XAI_API_KEY' },
-        'deepseek': { model: 'deepseek/deepseek-chat', key: 'DEEPSEEK_API_KEY' },
-        'groq': { model: 'groq/llama-3.1-8b-instant', key: 'GROQ_API_KEY' }
-    };
+    // Create test configuration for ALL models in aider_models
+    const testModels = [];
+    const modelConfigs = MODEL_CATEGORIES.aider_models;
+
+    // Iterate through all aider models and create test configuration
+    for (const [modelId, config] of Object.entries(modelConfigs)) {
+        testModels.push({
+            modelId: modelId,
+            config: config,
+            provider: config.provider,
+            apiKey: config.key,
+            fullModelName: config.model
+        });
+    }
+
+    console.log(`[API TEST] 📋 Testing ${testModels.length} models total`);
+    console.log(`[API TEST] 🔍 Starting comprehensive model testing...`);
 
     const workingProviders = [];
     const failedProviders = [];
     const costReports = [];
+    const testedProviders = new Set();
 
-    for (const [provider, config] of Object.entries(testModels)) {
-        const apiKey = process.env[config.key];
+    // Test each model individually
+    for (const testModel of testModels) {
+        const apiKey = process.env[testModel.apiKey];
 
         if (!apiKey) {
-            console.log(`[API TEST] ⏭️  Skipping ${provider} - No API key for ${config.key}`);
-            failedProviders.push({ provider, reason: `Missing ${config.key}` });
+            console.log(`[API TEST] ⏭️  Skipping ${testModel.modelId} - No API key for ${testModel.apiKey}`);
+            failedProviders.push({
+                provider: testModel.provider,
+                model: testModel.modelId,
+                reason: `Missing ${testModel.apiKey}`
+            });
             continue;
         }
 
-        console.log(`[API TEST] 🔍 Testing ${provider} provider with ${config.model}...`);
+        console.log(`[API TEST] 🔍 Testing model: ${testModel.modelId} (${testModel.provider})`);
 
         try {
             const testPrompt = "Responda apenas 'OK' para confirmar que a API está funcionando.";
-            const result = await callLLMViaAider(config.model, testPrompt);
+            const result = await callLLMViaAider(testModel.modelId, testPrompt);
 
             // Handle new response format with cost information
             const response = typeof result === 'object' ? result.response : result;
             const costInfo = typeof result === 'object' ? result.costInfo : null;
 
-            if (response && !response.includes('❌')) {
-                console.log(`[API TEST] ✅ ${provider} provider - WORKING`);
-                workingProviders.push(provider);
+            if (response && !response.includes('❌') && response.toLowerCase().includes('ok')) {
+                console.log(`[API TEST] ✅ ${testModel.modelId} - WORKING`);
+
+                // Add provider to working list if not already there
+                if (!testedProviders.has(testModel.provider)) {
+                    workingProviders.push(testModel.provider);
+                    testedProviders.add(testModel.provider);
+                }
 
                 // Store cost information if available
                 if (costInfo) {
+                    const hasCostData = (costInfo.inputTokens !== null && costInfo.inputTokens !== undefined) || (costInfo.totalCost !== null && costInfo.totalCost !== undefined);
+
                     costReports.push({
-                        provider: provider,
-                        model: config.model,
+                        provider: testModel.provider,
+                        model: testModel.modelId,
+                        hasCostData,
                         ...costInfo,
                         testTimestamp: new Date().toISOString()
                     });
 
-                    if (costInfo.hasCostData) {
-                        console.log(`[API TEST] 💰 Cost data captured for ${provider}:`);
+                    if (hasCostData) {
+                        console.log(`[API TEST] 💰 Cost data captured for ${testModel.modelId}:`);
                         console.log(`[API TEST]   - Input tokens: ${costInfo.inputTokens || 'N/A'}`);
                         console.log(`[API TEST]   - Output tokens: ${costInfo.outputTokens || 'N/A'}`);
                         console.log(`[API TEST]   - Total cost: $${costInfo.totalCost || 'N/A'}`);
                     }
                 }
             } else {
-                console.log(`[API TEST] ❌ ${provider} provider - FAILED: ${response}`);
-                failedProviders.push({ provider, reason: response });
+                console.log(`[API TEST] ❌ ${testModel.modelId} - FAILED: ${response}`);
+                failedProviders.push({
+                    provider: testModel.provider,
+                    model: testModel.modelId,
+                    reason: response
+                });
             }
         } catch (error) {
-            console.log(`[API TEST] ❌ ${provider} provider - ERROR: ${error.message}`);
-            failedProviders.push({ provider, reason: error.message });
+            console.log(`[API TEST] ❌ ${testModel.modelId} - ERROR: ${error.message}`);
+            failedProviders.push({
+                provider: testModel.provider,
+                model: testModel.modelId,
+                reason: error.message
+            });
         }
 
-        // Small delay between tests to avoid rate limits
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // Small delay between tests to avoid rate limits (0.5 seconds between models)
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        console.log(`[API TEST] 📊 Progress: ${workingProviders.length + failedProviders.length}/${testModels.length} models tested`);
     }
 
     // Save results to cache
@@ -239,11 +271,12 @@ async function testApiConnectivity() {
     console.log(`\n[API TEST] 📊 Test Results Summary:`);
     console.log(`[API TEST] ✅ Working Providers (${workingProviders.length}): ${workingProviders.join(', ')}`);
     console.log(`[API TEST] 📋 Available Models (${workingModels.length}): ${workingModels.join(', ')}`);
+    console.log(`[API TEST] 💰 Cost Reports Generated: ${costReports.length}`);
 
     if (failedProviders.length > 0) {
-        console.log(`[API TEST] ❌ Failed Providers (${failedProviders.length}):`);
-        failedProviders.forEach(({ provider, reason }) => {
-            console.log(`[API TEST]   - ${provider}: ${reason}`);
+        console.log(`[API TEST] ❌ Failed Models (${failedProviders.length}):`);
+        failedProviders.forEach(({ provider, model, reason }) => {
+            console.log(`[API TEST]   - ${model} (${provider}): ${reason}`);
         });
     }
 
@@ -522,11 +555,22 @@ function extractCostInfo(aiderOutput, modelId) {
         currency: 'USD'
     };
 
-    // Extract tokens information from aider output
-    const tokensMatch = aiderOutput.match(/Tokens:\s*([\d,]+)\s*sent,\s*([\d,]+)\s*received/i);
+    // Extract tokens information from aider output - more flexible regex
+    // Handles formats like: "6.2k sent, 1 received" or "8.3k sent, 8.3k cache hit, 104 received"
+    const tokensMatch = aiderOutput.match(/Tokens:\s*([\d,.]+k?)\s*sent(?:,\s*[\d,.]+k?\s*cache\s*hit)?,\s*([\d,.]+k?)\s*received/i);
     if (tokensMatch) {
-        costInfo.inputTokens = parseInt(tokensMatch[1].replace(/,/g, ''));
-        costInfo.outputTokens = parseInt(tokensMatch[2].replace(/,/g, ''));
+        // Convert k notation to numbers (e.g., "6.2k" -> 6200)
+        const parseTokenValue = (value) => {
+            const cleanValue = value.replace(/,/g, '');
+            if (cleanValue.includes('k')) {
+                return Math.round(parseFloat(cleanValue.replace('k', '')) * 1000);
+            }
+            return parseInt(cleanValue);
+        };
+
+        costInfo.inputTokens = parseTokenValue(tokensMatch[1]);
+        costInfo.outputTokens = parseTokenValue(tokensMatch[2]);
+        console.log(`[COST EXTRACT] Parsed tokens - Input: ${costInfo.inputTokens}, Output: ${costInfo.outputTokens}`);
     }
 
     // Extract cost information from aider output
@@ -735,7 +779,24 @@ async function callLLMViaAider(modelId, prompt) {
 // Main LLM call dispatcher - decides between cursor-agent and aider
 async function callLLM(modelId, prompt) {
     // Enhanced system prompt with identity validation
-    const systemPrompt = `Você é um modelo auxiliando na discussão do BIP-05 (UMICP).
+    const systemPrompt = (modelId === 'auto') ? `Você é 'auto', o modelo mediador do BIP-05.
+
+PRIVILÉGIOS:
+- Pode adicionar comentários no issues.json com segurança.
+- Pode orquestrar pedidos de opinião de outros modelos usando as APIs internas do servidor.
+
+COMO ORQUESTRAR (saída de comando):
+- Ao final da sua resposta, se desejar iniciar a coleta de opiniões, emita UMA linha começando com AUTO_CMD: seguida de JSON puro em uma das formas:
+  AUTO_CMD: {"orchestrate":{"topic":"<tópico>","issueId":<número>,"models":["prov/model",...]}}
+  AUTO_CMD: {"option":{"topic":"<tópico>","issueId":<número>,"modelId":"prov/model"}}
+- Não coloque texto adicional na mesma linha do AUTO_CMD além do JSON.
+
+REGRAS DE IDENTIDADE:
+- Você é: auto (mediador)
+- Não finja ser outro modelo; ao solicitar opinião, use os comandos acima.
+
+Responda em PT-BR, objetiva e útil, e só então emita a linha AUTO_CMD se fizer sentido.`
+    : `Você é um modelo auxiliando na discussão do BIP-05 (UMICP).
 
 IDENTIDADE CRÍTICA:
 - VOCÊ É: ${modelId}
@@ -824,7 +885,7 @@ async function callLLMViaCursorAgent(modelId, fullPrompt) {
 
                     resolve('⏰ A resposta demorou muito para ser processada. Tente novamente em alguns instantes.');
                 }
-            }, 60000); // 60 second timeout, then try fallback
+            }, 90000); // 90 second timeout, then try fallback
 
             cursorAgent.stdout.on('data', (data) => {
                 dataReceived = true;
@@ -843,6 +904,26 @@ async function callLLMViaCursorAgent(modelId, fullPrompt) {
                     'BIP-05.',
                     'implementação.'
                 ];
+
+                // Check for complete AUTO_CMD (immediate completion for orchestration commands)
+                if (stdout.includes('AUTO_CMD:') && !isResolved) {
+                    // Check if AUTO_CMD JSON appears complete (has opening and closing braces)
+                    const cmdIndex = stdout.indexOf('AUTO_CMD:');
+                    const afterCmd = stdout.slice(cmdIndex);
+                    const openBraces = (afterCmd.match(/\{/g) || []).length;
+                    const closeBraces = (afterCmd.match(/\}/g) || []).length;
+
+                    if (openBraces > 0 && openBraces === closeBraces) {
+                        console.log(`[CURSOR-AGENT DEBUG] Complete AUTO_CMD detected, resolving immediately (${stdout.length} chars)`);
+                        clearTimeout(timeout);
+                        isResolved = true;
+                        cursorAgent.kill('SIGTERM');
+                        resolve(stdout.trim());
+                        return;
+                    } else {
+                        console.log(`[CURSOR-AGENT DEBUG] Partial AUTO_CMD detected (${openBraces} open, ${closeBraces} close), waiting for completion...`);
+                    }
+                }
 
                 if (responseEndings.some(ending => stdout.trim().endsWith(ending)) &&
                     stdout.length > 500 && // Resposta substancial
@@ -1084,20 +1165,40 @@ app.get('/api/costs', (req, res) => {
         const totalCost = costReports.reduce((sum, r) => sum + (r.totalCost || 0), 0);
         const avgCostPerModel = modelsWithData > 0 ? totalCost / modelsWithData : 0;
 
-        // Group by provider
-        const byProvider = costReports.reduce((acc, report) => {
-            const provider = report.model.split('/')[0];
-            if (!acc[provider]) {
-                acc[provider] = {
-                    models: [],
-                    totalCost: 0,
-                    avgCost: 0
-                };
-            }
-            acc[provider].models.push(report);
-            acc[provider].totalCost += report.totalCost || 0;
-            return acc;
-        }, {});
+        // Build full provider map including models without cost data (N/A)
+        const byProvider = {};
+
+        // Seed with full list from PROVIDER_MODELS so frontend can render X/Y
+        Object.entries(PROVIDER_MODELS).forEach(([provider, models]) => {
+            byProvider[provider] = {
+                models: models.map(m => {
+                    const id = `${provider}/${m}`;
+                    const found = costReports.find(r => r.model === id);
+                    if (found) return found;
+                    return {
+                        provider,
+                        model: id,
+                        inputTokens: null,
+                        outputTokens: null,
+                        inputCost: null,
+                        outputCost: null,
+                        totalCost: null,
+                        currency: 'USD',
+                        hasCostData: false,
+                        testTimestamp: null
+                    };
+                }),
+                totalCost: 0,
+                avgCost: 0
+            };
+        });
+
+        // Accumulate totals using available cost data
+        costReports.forEach(r => {
+            const provider = r.model.split('/')[0];
+            if (!byProvider[provider]) return;
+            byProvider[provider].totalCost += r.totalCost || 0;
+        });
 
         // Calculate averages per provider
         Object.keys(byProvider).forEach(provider => {
@@ -1105,6 +1206,9 @@ app.get('/api/costs', (req, res) => {
             const modelsWithData = providerData.models.filter(m => m.hasCostData).length;
             providerData.avgCost = modelsWithData > 0 ? providerData.totalCost / modelsWithData : 0;
         });
+
+        // Count totals using PROVIDER_MODELS for denominator
+        const totalModels = Object.values(PROVIDER_MODELS).reduce((sum, arr) => sum + arr.length, 0);
 
         res.json({
             success: true,
@@ -1115,6 +1219,7 @@ app.get('/api/costs', (req, res) => {
                 avgCostPerModel: avgCostPerModel,
                 modelsWithData: modelsWithData,
                 totalReports: costReports.length,
+                totalModels: totalModels,
                 byProvider: byProvider
             },
             lastTest: cachedResults.lastTest,
@@ -1241,6 +1346,88 @@ app.post('/api/model', async (req, res) => {
         // Call the model
         const startTime = Date.now();
         const response = await callLLM(model_id, safeguardedPrompt);
+
+        // If auto emitted an orchestration command, parse and trigger
+        let orchestrated = null;
+        if (model_id === 'auto' && typeof response === 'string' && response.includes('AUTO_CMD:')) {
+            try {
+                console.log(`[AUTO_CMD] 🔍 Raw response: ${response.substring(response.indexOf('AUTO_CMD:'), response.indexOf('AUTO_CMD:') + 200)}`);
+                const cmd = parseAutoCmdFromText(response);
+                console.log(`[AUTO_CMD] 📋 Parsed command:`, JSON.stringify(cmd, null, 2));
+                if (!cmd) throw new Error('AUTO_CMD não pôde ser parseado');
+                if (cmd.orchestrate) {
+                    const { topic: t, issueId: iid, models } = cmd.orchestrate;
+                    const normalized = (models || WORKING_APIS).map(normalizeModelId);
+                    console.log(`[AUTO_CMD] 🔄 Original models: ${JSON.stringify(models)}`);
+                    console.log(`[AUTO_CMD] 🔄 Normalized models: ${JSON.stringify(normalized)}`);
+                    console.log(`[AUTO_CMD] 🔄 WORKING_APIS: ${JSON.stringify(WORKING_APIS)}`);
+                    const sessionId = `session_${Date.now()}_${Math.random().toString(36).slice(2,9)}`;
+                    console.log(`[AUTO_CMD] 🗳️  Orchestrate received → ${normalized.length} models • session=${sessionId}`);
+                    broadcastChatMessage({
+                        type: 'simple_response',
+                        author: 'auto',
+                        text: `🔄 Orquestrando opiniões de ${normalized.join(', ')} para o tópico: "${t || prompt}"...`
+                    });
+                    // seed session and run async
+                    activeOpinionSessions.set(sessionId, {
+                        sessionId,
+                        topic: t || prompt,
+                        issueId: iid || 1,
+                        startTime: new Date().toISOString(),
+                        totalModels: normalized.length,
+                        pendingModels: [...normalized],
+                        completedModels: [],
+                        failedModels: [],
+                        responses: []
+                    });
+                    console.log(`[AUTO_CMD] 🚀 Starting collectModelOpinions with ${normalized.length} models`);
+                    // Await completion so 'auto' responde somente após as opiniões
+                    await collectModelOpinions(sessionId, t || prompt, iid || 1, normalized);
+                    const session = activeOpinionSessions.get(sessionId);
+                    orchestrated = {
+                        type: 'batch',
+                        sessionId,
+                        models: normalized,
+                        completed: session?.completedModels || [],
+                        failed: session?.failedModels || [],
+                        responses: session?.responses || []
+                    };
+                } else if (cmd.option) {
+                    const { topic: t, issueId: iid, modelId: mid } = cmd.option;
+                    const nm = normalizeModelId(mid);
+                    const sessionId = `option_${Date.now()}_${Math.random().toString(36).slice(2,9)}`;
+                    console.log(`[AUTO_CMD] 🎯 Option received → model=${nm} • session=${sessionId}`);
+                    broadcastChatMessage({
+                        type: 'simple_response',
+                        author: 'auto',
+                        text: `🔎 Solicitando opinião de ${nm} para o tópico: "${t || prompt}"...`
+                    });
+                    activeOpinionSessions.set(sessionId, {
+                        sessionId,
+                        topic: t || prompt,
+                        issueId: iid || 1,
+                        startTime: new Date().toISOString(),
+                        totalModels: 1,
+                        pendingModels: [nm],
+                        completedModels: [],
+                        failedModels: [],
+                        responses: []
+                    });
+                    await collectSingleModelOpinion(sessionId, nm, t || prompt, iid || 1);
+                    const session = activeOpinionSessions.get(sessionId);
+                    orchestrated = {
+                        type: 'single',
+                        sessionId,
+                        modelId: nm,
+                        responses: session?.responses || [],
+                        completed: session?.completedModels || [],
+                        failed: session?.failedModels || []
+                    };
+                }
+            } catch (e) {
+                console.log(`[AUTO_CMD] ⚠️  Parsing failed: ${e.message}`);
+            }
+        }
         const duration = Date.now() - startTime;
 
         // Validate response
@@ -1255,6 +1442,23 @@ app.post('/api/model', async (req, res) => {
         }
 
         console.log(`[DIRECT MODEL] ✅ Response from ${model_id} (${duration}ms): ${response.substring(0, 200)}${response.length > 200 ? '...' : ''}`);
+
+        // If auto orchestrated, return final orchestration info (já aguardado)
+        if (model_id === 'auto' && orchestrated) {
+            return res.json({
+                success: true,
+                model_id: model_id,
+                orchestrated,
+                message: orchestrated.type === 'batch'
+                    ? `Orquestração concluída para ${orchestrated.completed.length} modelos (falhas: ${orchestrated.failed.length}).`
+                    : `Opinião de ${orchestrated.modelId} registrada.`,
+                metadata: {
+                    duration_ms: duration,
+                    timestamp: new Date().toISOString(),
+                    model_type: 'auto-mediator'
+                }
+            });
+        }
 
         res.json({
             success: true,
@@ -1281,14 +1485,14 @@ app.post('/api/model', async (req, res) => {
 });
 
 // Global store for active opinion collection sessions
-let activeOpinionSessions = new Map();
+const activeOpinionSessions = new Map();
 
 // Global store for active hello handshake sessions
-let activeHelloSessions = new Map();
+const activeHelloSessions = new Map();
 
 // API endpoint to collect opinions from all models
 app.post('/api/models/opinions', async (req, res) => {
-    const { topic, issueId = 1 } = req.body;
+    const { topic, issueId = 1, requestedBy, targetModels } = req.body;
 
     if (!topic || topic.trim().length === 0) {
         return res.status(400).json({
@@ -1303,11 +1507,19 @@ app.post('/api/models/opinions', async (req, res) => {
     console.log(`[OPINIONS] 📋 Topic: "${topic}"`);
     console.log(`[OPINIONS] 🎯 Target issue: ${issueId}`);
 
-    // Get all available models
-    const allModels = [
-        ...MODEL_CATEGORIES.cursor_models,
-        ...WORKING_APIS
-    ];
+    // Determine target models
+    let allModels;
+    if (Array.isArray(targetModels) && targetModels.length > 0) {
+        // Use explicit targets (e.g., requested by 'auto')
+        allModels = targetModels;
+        console.log(`[OPINIONS] 🎯 Using explicit target models (${allModels.length})`);
+    } else {
+        // Use all available models by default
+        allModels = [
+            ...MODEL_CATEGORIES.cursor_models,
+            ...WORKING_APIS
+        ];
+    }
 
     console.log(`[OPINIONS] 🤖 Total models to query: ${allModels.length}`);
     console.log(`[OPINIONS] 📊 Models: ${allModels.join(', ')}`);
@@ -1337,7 +1549,23 @@ app.post('/api/models/opinions', async (req, res) => {
     });
 
     // Start collecting opinions asynchronously
-    collectModelOpinions(sessionId, topic, issueId, allModels);
+    // If 'auto' is orchestrating and no explicit targets were provided, ask 'auto' to propose a shortlist
+    if (requestedBy === 'auto' && (!Array.isArray(targetModels) || targetModels.length === 0)) {
+        try {
+            const autoPlan = await generateAutoOpinionPlan(topic, issueId, allModels);
+            const selected = Array.isArray(autoPlan?.models) && autoPlan.models.length > 0
+                ? autoPlan.models
+                : getDefaultShortlistFromProviders(allModels);
+
+            console.log(`[OPINIONS] 🤖 'auto' selected ${selected.length} models: ${selected.join(', ')}`);
+            collectModelOpinions(sessionId, topic, issueId, selected);
+        } catch (e) {
+            console.log(`[OPINIONS] ⚠️  Auto planning failed: ${e.message}. Falling back to provider shortlist.`);
+            collectModelOpinions(sessionId, topic, issueId, getDefaultShortlistFromProviders(allModels));
+        }
+    } else {
+        collectModelOpinions(sessionId, topic, issueId, allModels);
+    }
 });
 
 // Function to collect opinions from all models
@@ -1413,9 +1641,14 @@ function sanitizeForJSON(text) {
 // Function to collect opinion from a single model
 async function collectSingleModelOpinion(sessionId, modelId, topic, issueId) {
     const session = activeOpinionSessions.get(sessionId);
-    if (!session) return;
+    if (!session) {
+        console.log(`[OPINIONS] ❌ Session ${sessionId} not found for model ${modelId}`);
+        return;
+    }
 
     console.log(`[OPINIONS] 🤖 Querying ${modelId} about: "${topic}"`);
+    console.log(`[OPINIONS] 🔍 Model ${modelId} is in WORKING_APIS:`, WORKING_APIS.includes(modelId));
+    console.log(`[OPINIONS] 🔍 Available aider models:`, Object.keys(MODEL_CATEGORIES.aider_models || {}));
 
     // Broadcast model started
     broadcastOpinionUpdate(sessionId, {
@@ -1425,7 +1658,10 @@ async function collectSingleModelOpinion(sessionId, modelId, topic, issueId) {
     });
 
     try {
-        // Build prompt for model opinion with strict guidelines
+        // Build context pack from BIP files and issues
+        const contextPack = buildBipContextPack(issueId, 18000, topic); // ~18k chars cap to keep prompt safe
+
+        // Build prompt for model opinion with strict guidelines and embedded context
         const prompt = `Como modelo AI participante das discussões do BIP-05 (Universal Matrix Protocol), forneça sua opinião sobre:
 
 **Tópico**: ${topic}
@@ -1445,13 +1681,41 @@ async function collectSingleModelOpinion(sessionId, modelId, topic, issueId) {
 5. Termine com uma recomendação clara
 6. Identifique-se claramente como ${modelId} no início da resposta
 
+**Contexto do BIP-05 (trechos relevantes):**
+${contextPack}
+
 **Sua opinião como ${modelId} sobre "${topic}":**`;
 
         // Apply auto model safeguards if needed
         const safeguardedPrompt = await handleAutoModelSafeguard(modelId, prompt);
 
         // Call the model with individual timeout
-        const response = await callLLM(modelId, safeguardedPrompt);
+        const rawResponse = await callLLM(modelId, safeguardedPrompt);
+
+        // Clean Aider headers from response if present
+        let response = rawResponse;
+        if (rawResponse && rawResponse.includes('Aider v')) {
+            const lines = rawResponse.split('\n');
+            let contentStart = 0;
+
+            // Find where actual content starts (skip Aider headers)
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (line.startsWith('Como ') && line.includes(modelId)) {
+                    contentStart = i;
+                    break;
+                } else if (line.length > 100 && !line.includes('Aider') && !line.includes('Model:') &&
+                           !line.includes('Git') && !line.includes('Repo-map:') && !line.includes('working dir:')) {
+                    contentStart = i;
+                    break;
+                }
+            }
+
+            if (contentStart > 0) {
+                response = lines.slice(contentStart).join('\n').trim();
+                console.log(`[OPINIONS] 🧹 Cleaned Aider headers from ${modelId} response (removed ${contentStart} lines)`);
+            }
+        }
 
         // Validate response to ensure model isn't speaking for others
         console.log(`[VALIDATION] Checking response from ${modelId} for identity violations...`);
@@ -1466,7 +1730,6 @@ async function collectSingleModelOpinion(sessionId, modelId, topic, issueId) {
         const isValidResponse = response &&
                                !response.includes('❌') &&
                                !response.includes('⏰') &&
-                               !response.includes('Aider v') &&
                                !response.includes('Warning:') &&
                                !response.includes('Traceback') &&
                                !response.includes('litellm.') &&
@@ -1578,6 +1841,170 @@ function broadcastOpinionUpdate(sessionId, update) {
     });
 }
 
+// Helper: parse AUTO_CMD JSON from free-form text
+function parseAutoCmdFromText(text) {
+    if (typeof text !== 'string') return null;
+    const idx = text.indexOf('AUTO_CMD:');
+    if (idx === -1) return null;
+    // Take from AUTO_CMD: to end of line
+    const after = text.slice(idx + 'AUTO_CMD:'.length);
+    // Try to extract JSON between first '{' and last '}'
+    const s = after.indexOf('{');
+    const e = after.lastIndexOf('}');
+    if (s === -1 || e === -1 || e <= s) return null;
+    const candidate = after.slice(s, e + 1).trim();
+    try {
+        return JSON.parse(candidate);
+    } catch (e1) {
+        // Sanitize common trailing quote or markdown artifacts
+        const cleaned = candidate.replace(/"$/,'').replace(/`+/g,'').trim();
+        try { return JSON.parse(cleaned); } catch {
+            console.log(`[AUTO_CMD] ⚠️  JSON parse failed: ${e1.message}`);
+            return null;
+        }
+    }
+}
+
+// Helper: normalize model id short forms (e.g., 'grok-3' -> 'xai/grok-3')
+function normalizeModelId(modelId) {
+    if (!modelId || typeof modelId !== 'string') return modelId;
+    if (modelId.includes('/')) return modelId;
+    // Try to find a provider key that ends with '/modelId'
+    const aiderKeys = Object.keys(MODEL_CATEGORIES.aider_models || {});
+    const match = aiderKeys.find(k => k.endsWith('/' + modelId));
+    if (match) return match;
+    // Also accept cursor models if short name matches exactly
+    const cursorMatch = (MODEL_CATEGORIES.cursor_models || []).find(k => k.endsWith('/' + modelId) || k === modelId);
+    if (cursorMatch) return cursorMatch;
+    return modelId; // leave as-is if unknown
+}
+
+// Build a concise context pack from BIP files and the target issue
+function buildBipContextPack(issueId, maxChars, topic) {
+    try {
+        const parts = [];
+        // Include issue snippet
+        if (fs.existsSync(issuesFile)) {
+            const issuesData = JSON.parse(fs.readFileSync(issuesFile, 'utf8'));
+            const targetIssue = issuesData.issues?.find(i => i.id === issueId) || issuesData.issues?.[0];
+            if (targetIssue) {
+                parts.push(`### Issue #${targetIssue.id}: ${targetIssue.title}`);
+                const recent = (targetIssue.comments || []).slice(-3);
+                recent.forEach(c => parts.push(`- ${c.author}: ${c.body?.slice(0, 400) || ''}`));
+            }
+        }
+
+        // Include BIP docs snippets scanning whitelisted dirs for relevant files
+        const repoRoot = path.join(__dirname, '..', '..');
+        const whitelistDirs = [
+            path.join(repoRoot, 'docs'),
+            path.join(repoRoot, 'gov', 'bips', 'BIP-05')
+        ];
+
+        const candidateFiles = [];
+        const allowedExt = new Set(['.md', '.mdx', '.txt']);
+
+        function walk(dir) {
+            if (!fs.existsSync(dir)) return;
+            const entries = fs.readdirSync(dir, { withFileTypes: true });
+            for (const e of entries) {
+                const p = path.join(dir, e.name);
+                if (e.isDirectory()) walk(p);
+                else if (allowedExt.has(path.extname(e.name).toLowerCase())) candidateFiles.push(p);
+            }
+        }
+        whitelistDirs.forEach(walk);
+
+        // Score by simple keyword match using topic tokens
+        const topicTokens = (topic || '').toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+        function scoreContent(content) {
+            const lc = content.toLowerCase();
+            let score = 0;
+            for (const t of topicTokens) if (t.length >= 3 && lc.includes(t)) score += 1;
+            // Favor files that mention BIP or Universal Matrix
+            if (lc.includes('bip-05')) score += 2;
+            if (lc.includes('universal matrix')) score += 2;
+            return score;
+        }
+
+        const ranked = candidateFiles
+            .map(f => {
+                try { return { f, c: fs.readFileSync(f, 'utf8') }; } catch { return null; }
+            })
+            .filter(Boolean)
+            .map(x => ({ ...x, s: scoreContent(x.c) }))
+            .sort((a, b) => b.s - a.s)
+            .slice(0, 6);
+
+        ranked.forEach(({ f, c }) => {
+            const header = `\n### ${path.relative(repoRoot, f)}\n`;
+            parts.push(header + c.slice(0, 2500));
+        });
+
+        let pack = parts.join('\n');
+        if (pack.length > maxChars) pack = pack.slice(0, maxChars);
+        return pack;
+    } catch (e) {
+        console.log(`[CONTEXT] ⚠️  Failed to build context pack: ${e.message}`);
+        return 'Contexto indisponível no momento.';
+    }
+}
+
+// Ask 'auto' to propose a shortlist of models for the topic
+async function generateAutoOpinionPlan(topic, issueId, candidateModels) {
+    const planPrompt = `Você é o orquestrador 'auto' (modelo mediador) do BIP-05.
+
+PRIVILÉGIOS & RESPONSABILIDADES:
+- Você pode escrever no issues.json (adicionar comentários/opiniões) de forma segura.
+- Você orquestra pedidos de opinião de outros modelos usando as APIs do servidor.
+- Use a lista de candidatos abaixo para selecionar os modelos mais adequados.
+
+ROTAS DISPONÍVEIS (para seu planejamento):
+- POST /api/models/opinions  → inicia sessão de opiniões em lote; body: { topic, issueId, targetModels? }
+- GET  /api/models/opinions/:sessionId → status/progresso da sessão
+- POST /api/models/option    → solicitar opinião individual; body: { topic, issueId, modelId }
+- GET  /api/status           → status das APIs e modelos
+- GET  /api/costs            → custos de execução por modelo
+
+TAREFA:
+Dado o tópico: "${topic}", escolha de 5 a 8 modelos mais relevantes na lista abaixo para opinar, equilibrando provedores e capacidades. Responda APENAS JSON com {"models":["prov/model", ...], "rationale":"..."}.
+
+Lista de candidatos:
+${candidateModels.map(m => `- ${m}`).join('\n')}
+
+`;
+
+    try {
+        const raw = await callLLM('auto', planPrompt);
+        const jsonStart = raw.indexOf('{');
+        const jsonEnd = raw.lastIndexOf('}');
+        if (jsonStart >= 0 && jsonEnd > jsonStart) {
+            const parsed = JSON.parse(raw.slice(jsonStart, jsonEnd + 1));
+            if (Array.isArray(parsed.models)) return parsed;
+        }
+    } catch (e) {
+        console.log(`[AUTO PLAN] ⚠️  parse/plan failed: ${e.message}`);
+    }
+    return { models: [] };
+}
+
+function getDefaultShortlistFromProviders(allModels) {
+    // Pick top 6 by provider diversity: prefer 2 OpenAI, 2 Anthropic/Gemini, 2 xAI/DeepSeek se disponíveis
+    const buckets = allModels.reduce((acc, m) => {
+        const provider = m.split('/')[0] || 'other';
+        (acc[provider] ||= []).push(m);
+        return acc;
+    }, {});
+    const pick = (arr, n) => (arr || []).slice(0, n);
+    return [
+        ...pick(buckets.openai, 2),
+        ...pick(buckets.anthropic, 2),
+        ...pick(buckets.gemini, 1),
+        ...pick(buckets.xai, 1),
+        ...pick(buckets.deepseek, 1)
+    ].filter(Boolean);
+}
+
 // API endpoint to get opinion session status
 app.get('/api/models/opinions/:sessionId', (req, res) => {
     const { sessionId } = req.params;
@@ -1603,6 +2030,58 @@ app.get('/api/models/opinions/:sessionId', (req, res) => {
             }
         }
     });
+});
+
+// API endpoint to request a single model opinion (individual option)
+app.post('/api/models/option', async (req, res) => {
+    try {
+        const { topic, issueId = 1, modelId } = req.body;
+
+        if (!topic || !modelId) {
+            return res.status(400).json({ success: false, error: 'Campos obrigatórios: topic e modelId' });
+        }
+
+        const sessionId = `option_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+        console.log(`[OPTION] 🎯 Solicitação de opinião individual - ${modelId} • Session: ${sessionId}`);
+
+        // Inicializa sessão mínima para compatibilidade com painel
+        activeOpinionSessions.set(sessionId, {
+            sessionId,
+            topic,
+            issueId,
+            totalModels: 1,
+            pendingModels: [modelId],
+            completedModels: [],
+            failedModels: [],
+            responses: [],
+            startTime: new Date().toISOString()
+        });
+
+        // Resposta imediata
+        res.json({ success: true, sessionId, message: 'Opinião individual iniciada', modelId });
+
+        // Executa em background
+        await collectSingleModelOpinion(sessionId, modelId, topic, issueId);
+
+        // Finaliza sessão
+        const session = activeOpinionSessions.get(sessionId);
+        if (session) {
+            broadcastOpinionUpdate(sessionId, {
+                type: 'session_completed',
+                totalModels: 1,
+                completedModels: session.completedModels,
+                failedModels: session.failedModels,
+                responses: session.responses,
+                endTime: new Date().toISOString()
+            });
+
+            setTimeout(() => activeOpinionSessions.delete(sessionId), 10 * 60 * 1000);
+        }
+
+    } catch (error) {
+        console.error('[OPTION] ❌ Erro:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
 });
 
 // Serve static files (index.html, style.css)
@@ -2323,21 +2802,78 @@ function broadcastHelloProgress(sessionId, session) {
 }
 
 // Function to broadcast chat messages
-function broadcastChatMessage(messageData) {
-    logDebug('CHAT', 'Broadcasting chat message', {
-        author: messageData.author,
-        messageLength: messageData.text ? messageData.text.length : 0,
+function normalizeChatEnvelope(messageData) {
+    // Extract text from various possible fields
+    let text = '';
+    if (typeof messageData.text === 'string' && messageData.text.trim()) {
+        text = messageData.text.trim();
+    } else if (typeof messageData.message === 'string' && messageData.message.trim()) {
+        text = messageData.message.trim();
+    } else if (typeof messageData.response === 'string' && messageData.response.trim()) {
+        text = messageData.response.trim();
+    } else if (typeof messageData.body === 'string' && messageData.body.trim()) {
+        text = messageData.body.trim();
+    }
+
+    // Ensure we always have valid text (except for typing indicators)
+    if (!text) {
+        // Typing indicators legitimately have empty text
+        if (type === 'typing') {
+            text = '⌨️ digitando...';
+        } else if (type === 'stop_typing') {
+            text = ''; // This is intentionally empty for stop_typing
+        } else {
+            console.warn('[NORMALIZE] Empty text detected in messageData:', JSON.stringify(messageData, null, 2));
+            text = 'Sistema: Processando...';
+        }
+    }
+
+    // Ensure we have a valid author
+    let author = messageData.author || 'Sistema';
+    if (typeof author !== 'string' || !author.trim()) {
+        author = 'Sistema';
+    }
+
+    // Ensure we have a valid type
+    let type = messageData.type || 'chat_message';
+    const validTypes = ['chat_message', 'simple_response', 'typing', 'stop_typing', 'error', 'opinion_update', 'hello_progress'];
+    if (!validTypes.includes(type)) {
+        type = 'chat_message';
+    }
+
+    const normalized = {
+        type: type,
+        author: author.trim(),
+        text: text,
+        timestamp: messageData.timestamp || new Date().toISOString(),
         isSystemMessage: messageData.isSystemMessage || false
+    };
+
+    // Log for debugging problematic messages
+    if (text === 'Sistema: Processando...') {
+        console.warn('[NORMALIZE] Had to use fallback text for message:', normalized);
+    }
+
+    return normalized;
+}
+
+function broadcastChatMessage(messageData) {
+    const envelope = normalizeChatEnvelope(messageData);
+
+    logDebug('CHAT', 'Broadcasting chat message', {
+        author: envelope.author,
+        messageLength: envelope.text ? envelope.text.length : 0,
+        isSystemMessage: envelope.isSystemMessage
     });
 
     clients.forEach(client => {
         if (client.readyState === WebSocket.OPEN) {
             try {
-                client.send(JSON.stringify(messageData));
+                client.send(JSON.stringify(envelope));
             } catch (error) {
                 logError('CHAT', 'Failed to broadcast chat message', {
                     error: error.message,
-                    author: messageData.author
+                    author: envelope.author
                 });
             }
         }
@@ -2386,8 +2922,16 @@ function validateModelResponse(modelId, response) {
     // Check if any model is using forbidden phrases to impersonate others
     for (const phrase of forbiddenPhrases) {
         if (lowerResponse.includes(phrase)) {
-            // Allow only if the model is correctly identifying itself
+            // Allow if the model is correctly identifying itself
             const expectedIdentity = `como ${modelId.toLowerCase()}`;
+            const normalizedModelId = modelId.toLowerCase().replace('/', '/'); // Keep slash as-is
+
+            // Check if this is the model correctly identifying itself
+            if (lowerResponse.includes(expectedIdentity) || lowerResponse.includes(`como ${normalizedModelId}`)) {
+                continue; // This is fine, model is identifying itself correctly
+            }
+
+            // Only fail if it's clearly impersonating another model
             if (!phrase.includes(modelId.toLowerCase()) && lowerResponse.includes(phrase)) {
                 return `Modelo tentou se identificar incorretamente. Deve usar apenas sua própria identidade: ${modelId}`;
             }
@@ -2490,6 +3034,112 @@ async function handleSimpleResponse(text) {
                 model: selectedModel
             });
 
+            // Check for AUTO_CMD in 'auto' model responses
+            let orchestrated = null;
+            if (selectedModel === 'auto' && typeof response === 'string' && response.includes('AUTO_CMD:')) {
+                try {
+                    console.log(`[AUTO_CMD] 🔍 Raw response: ${response.substring(response.indexOf('AUTO_CMD:'), response.indexOf('AUTO_CMD:') + 200)}`);
+                    const cmd = parseAutoCmdFromText(response);
+                    console.log(`[AUTO_CMD] 📋 Parsed command:`, JSON.stringify(cmd, null, 2));
+                    if (cmd) {
+                        if (cmd.orchestrate) {
+                            const { topic: t, issueId: iid, models } = cmd.orchestrate;
+                            const normalized = (models || WORKING_APIS).map(normalizeModelId);
+                            console.log(`[AUTO_CMD] 🔄 Original models: ${JSON.stringify(models)}`);
+                            console.log(`[AUTO_CMD] 🔄 Normalized models: ${JSON.stringify(normalized)}`);
+                            console.log(`[AUTO_CMD] 🔄 WORKING_APIS: ${JSON.stringify(WORKING_APIS)}`);
+                            const sessionId = `session_${Date.now()}_${Math.random().toString(36).slice(2,9)}`;
+                            console.log(`[AUTO_CMD] 🗳️  Orchestrate received → ${normalized.length} models • session=${sessionId}`);
+                            broadcastChatMessage({
+                                type: 'simple_response',
+                                author: 'auto',
+                                text: `🔄 Orquestrando opiniões de ${normalized.join(', ')} para o tópico: "${t || text}"...`
+                            });
+                            // seed session and run async
+                            activeOpinionSessions.set(sessionId, {
+                                sessionId,
+                                topic: t || text,
+                                issueId: iid || 1,
+                                startTime: new Date().toISOString(),
+                                totalModels: normalized.length,
+                                pendingModels: [...normalized],
+                                completedModels: [],
+                                failedModels: [],
+                                responses: []
+                            });
+                            console.log(`[AUTO_CMD] 🚀 Starting collectModelOpinions with ${normalized.length} models`);
+                            // Execute orchestration asynchronously
+                            collectModelOpinions(sessionId, t || text, iid || 1, normalized).then(() => {
+                                const session = activeOpinionSessions.get(sessionId);
+                                const orchestrated = {
+                                    type: 'batch',
+                                    sessionId,
+                                    models: normalized,
+                                    completed: session?.completedModels || [],
+                                    failed: session?.failedModels || [],
+                                    responses: session?.responses || []
+                                };
+                                console.log(`[AUTO_CMD] ✅ Orchestration completed:`, orchestrated);
+                                broadcastChatMessage({
+                                    type: 'simple_response',
+                                    author: 'auto',
+                                    text: `✅ Orquestração concluída! ${orchestrated.completed.length} modelos responderam com sucesso.`
+                                });
+                            }).catch(error => {
+                                console.error(`[AUTO_CMD] ❌ Orchestration failed:`, error);
+                                broadcastChatMessage({
+                                    type: 'simple_response',
+                                    author: 'auto',
+                                    text: `❌ Erro na orquestração: ${error.message}`
+                                });
+                            });
+                        } else if (cmd.option) {
+                            const { topic: t, issueId: iid, modelId: mid } = cmd.option;
+                            const nm = normalizeModelId(mid);
+                            const sessionId = `option_${Date.now()}_${Math.random().toString(36).slice(2,9)}`;
+                            console.log(`[AUTO_CMD] 🎯 Option received → model=${nm} • session=${sessionId}`);
+                            broadcastChatMessage({
+                                type: 'simple_response',
+                                author: 'auto',
+                                text: `🔎 Solicitando opinião de ${nm} para o tópico: "${t || text}"...`
+                            });
+
+                            // Create session for single model opinion
+                            activeOpinionSessions.set(sessionId, {
+                                sessionId,
+                                topic: t || text,
+                                issueId: iid || 1,
+                                startTime: new Date().toISOString(),
+                                totalModels: 1,
+                                pendingModels: [nm],
+                                completedModels: [],
+                                failedModels: [],
+                                responses: []
+                            });
+
+                            // Execute single model opinion asynchronously
+                            collectSingleModelOpinion(sessionId, nm, t || text, iid || 1).then(() => {
+                                console.log(`[AUTO_CMD] ✅ Single model opinion completed for ${nm}`);
+                                broadcastChatMessage({
+                                    type: 'simple_response',
+                                    author: 'auto',
+                                    text: `✅ Opinião de ${nm} coletada com sucesso!`
+                                });
+                            }).catch(error => {
+                                console.error(`[AUTO_CMD] ❌ Single model opinion failed for ${nm}:`, error);
+                                broadcastChatMessage({
+                                    type: 'simple_response',
+                                    author: 'auto',
+                                    text: `❌ Erro ao coletar opinião de ${nm}: ${error.message}`
+                                });
+                            });
+                        }
+                    }
+                } catch (error) {
+                    console.error(`[AUTO_CMD] ❌ Error processing AUTO_CMD:`, error);
+                }
+            }
+
             // Send response directly to chat (not to issues.json)
             broadcastChatMessage({
                 type: 'simple_response',
@@ -2511,6 +3161,7 @@ async function handleSimpleResponse(text) {
 
         broadcastChatMessage({
             type: 'error',
+            author: 'Sistema',
             text: `Erro ao gerar resposta: ${error.message}`,
             timestamp: new Date().toISOString()
         });
@@ -2625,6 +3276,7 @@ Responda de forma estruturada indicando o modelo recomendado e os pontos princip
 
         broadcastChatMessage({
             type: 'error',
+            author: 'Sistema',
             text: `Erro ao gerar contribuição: ${error.message}`,
             timestamp: new Date().toISOString()
         });
@@ -2691,6 +3343,7 @@ async function handleSummaryRequest(text) {
 
         broadcastChatMessage({
             type: 'error',
+            author: 'Sistema',
             text: `Erro ao gerar resumo: ${error.message}`,
             timestamp: new Date().toISOString()
         });
