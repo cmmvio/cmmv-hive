@@ -23,7 +23,7 @@ and real-time applications with built-in matrix operations and type-safe messagi
 ```rust,no_run
 use umicp_core::{Envelope, OperationType};
 
-# async fn example() -> Result<(), Box<dyn std::error::Error>> {
+# fn example() -> Result<(), Box<dyn std::error::Error>> {
 // Create a UMICP envelope
 let envelope = Envelope::builder()
     .from("client-001")
@@ -37,7 +37,7 @@ let envelope = Envelope::builder()
 let serialized = envelope.serialize()?;
 
 // Deserialize received data
-let received: Envelope = Envelope::deserialize(&serialized)?;
+let received = Envelope::deserialize(&serialized)?;
 # Ok(())
 # }
 ```
@@ -46,16 +46,18 @@ let received: Envelope = Envelope::deserialize(&serialized)?;
 
 ```rust,no_run
 use umicp_core::{WebSocketTransport, Envelope, OperationType};
-use tokio;
 
-# async fn example() -> Result<(), Box<dyn std::error::Error>> {
-// Server setup
-let server = WebSocketTransport::new_server("127.0.0.1:8080").await?;
+# fn example() -> Result<(), Box<dyn std::error::Error>> {
+// Server setup (requires websocket feature)
+#[cfg(feature = "websocket")]
+let server = WebSocketTransport::new_server("127.0.0.1:8080")?;
 
-// Client setup
-let client = WebSocketTransport::new_client("ws://127.0.0.1:8080").await?;
+// Client setup (requires websocket feature)
+#[cfg(feature = "websocket")]
+let client = WebSocketTransport::new_client("ws://127.0.0.1:8080")?;
 
 // Message handling
+#[cfg(feature = "websocket")]
 server.set_message_handler(|envelope, conn_id| async move {
     println!("Received: {:?}", envelope.capabilities());
     // Echo response
@@ -63,16 +65,12 @@ server.set_message_handler(|envelope, conn_id| async move {
         .from("server")
         .to(envelope.from())
         .operation(OperationType::Ack)
-        .message_id(format!("response-{}", uuid::Uuid::new_v4()))
+        .message_id(&format!("response-{}", uuid::Uuid::new_v4()))
         .build()?;
 
     server.send(response, &conn_id).await?;
     Ok(())
 });
-
-// Start communication
-tokio::spawn(async move { server.run().await });
-tokio::spawn(async move { client.run().await });
 
 // Send message
 let message = Envelope::builder()
@@ -83,7 +81,8 @@ let message = Envelope::builder()
     .capability("message", "Hello UMICP!")
     .build()?;
 
-client.send(message, "").await?;
+#[cfg(feature = "websocket")]
+client.send(message, "")?;
 # Ok(())
 # }
 ```
@@ -92,7 +91,6 @@ client.send(message, "").await?;
 
 ```rust,no_run
 use umicp_core::Matrix;
-use ndarray::Array2;
 
 # fn example() -> Result<(), Box<dyn std::error::Error>> {
 // Create matrix instance
@@ -109,14 +107,14 @@ println!("Addition result: {:?}", result); // [6.0, 8.0, 10.0, 12.0]
 
 // Dot product
 let dot_product = matrix.dot_product(&vector1, &vector2)?;
-println!("Dot product: {}", dot_product); // 70.0
+println!("Dot product: {:?}", dot_product); // 70.0
 
-// Matrix multiplication
-let matrix_a = Array2::from_shape_vec((2, 2), vec![1.0, 2.0, 3.0, 4.0])?;
-let matrix_b = Array2::from_shape_vec((2, 2), vec![5.0, 6.0, 7.0, 8.0])?;
-let mut matrix_result = Array2::zeros((2, 2));
+// Matrix multiplication (2x2 * 2x2 = 2x2)
+let matrix_a = vec![1.0, 2.0, 3.0, 4.0]; // 2x2 matrix
+let matrix_b = vec![5.0, 6.0, 7.0, 8.0]; // 2x2 matrix
+let mut matrix_result = vec![0.0; 4]; // 2x2 result
 
-matrix.matrix_multiply(&matrix_a, &matrix_b, &mut matrix_result)?;
+matrix.multiply(&matrix_a, &matrix_b, &mut matrix_result, 2, 2, 2)?;
 println!("Matrix multiplication: {:?}", matrix_result);
 # Ok(())
 # }

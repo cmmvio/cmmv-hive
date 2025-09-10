@@ -5,13 +5,10 @@ This example demonstrates how to use the WebSocket transport layer for
 real-time communication with UMICP envelopes.
 */
 
-use std::sync::Arc;
-use tokio::sync::Mutex;
-use umicp_core::{Envelope, OperationType, WebSocketTransport};
+// WebSocket transport example - requires websocket feature
 
 #[cfg(feature = "websocket")]
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("UMICP Rust Bindings - WebSocket Transport Example");
     println!("================================================\n");
 
@@ -194,8 +191,7 @@ async fn run_client() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 #[cfg(not(feature = "websocket"))]
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("WebSocket transport is not available.");
     println!("To enable WebSocket support, compile with:");
     println!("  cargo build --features websocket");

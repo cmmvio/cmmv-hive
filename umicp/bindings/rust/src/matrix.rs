@@ -6,8 +6,6 @@ High-performance matrix operations with SIMD optimization for UMICP protocol.
 
 use crate::error::{Result, UmicpError};
 use crate::types::MatrixResult;
-use ndarray::{Array2, ArrayView2, Axis};
-use std::cmp;
 
 /// Matrix operations class with high-performance implementations
 #[derive(Debug)]
@@ -111,14 +109,12 @@ impl Matrix {
             )));
         }
 
-        let mut result = 0.0f32;
-
         // Use SIMD for large vectors
-        if a.len() >= 8 {
-            result = self.dot_product_simd(a, b);
+        let result = if a.len() >= 8 {
+            self.dot_product_simd(a, b)
         } else {
-            result = a.iter().zip(b.iter()).map(|(x, y)| x * y).sum();
-        }
+            a.iter().zip(b.iter()).map(|(x, y)| x * y).sum()
+        };
 
         Ok(MatrixResult {
             success: true,
@@ -428,7 +424,7 @@ mod tests {
 
     #[test]
     fn test_matrix_creation() {
-        let matrix = Matrix::new();
+        let _matrix = Matrix::new();
         // Just verify it can be created
         assert!(true);
     }

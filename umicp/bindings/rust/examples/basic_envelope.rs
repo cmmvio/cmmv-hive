@@ -6,9 +6,9 @@ serialization, and deserialization.
 */
 
 use umicp_core::{Envelope, OperationType};
+use uuid;
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("UMICP Rust Bindings - Basic Envelope Example");
     println!("=============================================\n");
 
@@ -18,7 +18,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .from("client-001")
         .to("server-001")
         .operation(OperationType::Data)
-        .message_id("msg-12345")
+        .message_id(&uuid::Uuid::new_v4().to_string())
         .capability("content-type", "application/json")
         .capability("priority", "high")
         .build()?;
@@ -85,6 +85,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .from("example-client")
             .to("example-server")
             .operation(op)
+            .message_id(&uuid::Uuid::new_v4().to_string())
             .capability("example", "true")
             .build()?;
 

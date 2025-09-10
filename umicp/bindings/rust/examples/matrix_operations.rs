@@ -122,11 +122,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut normalized = vec![0.0; 2];
 
     println!("   Original vector: {:?}", unnormalized);
-    println!("   Magnitude: {}", (9.0 + 16.0).sqrt());
+    println!("   Magnitude: {}", (9.0_f32 + 16.0_f32).sqrt());
 
-    matrix.vector_scale(&unnormalized, 1.0 / (9.0 + 16.0).sqrt(), &mut normalized)?;
+    matrix.vector_scale(&unnormalized, 1.0_f32 / (9.0_f32 + 16.0_f32).sqrt(), &mut normalized)?;
     println!("   Normalized vector: {:?}", normalized);
-    println!("   Verification - magnitude: {:.6}", (normalized[0]*normalized[0] + normalized[1]*normalized[1]).sqrt());
+    println!("   Verification - magnitude: {:.6}", (normalized[0]*normalized[0] + normalized[1]*normalized[1]).sqrt() as f64);
 
     println!("\n✓ Matrix operations example completed successfully!");
 
