@@ -120,7 +120,7 @@ Result<bool> SecurityManager::verify_signature(const ByteBuffer& data, const Byt
     }
 
     if (impl_->peer_public_key_.empty()) {
-        return Result<bool>(ErrorCode::INVALID_ARGUMENT, "No peer public key set");
+        return Result<bool>(ErrorCode::AUTHENTICATION_FAILED, "No peer public key set");
     }
 
     // For MVP, simple verification (not cryptographically secure)

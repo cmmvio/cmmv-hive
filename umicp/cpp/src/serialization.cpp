@@ -237,6 +237,11 @@ Result<std::string> JsonSerializer::canonicalize_json(const std::string& json_st
 // ===============================================
 
 Result<ByteBuffer> BinarySerializer::serialize_frame(const Frame& frame) {
+    // Validate frame type
+    if (frame.header.type > 3) { // Maximum valid OperationType is 3 (ERROR)
+        return Result<ByteBuffer>(ErrorCode::INVALID_ARGUMENT, "Invalid frame type");
+    }
+
     ByteBuffer data;
     data.reserve(UMICP_FRAME_HEADER_SIZE + frame.payload.size());
 

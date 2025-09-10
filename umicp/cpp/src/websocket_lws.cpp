@@ -224,22 +224,22 @@ Result<void> WebSocketLWS::connect() {
     info.uid = -1;
 
     // Configure SSL/TLS if enabled
-    if (config_.ssl_config && config_.ssl_config->enable_ssl) {
+    if (impl_->config_.ssl_config && impl_->config_.ssl_config->enable_ssl) {
         info.options |= LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
 
         // Set SSL context options
-        if (!config_.ssl_config->ca_file.empty()) {
-            info.ssl_ca_filepath = config_.ssl_config->ca_file.c_str();
+        if (!impl_->config_.ssl_config->ca_file.empty()) {
+            info.ssl_ca_filepath = impl_->config_.ssl_config->ca_file.c_str();
         }
-        if (!config_.ssl_config->cert_file.empty()) {
-            info.ssl_cert_filepath = config_.ssl_config->cert_file.c_str();
+        if (!impl_->config_.ssl_config->cert_file.empty()) {
+            info.ssl_cert_filepath = impl_->config_.ssl_config->cert_file.c_str();
         }
-        if (!config_.ssl_config->key_file.empty()) {
-            info.ssl_private_key_filepath = config_.ssl_config->key_file.c_str();
+        if (!impl_->config_.ssl_config->key_file.empty()) {
+            info.ssl_private_key_filepath = impl_->config_.ssl_config->key_file.c_str();
         }
 
         // Set SSL verification options
-        if (config_.ssl_config->verify_peer) {
+        if (impl_->config_.ssl_config->verify_peer) {
             info.options |= LWS_SERVER_OPTION_REQUIRE_VALID_OPENSSL_CLIENT_CERT;
         }
     } else {
@@ -265,9 +265,9 @@ Result<void> WebSocketLWS::connect() {
     ccinfo.ietf_version_or_minus_one = -1;
 
     // Configure SSL for client connection if enabled
-    if (config_.ssl_config && config_.ssl_config->enable_ssl) {
+    if (impl_->config_.ssl_config && impl_->config_.ssl_config->enable_ssl) {
         ccinfo.ssl_connection = LCCSCF_USE_SSL;
-        if (config_.ssl_config->verify_peer) {
+        if (impl_->config_.ssl_config->verify_peer) {
             ccinfo.ssl_connection |= LCCSCF_ALLOW_SELFSIGNED;
             ccinfo.ssl_connection |= LCCSCF_SKIP_SERVER_CERT_HOSTNAME_CHECK;
         }

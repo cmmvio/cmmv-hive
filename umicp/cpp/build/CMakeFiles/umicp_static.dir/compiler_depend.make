@@ -233,6 +233,7 @@ CMakeFiles/umicp_static.dir/src/c_api.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src
   /mnt/f/Node/cmmv-hive/umicp/cpp/include/frame.h \
   /mnt/f/Node/cmmv-hive/umicp/cpp/include/matrix_ops.h \
   /mnt/f/Node/cmmv-hive/umicp/cpp/include/protocol.h \
+  /mnt/f/Node/cmmv-hive/umicp/cpp/include/schema_registry.h \
   /mnt/f/Node/cmmv-hive/umicp/cpp/include/umicp.h \
   /mnt/f/Node/cmmv-hive/umicp/cpp/include/umicp_types.h \
   /usr/include/alloca.h \
@@ -308,6 +309,7 @@ CMakeFiles/umicp_static.dir/src/c_api.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src
   /usr/include/c++/13/bits/uniform_int_dist.h \
   /usr/include/c++/13/bits/unique_ptr.h \
   /usr/include/c++/13/bits/unordered_map.h \
+  /usr/include/c++/13/bits/unordered_set.h \
   /usr/include/c++/13/bits/uses_allocator.h \
   /usr/include/c++/13/bits/uses_allocator_args.h \
   /usr/include/c++/13/bits/utility.h \
@@ -352,6 +354,7 @@ CMakeFiles/umicp_static.dir/src/c_api.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
+  /usr/include/c++/13/unordered_set \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
@@ -2255,9 +2258,11 @@ CMakeFiles/umicp_static.dir/src/matrix_ops.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cp
   /usr/lib/gcc/x86_64-linux-gnu/13/include/xtestintrin.h
 
 CMakeFiles/umicp_static.dir/src/protocol.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src/protocol.cpp \
+  /mnt/f/Node/cmmv-hive/umicp/cpp/include/compression.h \
   /mnt/f/Node/cmmv-hive/umicp/cpp/include/envelope.h \
   /mnt/f/Node/cmmv-hive/umicp/cpp/include/frame.h \
   /mnt/f/Node/cmmv-hive/umicp/cpp/include/protocol.h \
+  /mnt/f/Node/cmmv-hive/umicp/cpp/include/schema_registry.h \
   /mnt/f/Node/cmmv-hive/umicp/cpp/include/security.h \
   /mnt/f/Node/cmmv-hive/umicp/cpp/include/serialization.h \
   /mnt/f/Node/cmmv-hive/umicp/cpp/include/transport.h \
@@ -2361,6 +2366,7 @@ CMakeFiles/umicp_static.dir/src/protocol.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/
   /usr/include/c++/13/bits/unique_lock.h \
   /usr/include/c++/13/bits/unique_ptr.h \
   /usr/include/c++/13/bits/unordered_map.h \
+  /usr/include/c++/13/bits/unordered_set.h \
   /usr/include/c++/13/bits/uses_allocator.h \
   /usr/include/c++/13/bits/uses_allocator_args.h \
   /usr/include/c++/13/bits/utility.h \
@@ -2431,6 +2437,7 @@ CMakeFiles/umicp_static.dir/src/protocol.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
+  /usr/include/c++/13/unordered_set \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
@@ -4126,8 +4133,6 @@ CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 
 /usr/include/libwebsockets/lws-misc.h:
 
-/usr/include/libwebsockets/lws-lejp.h:
-
 /usr/include/libwebsockets/lws-led.h:
 
 /usr/include/libwebsockets/lws-lecp.h:
@@ -4236,7 +4241,11 @@ CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/movdirintrin.h:
 
-/mnt/f/Node/cmmv-hive/umicp/cpp/include/compression.h:
+/usr/lib/gcc/x86_64-linux-gnu/13/include/lzcntintrin.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/lwpintrin.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/keylockerintrin.h:
 
 /usr/include/libwebsockets/lws-bb-spi.h:
 
@@ -4281,6 +4290,10 @@ CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 /mnt/f/Node/cmmv-hive/umicp/cpp/include/config.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h:
+
+/usr/include/libwebsockets/lws-lejp.h:
+
+/usr/include/c++/13/unordered_set:
 
 /usr/include/json-c/json_inttypes.h:
 
@@ -4328,10 +4341,6 @@ CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
 
-/usr/include/c++/13/iostream:
-
-/usr/include/asm-generic/errno.h:
-
 /usr/include/openssl/types.h:
 
 /usr/include/c++/13/sstream:
@@ -4375,6 +4384,8 @@ CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 /mnt/f/Node/cmmv-hive/umicp/cpp/src/security.cpp:
 
 /usr/include/openssl/core_dispatch.h:
+
+/usr/include/c++/13/bits/unordered_set.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdio2.h:
 
@@ -4712,6 +4723,12 @@ CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 
 /usr/include/c++/13/bits/functexcept.h:
 
+/mnt/f/Node/cmmv-hive/umicp/cpp/include/compression.h:
+
+/usr/include/asm-generic/errno.h:
+
+/usr/include/c++/13/iostream:
+
 /usr/include/x86_64-linux-gnu/sys/socket.h:
 
 /usr/include/c++/13/bits/new_allocator.h:
@@ -4723,10 +4740,6 @@ CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h:
 
 /usr/include/openssl/bn.h:
-
-/usr/include/c++/13/ios:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
 
 /usr/include/libwebsockets/lws-http.h:
 
@@ -4900,12 +4913,6 @@ CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 
 /usr/include/c++/13/bits/regex_automaton.h:
 
-/usr/include/c++/13/cwctype:
-
-/usr/include/openssl/cryptoerr.h:
-
-/usr/include/x86_64-linux-gnu/asm/posix_types.h:
-
 /usr/include/libwebsockets/lws-state.h:
 
 /usr/include/openssl/asyncerr.h:
@@ -4929,6 +4936,16 @@ CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
 
 /usr/include/pthread.h:
+
+/usr/include/c++/13/cwctype:
+
+/usr/include/openssl/cryptoerr.h:
+
+/usr/include/x86_64-linux-gnu/asm/posix_types.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
+
+/usr/include/c++/13/ios:
 
 /usr/include/c++/13/istream:
 
@@ -5434,6 +5451,8 @@ CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/avxintrin.h:
 
+/mnt/f/Node/cmmv-hive/umicp/cpp/include/schema_registry.h:
+
 /usr/lib/gcc/x86_64-linux-gnu/13/include/avxvnniint8intrin.h:
 
 /usr/include/libwebsockets/lws-retry.h:
@@ -5457,9 +5476,3 @@ CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp
 /usr/lib/gcc/x86_64-linux-gnu/13/include/fxsrintrin.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/gfniintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/keylockerintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/lwpintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/lzcntintrin.h:

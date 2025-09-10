@@ -235,6 +235,7 @@ CMakeFiles/umicp_shared.dir/src/c_api.cpp.o
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/frame.h
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/matrix_ops.h
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/protocol.h
+ /mnt/f/Node/cmmv-hive/umicp/cpp/include/schema_registry.h
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/umicp.h
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/umicp_types.h
  /usr/include/alloca.h
@@ -310,6 +311,7 @@ CMakeFiles/umicp_shared.dir/src/c_api.cpp.o
  /usr/include/c++/13/bits/uniform_int_dist.h
  /usr/include/c++/13/bits/unique_ptr.h
  /usr/include/c++/13/bits/unordered_map.h
+ /usr/include/c++/13/bits/unordered_set.h
  /usr/include/c++/13/bits/uses_allocator.h
  /usr/include/c++/13/bits/uses_allocator_args.h
  /usr/include/c++/13/bits/utility.h
@@ -354,6 +356,7 @@ CMakeFiles/umicp_shared.dir/src/c_api.cpp.o
  /usr/include/c++/13/type_traits
  /usr/include/c++/13/typeinfo
  /usr/include/c++/13/unordered_map
+ /usr/include/c++/13/unordered_set
  /usr/include/c++/13/vector
  /usr/include/ctype.h
  /usr/include/endian.h
@@ -2264,9 +2267,11 @@ CMakeFiles/umicp_shared.dir/src/matrix_ops.cpp.o
 
 CMakeFiles/umicp_shared.dir/src/protocol.cpp.o
  /mnt/f/Node/cmmv-hive/umicp/cpp/src/protocol.cpp
+ /mnt/f/Node/cmmv-hive/umicp/cpp/include/compression.h
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/envelope.h
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/frame.h
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/protocol.h
+ /mnt/f/Node/cmmv-hive/umicp/cpp/include/schema_registry.h
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/security.h
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/serialization.h
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/transport.h
@@ -2370,6 +2375,7 @@ CMakeFiles/umicp_shared.dir/src/protocol.cpp.o
  /usr/include/c++/13/bits/unique_lock.h
  /usr/include/c++/13/bits/unique_ptr.h
  /usr/include/c++/13/bits/unordered_map.h
+ /usr/include/c++/13/bits/unordered_set.h
  /usr/include/c++/13/bits/uses_allocator.h
  /usr/include/c++/13/bits/uses_allocator_args.h
  /usr/include/c++/13/bits/utility.h
@@ -2440,6 +2446,7 @@ CMakeFiles/umicp_shared.dir/src/protocol.cpp.o
  /usr/include/c++/13/type_traits
  /usr/include/c++/13/typeinfo
  /usr/include/c++/13/unordered_map
+ /usr/include/c++/13/unordered_set
  /usr/include/c++/13/vector
  /usr/include/ctype.h
  /usr/include/endian.h

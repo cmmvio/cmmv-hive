@@ -93,7 +93,8 @@ TEST_F(ProtocolTest, Connection_DoubleConnection) {
     auto result2 = protocol_->connect();
 
     EXPECT_TRUE(result1.is_success());
-    EXPECT_TRUE(result2.is_success()); // Should handle gracefully
+    EXPECT_FALSE(result2.is_success()); // Should reject double connection
+    EXPECT_EQ(result2.code, ErrorCode::INVALID_ARGUMENT);
 }
 
 // ===============================================
@@ -201,7 +202,7 @@ TEST_F(ProtocolTest, Messaging_SendWithoutConnection) {
     EXPECT_FALSE(ack_result.is_success());
     EXPECT_FALSE(error_result.is_success());
 
-    EXPECT_EQ(control_result.code, ErrorCode::NETWORK_ERROR);
+    EXPECT_EQ(control_result.code, ErrorCode::INVALID_ARGUMENT);
 }
 
 // ===============================================

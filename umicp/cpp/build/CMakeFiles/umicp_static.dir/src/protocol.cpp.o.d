@@ -175,23 +175,25 @@ CMakeFiles/umicp_static.dir/src/protocol.cpp.o: \
  /usr/include/c++/13/ctime /usr/include/c++/13/bits/parse_numbers.h \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/protocol.h \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/umicp_types.h \
- /usr/include/c++/13/functional /usr/include/c++/13/bits/std_function.h \
- /usr/include/c++/13/array /usr/include/c++/13/compare \
- /usr/include/c++/13/bits/stl_algo.h \
+ /mnt/f/Node/cmmv-hive/umicp/cpp/include/schema_registry.h \
+ /usr/include/c++/13/unordered_set \
+ /usr/include/c++/13/bits/unordered_set.h /usr/include/c++/13/functional \
+ /usr/include/c++/13/bits/std_function.h /usr/include/c++/13/array \
+ /usr/include/c++/13/compare /usr/include/c++/13/bits/stl_algo.h \
  /usr/include/c++/13/bits/algorithmfwd.h \
  /usr/include/c++/13/bits/stl_heap.h \
- /usr/include/c++/13/bits/uniform_int_dist.h \
+ /usr/include/c++/13/bits/uniform_int_dist.h /usr/include/c++/13/mutex \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
+ /usr/include/c++/13/bits/std_mutex.h \
+ /usr/include/c++/13/bits/unique_lock.h \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/envelope.h \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/frame.h \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/transport.h \
  /usr/include/c++/13/thread /usr/include/c++/13/bits/std_thread.h \
  /usr/include/c++/13/bits/this_thread_sleep.h /usr/include/c++/13/atomic \
- /usr/include/c++/13/mutex \
- /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
- /usr/include/c++/13/bits/std_mutex.h \
- /usr/include/c++/13/bits/unique_lock.h \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/serialization.h \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/security.h \
+ /mnt/f/Node/cmmv-hive/umicp/cpp/include/compression.h \
  /usr/include/c++/13/random /usr/include/c++/13/cmath /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \

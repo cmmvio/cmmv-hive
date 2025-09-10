@@ -8,6 +8,8 @@
 #include "compression.h"
 #include "transport.h"
 #include "websocket_lws.h"
+#include "protocol.h"
+#include "security.h"
 #include "../utils/test_helpers.h"
 
 using namespace umicp;
@@ -337,12 +339,12 @@ TEST_F(SSLCompressionTest, BIP05_CompressionConfigIntegration) {
 
     // Test compression with small data (below threshold)
     ByteBuffer small_data(100, 'x'); // 100 bytes < 256 threshold
-    auto compress_small = CompressionManager::should_compress(small_data, umicp_config.compression_threshold);
+    auto compress_small = CompressionManager::should_compress(small_data, umicp_config.compression_threshold, umicp_config.compression_algorithm);
     ASSERT_FALSE(compress_small); // Should not compress small data
 
     // Test compression with large data (above threshold)
     ByteBuffer large_data(500, 'y'); // 500 bytes > 256 threshold
-    auto compress_large = CompressionManager::should_compress(large_data, umicp_config.compression_threshold);
+    auto compress_large = CompressionManager::should_compress(large_data, umicp_config.compression_threshold, umicp_config.compression_algorithm);
     ASSERT_TRUE(compress_large); // Should compress large data
 }
 
@@ -371,7 +373,7 @@ TEST_F(SSLCompressionTest, BIP05_CompressionDisabledConfig) {
     umicp_config.enable_compression = false;
 
     ByteBuffer data(1000, 'z');
-    auto should_compress = CompressionManager::should_compress(data, 512);
+    auto should_compress = CompressionManager::should_compress(data, 512, CompressionAlgorithm::ZLIB);
     ASSERT_FALSE(should_compress); // Should never compress when disabled globally
 }
 

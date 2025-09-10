@@ -184,12 +184,17 @@ CMakeFiles/umicp_static.dir/src/c_api.cpp.o: \
  /usr/include/c++/13/stdlib.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/emmintrin.h \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/protocol.h \
- /usr/include/c++/13/functional /usr/include/c++/13/bits/std_function.h \
- /usr/include/c++/13/array /usr/include/c++/13/compare \
- /usr/include/c++/13/bits/stl_algo.h \
+ /mnt/f/Node/cmmv-hive/umicp/cpp/include/schema_registry.h \
+ /usr/include/c++/13/unordered_set \
+ /usr/include/c++/13/bits/unordered_set.h /usr/include/c++/13/functional \
+ /usr/include/c++/13/bits/std_function.h /usr/include/c++/13/array \
+ /usr/include/c++/13/compare /usr/include/c++/13/bits/stl_algo.h \
  /usr/include/c++/13/bits/algorithmfwd.h \
  /usr/include/c++/13/bits/stl_heap.h \
- /usr/include/c++/13/bits/uniform_int_dist.h \
+ /usr/include/c++/13/bits/uniform_int_dist.h /usr/include/c++/13/mutex \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
+ /usr/include/c++/13/bits/std_mutex.h \
+ /usr/include/c++/13/bits/unique_lock.h \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/config.h \
  /mnt/f/Node/cmmv-hive/umicp/cpp/include/buffer.h \
  /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h \
