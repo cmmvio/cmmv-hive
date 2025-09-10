@@ -99,13 +99,13 @@
       "provider": "anthropic",
       "model": "anthropic/claude-3-5-haiku-latest",
       "hasCostData": true,
-      "inputTokens": 9800,
-      "outputTokens": 4,
-      "inputCost": 0.0078,
+      "inputTokens": 11000,
+      "outputTokens": 341,
+      "inputCost": 0.0098,
       "outputCost": 0,
-      "totalCost": 0.0078,
+      "totalCost": 0.0098,
       "currency": "USD",
-      "testTimestamp": "2025-09-10T02:42:40.730Z"
+      "testTimestamp": "2025-09-10T03:17:31.782Z"
     },
     {
       "provider": "anthropic",
@@ -135,13 +135,13 @@
       "provider": "anthropic",
       "model": "anthropic/claude-4-sonnet-20250514",
       "hasCostData": true,
-      "inputTokens": 9800,
-      "outputTokens": 4,
+      "inputTokens": 10000,
+      "outputTokens": 254,
       "inputCost": 0.03,
       "outputCost": 0,
       "totalCost": 0.03,
       "currency": "USD",
-      "testTimestamp": "2025-09-10T02:42:54.711Z"
+      "testTimestamp": "2025-09-10T03:16:21.253Z"
     },
     {
       "provider": "anthropic",
@@ -316,12 +316,24 @@
       "model": "deepseek/deepseek-coder",
       "hasCostData": true,
       "inputTokens": 11000,
-      "outputTokens": 385,
-      "inputCost": 0.0012,
+      "outputTokens": 408,
+      "inputCost": 0.0033,
       "outputCost": 0,
-      "totalCost": 0.0012,
+      "totalCost": 0.0033,
       "currency": "USD",
-      "testTimestamp": "2025-09-10T02:58:49.046Z"
+      "testTimestamp": "2025-09-10T03:18:50.463Z"
+    },
+    {
+      "provider": "openai",
+      "model": "openai/gpt-4o",
+      "hasCostData": true,
+      "inputTokens": 10000,
+      "outputTokens": 341,
+      "inputCost": 0.03,
+      "outputCost": 0,
+      "totalCost": 0.03,
+      "currency": "USD",
+      "testTimestamp": "2025-09-10T03:18:57.897Z"
     }
   ],
   "lastTest": "2025-09-10T02:49:56.237Z",
@@ -329,7 +341,7 @@
     "totalProviders": 10,
     "workingProvidersCount": 5,
     "failedProvidersCount": 5,
-    "modelsWithCostData": 22,
-    "totalCostReports": 24
+    "modelsWithCostData": 23,
+    "totalCostReports": 25
   }
 }
