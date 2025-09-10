@@ -18,7 +18,7 @@ endif()
 if(MSVC)
     add_compile_options(/W4 /permissive-)
 else()
-    add_compile_options(-Wall -Wextra -Wpedantic -Werror)
+    add_compile_options(-Wall -Wextra -Wpedantic -Wno-unused-parameter -Werror)
 endif()
 
 # LLVM/Clang optimization flags
@@ -37,8 +37,8 @@ pkg_check_modules(ZLIB REQUIRED zlib)
 pkg_check_modules(OPENSSL REQUIRED openssl)
 
 # Optional packages
-pkg_check_modules(CBOR cbor)
-pkg_check_modules(MSGPACK msgpack-c)
+pkg_check_modules(CBOR libcbor)
+pkg_check_modules(MSGPACK libmsgpack)
 
 # Include directories
 include_directories(
@@ -46,6 +46,7 @@ include_directories(
     ${JSON_INCLUDE_DIRS}
     ${ZLIB_INCLUDE_DIRS}
     ${OPENSSL_INCLUDE_DIRS}
+    ${CBOR_INCLUDE_DIRS}
 )
 
 # Link directories
@@ -53,6 +54,7 @@ link_directories(
     ${JSON_LIBRARY_DIRS}
     ${ZLIB_LIBRARY_DIRS}
     ${OPENSSL_LIBRARY_DIRS}
+    ${CBOR_LIBRARY_DIRS}
 )
 
 # Source files
@@ -60,14 +62,12 @@ set(UMICP_SOURCES
     src/envelope.cpp
     src/frame.cpp
     src/protocol.cpp
-    src/security.cpp
     src/transport.cpp
     src/buffer.cpp
     src/config.cpp
     src/matrix_ops.cpp
     src/serialization.cpp
-    src/compression.cpp
-    src/crypto.cpp
+    src/security.cpp
     src/c_api.cpp
 )
 
@@ -78,14 +78,12 @@ set(UMICP_HEADERS
     include/envelope.h
     include/frame.h
     include/protocol.h
-    include/security.h
     include/transport.h
     include/buffer.h
     include/config.h
     include/matrix_ops.h
     include/serialization.h
-    include/compression.h
-    include/crypto.h
+    include/security.h
 )
 
 # Create static library
@@ -94,6 +92,7 @@ target_link_libraries(umicp_static
     ${JSON_LIBRARIES}
     ${ZLIB_LIBRARIES}
     ${OPENSSL_LIBRARIES}
+    ${CBOR_LIBRARIES}
 )
 
 # Create shared library
@@ -102,6 +101,7 @@ target_link_libraries(umicp_shared
     ${JSON_LIBRARIES}
     ${ZLIB_LIBRARIES}
     ${OPENSSL_LIBRARIES}
+    ${CBOR_LIBRARIES}
 )
 
 # Set library properties
@@ -128,6 +128,19 @@ option(BUILD_TESTS "Build test programs" ON)
 if(BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
+
+    # Add custom test targets
+    add_custom_target(test_quick
+        COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -L "quick"
+        DEPENDS umicp_tests
+        COMMENT "Running quick tests"
+    )
+
+    add_custom_target(test_full
+        COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
+        DEPENDS umicp_tests
+        COMMENT "Running complete test suite"
+    )
 endif()
 
 # Installation

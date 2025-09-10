@@ -6,7 +6,7 @@
 #include "umicp_types.h"
 #include "envelope.h"
 #include <json-c/json.h>
-#include <openssl/sha.h>
+#include <openssl/evp.h>
 #include <chrono>
 #include <iomanip>
 #include <sstream>
@@ -80,15 +80,15 @@ public:
 
         if (envelope.payload_hint) {
             json_object* hint = json_object_new_object();
-            json_object_object_add(hint, "type", json_object_new_string(payload_type_to_string(envelope.payload_hint->type).c_str()));
-            if (envelope.payload_hint->size) {
-                json_object_object_add(hint, "size", json_object_new_int64(*envelope.payload_hint->size));
+            json_object_object_add(hint, "type", json_object_new_string(payload_type_to_string(envelope.payload_hint.value().type).c_str()));
+            if (envelope.payload_hint.value().size) {
+                json_object_object_add(hint, "size", json_object_new_int64(*envelope.payload_hint.value().size));
             }
-            if (envelope.payload_hint->encoding) {
-                json_object_object_add(hint, "encoding", json_object_new_string(encoding_type_to_string(*envelope.payload_hint->encoding).c_str()));
+            if (envelope.payload_hint.value().encoding) {
+                json_object_object_add(hint, "encoding", json_object_new_string(encoding_type_to_string(*envelope.payload_hint.value().encoding).c_str()));
             }
-            if (envelope.payload_hint->count) {
-                json_object_object_add(hint, "count", json_object_new_int64(*envelope.payload_hint->count));
+            if (envelope.payload_hint.value().count) {
+                json_object_object_add(hint, "count", json_object_new_int64(*envelope.payload_hint.value().count));
             }
             json_object_object_add(root, "payload_hint", hint);
         }
@@ -327,14 +327,15 @@ std::string EnvelopeProcessor::hash(const Envelope& envelope) {
         return "";
     }
 
-    unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256_CTX sha256;
-    SHA256_Init(&sha256);
-    SHA256_Update(&sha256, serialized.value->c_str(), serialized.value->length());
-    SHA256_Final(hash, &sha256);
+    unsigned char hash[32]; // SHA256_DIGEST_LENGTH = 32
+    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
+    EVP_DigestInit_ex(mdctx, EVP_sha256(), NULL);
+    EVP_DigestUpdate(mdctx, serialized.value->c_str(), serialized.value->length());
+    EVP_DigestFinal_ex(mdctx, hash, NULL);
+    EVP_MD_CTX_free(mdctx);
 
     std::stringstream ss;
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+    for (int i = 0; i < 32; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
     }
     return ss.str();

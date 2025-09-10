@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/basic_example.dir/basic_example.cpp.o -o basic_example  -ljson-c -lz -lssl -lcrypto -luuid 

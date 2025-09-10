@@ -45,7 +45,7 @@ public:
 
     Result<void> connect() {
         if (connected_.load()) {
-            return Result<void>(ErrorCode::SUCCESS);
+            return Result<void>();
         }
 
         if (connecting_.load()) {
@@ -114,6 +114,9 @@ public:
 
 private:
     void start_io_thread() {
+        // Stop any existing thread first
+        stop_io_thread();
+
         should_stop_.store(false);
         io_thread_ = std::make_unique<std::thread>([this]() {
             run_io_loop();
@@ -122,10 +125,12 @@ private:
 
     void stop_io_thread() {
         should_stop_.store(true);
-        if (io_thread_ && io_thread_->joinable()) {
-            io_thread_->join();
+        if (io_thread_) {
+            if (io_thread_->joinable()) {
+                io_thread_->join();
+            }
+            io_thread_.reset();
         }
-        io_thread_.reset();
     }
 
     void run_io_loop() {
@@ -278,7 +283,14 @@ void WebSocketTransport::set_error_callback(ErrorCallback callback) {
 
 TransportStats WebSocketTransport::get_stats() const {
     std::lock_guard<std::mutex> lock(impl_->stats_mutex_);
-    return impl_->stats_;
+    TransportStats stats_copy;
+    stats_copy.bytes_sent = impl_->stats_.bytes_sent;
+    stats_copy.bytes_received = impl_->stats_.bytes_received;
+    stats_copy.messages_sent = impl_->stats_.messages_sent;
+    stats_copy.messages_received = impl_->stats_.messages_received;
+    stats_copy.connection_count = impl_->stats_.connection_count;
+    stats_copy.last_activity = impl_->stats_.last_activity;
+    return stats_copy;
 }
 
 void WebSocketTransport::reset_stats() {
@@ -325,15 +337,15 @@ bool HTTP2Transport::is_connected() const {
     return false;
 }
 
-Result<void> HTTP2Transport::send(const ByteBuffer& data) {
+Result<void> HTTP2Transport::send(const ByteBuffer& /* data */) {
     return Result<void>(ErrorCode::NOT_IMPLEMENTED, "HTTP/2 transport not implemented yet");
 }
 
-Result<void> HTTP2Transport::send_envelope(const Envelope& envelope) {
+Result<void> HTTP2Transport::send_envelope(const Envelope& /* envelope */) {
     return Result<void>(ErrorCode::NOT_IMPLEMENTED, "HTTP/2 transport not implemented yet");
 }
 
-Result<void> HTTP2Transport::send_frame(const Frame& frame) {
+Result<void> HTTP2Transport::send_frame(const Frame& /* frame */) {
     return Result<void>(ErrorCode::NOT_IMPLEMENTED, "HTTP/2 transport not implemented yet");
 }
 
@@ -346,12 +358,19 @@ TransportConfig HTTP2Transport::get_config() const {
     return impl_->config_;
 }
 
-void HTTP2Transport::set_message_callback(MessageCallback callback) {}
-void HTTP2Transport::set_connection_callback(ConnectionCallback callback) {}
-void HTTP2Transport::set_error_callback(ErrorCallback callback) {}
+void HTTP2Transport::set_message_callback(MessageCallback /* callback */) {}
+void HTTP2Transport::set_connection_callback(ConnectionCallback /* callback */) {}
+void HTTP2Transport::set_error_callback(ErrorCallback /* callback */) {}
 
 TransportStats HTTP2Transport::get_stats() const {
-    return impl_->stats_;
+    TransportStats stats_copy;
+    stats_copy.bytes_sent = impl_->stats_.bytes_sent;
+    stats_copy.bytes_received = impl_->stats_.bytes_received;
+    stats_copy.messages_sent = impl_->stats_.messages_sent;
+    stats_copy.messages_received = impl_->stats_.messages_received;
+    stats_copy.connection_count = impl_->stats_.connection_count;
+    stats_copy.last_activity = impl_->stats_.last_activity;
+    return stats_copy;
 }
 
 void HTTP2Transport::reset_stats() {

@@ -8,6 +8,15 @@
 
 #include "umicp_types.h"
 
+// SIMD headers
+#if defined(__AVX512F__)
+#include <immintrin.h>
+#elif defined(__AVX2__)
+#include <immintrin.h>
+#elif defined(__SSE__)
+#include <xmmintrin.h>
+#endif
+
 namespace umicp {
 
 // Matrix operations class with SIMD optimizations
@@ -34,26 +43,22 @@ public:
 
 private:
     // Helper functions for SIMD operations
-    static inline float horizontal_sum_avx(__m256 v) {
 #ifdef __AVX2__
+    static inline float horizontal_sum_avx(__m256 v) {
         __m128 hi = _mm256_extractf128_ps(v, 1);
         __m128 lo = _mm256_extractf128_ps(v, 0);
         __m128 sum = _mm_add_ps(hi, lo);
         sum = _mm_add_ps(sum, _mm_movehl_ps(sum, sum));
         sum = _mm_add_ss(sum, _mm_shuffle_ps(sum, sum, 0x55));
         return _mm_cvtss_f32(sum);
-#else
-        return 0.0f;
-#endif
     }
+#endif
 
-    static inline float horizontal_sum_avx512(__m512 v) {
 #ifdef __AVX512F__
+    static inline float horizontal_sum_avx512(__m512 v) {
         return _mm512_reduce_add_ps(v);
-#else
-        return 0.0f;
-#endif
     }
+#endif
 };
 
 } // namespace umicp

@@ -42,8 +42,8 @@ Result<std::unique_ptr<ByteBuffer>> BufferManager::create_from_data(const uint8_
         return result;
     }
 
-    std::memcpy(result.value->data(), data, size);
-    result.value->resize(size);
+    std::memcpy(result.value->get()->data(), data, size);
+    result.value->get()->resize(size);
 
     return result;
 }
@@ -126,8 +126,8 @@ Result<std::unique_ptr<ByteBuffer>> BufferManager::slice(const ByteBuffer& buffe
         return result;
     }
 
-    std::memcpy(result.value->data(), buffer.data() + offset, length);
-    result.value->resize(length);
+    std::memcpy(result.value->get()->data(), buffer.data() + offset, length);
+    result.value->get()->resize(length);
 
     return result;
 }

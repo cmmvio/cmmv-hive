@@ -22,11 +22,11 @@ using ErrorCallback = std::function<void(ErrorCode code, const std::string& mess
 
 // Transport statistics
 struct TransportStats {
-    std::atomic<uint64_t> bytes_sent{0};
-    std::atomic<uint64_t> bytes_received{0};
-    std::atomic<uint64_t> messages_sent{0};
-    std::atomic<uint64_t> messages_received{0};
-    std::atomic<uint64_t> connection_count{0};
+    uint64_t bytes_sent{0};
+    uint64_t bytes_received{0};
+    uint64_t messages_sent{0};
+    uint64_t messages_received{0};
+    uint64_t connection_count{0};
     std::chrono::steady_clock::time_point last_activity;
 };
 

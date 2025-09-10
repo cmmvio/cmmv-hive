@@ -20,7 +20,7 @@ namespace umicp {
 // Protocol constants
 static constexpr uint8_t UMICP_VERSION_MAJOR = 1;
 static constexpr uint8_t UMICP_VERSION_MINOR = 0;
-static constexpr size_t UMICP_FRAME_HEADER_SIZE = 16;
+static constexpr size_t UMICP_FRAME_HEADER_SIZE = 20;
 static constexpr size_t UMICP_MAX_MESSAGE_SIZE = 1024 * 1024; // 1MB
 static constexpr size_t UMICP_DEFAULT_BUFFER_SIZE = 4096;
 
@@ -90,7 +90,10 @@ enum class ErrorCode {
     SERIALIZATION_FAILED = 6,
     NETWORK_ERROR = 7,
     TIMEOUT = 8,
-    BUFFER_OVERFLOW = 9
+    BUFFER_OVERFLOW = 9,
+    MEMORY_ALLOCATION = 10,
+    INVALID_ARGUMENT = 11,
+    NOT_IMPLEMENTED = 12
 };
 
 // Forward declarations
@@ -99,6 +102,20 @@ struct Frame;
 struct SecurityContext;
 struct TransportConfig;
 struct UMICPConfig;
+class SecurityManager;
+
+// Payload hint structure
+struct PayloadHint {
+    PayloadType type;
+    std::optional<size_t> size;
+    std::optional<EncodingType> encoding;
+    std::optional<size_t> count;
+
+    PayloadHint() : type(PayloadType::METADATA) {}
+
+    PayloadHint(PayloadType t, size_t s, EncodingType e, size_t c)
+        : type(t), size(s), encoding(e), count(c) {}
+};
 
 // Type aliases
 using ByteBuffer = std::vector<uint8_t>;
@@ -116,7 +133,7 @@ struct Envelope {
     std::optional<StringMap> capabilities;
     std::optional<std::string> schema_uri;
     std::optional<std::vector<std::string>> accept;
-    std::optional<JsonObject> payload_hint;
+    std::optional<PayloadHint> payload_hint;
     std::optional<std::vector<JsonObject>> payload_refs;
 
     Envelope() : op(OperationType::CONTROL) {}
@@ -140,16 +157,6 @@ struct Frame {
     Frame() = default;
     Frame(FrameHeader hdr, ByteBuffer data)
         : header(hdr), payload(std::move(data)) {}
-};
-
-// Payload hint structure
-struct PayloadHint {
-    PayloadType type;
-    std::optional<size_t> size;
-    std::optional<EncodingType> encoding;
-    std::optional<size_t> count;
-
-    PayloadHint() : type(PayloadType::METADATA) {}
 };
 
 // Security context
@@ -225,6 +232,21 @@ struct Result {
 
     bool is_success() const { return code == ErrorCode::SUCCESS; }
     bool has_value() const { return value.has_value(); }
+};
+
+// Specialization for void
+template<>
+struct Result<void> {
+    ErrorCode code;
+    std::optional<std::string> error_message;
+
+    Result() : code(ErrorCode::SUCCESS) {}
+    Result(ErrorCode err) : code(err) {}
+    Result(ErrorCode err, std::string msg)
+        : code(err), error_message(std::move(msg)) {}
+
+    bool is_success() const { return code == ErrorCode::SUCCESS; }
+    bool has_value() const { return is_success(); }
 };
 
 } // namespace umicp

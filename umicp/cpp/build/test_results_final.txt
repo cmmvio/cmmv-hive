@@ -1,0 +1,128 @@
+[0;33mNote: Google Test filter = -*Performance*
+[m[0;32m[==========] [mRunning 127 tests from 7 test suites.
+[0;32m[----------] [mGlobal test environment set-up.
+🚀 UMICP Test Suite Starting
+==============================
+[0;32m[----------] [m8 tests from ProtocolIntegrationTest
+[0;32m[ RUN      ] [mProtocolIntegrationTest.ProtocolInitialization
+[0;32m[       OK ] [mProtocolIntegrationTest.ProtocolInitialization (0 ms)
+[0;32m[ RUN      ] [mProtocolIntegrationTest.ProtocolConfiguration
+[0;32m[       OK ] [mProtocolIntegrationTest.ProtocolConfiguration (0 ms)
+[0;32m[ RUN      ] [mProtocolIntegrationTest.SecurityManagerIntegration
+[0;32m[       OK ] [mProtocolIntegrationTest.SecurityManagerIntegration (0 ms)
+[0;32m[ RUN      ] [mProtocolIntegrationTest.StatisticsAndMonitoring
+[0;32m[       OK ] [mProtocolIntegrationTest.StatisticsAndMonitoring (0 ms)
+[0;32m[ RUN      ] [mProtocolIntegrationTest.ConnectionStateManagement
+[0;32m[       OK ] [mProtocolIntegrationTest.ConnectionStateManagement (0 ms)
+[0;32m[ RUN      ] [mProtocolIntegrationTest.MessageIdGeneration
+[0;32m[       OK ] [mProtocolIntegrationTest.MessageIdGeneration (0 ms)
+[0;32m[ RUN      ] [mProtocolIntegrationTest.ErrorHandling
+[0;32m[       OK ] [mProtocolIntegrationTest.ErrorHandling (0 ms)
+[0;32m[ RUN      ] [mProtocolIntegrationTest.ConcurrentAccess
+[0;32m[       OK ] [mProtocolIntegrationTest.ConcurrentAccess (0 ms)
+[0;32m[----------] [m8 tests from ProtocolIntegrationTest (5 ms total)
+
+[0;32m[----------] [m9 tests from S2STransportTest
+[0;32m[ RUN      ] [mS2STransportTest.MockS2S_BasicCommunication
+  📡 S2S mock communication successful: 256.00 B exchanged
+[0;32m[       OK ] [mS2STransportTest.MockS2S_BasicCommunication (21 ms)
+[0;32m[ RUN      ] [mS2STransportTest.MockS2S_EnvelopeExchange
+  📨 S2S envelope exchange successful
+[0;32m[       OK ] [mS2STransportTest.MockS2S_EnvelopeExchange (21 ms)
+[0;32m[ RUN      ] [mS2STransportTest.MockS2S_BinaryFrameExchange
+  📦 S2S binary frame exchange successful: 512.00 B + 256.00 B
+[0;32m[       OK ] [mS2STransportTest.MockS2S_BinaryFrameExchange (21 ms)
+[0;32m[ RUN      ] [mS2STransportTest.MultiNode_BroadcastSimulation
+  📡 Multi-node broadcast: 5 nodes, 20 total messages
+[0;32m[       OK ] [mS2STransportTest.MultiNode_BroadcastSimulation (53 ms)
+[0;32m[ RUN      ] [mS2STransportTest.MultiNode_RingTopology
+  🔄 Ring topology: 12 total hops through 6 nodes
+[0;32m[       OK ] [mS2STransportTest.MultiNode_RingTopology (263 ms)
+[0;32m[ RUN      ] [mS2STransportTest.Stress_HighVolumeExchange
+  🚀 High volume: 2000 messages in 202ms (9900 msg/s)
+[0;32m[       OK ] [mS2STransportTest.Stress_HighVolumeExchange (329 ms)
+[0;32m[ RUN      ] [mS2STransportTest.Stress_LargeMessageExchange
+  📊 Large messages: 2.22 MB in 61ms (290.73 Mbps)
+[0;32m[       OK ] [mS2STransportTest.Stress_LargeMessageExchange (132 ms)
+[0;32m[ RUN      ] [mS2STransportTest.Reliability_ConnectionInterruption
+    🔗 Connection established
+    🔗 Connection established
+    🔌 Connection lost: Disconnected
+    🔌 Connection lost: Disconnected
+    🔗 Connection established
+    🔗 Connection established
+  🔄 Connection resilience: 6 events, messaging resumed
+[0;32m[       OK ] [mS2STransportTest.Reliability_ConnectionInterruption (246 ms)
+[0;32m[ RUN      ] [mS2STransportTest.Reliability_MessageOrdering
+  📋 Message ordering: 50 messages ✅ in order
+[0;32m[       OK ] [mS2STransportTest.Reliability_MessageOrdering (208 ms)
+[0;32m[----------] [m9 tests from S2STransportTest (1297 ms total)
+
+[0;32m[----------] [m21 tests from ProtocolTest
+[0;32m[ RUN      ] [mProtocolTest.BasicSetup_Configuration
+[0;32m[       OK ] [mProtocolTest.BasicSetup_Configuration (0 ms)
+[0;32m[ RUN      ] [mProtocolTest.BasicSetup_TransportAssignment
+[0;32m[       OK ] [mProtocolTest.BasicSetup_TransportAssignment (0 ms)
+[0;32m[ RUN      ] [mProtocolTest.BasicSetup_NullTransport
+[0;32m[       OK ] [mProtocolTest.BasicSetup_NullTransport (0 ms)
+[0;32m[ RUN      ] [mProtocolTest.Connection_BasicFlow
+[0;32m[       OK ] [mProtocolTest.Connection_BasicFlow (10 ms)
+[0;32m[ RUN      ] [mProtocolTest.Connection_WithoutTransport
+[0;32m[       OK ] [mProtocolTest.Connection_WithoutTransport (0 ms)
+[0;32m[ RUN      ] [mProtocolTest.Connection_DoubleConnection
+/mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_protocol.cpp:96: Failure
+Value of: result2.is_success()
+  Actual: false
+Expected: true
+
+[0;31m[  FAILED  ] [mProtocolTest.Connection_DoubleConnection (10 ms)
+[0;32m[ RUN      ] [mProtocolTest.Messaging_SendControl
+  📤 Control message sent, ID: msg-1757481917906-574
+[0;32m[       OK ] [mProtocolTest.Messaging_SendControl (12 ms)
+[0;32m[ RUN      ] [mProtocolTest.Messaging_SendData
+  📦 Data message sent: 512.00 B
+[0;32m[       OK ] [mProtocolTest.Messaging_SendData (11 ms)
+[0;32m[ RUN      ] [mProtocolTest.Messaging_SendAck
+  ✅ ACK message sent for: original-msg-123
+[0;32m[       OK ] [mProtocolTest.Messaging_SendAck (12 ms)
+[0;32m[ RUN      ] [mProtocolTest.Messaging_SendError
+  ❌ Error message sent: Frame parsing failed
+[0;32m[       OK ] [mProtocolTest.Messaging_SendError (12 ms)
+[0;32m[ RUN      ] [mProtocolTest.Messaging_SendWithoutConnection
+[0;32m[       OK ] [mProtocolTest.Messaging_SendWithoutConnection (0 ms)
+[0;32m[ RUN      ] [mProtocolTest.Processing_ControlMessage
+[0;32m[       OK ] [mProtocolTest.Processing_ControlMessage (0 ms)
+[0;32m[ RUN      ] [mProtocolTest.Processing_DataMessage
+[0;32m[       OK ] [mProtocolTest.Processing_DataMessage (0 ms)
+[0;32m[ RUN      ] [mProtocolTest.Processing_UnhandledMessageType
+[0;32m[       OK ] [mProtocolTest.Processing_UnhandledMessageType (0 ms)
+[0;32m[ RUN      ] [mProtocolTest.Processing_InvalidMessage
+[0;32m[       OK ] [mProtocolTest.Processing_InvalidMessage (0 ms)
+[0;32m[ RUN      ] [mProtocolTest.Statistics_MessageCounting
+[0;32m[       OK ] [mProtocolTest.Statistics_MessageCounting (16 ms)
+[0;32m[ RUN      ] [mProtocolTest.Statistics_MessageProcessing
+[0;32m[       OK ] [mProtocolTest.Statistics_MessageProcessing (0 ms)
+[0;32m[ RUN      ] [mProtocolTest.Statistics_Reset
+[0;32m[       OK ] [mProtocolTest.Statistics_Reset (12 ms)
+[0;32m[ RUN      ] [mProtocolTest.Handlers_MultipleHandlers
+[0;32m[       OK ] [mProtocolTest.Handlers_MultipleHandlers (0 ms)
+[0;32m[ RUN      ] [mProtocolTest.Handlers_HandlerReplacement
+[0;32m[       OK ] [mProtocolTest.Handlers_HandlerReplacement (0 ms)
+[0;32m[ RUN      ] [mProtocolTest.Handlers_Unregister
+[0;32m[       OK ] [mProtocolTest.Handlers_Unregister (0 ms)
+[0;32m[----------] [m21 tests from ProtocolTest (99 ms total)
+
+[0;32m[----------] [m22 tests from TransportTest
+[0;32m[ RUN      ] [mTransportTest.Factory_CreateWebSocket
+[0;32m[       OK ] [mTransportTest.Factory_CreateWebSocket (0 ms)
+[0;32m[ RUN      ] [mTransportTest.Factory_CreateHTTP2
+[0;32m[       OK ] [mTransportTest.Factory_CreateHTTP2 (0 ms)
+[0;32m[ RUN      ] [mTransportTest.Factory_CreateGeneric
+[0;32m[       OK ] [mTransportTest.Factory_CreateGeneric (0 ms)
+[0;32m[ RUN      ] [mTransportTest.WebSocket_BasicConnection
+[0;32m[       OK ] [mTransportTest.WebSocket_BasicConnection (101 ms)
+[0;32m[ RUN      ] [mTransportTest.WebSocket_DoubleConnection
+[0;32m[       OK ] [mTransportTest.WebSocket_DoubleConnection (100 ms)
+[0;32m[ RUN      ] [mTransportTest.WebSocket_SendData
+[0;32m[       OK ] [mTransportTest.WebSocket_SendData (1100 ms)
+[0;32m[ RUN      ] [mTransportTest.WebSocket_SendEnvelope

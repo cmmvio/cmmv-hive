@@ -8,6 +8,8 @@
 #include "envelope.h"
 #include "frame.h"
 #include "transport.h"
+#include "serialization.h"
+#include "security.h"
 #include <chrono>
 #include <random>
 #include <sstream>
@@ -49,12 +51,17 @@ Result<void> Protocol::connect() {
         return Result<void>(ErrorCode::INVALID_ARGUMENT, "No transport configured");
     }
 
+    // If already connected, return success
+    if (is_connected()) {
+        return Result<void>();
+    }
+
     // Set up transport callbacks before connecting
     transport_->set_message_callback([this](const ByteBuffer& data) {
         on_transport_message(data);
     });
 
-    transport_->set_connection_callback([this](bool connected, const std::string& error) {
+    transport_->set_connection_callback([this](bool connected, const std::string& /* error */) {
         if (connected) {
             on_transport_connected();
         } else {
@@ -62,12 +69,16 @@ Result<void> Protocol::connect() {
         }
     });
 
-    transport_->set_error_callback([this](ErrorCode code, const std::string& message) {
+    transport_->set_error_callback([this](ErrorCode /* code */, const std::string& message) {
         on_transport_error(message);
     });
 
     auto result = transport_->connect();
-    return result;
+    if (result.is_success()) {
+        return Result<void>();
+    } else {
+        return Result<void>(result.code, result.error_message.value_or("Connection failed"));
+    }
 }
 
 Result<void> Protocol::disconnect() {
@@ -78,9 +89,10 @@ Result<void> Protocol::disconnect() {
     auto result = transport_->disconnect();
     if (result.is_success()) {
         on_transport_disconnected();
+        return Result<void>();
+    } else {
+        return Result<void>(result.code, result.error_message.value_or("Disconnection failed"));
     }
-
-    return result;
 }
 
 bool Protocol::is_connected() const {
@@ -106,13 +118,20 @@ Result<std::string> Protocol::send_control(const std::string& to, OperationType 
         (*envelope_result.value->capabilities)["params"] = params;
     }
 
-    auto serialize_result = serialize_message(*envelope_result.value);
-    if (!serialize_result.is_success()) {
-        return Result<std::string>(serialize_result.code, serialize_result.error_message.value());
+    if (!transport_ || !transport_->is_connected()) {
+        return Result<std::string>(ErrorCode::NETWORK_ERROR, "Transport not connected");
     }
 
-    // Send through transport (would be implemented)
-    update_stats_sent(serialize_result.value->size());
+    auto send_result = transport_->send_envelope(*envelope_result.value);
+    if (!send_result.is_success()) {
+        return Result<std::string>(send_result.code, send_result.error_message.value());
+    }
+
+    // Estimate sent bytes for stats (rough approximation)
+    auto json_result = JsonSerializer::serialize_envelope(*envelope_result.value);
+    if (json_result.is_success()) {
+        update_stats_sent(json_result.value->size());
+    }
 
     return Result<std::string>(envelope_result.value->msg_id);
 }
@@ -124,16 +143,35 @@ Result<std::string> Protocol::send_data(const std::string& to, const ByteBuffer&
         return Result<std::string>(envelope_result.code, envelope_result.error_message.value());
     }
 
-    envelope_result.value->payload_hint = hint;
-
-    auto serialize_result = serialize_message(*envelope_result.value, &data);
-    if (!serialize_result.is_success()) {
-        return Result<std::string>(serialize_result.code, serialize_result.error_message.value());
+    // Convert PayloadHint to JsonObject for now
+    if (hint.type != PayloadType::METADATA || hint.size || hint.encoding || hint.count) {
+        JsonObject hint_obj;
+        hint_obj["type"] = std::to_string(static_cast<int>(hint.type));
+        if (hint.size) hint_obj["size"] = std::to_string(*hint.size);
+        if (hint.encoding) hint_obj["encoding"] = std::to_string(static_cast<int>(*hint.encoding));
+        if (hint.count) hint_obj["count"] = std::to_string(*hint.count);
+        // envelope_result.value->payload_hint = hint_obj; // TODO: Convert JsonObject to PayloadHint
     }
 
-    // Send through transport (would be implemented)
-    update_stats_sent(serialize_result.value->size());
+    if (!transport_ || !transport_->is_connected()) {
+        return Result<std::string>(ErrorCode::NETWORK_ERROR, "Transport not connected");
+    }
 
+    // For data messages, create a frame with the binary data
+    Frame frame;
+    frame.header.version = 1;
+    frame.header.type = static_cast<uint8_t>(OperationType::DATA);
+    frame.header.flags = 0;
+    frame.header.stream_id = next_stream_id_++;
+    frame.header.sequence = 0;
+    frame.payload = data;
+
+    auto send_result = transport_->send_frame(frame);
+    if (!send_result.is_success()) {
+        return Result<std::string>(send_result.code, send_result.error_message.value());
+    }
+
+    update_stats_sent(data.size() + UMICP_FRAME_HEADER_SIZE);
     return Result<std::string>(envelope_result.value->msg_id);
 }
 
@@ -148,12 +186,21 @@ Result<std::string> Protocol::send_ack(const std::string& to, const std::string&
         JsonObject{{"message_id", message_id}, {"status", "OK"}}
     };
 
-    auto serialize_result = serialize_message(*envelope_result.value);
-    if (!serialize_result.is_success()) {
-        return Result<std::string>(serialize_result.code, serialize_result.error_message.value());
+    if (!transport_ || !transport_->is_connected()) {
+        return Result<std::string>(ErrorCode::NETWORK_ERROR, "Transport not connected");
     }
 
-    update_stats_sent(serialize_result.value->size());
+    auto send_result = transport_->send_envelope(*envelope_result.value);
+    if (!send_result.is_success()) {
+        return Result<std::string>(send_result.code, send_result.error_message.value());
+    }
+
+    // Estimate sent bytes for stats
+    auto json_result = JsonSerializer::serialize_envelope(*envelope_result.value);
+    if (json_result.is_success()) {
+        update_stats_sent(json_result.value->size());
+    }
+
     return Result<std::string>(envelope_result.value->msg_id);
 }
 
@@ -178,12 +225,21 @@ Result<std::string> Protocol::send_error(const std::string& to, ErrorCode error,
         }
     }
 
-    auto serialize_result = serialize_message(*envelope_result.value);
-    if (!serialize_result.is_success()) {
-        return Result<std::string>(serialize_result.code, serialize_result.error_message.value());
+    if (!transport_ || !transport_->is_connected()) {
+        return Result<std::string>(ErrorCode::NETWORK_ERROR, "Transport not connected");
     }
 
-    update_stats_sent(serialize_result.value->size());
+    auto send_result = transport_->send_envelope(*envelope_result.value);
+    if (!send_result.is_success()) {
+        return Result<std::string>(send_result.code, send_result.error_message.value());
+    }
+
+    // Estimate sent bytes for stats
+    auto json_result = JsonSerializer::serialize_envelope(*envelope_result.value);
+    if (json_result.is_success()) {
+        update_stats_sent(json_result.value->size());
+    }
+
     return Result<std::string>(envelope_result.value->msg_id);
 }
 
@@ -290,55 +346,82 @@ Result<Envelope> Protocol::create_envelope(const std::string& to, OperationType 
 }
 
 Result<ByteBuffer> Protocol::serialize_message(const Envelope& envelope, const ByteBuffer* payload) {
-    // For now, return a simple serialized version
-    // In full implementation, this would handle JSON serialization and framing
+    // Serialize envelope to JSON
+    auto json_result = JsonSerializer::serialize_envelope(envelope);
+    if (!json_result.is_success()) {
+        return Result<ByteBuffer>(json_result.code, json_result.error_message.value());
+    }
+
+    const std::string& json_str = *json_result.value;
     ByteBuffer buffer;
-    buffer.reserve(1024);
-
-    // Simple envelope serialization (placeholder)
-    std::string envelope_str = "ENVELOPE:" + envelope.msg_id + ":" + envelope.from + ":" + envelope.to;
-
-    buffer.insert(buffer.end(), envelope_str.begin(), envelope_str.end());
 
     if (payload && !payload->empty()) {
-        buffer.push_back('\0'); // Separator
-        buffer.insert(buffer.end(), payload->begin(), payload->end());
+        // For messages with payload, create a frame
+        Frame frame;
+        frame.header.version = 1;
+        frame.header.type = static_cast<uint8_t>(envelope.op);
+        frame.header.flags = 0;
+        frame.header.stream_id = next_stream_id_++;
+        frame.header.sequence = 0;
+        frame.payload = *payload;
+
+        auto frame_result = BinarySerializer::serialize_frame(frame);
+        if (!frame_result.is_success()) {
+            return Result<ByteBuffer>(frame_result.code, frame_result.error_message.value());
+        }
+
+        buffer = *frame_result.value;
+    } else {
+        // For control messages, just use JSON
+        buffer.assign(json_str.begin(), json_str.end());
     }
 
     return Result<ByteBuffer>(buffer);
 }
 
 Result<std::pair<Envelope, std::unique_ptr<ByteBuffer>>> Protocol::deserialize_message(const ByteBuffer& data) {
-    // Simple deserialization (placeholder)
-    // In full implementation, this would parse JSON and extract payload
-    std::string data_str(data.begin(), data.end());
-    size_t separator_pos = data_str.find('\0');
-
-    Envelope envelope;
     std::unique_ptr<ByteBuffer> payload;
 
-    if (separator_pos != std::string::npos) {
-        std::string envelope_part = data_str.substr(0, separator_pos);
-        std::string payload_part = data_str.substr(separator_pos + 1);
+    // Check if this looks like a binary frame (starts with frame header)
+    if (data.size() >= UMICP_FRAME_HEADER_SIZE) {
+        // Try to parse as binary frame
+        auto frame_result = BinarySerializer::deserialize_frame(data);
+        if (frame_result.is_success()) {
+            // This is a binary frame - create envelope from frame header
+            const Frame& frame = *frame_result.value;
 
-        // Parse envelope (simplified)
-        // This would use proper JSON parsing in full implementation
-        envelope.msg_id = "parsed-msg-id";
-        envelope.from = "parsed-from";
-        envelope.to = "parsed-to";
-        envelope.op = OperationType::DATA;
+            Envelope envelope;
+            envelope.version = std::to_string(frame.header.version);
+            envelope.op = static_cast<OperationType>(frame.header.type);
+            envelope.msg_id = "frame-" + std::to_string(frame.header.stream_id) + "-" + std::to_string(frame.header.sequence);
+            envelope.from = ""; // Would be extracted from frame metadata in full implementation
+            envelope.to = local_id_; // Assume it's for us
 
-        payload = std::make_unique<ByteBuffer>(payload_part.begin(), payload_part.end());
-    } else {
-        // Control message without payload
-        envelope.msg_id = "parsed-msg-id";
-        envelope.from = "parsed-from";
-        envelope.to = "parsed-to";
-        envelope.op = OperationType::CONTROL;
+            // Current timestamp
+            auto now = std::chrono::system_clock::now();
+            auto time_t = std::chrono::system_clock::to_time_t(now);
+            std::stringstream ss;
+            ss << std::put_time(std::gmtime(&time_t), "%Y-%m-%dT%H:%M:%SZ");
+            envelope.ts = ss.str();
+
+            payload = std::make_unique<ByteBuffer>(frame.payload);
+
+            return Result<std::pair<Envelope, std::unique_ptr<ByteBuffer>>>(
+                std::make_pair(envelope, std::move(payload)));
+        }
     }
 
+    // Try to parse as JSON envelope
+    std::string json_str(data.begin(), data.end());
+    auto envelope_result = JsonSerializer::deserialize_envelope(json_str);
+    if (!envelope_result.is_success()) {
+        return Result<std::pair<Envelope, std::unique_ptr<ByteBuffer>>>(
+            envelope_result.code, envelope_result.error_message.value());
+    }
+
+    // No payload for JSON control messages
     return Result<std::pair<Envelope, std::unique_ptr<ByteBuffer>>>(
-        std::make_pair(envelope, std::move(payload)));
+        std::make_pair(*envelope_result.value, std::move(payload)));
 }
 
 void Protocol::update_stats_sent(size_t bytes) {
@@ -370,7 +453,7 @@ void Protocol::on_transport_disconnected() {
     // Handle disconnection
 }
 
-void Protocol::on_transport_error(const std::string& error) {
+void Protocol::on_transport_error(const std::string& /* error */) {
     // Handle transport error
     update_stats_error();
 }

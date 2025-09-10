@@ -26,14 +26,18 @@ public:
     static Result<Frame> deserialize_frame(const ByteBuffer& data);
     static Result<ByteBuffer> serialize_envelope_cbor(const Envelope& envelope);
     static Result<Envelope> deserialize_envelope_cbor(const ByteBuffer& data);
-    
+
     // CBOR-specific functions
     static Result<ByteBuffer> encode_cbor(const JsonObject& data);
     static Result<JsonObject> decode_cbor(const ByteBuffer& data);
-    
-    // MessagePack-specific functions  
+
+    // MessagePack-specific functions
     static Result<ByteBuffer> encode_msgpack(const JsonObject& data);
     static Result<JsonObject> decode_msgpack(const ByteBuffer& data);
+
+private:
+    // Helper function for MessagePack string decoding
+    static Result<std::string> decode_msgpack_string(const ByteBuffer& data, size_t& pos);
 };
 
 // Hash utilities

@@ -1,0 +1,441 @@
+/**
+ * UMICP Error Conditions Tests
+ * Comprehensive testing of error handling and failure scenarios
+ */
+
+#include <gtest/gtest.h>
+#include "protocol.h"
+#include "transport.h"
+#include "security.h"
+#include "serialization.h"
+#include "matrix_ops.h"
+#include "../utils/test_helpers.h"
+#include <stdexcept>
+
+using namespace umicp;
+using namespace umicp::testing;
+
+class ErrorConditionsTest : public UMICPTestFixture {
+protected:
+    void SetUp() override {
+        UMICPTestFixture::SetUp();
+
+        // Create test data
+        valid_envelope_ = TestHelpers::create_test_envelope();
+        valid_frame_ = TestHelpers::create_test_frame();
+        valid_config_ = TestHelpers::create_test_config();
+    }
+
+    Envelope valid_envelope_;
+    Frame valid_frame_;
+    UMICPConfig valid_config_;
+};
+
+// ===============================================
+// Protocol Error Conditions
+// ===============================================
+
+TEST_F(ErrorConditionsTest, Protocol_NullTransport) {
+    Protocol protocol("test-node");
+
+    // Try to connect without transport
+    auto result = protocol.connect();
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::INVALID_STATE);
+}
+
+TEST_F(ErrorConditionsTest, Protocol_InvalidConfiguration) {
+    Protocol protocol("test-node");
+
+    // Try to configure with invalid settings
+    UMICPConfig invalid_config;
+    invalid_config.max_message_size = 0; // Invalid
+
+    auto result = protocol.configure(invalid_config);
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::INVALID_CONFIG);
+}
+
+TEST_F(ErrorConditionsTest, Protocol_MessageWithoutConnection) {
+    Protocol protocol("test-node");
+    protocol.configure(valid_config_);
+
+    // Try to send message without connection
+    auto result = protocol.send_message(MessageType::CONTROL, "test-data");
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::NOT_CONNECTED);
+}
+
+TEST_F(ErrorConditionsTest, Protocol_InvalidMessageType) {
+    Protocol protocol("test-node");
+    protocol.configure(valid_config_);
+
+    // Try to send invalid message type
+    auto result = protocol.send_message(static_cast<MessageType>(999), "test-data");
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::INVALID_MESSAGE_TYPE);
+}
+
+TEST_F(ErrorConditionsTest, Protocol_EmptyMessageData) {
+    Protocol protocol("test-node");
+    protocol.configure(valid_config_);
+    protocol.set_transport(std::make_shared<MockTransport>());
+    protocol.connect();
+
+    // Try to send empty message
+    auto result = protocol.send_message(MessageType::DATA, "");
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::INVALID_MESSAGE_DATA);
+}
+
+TEST_F(ErrorConditionsTest, Protocol_MessageTooLarge) {
+    Protocol protocol("test-node");
+    UMICPConfig config = valid_config_;
+    config.max_message_size = 10; // Very small limit
+    protocol.configure(config);
+    protocol.set_transport(std::make_shared<MockTransport>());
+    protocol.connect();
+
+    // Try to send message that's too large
+    std::string large_data(1000, 'x');
+    auto result = protocol.send_message(MessageType::DATA, large_data);
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::MESSAGE_TOO_LARGE);
+}
+
+// ===============================================
+// Transport Error Conditions
+// ===============================================
+
+TEST_F(ErrorConditionsTest, Transport_InvalidEndpoint) {
+    TransportConfig config;
+    config.type = TransportType::WEBSOCKET;
+    config.endpoint = "invalid://endpoint";
+
+    auto transport = TransportFactory::create(config);
+    EXPECT_EQ(transport, nullptr);
+}
+
+TEST_F(ErrorConditionsTest, Transport_SendWithoutConnection) {
+    auto transport = std::make_shared<MockTransport>();
+
+    // Try to send without connecting
+    auto result = transport->send_data("test-data");
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::NOT_CONNECTED);
+}
+
+TEST_F(ErrorConditionsTest, Transport_InvalidData) {
+    auto transport = std::make_shared<MockTransport>();
+    transport->connect();
+
+    // Try to send invalid data
+    auto result = transport->send_data("");
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::INVALID_DATA);
+}
+
+TEST_F(ErrorConditionsTest, Transport_ConnectionTimeout) {
+    TransportConfig config;
+    config.type = TransportType::WEBSOCKET;
+    config.endpoint = "ws://timeout-endpoint";
+    config.connection_timeout_ms = 1; // Very short timeout
+
+    auto transport = TransportFactory::create(config);
+    if (transport) {
+        auto result = transport->connect();
+        EXPECT_FALSE(result.is_success());
+        EXPECT_EQ(result.code, ErrorCode::CONNECTION_TIMEOUT);
+    }
+}
+
+// ===============================================
+// Security Error Conditions
+// ===============================================
+
+TEST_F(ErrorConditionsTest, Security_InvalidKeySize) {
+    SecurityManager security;
+
+    // Try to load invalid key size
+    std::vector<uint8_t> invalid_key(10); // Wrong size
+    auto result = security.load_private_key(invalid_key);
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::INVALID_KEY_SIZE);
+}
+
+TEST_F(ErrorConditionsTest, Security_SignWithoutKey) {
+    SecurityManager security;
+
+    // Try to sign without loading key
+    std::string data = "test-data";
+    auto result = security.sign(data);
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::NO_PRIVATE_KEY);
+}
+
+TEST_F(ErrorConditionsTest, Security_VerifyWithoutPeerKey) {
+    SecurityManager security;
+    security.generate_keys();
+
+    // Try to verify without peer key
+    std::string data = "test-data";
+    auto sign_result = security.sign(data);
+    ASSERT_TRUE(sign_result.is_success());
+
+    auto verify_result = security.verify(data, *sign_result.value);
+    EXPECT_FALSE(verify_result.is_success());
+    EXPECT_EQ(verify_result.code, ErrorCode::NO_PEER_PUBLIC_KEY);
+}
+
+TEST_F(ErrorConditionsTest, Security_EncryptWithoutSession) {
+    SecurityManager security;
+    security.generate_keys();
+
+    // Try to encrypt without establishing session
+    std::string data = "test-data";
+    auto result = security.encrypt(data);
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::NO_ACTIVE_SESSION);
+}
+
+TEST_F(ErrorConditionsTest, Security_InvalidSignature) {
+    SecurityManager security;
+    security.generate_keys();
+
+    // Try to verify with invalid signature
+    std::string data = "test-data";
+    std::vector<uint8_t> invalid_signature(64, 0x00);
+
+    auto result = security.verify(data, invalid_signature);
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::INVALID_SIGNATURE);
+}
+
+// ===============================================
+// Serialization Error Conditions
+// ===============================================
+
+TEST_F(ErrorConditionsTest, Serialization_InvalidJSON) {
+    std::string invalid_json = "{ invalid json }";
+
+    auto result = JsonSerializer::deserialize_envelope(invalid_json);
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::SERIALIZATION_FAILED);
+}
+
+TEST_F(ErrorConditionsTest, Serialization_EmptyData) {
+    std::string empty_data = "";
+
+    auto result = JsonSerializer::serialize_envelope(Envelope{});
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::INVALID_DATA);
+}
+
+TEST_F(ErrorConditionsTest, Serialization_InvalidBinaryFrame) {
+    std::vector<uint8_t> invalid_data = {0x00, 0x01, 0x02}; // Too short
+
+    auto result = BinarySerializer::deserialize_frame(invalid_data);
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::SERIALIZATION_FAILED);
+}
+
+TEST_F(ErrorConditionsTest, Serialization_CBORCorruptedData) {
+    std::vector<uint8_t> corrupted_data = {0xFF, 0xFF, 0xFF, 0xFF};
+
+    auto result = BinarySerializer::decode_cbor(corrupted_data);
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::SERIALIZATION_FAILED);
+}
+
+// ===============================================
+// Matrix Operations Error Conditions
+// ===============================================
+
+TEST_F(ErrorConditionsTest, MatrixOps_NullPointers) {
+    std::vector<float> result(4);
+
+    // Test with null pointers
+    auto result1 = MatrixOps::add(nullptr, nullptr, result.data(), 1, 4);
+    EXPECT_FALSE(result1.is_success());
+    EXPECT_EQ(result1.code, ErrorCode::INVALID_PARAMETER);
+
+    auto result2 = MatrixOps::add(result.data(), result.data(), nullptr, 1, 4);
+    EXPECT_FALSE(result2.is_success());
+    EXPECT_EQ(result2.code, ErrorCode::INVALID_PARAMETER);
+}
+
+TEST_F(ErrorConditionsTest, MatrixOps_ZeroSize) {
+    std::vector<float> vec_a = {1.0f, 2.0f, 3.0f, 4.0f};
+    std::vector<float> vec_b = {5.0f, 6.0f, 7.0f, 8.0f};
+    std::vector<float> result(4);
+
+    // Test with zero size
+    auto op_result = MatrixOps::add(vec_a.data(), vec_b.data(), result.data(), 1, 0);
+    EXPECT_FALSE(op_result.is_success());
+    EXPECT_EQ(op_result.code, ErrorCode::INVALID_PARAMETER);
+}
+
+TEST_F(ErrorConditionsTest, MatrixOps_SizeMismatch) {
+    std::vector<float> vec_a = {1.0f, 2.0f, 3.0f, 4.0f};
+    std::vector<float> vec_b = {5.0f, 6.0f}; // Different size
+    std::vector<float> result(4);
+
+    // Test with size mismatch
+    auto op_result = MatrixOps::add(vec_a.data(), vec_b.data(), result.data(), 1, 4);
+    EXPECT_FALSE(op_result.is_success());
+    EXPECT_EQ(op_result.code, ErrorCode::SIZE_MISMATCH);
+}
+
+TEST_F(ErrorConditionsTest, MatrixOps_MatrixDimensionMismatch) {
+    std::vector<float> matrix_a = {1.0f, 2.0f, 3.0f, 4.0f}; // 2x2
+    std::vector<float> matrix_b = {1.0f, 2.0f, 3.0f}; // 1x3
+    std::vector<float> result(6);
+
+    // Test with dimension mismatch
+    auto op_result = MatrixOps::multiply(matrix_a.data(), matrix_b.data(), result.data(), 2, 2, 3);
+    EXPECT_FALSE(op_result.is_success());
+    EXPECT_EQ(op_result.code, ErrorCode::DIMENSION_MISMATCH);
+}
+
+// ===============================================
+// Resource Exhaustion Tests
+// ===============================================
+
+TEST_F(ErrorConditionsTest, ResourceExhaustion_LargeAllocation) {
+    // Test with extremely large allocation
+    const size_t huge_size = SIZE_MAX / sizeof(float);
+
+    std::vector<float> vec_a(huge_size, 1.0f);
+    std::vector<float> vec_b(huge_size, 2.0f);
+    std::vector<float> result(huge_size);
+
+    auto op_result = MatrixOps::add(vec_a.data(), vec_b.data(), result.data(), 1, huge_size);
+    EXPECT_FALSE(op_result.is_success());
+    EXPECT_EQ(op_result.code, ErrorCode::INSUFFICIENT_MEMORY);
+}
+
+TEST_F(ErrorConditionsTest, ResourceExhaustion_MaxConnections) {
+    Protocol protocol("test-node");
+    protocol.configure(valid_config_);
+
+    // Try to exceed maximum connections
+    for (int i = 0; i < 1000; ++i) {
+        auto transport = std::make_shared<MockTransport>();
+        auto result = protocol.set_transport(transport);
+        if (!result.is_success()) {
+            EXPECT_EQ(result.code, ErrorCode::RESOURCE_EXHAUSTED);
+            break;
+        }
+    }
+}
+
+// ===============================================
+// Concurrency Error Conditions
+// ===============================================
+
+TEST_F(ErrorConditionsTest, Concurrency_DoubleConnection) {
+    Protocol protocol("test-node");
+    protocol.configure(valid_config_);
+    protocol.set_transport(std::make_shared<MockTransport>());
+
+    // First connection should succeed
+    auto result1 = protocol.connect();
+    EXPECT_TRUE(result1.is_success());
+
+    // Second connection should fail
+    auto result2 = protocol.connect();
+    EXPECT_FALSE(result2.is_success());
+    EXPECT_EQ(result2.code, ErrorCode::ALREADY_CONNECTED);
+}
+
+TEST_F(ErrorConditionsTest, Concurrency_ConcurrentAccess) {
+    Protocol protocol("test-node");
+    protocol.configure(valid_config_);
+    protocol.set_transport(std::make_shared<MockTransport>());
+    protocol.connect();
+
+    // Simulate concurrent access
+    std::atomic<bool> test_complete{false};
+    std::vector<std::thread> threads;
+
+    for (int i = 0; i < 10; ++i) {
+        threads.emplace_back([&]() {
+            while (!test_complete) {
+                auto result = protocol.send_message(MessageType::CONTROL, "test");
+                // Should either succeed or fail gracefully
+                EXPECT_TRUE(result.is_success() || result.code == ErrorCode::CONCURRENT_ACCESS);
+            }
+        });
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    test_complete = true;
+
+    for (auto& thread : threads) {
+        thread.join();
+    }
+}
+
+// ===============================================
+// State Machine Error Conditions
+// ===============================================
+
+TEST_F(ErrorConditionsTest, StateMachine_InvalidTransitions) {
+    Protocol protocol("test-node");
+
+    // Try to disconnect without connecting
+    auto result1 = protocol.disconnect();
+    EXPECT_FALSE(result1.is_success());
+    EXPECT_EQ(result1.code, ErrorCode::INVALID_STATE);
+
+    // Try to send message in wrong state
+    auto result2 = protocol.send_message(MessageType::CONTROL, "test");
+    EXPECT_FALSE(result2.is_success());
+    EXPECT_EQ(result2.code, ErrorCode::INVALID_STATE);
+}
+
+TEST_F(ErrorConditionsTest, StateMachine_ConfigurationAfterConnection) {
+    Protocol protocol("test-node");
+    protocol.configure(valid_config_);
+    protocol.set_transport(std::make_shared<MockTransport>());
+    protocol.connect();
+
+    // Try to reconfigure after connection
+    auto result = protocol.configure(valid_config_);
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::INVALID_STATE);
+}
+
+// ===============================================
+// Data Validation Error Conditions
+// ===============================================
+
+TEST_F(ErrorConditionsTest, DataValidation_InvalidEnvelope) {
+    Envelope invalid_envelope;
+    // Missing required fields
+
+    auto result = JsonSerializer::serialize_envelope(invalid_envelope);
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::INVALID_DATA);
+}
+
+TEST_F(ErrorConditionsTest, DataValidation_InvalidFrame) {
+    Frame invalid_frame;
+    // Invalid frame type
+
+    auto result = BinarySerializer::serialize_frame(invalid_frame);
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::INVALID_DATA);
+}
+
+TEST_F(ErrorConditionsTest, DataValidation_InvalidMessageId) {
+    Protocol protocol("test-node");
+    protocol.configure(valid_config_);
+    protocol.set_transport(std::make_shared<MockTransport>());
+    protocol.connect();
+
+    // Try to send message with invalid ID
+    auto result = protocol.send_message(MessageType::CONTROL, "test", "");
+    EXPECT_FALSE(result.is_success());
+    EXPECT_EQ(result.code, ErrorCode::INVALID_MESSAGE_ID);
+}

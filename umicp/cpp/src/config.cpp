@@ -74,13 +74,13 @@ Result<UMICPConfig> ConfigManager::merge(const UMICPConfig& base, const UMICPCon
     return Result<UMICPConfig>(merged);
 }
 
-Result<UMICPConfig> ConfigManager::load_from_file(const std::string& filename) {
+Result<UMICPConfig> ConfigManager::load_from_file(const std::string& /* filename */) {
     // TODO: Implement file loading (JSON/TOML/YAML)
     // For now, return default config
     return create_default();
 }
 
-Result<void> ConfigManager::save_to_file(const UMICPConfig& config, const std::string& filename) {
+Result<void> ConfigManager::save_to_file(const UMICPConfig& /* config */, const std::string& /* filename */) {
     // TODO: Implement file saving
     return Result<void>(ErrorCode::NOT_IMPLEMENTED, "File operations not implemented yet");
 }

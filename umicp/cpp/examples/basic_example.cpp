@@ -10,6 +10,7 @@
 #include <iostream>
 #include <vector>
 #include <chrono>
+#include <cstring>
 
 using namespace umicp;
 

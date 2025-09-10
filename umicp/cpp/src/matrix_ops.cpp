@@ -259,7 +259,7 @@ Result<void> MatrixOps::normalize(float* matrix, size_t rows, size_t cols) {
         return Result<void>(ErrorCode::INVALID_ARGUMENT, "Null pointer argument");
     }
 
-    const size_t total_elements = rows * cols;
+    // const size_t total_elements = rows * cols; // TODO: Use this for validation
 
     // Normalize each row (assuming row-major order for embeddings)
     for (size_t i = 0; i < rows; ++i) {
