@@ -89,6 +89,8 @@ set(UMICP_HEADERS
     include/frame.h
     include/protocol.h
     include/transport.h
+    include/websocket_lws.h
+    include/http2_transport.h
     include/buffer.h
     include/config.h
     include/matrix_ops.h
@@ -157,10 +159,28 @@ if(BUILD_TESTS)
     )
 endif()
 
+# Examples
+add_executable(websocket_example examples/websocket_example.cpp)
+target_link_libraries(websocket_example
+    umicp_static
+    ${JSON_LIBRARIES}
+    ${ZLIB_LIBRARIES}
+    ${OPENSSL_LIBRARIES}
+    ${LIBWEBSOCKETS_LIBRARIES}
+    ${NGHTTP2_LIBRARIES}
+    ${CBOR_LIBRARIES}
+)
+
+add_executable(websocket_server examples/websocket_server.cpp)
+target_link_libraries(websocket_server
+    ${LIBWEBSOCKETS_LIBRARIES}
+)
+
 # Installation
-install(TARGETS umicp_static umicp_shared
+install(TARGETS umicp_static umicp_shared websocket_example websocket_server
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION bin
 )
 
 install(FILES ${UMICP_HEADERS} DESTINATION include/umicp)

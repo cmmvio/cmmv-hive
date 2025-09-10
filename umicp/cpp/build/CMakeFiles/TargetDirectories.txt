@@ -2,6 +2,8 @@
 /mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles/umicp_shared.dir
 /mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles/test_quick.dir
 /mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles/test_full.dir
+/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles/websocket_example.dir
+/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles/websocket_server.dir
 /mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles/test.dir
 /mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles/edit_cache.dir
 /mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles/rebuild_cache.dir

@@ -32,16 +32,12 @@ Result<void> Protocol::configure(const UMICPConfig& config) {
         return Result<void>(ErrorCode::INVALID_ARGUMENT, "max_message_size must be greater than 0");
     }
 
-    if (config.max_connections == 0) {
-        return Result<void>(ErrorCode::INVALID_ARGUMENT, "max_connections must be greater than 0");
+    if (config.connection_timeout == 0) {
+        return Result<void>(ErrorCode::INVALID_ARGUMENT, "connection_timeout must be greater than 0");
     }
 
-    if (config.connection_timeout_ms == 0) {
-        return Result<void>(ErrorCode::INVALID_ARGUMENT, "connection_timeout_ms must be greater than 0");
-    }
-
-    if (config.heartbeat_interval_ms == 0) {
-        return Result<void>(ErrorCode::INVALID_ARGUMENT, "heartbeat_interval_ms must be greater than 0");
+    if (config.heartbeat_interval == 0) {
+        return Result<void>(ErrorCode::INVALID_ARGUMENT, "heartbeat_interval must be greater than 0");
     }
 
     config_ = config;

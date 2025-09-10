@@ -224,6 +224,32 @@ test_full/fast:
 .PHONY : test_full/fast
 
 #=============================================================================
+# Target rules for targets named websocket_example
+
+# Build rule for target.
+websocket_example: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 websocket_example
+.PHONY : websocket_example
+
+# fast build rule for target.
+websocket_example/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/websocket_example.dir/build.make CMakeFiles/websocket_example.dir/build
+.PHONY : websocket_example/fast
+
+#=============================================================================
+# Target rules for targets named websocket_server
+
+# Build rule for target.
+websocket_server: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 websocket_server
+.PHONY : websocket_server
+
+# fast build rule for target.
+websocket_server/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/websocket_server.dir/build.make CMakeFiles/websocket_server.dir/build
+.PHONY : websocket_server/fast
+
+#=============================================================================
 # Target rules for targets named basic_example
 
 # Build rule for target.
@@ -483,6 +509,54 @@ test_all/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_all.dir/build.make tests/CMakeFiles/test_all.dir/build
 .PHONY : test_all/fast
 
+examples/websocket_example.o: examples/websocket_example.cpp.o
+.PHONY : examples/websocket_example.o
+
+# target to build an object file
+examples/websocket_example.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/websocket_example.dir/build.make CMakeFiles/websocket_example.dir/examples/websocket_example.cpp.o
+.PHONY : examples/websocket_example.cpp.o
+
+examples/websocket_example.i: examples/websocket_example.cpp.i
+.PHONY : examples/websocket_example.i
+
+# target to preprocess a source file
+examples/websocket_example.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/websocket_example.dir/build.make CMakeFiles/websocket_example.dir/examples/websocket_example.cpp.i
+.PHONY : examples/websocket_example.cpp.i
+
+examples/websocket_example.s: examples/websocket_example.cpp.s
+.PHONY : examples/websocket_example.s
+
+# target to generate assembly for a file
+examples/websocket_example.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/websocket_example.dir/build.make CMakeFiles/websocket_example.dir/examples/websocket_example.cpp.s
+.PHONY : examples/websocket_example.cpp.s
+
+examples/websocket_server.o: examples/websocket_server.cpp.o
+.PHONY : examples/websocket_server.o
+
+# target to build an object file
+examples/websocket_server.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/websocket_server.dir/build.make CMakeFiles/websocket_server.dir/examples/websocket_server.cpp.o
+.PHONY : examples/websocket_server.cpp.o
+
+examples/websocket_server.i: examples/websocket_server.cpp.i
+.PHONY : examples/websocket_server.i
+
+# target to preprocess a source file
+examples/websocket_server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/websocket_server.dir/build.make CMakeFiles/websocket_server.dir/examples/websocket_server.cpp.i
+.PHONY : examples/websocket_server.cpp.i
+
+examples/websocket_server.s: examples/websocket_server.cpp.s
+.PHONY : examples/websocket_server.s
+
+# target to generate assembly for a file
+examples/websocket_server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/websocket_server.dir/build.make CMakeFiles/websocket_server.dir/examples/websocket_server.cpp.s
+.PHONY : examples/websocket_server.cpp.s
+
 src/buffer.o: src/buffer.cpp.o
 .PHONY : src/buffer.o
 
@@ -617,6 +691,33 @@ src/frame.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_static.dir/build.make CMakeFiles/umicp_static.dir/src/frame.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_shared.dir/build.make CMakeFiles/umicp_shared.dir/src/frame.cpp.s
 .PHONY : src/frame.cpp.s
+
+src/http2_transport.o: src/http2_transport.cpp.o
+.PHONY : src/http2_transport.o
+
+# target to build an object file
+src/http2_transport.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_static.dir/build.make CMakeFiles/umicp_static.dir/src/http2_transport.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_shared.dir/build.make CMakeFiles/umicp_shared.dir/src/http2_transport.cpp.o
+.PHONY : src/http2_transport.cpp.o
+
+src/http2_transport.i: src/http2_transport.cpp.i
+.PHONY : src/http2_transport.i
+
+# target to preprocess a source file
+src/http2_transport.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_static.dir/build.make CMakeFiles/umicp_static.dir/src/http2_transport.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_shared.dir/build.make CMakeFiles/umicp_shared.dir/src/http2_transport.cpp.i
+.PHONY : src/http2_transport.cpp.i
+
+src/http2_transport.s: src/http2_transport.cpp.s
+.PHONY : src/http2_transport.s
+
+# target to generate assembly for a file
+src/http2_transport.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_static.dir/build.make CMakeFiles/umicp_static.dir/src/http2_transport.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_shared.dir/build.make CMakeFiles/umicp_shared.dir/src/http2_transport.cpp.s
+.PHONY : src/http2_transport.cpp.s
 
 src/matrix_ops.o: src/matrix_ops.cpp.o
 .PHONY : src/matrix_ops.o
@@ -753,6 +854,33 @@ src/transport.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_shared.dir/build.make CMakeFiles/umicp_shared.dir/src/transport.cpp.s
 .PHONY : src/transport.cpp.s
 
+src/websocket_lws.o: src/websocket_lws.cpp.o
+.PHONY : src/websocket_lws.o
+
+# target to build an object file
+src/websocket_lws.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_static.dir/build.make CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_shared.dir/build.make CMakeFiles/umicp_shared.dir/src/websocket_lws.cpp.o
+.PHONY : src/websocket_lws.cpp.o
+
+src/websocket_lws.i: src/websocket_lws.cpp.i
+.PHONY : src/websocket_lws.i
+
+# target to preprocess a source file
+src/websocket_lws.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_static.dir/build.make CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_shared.dir/build.make CMakeFiles/umicp_shared.dir/src/websocket_lws.cpp.i
+.PHONY : src/websocket_lws.cpp.i
+
+src/websocket_lws.s: src/websocket_lws.cpp.s
+.PHONY : src/websocket_lws.s
+
+# target to generate assembly for a file
+src/websocket_lws.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_static.dir/build.make CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umicp_shared.dir/build.make CMakeFiles/umicp_shared.dir/src/websocket_lws.cpp.s
+.PHONY : src/websocket_lws.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -790,6 +918,14 @@ help:
 	@echo "... umicp_shared"
 	@echo "... umicp_static"
 	@echo "... umicp_tests"
+	@echo "... websocket_example"
+	@echo "... websocket_server"
+	@echo "... examples/websocket_example.o"
+	@echo "... examples/websocket_example.i"
+	@echo "... examples/websocket_example.s"
+	@echo "... examples/websocket_server.o"
+	@echo "... examples/websocket_server.i"
+	@echo "... examples/websocket_server.s"
 	@echo "... src/buffer.o"
 	@echo "... src/buffer.i"
 	@echo "... src/buffer.s"
@@ -805,6 +941,9 @@ help:
 	@echo "... src/frame.o"
 	@echo "... src/frame.i"
 	@echo "... src/frame.s"
+	@echo "... src/http2_transport.o"
+	@echo "... src/http2_transport.i"
+	@echo "... src/http2_transport.s"
 	@echo "... src/matrix_ops.o"
 	@echo "... src/matrix_ops.i"
 	@echo "... src/matrix_ops.s"
@@ -820,6 +959,9 @@ help:
 	@echo "... src/transport.o"
 	@echo "... src/transport.i"
 	@echo "... src/transport.s"
+	@echo "... src/websocket_lws.o"
+	@echo "... src/websocket_lws.i"
+	@echo "... src/websocket_lws.s"
 .PHONY : help
 
 

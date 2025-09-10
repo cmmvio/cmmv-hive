@@ -12,6 +12,8 @@
 #include <mutex>
 #include <queue>
 #include <condition_variable>
+#include <cstring>
+#include <vector>
 
 namespace umicp {
 
@@ -20,7 +22,8 @@ static int websocket_callback(struct lws* wsi, enum lws_callback_reasons reason,
                              void* user, void* in, size_t len);
 
 // WebSocket context and connection management
-struct WebSocketLWSImpl {
+class WebSocketLWS::Impl {
+public:
     struct lws_context* context;
     struct lws* wsi;
     std::string host;
@@ -45,13 +48,13 @@ struct WebSocketLWSImpl {
     TransportStats stats;
     std::mutex stats_mutex;
 
-    WebSocketLWSImpl(const std::string& host, int port, const std::string& path = "/")
+    Impl(const std::string& host, int port, const std::string& path = "/")
         : context(nullptr), wsi(nullptr), host(host), port(port), path(path),
           connected(false), should_stop(false) {
         stats.last_activity = std::chrono::steady_clock::now();
     }
 
-    ~WebSocketLWSImpl() {
+    ~Impl() {
         should_stop.store(true);
         if (io_thread.joinable()) {
             io_thread.join();
@@ -63,7 +66,7 @@ struct WebSocketLWSImpl {
 };
 
 // Global instance for callback access (in production, use proper context passing)
-static WebSocketLWSImpl* g_impl = nullptr;
+static WebSocketLWS::Impl* g_impl = nullptr;
 
 // WebSocket callback function
 static int websocket_callback(struct lws* wsi, enum lws_callback_reasons reason,
@@ -111,10 +114,10 @@ static int websocket_callback(struct lws* wsi, enum lws_callback_reasons reason,
                     lock.unlock();
 
                     // Send data
-                    unsigned char buf[LWS_PRE + data.size()];
-                    memcpy(&buf[LWS_PRE], data.data(), data.size());
+                    std::vector<unsigned char> buf(LWS_PRE + data.size());
+                    std::memcpy(buf.data() + LWS_PRE, data.data(), data.size());
 
-                    int ret = lws_write(wsi, &buf[LWS_PRE], data.size(), LWS_WRITE_TEXT);
+                    int ret = lws_write(wsi, buf.data() + LWS_PRE, data.size(), LWS_WRITE_TEXT);
                     if (ret < 0) {
                         std::lock_guard<std::mutex> cb_lock(g_impl->callback_mutex);
                         if (g_impl->error_callback) {
@@ -175,12 +178,12 @@ static struct lws_protocols protocols[] = {
 };
 
 WebSocketLWS::WebSocketLWS(const std::string& host, int port, const std::string& path)
-    : impl_(std::make_unique<WebSocketLWSImpl>(host, port, path)) {
+    : impl_(std::make_unique<WebSocketLWS::Impl>(host, port, path)) {
 }
 
 // Constructor from TransportConfig
 WebSocketLWS::WebSocketLWS(const TransportConfig& config)
-    : impl_(std::make_unique<WebSocketLWSImpl>(config.host, config.port, config.path)) {
+    : impl_(std::make_unique<WebSocketLWS::Impl>(config.host, config.port, config.path)) {
 }
 
 WebSocketLWS::~WebSocketLWS() = default;
@@ -325,6 +328,43 @@ void WebSocketLWS::reset_stats() {
     std::lock_guard<std::mutex> lock(impl_->stats_mutex);
     impl_->stats = TransportStats{};
     impl_->stats.last_activity = std::chrono::steady_clock::now();
+}
+
+Result<void> WebSocketLWS::send_envelope(const Envelope& envelope) {
+    // Serialize envelope to JSON
+    auto json_result = JsonSerializer::serialize_envelope(envelope);
+    if (!json_result.is_success()) {
+        return Result<void>(json_result.code, json_result.error_message.value());
+    }
+
+    ByteBuffer data(json_result.value->begin(), json_result.value->end());
+    return send(data);
+}
+
+Result<void> WebSocketLWS::send_frame(const Frame& frame) {
+    // Serialize frame to binary format
+    auto frame_result = BinarySerializer::serialize_frame(frame);
+    if (!frame_result.is_success()) {
+        return Result<void>(frame_result.code, frame_result.error_message.value());
+    }
+
+    return send(*frame_result.value);
+}
+
+Result<void> WebSocketLWS::configure(const TransportConfig& config) {
+    impl_->host = config.host;
+    impl_->port = config.port;
+    impl_->path = config.path;
+    return Result<void>();
+}
+
+TransportConfig WebSocketLWS::get_config() const {
+    TransportConfig config;
+    config.type = TransportType::WEBSOCKET;
+    config.host = impl_->host;
+    config.port = impl_->port;
+    config.path = impl_->path;
+    return config;
 }
 
 std::string WebSocketLWS::get_endpoint() const {

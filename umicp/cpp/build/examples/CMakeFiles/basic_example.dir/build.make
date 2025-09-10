@@ -92,6 +92,7 @@ basic_example_EXTERNAL_OBJECTS =
 
 examples/basic_example: examples/CMakeFiles/basic_example.dir/basic_example.cpp.o
 examples/basic_example: examples/CMakeFiles/basic_example.dir/build.make
+examples/basic_example: libumicp.a
 examples/basic_example: examples/CMakeFiles/basic_example.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable basic_example"
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/examples && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/basic_example.dir/link.txt --verbose=$(VERBOSE)

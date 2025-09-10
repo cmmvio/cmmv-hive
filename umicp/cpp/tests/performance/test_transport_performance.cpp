@@ -1,6 +1,16 @@
 /**
  * UMICP Transport Performance Tests
  * Performance benchmarking for transport layer operations
+ *
+ * NOTE: These tests use MockTransport for performance benchmarking instead of real
+ * network connections. This approach provides:
+ * - Consistent and repeatable results
+ * - No dependency on external infrastructure
+ * - Precise control over test conditions (latency, throughput, failures)
+ * - Fast execution for CI/CD pipelines
+ * - Focus on measuring the performance of the UMICP protocol logic itself
+ *
+ * For integration testing with real transports, see the integration test suite.
  */
 
 #include <gtest/gtest.h>
@@ -18,7 +28,8 @@ protected:
     void SetUp() override {
         UMICPPerformanceTest::SetUp();
 
-        config_ = TestHelpers::create_test_transport_config(TransportType::WEBSOCKET, 8090);
+        // Use MockTransport for performance testing instead of real connections
+        mock_config_ = TestHelpers::create_test_transport_config(TransportType::WEBSOCKET, 8090);
 
         // Various message sizes for testing
         message_sizes_ = {64, 256, 1024, 4096, 16384, 65536}; // 64B to 64KB
@@ -31,53 +42,155 @@ protected:
         test_envelope_ = TestHelpers::create_test_envelope("perf-sender", "perf-receiver");
     }
 
-    TransportConfig config_;
+    TransportConfig mock_config_;
     std::vector<size_t> message_sizes_;
     std::map<size_t, ByteBuffer> test_messages_;
     Envelope test_envelope_;
 };
 
 // ===============================================
+// S2S (Server-to-Server) Mock Performance Tests
+// ===============================================
+
+TEST_F(TransportPerformanceTest, S2S_MockCommunicationPerformance) {
+    std::cout << "\n  📊 S2S Mock Communication Performance:" << std::endl;
+
+    const int num_messages = 10000;
+    const size_t message_size = 4096; // 4KB messages
+
+    // Create two mock transports simulating S2S communication
+    MockTransport server(mock_config_);
+    auto client_config = mock_config_;
+    client_config.port = 8091; // Different port
+    MockTransport client(client_config);
+
+    // Set up message routing between mocks
+    std::atomic<size_t> server_received_count{0};
+    std::atomic<size_t> client_received_count{0};
+
+    server.set_message_callback([&](const ByteBuffer& data) {
+        server_received_count++;
+        // Echo back to client (simulating S2S response)
+        client.simulate_receive_message(data);
+    });
+
+    client.set_message_callback([&](const ByteBuffer& data) {
+        client_received_count++;
+    });
+
+    // Connect both
+    ASSERT_TRUE(server.connect().is_success());
+    ASSERT_TRUE(client.connect().is_success());
+
+    auto s2s_time = TestHelpers::benchmark_function([&]() {
+        for (int i = 0; i < num_messages; ++i) {
+            const auto& message = test_messages_[message_size];
+            server.simulate_receive_message(message);
+        }
+    }, 1);
+
+    double messages_per_second = (num_messages * 1000000.0) / s2s_time;
+    double latency_per_message = s2s_time / num_messages;
+
+    PrintResults("S2S Round-trip", latency_per_message);
+
+    std::cout << "    " << num_messages << " S2S messages (" << TestHelpers::format_bytes(message_size) << " each)" << std::endl;
+    std::cout << "    Rate: " << std::fixed << std::setprecision(1) << messages_per_second << " msg/s" << std::endl;
+    std::cout << "    Server received: " << server_received_count.load() << " messages" << std::endl;
+    std::cout << "    Client received: " << client_received_count.load() << " messages" << std::endl;
+
+    // Should handle high throughput with mocks
+    EXPECT_GT(messages_per_second, 100000.0); // >100K msg/s for mocks
+    EXPECT_LT(latency_per_message, 10.0); // <10μs per message
+}
+
+TEST_F(TransportPerformanceTest, S2S_MockLargePayloadPerformance) {
+    std::cout << "\n  📊 S2S Mock Large Payload Performance:" << std::endl;
+
+    const int num_large_messages = 100;
+    const size_t large_message_size = 65536; // 64KB messages
+
+    MockTransport server(mock_config_);
+    auto client_config = mock_config_;
+    client_config.port = 8092;
+    MockTransport client(client_config);
+
+    std::atomic<size_t> total_bytes_processed{0};
+
+    server.set_message_callback([&](const ByteBuffer& data) {
+        total_bytes_processed += data.size();
+        // Simulate processing delay for large messages
+        std::this_thread::sleep_for(std::chrono::microseconds(50)); // 50μs processing
+    });
+
+    ASSERT_TRUE(server.connect().is_success());
+    ASSERT_TRUE(client.connect().is_success());
+
+    auto large_payload_time = TestHelpers::benchmark_function([&]() {
+        for (int i = 0; i < num_large_messages; ++i) {
+            // Generate large message if not already in test_messages_
+            if (test_messages_.find(large_message_size) == test_messages_.end()) {
+                test_messages_[large_message_size] = TestHelpers::generate_random_data(large_message_size);
+            }
+            const auto& message = test_messages_[large_message_size];
+            server.simulate_receive_message(message);
+        }
+    }, 1);
+
+    double throughput_mbps = (total_bytes_processed.load() * 1000000.0) / (large_payload_time * 1000000.0); // MB/s
+
+    PrintResults("Large S2S Payload", large_payload_time / num_large_messages);
+
+    std::cout << "    " << num_large_messages << " large messages (" << TestHelpers::format_bytes(large_message_size) << " each)" << std::endl;
+    std::cout << "    Total: " << TestHelpers::format_bytes(total_bytes_processed.load()) << " processed" << std::endl;
+    std::cout << "    Throughput: " << std::fixed << std::setprecision(2) << throughput_mbps << " MB/s" << std::endl;
+
+    // Should handle large payloads efficiently
+    EXPECT_LT(large_payload_time / num_large_messages, 100.0); // <100μs per large message
+}
+
+// ===============================================
 // Connection Performance Tests
 // ===============================================
 
 TEST_F(TransportPerformanceTest, Connection_EstablishmentSpeed) {
-    std::cout << "\n  📊 Connection Establishment Performance:" << std::endl;
+    std::cout << "\n  📊 Mock Connection Establishment Performance:" << std::endl;
 
     const int num_connections = 100;
 
     auto connection_time = TestHelpers::benchmark_function([&]() {
         for (int i = 0; i < num_connections; ++i) {
-            auto transport = TransportFactory::create_websocket(config_);
-            transport->connect();
-            transport->disconnect();
+            // Use MockTransport for performance testing - no real network calls
+            MockTransport transport(mock_config_);
+            transport.connect();
+            transport.disconnect();
         }
     }, 1);
 
     double connections_per_second = (num_connections * 1000000.0) / connection_time;
     double time_per_connection = connection_time / num_connections;
 
-    PrintResults("Connection Cycle", time_per_connection);
+    PrintResults("Mock Connection Cycle", time_per_connection);
 
     std::cout << "    Rate: " << std::fixed << std::setprecision(1) << connections_per_second
-              << " connections/s" << std::endl;
+              << " connections/s (mock)" << std::endl;
 
-    // Should be able to establish connections reasonably quickly
-    EXPECT_LT(time_per_connection, 10000.0); // 10ms per connection for mock
+    // Should be very fast for mocks - sub-millisecond
+    EXPECT_LT(time_per_connection, 100.0); // <100μs per mock connection
 }
 
 TEST_F(TransportPerformanceTest, Connection_ConcurrentConnections) {
-    std::cout << "\n  📊 Concurrent Connection Performance:" << std::endl;
+    std::cout << "\n  📊 Mock Concurrent Connection Performance:" << std::endl;
 
     const int num_concurrent = 50;
-    std::vector<std::unique_ptr<Transport>> transports;
+    std::vector<std::unique_ptr<MockTransport>> transports;
     std::vector<std::future<void>> futures;
 
-    // Create transports
+    // Create mock transports
     for (int i = 0; i < num_concurrent; ++i) {
-        auto config = config_;
-        config.port = 8100 + i; // Different ports
-        transports.push_back(TransportFactory::create_websocket(config));
+        auto config = mock_config_;
+        config.port = 8100 + i; // Different ports for variety
+        transports.push_back(std::make_unique<MockTransport>(config));
     }
 
     auto connect_time = TestHelpers::benchmark_function([&]() {
@@ -95,10 +208,13 @@ TEST_F(TransportPerformanceTest, Connection_ConcurrentConnections) {
         futures.clear();
     }, 1);
 
-    PrintResults("Concurrent Connections", connect_time);
+    PrintResults("Mock Concurrent Connections", connect_time);
 
-    std::cout << "    " << num_concurrent << " concurrent connections in "
+    std::cout << "    " << num_concurrent << " concurrent mock connections in "
               << TestHelpers::format_duration(connect_time) << std::endl;
+
+    // Should be very fast for mocks
+    EXPECT_LT(connect_time, 1000.0); // <1ms for 50 mock connections
 
     // Cleanup
     for (auto& transport : transports) {
@@ -111,18 +227,20 @@ TEST_F(TransportPerformanceTest, Connection_ConcurrentConnections) {
 // ===============================================
 
 TEST_F(TransportPerformanceTest, Sending_MessageSizeScaling) {
-    std::cout << "\n  📊 Message Size Performance Scaling:" << std::endl;
+    std::cout << "\n  📊 Mock Message Size Performance Scaling:" << std::endl;
     std::cout << "    Size      |  Time (μs)  | Throughput (MB/s) | Messages/s" << std::endl;
     std::cout << "    ----------|-------------|-------------------|------------" << std::endl;
 
-    auto transport = TransportFactory::create_websocket(config_);
-    ASSERT_TRUE(transport->connect().is_success());
+    MockTransport transport(mock_config_);
+    ASSERT_TRUE(transport.connect().is_success());
+
+    double last_throughput_mbps = 0.0;
 
     for (size_t size : message_sizes_) {
         const auto& message = test_messages_[size];
 
         auto send_time = TestHelpers::benchmark_function([&]() {
-            transport->send(message);
+            transport.send(message);
         }, 1000);
 
         double throughput_mbps = (size * 1000000.0) / (send_time * 1024.0 * 1024.0);
@@ -133,26 +251,31 @@ TEST_F(TransportPerformanceTest, Sending_MessageSizeScaling) {
                   << " | " << std::setw(16) << std::setprecision(3) << throughput_mbps
                   << " | " << std::setw(10) << std::setprecision(1) << messages_per_second
                   << std::endl;
+
+        last_throughput_mbps = throughput_mbps;
     }
+
+    // Mock should achieve very high throughput (test with the last/largest message size)
+    EXPECT_GT(last_throughput_mbps, 1000.0); // >1GB/s for mocks
 }
 
 TEST_F(TransportPerformanceTest, Sending_EnvelopeVsRawData) {
-    std::cout << "\n  📊 Envelope vs Raw Data Performance:" << std::endl;
+    std::cout << "\n  📊 Mock Envelope vs Raw Data Performance:" << std::endl;
 
-    auto transport = TransportFactory::create_websocket(config_);
-    ASSERT_TRUE(transport->connect().is_success());
+    MockTransport transport(mock_config_);
+    ASSERT_TRUE(transport.connect().is_success());
 
     const size_t test_size = 1024;
     const auto& raw_data = test_messages_[test_size];
 
     // Raw data sending
     auto raw_time = TestHelpers::benchmark_function([&]() {
-        transport->send(raw_data);
+        transport.send(raw_data);
     }, 1000);
 
     // Envelope sending
     auto envelope_time = TestHelpers::benchmark_function([&]() {
-        transport->send_envelope(test_envelope_);
+        transport.send_envelope(test_envelope_);
     }, 1000);
 
     PrintResults("Raw Data Send", raw_time);
@@ -165,10 +288,10 @@ TEST_F(TransportPerformanceTest, Sending_EnvelopeVsRawData) {
 }
 
 TEST_F(TransportPerformanceTest, Sending_BinaryFrameVsJSON) {
-    std::cout << "\n  📊 Binary Frame vs JSON Performance:" << std::endl;
+    std::cout << "\n  📊 Mock Binary Frame vs JSON Performance:" << std::endl;
 
-    auto transport = TransportFactory::create_websocket(config_);
-    ASSERT_TRUE(transport->connect().is_success());
+    MockTransport transport(mock_config_);
+    ASSERT_TRUE(transport.connect().is_success());
 
     // Create test frame with payload
     ByteBuffer frame_payload = test_messages_[1024];
@@ -176,12 +299,12 @@ TEST_F(TransportPerformanceTest, Sending_BinaryFrameVsJSON) {
 
     // Binary frame sending
     auto frame_time = TestHelpers::benchmark_function([&]() {
-        transport->send_frame(test_frame);
+        transport.send_frame(test_frame);
     }, 1000);
 
     // JSON envelope sending (equivalent data)
     auto json_time = TestHelpers::benchmark_function([&]() {
-        transport->send_envelope(test_envelope_);
+        transport.send_envelope(test_envelope_);
     }, 1000);
 
     PrintResults("Binary Frame", frame_time);
@@ -197,10 +320,10 @@ TEST_F(TransportPerformanceTest, Sending_BinaryFrameVsJSON) {
 // ===============================================
 
 TEST_F(TransportPerformanceTest, Throughput_SustainedSending) {
-    std::cout << "\n  📊 Sustained Throughput Test:" << std::endl;
+    std::cout << "\n  📊 Mock Sustained Throughput Test:" << std::endl;
 
-    auto transport = TransportFactory::create_websocket(config_);
-    ASSERT_TRUE(transport->connect().is_success());
+    MockTransport transport(mock_config_);
+    ASSERT_TRUE(transport.connect().is_success());
 
     const int num_messages = 1000;
     const size_t message_size = 4096; // 4KB messages
@@ -208,7 +331,7 @@ TEST_F(TransportPerformanceTest, Throughput_SustainedSending) {
 
     auto total_time = TestHelpers::benchmark_function([&]() {
         for (int i = 0; i < num_messages; ++i) {
-            transport->send(test_message);
+            transport.send(test_message);
         }
     }, 1);
 
@@ -224,7 +347,7 @@ TEST_F(TransportPerformanceTest, Throughput_SustainedSending) {
               << " MB/s (" << std::setprecision(1) << messages_per_second << " msg/s)" << std::endl;
 
     // Verify statistics
-    auto stats = transport->get_stats();
+    auto stats = transport.get_stats();
     EXPECT_EQ(stats.messages_sent, num_messages);
     EXPECT_GE(stats.bytes_sent, total_bytes);
 }
@@ -232,8 +355,8 @@ TEST_F(TransportPerformanceTest, Throughput_SustainedSending) {
 TEST_F(TransportPerformanceTest, Throughput_BurstSending) {
     std::cout << "\n  📊 Burst Sending Performance:" << std::endl;
 
-    auto transport = TransportFactory::create_websocket(config_);
-    ASSERT_TRUE(transport->connect().is_success());
+    MockTransport transport(mock_config_);
+    ASSERT_TRUE(transport.connect().is_success());
 
     std::vector<size_t> burst_sizes = {10, 50, 100, 500};
     const size_t message_size = 1024;
@@ -242,7 +365,7 @@ TEST_F(TransportPerformanceTest, Throughput_BurstSending) {
     for (size_t burst_size : burst_sizes) {
         auto burst_time = TestHelpers::benchmark_function([&]() {
             for (size_t i = 0; i < burst_size; ++i) {
-                transport->send(test_message);
+                transport.send(test_message);
             }
         }, 10);
 
@@ -272,7 +395,7 @@ TEST_F(TransportPerformanceTest, Concurrency_MultipleSenders) {
 
     // Create transports
     for (int i = 0; i < num_senders; ++i) {
-        auto config = config_;
+        auto config = mock_config_;
         config.port = 8200 + i;
         auto transport = TransportFactory::create_websocket(config);
         ASSERT_TRUE(transport->connect().is_success());
@@ -317,7 +440,7 @@ TEST_F(TransportPerformanceTest, Concurrency_MultipleSenders) {
 TEST_F(TransportPerformanceTest, Concurrency_SendReceiveSimulation) {
     std::cout << "\n  📊 Send/Receive Simulation Performance:" << std::endl;
 
-    MockTransport mock_transport(config_);
+    MockTransport mock_transport(mock_config_);
     ASSERT_TRUE(mock_transport.connect().is_success());
 
     const int num_messages = 500;
@@ -374,8 +497,8 @@ TEST_F(TransportPerformanceTest, Concurrency_SendReceiveSimulation) {
 TEST_F(TransportPerformanceTest, Resource_StatisticsOverhead) {
     std::cout << "\n  📊 Statistics Tracking Overhead:" << std::endl;
 
-    auto transport = TransportFactory::create_websocket(config_);
-    ASSERT_TRUE(transport->connect().is_success());
+    MockTransport transport(mock_config_);
+    ASSERT_TRUE(transport.connect().is_success());
 
     const int num_operations = 10000;
     const auto& test_message = test_messages_[256];
@@ -383,18 +506,18 @@ TEST_F(TransportPerformanceTest, Resource_StatisticsOverhead) {
     // Measure time with statistics
     auto time_with_stats = TestHelpers::benchmark_function([&]() {
         for (int i = 0; i < num_operations; ++i) {
-            transport->send(test_message);
+            transport.send(test_message);
             if (i % 100 == 0) {
-                transport->get_stats(); // Periodic stats access
+                transport.get_stats(); // Periodic stats access
             }
         }
     }, 1);
 
     // Reset and measure baseline (though our implementation always tracks stats)
-    transport->reset_stats();
+    transport.reset_stats();
     auto time_baseline = TestHelpers::benchmark_function([&]() {
         for (int i = 0; i < num_operations; ++i) {
-            transport->send(test_message);
+            transport.send(test_message);
         }
     }, 1);
 
@@ -413,8 +536,8 @@ TEST_F(TransportPerformanceTest, Resource_StatisticsOverhead) {
 TEST_F(TransportPerformanceTest, Resource_LargeMessageHandling) {
     std::cout << "\n  📊 Large Message Performance:" << std::endl;
 
-    auto transport = TransportFactory::create_websocket(config_);
-    ASSERT_TRUE(transport->connect().is_success());
+    MockTransport transport(mock_config_);
+    ASSERT_TRUE(transport.connect().is_success());
 
     // Test with progressively larger messages
     std::vector<size_t> large_sizes = {65536, 262144, 1048576}; // 64KB, 256KB, 1MB
@@ -423,7 +546,7 @@ TEST_F(TransportPerformanceTest, Resource_LargeMessageHandling) {
         auto large_message = TestHelpers::generate_random_data(size);
 
         auto send_time = TestHelpers::benchmark_function([&]() {
-            transport->send(large_message);
+            transport.send(large_message);
         }, 10);
 
         double throughput_mbps = (size * 1000000.0) / (send_time * 1024.0 * 1024.0);
@@ -449,7 +572,7 @@ TEST_F(TransportPerformanceTest, Comparison_TransportTypes) {
     const int num_operations = 100;
 
     // WebSocket transport
-    auto ws_transport = TransportFactory::create_websocket(config_);
+    auto ws_transport = TransportFactory::create_websocket(mock_config_);
     ASSERT_TRUE(ws_transport->connect().is_success());
 
     auto ws_time = TestHelpers::benchmark_function([&]() {
@@ -459,7 +582,7 @@ TEST_F(TransportPerformanceTest, Comparison_TransportTypes) {
     }, 1);
 
     // HTTP/2 transport (will show NOT_IMPLEMENTED performance)
-    auto http2_config = config_;
+    auto http2_config = mock_config_;
     http2_config.type = TransportType::HTTP2;
     auto http2_transport = TransportFactory::create_http2(http2_config);
 
@@ -488,8 +611,8 @@ TEST_F(TransportPerformanceTest, Comparison_TransportTypes) {
 TEST_F(TransportPerformanceTest, Summary_OverallPerformance) {
     std::cout << "\n  📊 Transport Performance Summary:" << std::endl;
 
-    auto transport = TransportFactory::create_websocket(config_);
-    ASSERT_TRUE(transport->connect().is_success());
+    MockTransport transport(mock_config_);
+    ASSERT_TRUE(transport.connect().is_success());
 
     // Quick benchmark of key operations
     const auto& small_msg = test_messages_[256];
@@ -498,20 +621,20 @@ TEST_F(TransportPerformanceTest, Summary_OverallPerformance) {
     // Small message throughput
     auto small_time = TestHelpers::benchmark_function([&]() {
         for (int i = 0; i < 1000; ++i) {
-            transport->send(small_msg);
+            transport.send(small_msg);
         }
     }, 1);
 
     // Large message throughput
     auto large_time = TestHelpers::benchmark_function([&]() {
         for (int i = 0; i < 100; ++i) {
-            transport->send(large_msg);
+            transport.send(large_msg);
         }
     }, 1);
 
     // Connection establishment
     auto connect_time = TestHelpers::benchmark_function([&]() {
-        auto temp_transport = TransportFactory::create_websocket(config_);
+        auto temp_transport = TransportFactory::create_websocket(mock_config_);
         temp_transport->connect();
         temp_transport->disconnect();
     }, 10);
@@ -524,7 +647,7 @@ TEST_F(TransportPerformanceTest, Summary_OverallPerformance) {
     std::cout << "    Large messages (16KB): " << std::setprecision(2) << large_throughput << " MB/s" << std::endl;
     std::cout << "    Connection rate:        " << std::setprecision(1) << connect_rate << " conn/s" << std::endl;
 
-    auto final_stats = transport->get_stats();
+    auto final_stats = transport.get_stats();
     std::cout << "    Total operations:       " << final_stats.messages_sent << " messages, "
               << TestHelpers::format_bytes(final_stats.bytes_sent) << std::endl;
 }

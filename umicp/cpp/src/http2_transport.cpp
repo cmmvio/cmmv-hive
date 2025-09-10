@@ -276,13 +276,16 @@ public:
         }
 
         // Send headers
+        const char* method = "POST";
+        const char* scheme = "https";
+        std::string content_length_str = std::to_string(data.size());
+
         nghttp2_nv headers[] = {
-            {":method", (uint8_t*)"POST", 4, NGHTTP2_NV_FLAG_NONE},
-            {":path", (uint8_t*)path_.c_str(), path_.length(), NGHTTP2_NV_FLAG_NONE},
-            {":scheme", (uint8_t*)"https", 5, NGHTTP2_NV_FLAG_NONE},
-            {"content-type", (uint8_t*)"application/octet-stream", 24, NGHTTP2_NV_FLAG_NONE},
-            {"content-length", (uint8_t*)std::to_string(data.size()).c_str(),
-             std::to_string(data.size()).length(), NGHTTP2_NV_FLAG_NONE}
+            {(uint8_t*)":method", (uint8_t*)method, 7, 4, NGHTTP2_NV_FLAG_NONE},
+            {(uint8_t*)":path", (uint8_t*)path_.c_str(), 5, path_.length(), NGHTTP2_NV_FLAG_NONE},
+            {(uint8_t*)":scheme", (uint8_t*)scheme, 7, 5, NGHTTP2_NV_FLAG_NONE},
+            {(uint8_t*)"content-type", (uint8_t*)"application/octet-stream", 12, 24, NGHTTP2_NV_FLAG_NONE},
+            {(uint8_t*)"content-length", (uint8_t*)content_length_str.c_str(), 14, content_length_str.length(), NGHTTP2_NV_FLAG_NONE}
         };
 
         nghttp2_data_provider data_provider;
@@ -367,7 +370,6 @@ public:
 
     // nghttp2 callbacks
     static int on_frame_recv(nghttp2_session* session, const nghttp2_frame* frame, void* user_data) {
-        Impl* impl = static_cast<Impl*>(user_data);
 
         switch (frame->hd.type) {
             case NGHTTP2_DATA:

@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/mnt/f/Node/cmmv-hive/umicp/cpp/include -I/usr/include/json-c -I/mnt/f/Node/cmmv-hive/umicp/cpp/tests/../include -I/mnt/f/Node/cmmv-hive/umicp/cpp/tests
 
-CXX_FLAGS = -g -std=c++17 -Wall -Wextra -Wpedantic -Wno-unused-parameter -Werror -flto -ftree-vectorize -DGTEST_HAS_PTHREAD=1
+CXX_FLAGS = -O3 -DNDEBUG -std=c++17 -Wall -Wextra -Wpedantic -Wno-unused-parameter -Werror -flto -ftree-vectorize -DGTEST_HAS_PTHREAD=1
 

@@ -10,6 +10,9 @@
 #include <sstream>
 #include <chrono>
 #include <thread>
+// Include real implementations at global scope to avoid nesting standard headers under namespace umicp
+#include "websocket_lws.h"
+#include "http2_transport.h"
 
 namespace umicp {
 
@@ -20,8 +23,8 @@ namespace umicp {
 class WebSocketTransport::Impl {
 public:
     TransportConfig config_;
-    std::atomic<bool> connected_{false};
-    std::atomic<bool> connecting_{false};
+    ::std::atomic<bool> connected_{false};
+    ::std::atomic<bool> connecting_{false};
     TransportStats stats_;
 
     // Callbacks
@@ -30,13 +33,13 @@ public:
     ErrorCallback error_callback_;
 
     // Threading
-    std::unique_ptr<std::thread> io_thread_;
-    std::atomic<bool> should_stop_{false};
-    mutable std::mutex callback_mutex_;
-    mutable std::mutex stats_mutex_;
+    ::std::unique_ptr<::std::thread> io_thread_;
+    ::std::atomic<bool> should_stop_{false};
+    mutable ::std::mutex callback_mutex_;
+    mutable ::std::mutex stats_mutex_;
 
     explicit Impl(const TransportConfig& config) : config_(config) {
-        stats_.last_activity = std::chrono::steady_clock::now();
+        stats_.last_activity = ::std::chrono::steady_clock::now();
     }
 
     ~Impl() {
@@ -56,7 +59,7 @@ public:
 
         // For MVP, simulate connection success
         // In real implementation, this would use libwebsockets or similar
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        ::std::this_thread::sleep_for(::std::chrono::milliseconds(1));
 
         connected_.store(true);
         connecting_.store(false);
@@ -67,7 +70,7 @@ public:
 
         // Notify connection success
         if (connection_callback_) {
-            std::lock_guard<std::mutex> lock(callback_mutex_);
+            ::std::lock_guard<::std::mutex> lock(callback_mutex_);
             connection_callback_(true, "");
         }
 
@@ -84,7 +87,7 @@ public:
 
         // Notify disconnection
         if (connection_callback_) {
-            std::lock_guard<std::mutex> lock(callback_mutex_);
+            ::std::lock_guard<::std::mutex> lock(callback_mutex_);
             connection_callback_(false, "Disconnected by user");
         }
 
@@ -104,14 +107,14 @@ public:
         // In real implementation, this would send via WebSocket
 
         {
-            std::lock_guard<std::mutex> lock(stats_mutex_);
+            ::std::lock_guard<::std::mutex> lock(stats_mutex_);
             stats_.bytes_sent += data.size();
             stats_.messages_sent++;
-            stats_.last_activity = std::chrono::steady_clock::now();
+            stats_.last_activity = ::std::chrono::steady_clock::now();
         }
 
         // Simulate network delay
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        ::std::this_thread::sleep_for(::std::chrono::milliseconds(1));
 
         return Result<void>();
     }
@@ -122,7 +125,7 @@ private:
         stop_io_thread();
 
         should_stop_.store(false);
-        io_thread_ = std::make_unique<std::thread>([this]() {
+        io_thread_ = ::std::make_unique<::std::thread>([this]() {
             run_io_loop();
         });
     }
@@ -140,26 +143,26 @@ private:
     void run_io_loop() {
         while (!should_stop_.load() && connected_.load()) {
             // For MVP, simulate receiving heartbeat messages
-            std::this_thread::sleep_for(std::chrono::seconds(1));
+            ::std::this_thread::sleep_for(::std::chrono::seconds(1));
 
             if (message_callback_) {
                 // Simulate receiving a heartbeat message
                 ByteBuffer heartbeat_data;
-                std::string heartbeat_msg = R"({"type":"heartbeat","timestamp":")" +
-                    std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(
-                        std::chrono::system_clock::now().time_since_epoch()).count()) + "\"}";
+                ::std::string heartbeat_msg = R"({"type":"heartbeat","timestamp":")" +
+                    ::std::to_string(::std::chrono::duration_cast<::std::chrono::milliseconds>(
+                        ::std::chrono::system_clock::now().time_since_epoch()).count()) + "\"}";
 
                 heartbeat_data.assign(heartbeat_msg.begin(), heartbeat_msg.end());
 
                 {
-                    std::lock_guard<std::mutex> lock(stats_mutex_);
+                    ::std::lock_guard<::std::mutex> lock(stats_mutex_);
                     stats_.bytes_received += heartbeat_data.size();
                     stats_.messages_received++;
-                    stats_.last_activity = std::chrono::steady_clock::now();
+                    stats_.last_activity = ::std::chrono::steady_clock::now();
                 }
 
                 {
-                    std::lock_guard<std::mutex> lock(callback_mutex_);
+                    ::std::lock_guard<::std::mutex> lock(callback_mutex_);
                     message_callback_(heartbeat_data);
                 }
             }
@@ -168,7 +171,7 @@ private:
 };
 
 WebSocketTransport::WebSocketTransport(const TransportConfig& config)
-    : impl_(std::make_unique<Impl>(config)) {
+    : impl_(::std::make_unique<Impl>(config)) {
 }
 
 WebSocketTransport::~WebSocketTransport() = default;
@@ -192,7 +195,7 @@ Result<void> WebSocketTransport::send(const ByteBuffer& data) {
 Result<void> WebSocketTransport::send_envelope(const Envelope& envelope) {
     // Serialize envelope to JSON and send
     // This would use the EnvelopeProcessor in real implementation
-    std::ostringstream json_stream;
+    ::std::ostringstream json_stream;
     json_stream << "{"
                 << "\"v\":\"" << envelope.version << "\","
                 << "\"msg_id\":\"" << envelope.msg_id << "\","
@@ -214,7 +217,7 @@ Result<void> WebSocketTransport::send_envelope(const Envelope& envelope) {
 
     json_stream << "}";
 
-    std::string json_str = json_stream.str();
+    ::std::string json_str = json_stream.str();
     ByteBuffer data(json_str.begin(), json_str.end());
 
     return send(data);
@@ -271,22 +274,22 @@ TransportConfig WebSocketTransport::get_config() const {
 }
 
 void WebSocketTransport::set_message_callback(MessageCallback callback) {
-    std::lock_guard<std::mutex> lock(impl_->callback_mutex_);
+    ::std::lock_guard<::std::mutex> lock(impl_->callback_mutex_);
     impl_->message_callback_ = callback;
 }
 
 void WebSocketTransport::set_connection_callback(ConnectionCallback callback) {
-    std::lock_guard<std::mutex> lock(impl_->callback_mutex_);
+    ::std::lock_guard<::std::mutex> lock(impl_->callback_mutex_);
     impl_->connection_callback_ = callback;
 }
 
 void WebSocketTransport::set_error_callback(ErrorCallback callback) {
-    std::lock_guard<std::mutex> lock(impl_->callback_mutex_);
+    ::std::lock_guard<::std::mutex> lock(impl_->callback_mutex_);
     impl_->error_callback_ = callback;
 }
 
 TransportStats WebSocketTransport::get_stats() const {
-    std::lock_guard<std::mutex> lock(impl_->stats_mutex_);
+    ::std::lock_guard<::std::mutex> lock(impl_->stats_mutex_);
     TransportStats stats_copy;
     stats_copy.bytes_sent = impl_->stats_.bytes_sent;
     stats_copy.bytes_received = impl_->stats_.bytes_received;
@@ -298,29 +301,27 @@ TransportStats WebSocketTransport::get_stats() const {
 }
 
 void WebSocketTransport::reset_stats() {
-    std::lock_guard<std::mutex> lock(impl_->stats_mutex_);
+    ::std::lock_guard<::std::mutex> lock(impl_->stats_mutex_);
     impl_->stats_ = TransportStats{};
     impl_->stats_.last_activity = std::chrono::steady_clock::now();
 }
 
-std::string WebSocketTransport::get_endpoint() const {
+::std::string WebSocketTransport::get_endpoint() const {
     const auto& config = impl_->config_;
-    return "ws://" + config.host + ":" + std::to_string(config.port) + config.path;
+    return "ws://" + config.host + ":" + ::std::to_string(config.port) + config.path;
 }
 
 // ===============================================
-// HTTP/2 Transport Implementation
+// WebSocket and HTTP/2 Transport Implementations
 // ===============================================
 
-// HTTP/2 implementation is now in http2_transport.cpp
-// Include the implementation
-#include "http2_transport.h"
+// (includes moved to global scope above)
 
 // ===============================================
 // Transport Factory
 // ===============================================
 
-std::unique_ptr<Transport> TransportFactory::create(TransportType type, const TransportConfig& config) {
+::std::unique_ptr<Transport> TransportFactory::create(TransportType type, const TransportConfig& config) {
     switch (type) {
         case TransportType::WEBSOCKET:
             return create_websocket(config);
@@ -331,12 +332,12 @@ std::unique_ptr<Transport> TransportFactory::create(TransportType type, const Tr
     }
 }
 
-std::unique_ptr<Transport> TransportFactory::create_websocket(const TransportConfig& config) {
-    return std::make_unique<WebSocketTransport>(config);
+::std::unique_ptr<Transport> TransportFactory::create_websocket(const TransportConfig& config) {
+    return ::std::make_unique<WebSocketLWS>(config);
 }
 
-std::unique_ptr<Transport> TransportFactory::create_http2(const TransportConfig& config) {
-    return std::make_unique<HTTP2Transport>(config);
+::std::unique_ptr<Transport> TransportFactory::create_http2(const TransportConfig& config) {
+    return ::std::make_unique<HTTP2Transport>(config);
 }
 
 } // namespace umicp

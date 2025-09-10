@@ -125,10 +125,38 @@ CMakeFiles/umicp_static.dir/src/transport.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/umicp_static.dir/src/transport.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/f/Node/cmmv-hive/umicp/cpp/src/transport.cpp -o CMakeFiles/umicp_static.dir/src/transport.cpp.s
 
+CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o: CMakeFiles/umicp_static.dir/flags.make
+CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src/websocket_lws.cpp
+CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o: CMakeFiles/umicp_static.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o -MF CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o.d -o CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/src/websocket_lws.cpp
+
+CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/f/Node/cmmv-hive/umicp/cpp/src/websocket_lws.cpp > CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.i
+
+CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/f/Node/cmmv-hive/umicp/cpp/src/websocket_lws.cpp -o CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.s
+
+CMakeFiles/umicp_static.dir/src/http2_transport.cpp.o: CMakeFiles/umicp_static.dir/flags.make
+CMakeFiles/umicp_static.dir/src/http2_transport.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src/http2_transport.cpp
+CMakeFiles/umicp_static.dir/src/http2_transport.cpp.o: CMakeFiles/umicp_static.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/umicp_static.dir/src/http2_transport.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/umicp_static.dir/src/http2_transport.cpp.o -MF CMakeFiles/umicp_static.dir/src/http2_transport.cpp.o.d -o CMakeFiles/umicp_static.dir/src/http2_transport.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/src/http2_transport.cpp
+
+CMakeFiles/umicp_static.dir/src/http2_transport.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/umicp_static.dir/src/http2_transport.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/f/Node/cmmv-hive/umicp/cpp/src/http2_transport.cpp > CMakeFiles/umicp_static.dir/src/http2_transport.cpp.i
+
+CMakeFiles/umicp_static.dir/src/http2_transport.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/umicp_static.dir/src/http2_transport.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/f/Node/cmmv-hive/umicp/cpp/src/http2_transport.cpp -o CMakeFiles/umicp_static.dir/src/http2_transport.cpp.s
+
 CMakeFiles/umicp_static.dir/src/buffer.cpp.o: CMakeFiles/umicp_static.dir/flags.make
 CMakeFiles/umicp_static.dir/src/buffer.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src/buffer.cpp
 CMakeFiles/umicp_static.dir/src/buffer.cpp.o: CMakeFiles/umicp_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/umicp_static.dir/src/buffer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/umicp_static.dir/src/buffer.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/umicp_static.dir/src/buffer.cpp.o -MF CMakeFiles/umicp_static.dir/src/buffer.cpp.o.d -o CMakeFiles/umicp_static.dir/src/buffer.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/src/buffer.cpp
 
 CMakeFiles/umicp_static.dir/src/buffer.cpp.i: cmake_force
@@ -142,7 +170,7 @@ CMakeFiles/umicp_static.dir/src/buffer.cpp.s: cmake_force
 CMakeFiles/umicp_static.dir/src/config.cpp.o: CMakeFiles/umicp_static.dir/flags.make
 CMakeFiles/umicp_static.dir/src/config.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src/config.cpp
 CMakeFiles/umicp_static.dir/src/config.cpp.o: CMakeFiles/umicp_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/umicp_static.dir/src/config.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/umicp_static.dir/src/config.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/umicp_static.dir/src/config.cpp.o -MF CMakeFiles/umicp_static.dir/src/config.cpp.o.d -o CMakeFiles/umicp_static.dir/src/config.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/src/config.cpp
 
 CMakeFiles/umicp_static.dir/src/config.cpp.i: cmake_force
@@ -156,7 +184,7 @@ CMakeFiles/umicp_static.dir/src/config.cpp.s: cmake_force
 CMakeFiles/umicp_static.dir/src/matrix_ops.cpp.o: CMakeFiles/umicp_static.dir/flags.make
 CMakeFiles/umicp_static.dir/src/matrix_ops.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src/matrix_ops.cpp
 CMakeFiles/umicp_static.dir/src/matrix_ops.cpp.o: CMakeFiles/umicp_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/umicp_static.dir/src/matrix_ops.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/umicp_static.dir/src/matrix_ops.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/umicp_static.dir/src/matrix_ops.cpp.o -MF CMakeFiles/umicp_static.dir/src/matrix_ops.cpp.o.d -o CMakeFiles/umicp_static.dir/src/matrix_ops.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/src/matrix_ops.cpp
 
 CMakeFiles/umicp_static.dir/src/matrix_ops.cpp.i: cmake_force
@@ -170,7 +198,7 @@ CMakeFiles/umicp_static.dir/src/matrix_ops.cpp.s: cmake_force
 CMakeFiles/umicp_static.dir/src/serialization.cpp.o: CMakeFiles/umicp_static.dir/flags.make
 CMakeFiles/umicp_static.dir/src/serialization.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src/serialization.cpp
 CMakeFiles/umicp_static.dir/src/serialization.cpp.o: CMakeFiles/umicp_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/umicp_static.dir/src/serialization.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/umicp_static.dir/src/serialization.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/umicp_static.dir/src/serialization.cpp.o -MF CMakeFiles/umicp_static.dir/src/serialization.cpp.o.d -o CMakeFiles/umicp_static.dir/src/serialization.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/src/serialization.cpp
 
 CMakeFiles/umicp_static.dir/src/serialization.cpp.i: cmake_force
@@ -184,7 +212,7 @@ CMakeFiles/umicp_static.dir/src/serialization.cpp.s: cmake_force
 CMakeFiles/umicp_static.dir/src/security.cpp.o: CMakeFiles/umicp_static.dir/flags.make
 CMakeFiles/umicp_static.dir/src/security.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src/security.cpp
 CMakeFiles/umicp_static.dir/src/security.cpp.o: CMakeFiles/umicp_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/umicp_static.dir/src/security.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/umicp_static.dir/src/security.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/umicp_static.dir/src/security.cpp.o -MF CMakeFiles/umicp_static.dir/src/security.cpp.o.d -o CMakeFiles/umicp_static.dir/src/security.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/src/security.cpp
 
 CMakeFiles/umicp_static.dir/src/security.cpp.i: cmake_force
@@ -198,7 +226,7 @@ CMakeFiles/umicp_static.dir/src/security.cpp.s: cmake_force
 CMakeFiles/umicp_static.dir/src/c_api.cpp.o: CMakeFiles/umicp_static.dir/flags.make
 CMakeFiles/umicp_static.dir/src/c_api.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/src/c_api.cpp
 CMakeFiles/umicp_static.dir/src/c_api.cpp.o: CMakeFiles/umicp_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/umicp_static.dir/src/c_api.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/umicp_static.dir/src/c_api.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/umicp_static.dir/src/c_api.cpp.o -MF CMakeFiles/umicp_static.dir/src/c_api.cpp.o.d -o CMakeFiles/umicp_static.dir/src/c_api.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/src/c_api.cpp
 
 CMakeFiles/umicp_static.dir/src/c_api.cpp.i: cmake_force
@@ -215,6 +243,8 @@ umicp_static_OBJECTS = \
 "CMakeFiles/umicp_static.dir/src/frame.cpp.o" \
 "CMakeFiles/umicp_static.dir/src/protocol.cpp.o" \
 "CMakeFiles/umicp_static.dir/src/transport.cpp.o" \
+"CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o" \
+"CMakeFiles/umicp_static.dir/src/http2_transport.cpp.o" \
 "CMakeFiles/umicp_static.dir/src/buffer.cpp.o" \
 "CMakeFiles/umicp_static.dir/src/config.cpp.o" \
 "CMakeFiles/umicp_static.dir/src/matrix_ops.cpp.o" \
@@ -229,6 +259,8 @@ libumicp.a: CMakeFiles/umicp_static.dir/src/envelope.cpp.o
 libumicp.a: CMakeFiles/umicp_static.dir/src/frame.cpp.o
 libumicp.a: CMakeFiles/umicp_static.dir/src/protocol.cpp.o
 libumicp.a: CMakeFiles/umicp_static.dir/src/transport.cpp.o
+libumicp.a: CMakeFiles/umicp_static.dir/src/websocket_lws.cpp.o
+libumicp.a: CMakeFiles/umicp_static.dir/src/http2_transport.cpp.o
 libumicp.a: CMakeFiles/umicp_static.dir/src/buffer.cpp.o
 libumicp.a: CMakeFiles/umicp_static.dir/src/config.cpp.o
 libumicp.a: CMakeFiles/umicp_static.dir/src/matrix_ops.cpp.o
@@ -237,7 +269,7 @@ libumicp.a: CMakeFiles/umicp_static.dir/src/security.cpp.o
 libumicp.a: CMakeFiles/umicp_static.dir/src/c_api.cpp.o
 libumicp.a: CMakeFiles/umicp_static.dir/build.make
 libumicp.a: CMakeFiles/umicp_static.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX static library libumicp.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX static library libumicp.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/umicp_static.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/umicp_static.dir/link.txt --verbose=$(VERBOSE)
 

@@ -20,7 +20,9 @@ namespace umicp {
 // WebSocket Transport implementation using libwebsockets
 class WebSocketLWS : public Transport {
 public:
+    class Impl;
     explicit WebSocketLWS(const std::string& host, int port, const std::string& path = "/");
+    explicit WebSocketLWS(const TransportConfig& config);
     ~WebSocketLWS() override;
 
     // Transport interface implementation
@@ -46,7 +48,6 @@ public:
     std::string get_endpoint() const override;
 
 private:
-    class Impl;
     std::unique_ptr<Impl> impl_;
 };
 

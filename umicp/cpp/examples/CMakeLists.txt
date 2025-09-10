@@ -27,10 +27,11 @@ link_directories(
 add_executable(basic_example basic_example.cpp)
 
 target_link_libraries(basic_example
+    umicp_static
     ${JSON_LIBRARIES}
     ${ZLIB_LIBRARIES}
     ${OPENSSL_LIBRARIES}
-    uuid  # For UUID generation
+    uuid
 )
 
 # Set C++ standard

@@ -69,7 +69,11 @@ TEST_F(StressTest, HighVolume_MessagesPerSecond) {
 
     Protocol protocol("stress-test-node");
     protocol.configure(stress_config_);
-    protocol.set_transport(std::make_shared<MockTransport>());
+    TransportConfig transport_config;
+    transport_config.type = TransportType::WEBSOCKET;
+    transport_config.host = "localhost";
+    transport_config.port = 8080;
+    protocol.set_transport(std::make_shared<MockTransport>(transport_config));
 
     auto connect_result = protocol.connect();
     ASSERT_TRUE(connect_result.is_success());
@@ -122,7 +126,11 @@ TEST_F(StressTest, HighVolume_LargeMessages) {
 
     Protocol protocol("stress-test-node");
     protocol.configure(stress_config_);
-    protocol.set_transport(std::make_shared<MockTransport>());
+    TransportConfig transport_config;
+    transport_config.type = TransportType::WEBSOCKET;
+    transport_config.host = "localhost";
+    transport_config.port = 8080;
+    protocol.set_transport(std::make_shared<MockTransport>(transport_config));
 
     auto connect_result = protocol.connect();
     ASSERT_TRUE(connect_result.is_success());
@@ -338,8 +346,8 @@ TEST_F(StressTest, Security_ConcurrentSessions) {
 
     // Create multiple security managers
     for (int i = 0; i < num_sessions; ++i) {
-        auto security = std::make_unique<SecurityManager>();
-        auto key_result = security->generate_keys();
+        auto security = std::make_unique<SecurityManager>("test-session-" + std::to_string(i));
+        auto key_result = security->generate_keypair();
         if (key_result.is_success()) {
             security_managers.push_back(std::move(security));
         }
@@ -353,9 +361,10 @@ TEST_F(StressTest, Security_ConcurrentSessions) {
             int success_count = 0;
             for (int i = 0; i < operations_per_session; ++i) {
                 std::string data = generate_random_data(512);
-                auto sign_result = security->sign(data);
+                ByteBuffer data_buffer(data.begin(), data.end());
+                auto sign_result = security->sign_data(data_buffer);
                 if (sign_result.is_success()) {
-                    auto verify_result = security->verify(data, *sign_result.value);
+                    auto verify_result = security->verify_signature(data_buffer, *sign_result.value);
                     if (verify_result.is_success() && *verify_result.value) {
                         success_count++;
                     }
@@ -433,7 +442,11 @@ TEST_F(StressTest, Stability_LongRunning) {
 
     Protocol protocol("stability-test-node");
     protocol.configure(stress_config_);
-    protocol.set_transport(std::make_shared<MockTransport>());
+    TransportConfig transport_config;
+    transport_config.type = TransportType::WEBSOCKET;
+    transport_config.host = "localhost";
+    transport_config.port = 8080;
+    protocol.set_transport(std::make_shared<MockTransport>(transport_config));
 
     auto connect_result = protocol.connect();
     ASSERT_TRUE(connect_result.is_success());

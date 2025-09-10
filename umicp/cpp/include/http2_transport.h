@@ -44,11 +44,11 @@ public:
     void reset_stats() override;
 
     TransportType get_type() const override { return TransportType::HTTP2; }
-    std::string get_endpoint() const override;
+    ::std::string get_endpoint() const override;
 
 private:
     class Impl;
-    std::unique_ptr<Impl> impl_;
+    ::std::unique_ptr<Impl> impl_;
 };
 
 } // namespace umicp

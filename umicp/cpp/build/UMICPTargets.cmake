@@ -50,28 +50,28 @@ unset(_cmake_expected_targets)
 add_library(UMICP::umicp_static STATIC IMPORTED)
 
 set_target_properties(UMICP::umicp_static PROPERTIES
-  INTERFACE_LINK_LIBRARIES "json-c;z;ssl;crypto;cbor"
+  INTERFACE_LINK_LIBRARIES "json-c;z;ssl;crypto;websockets;cap;nghttp2;cbor"
 )
 
 # Create imported target UMICP::umicp_shared
 add_library(UMICP::umicp_shared SHARED IMPORTED)
 
 set_target_properties(UMICP::umicp_shared PROPERTIES
-  INTERFACE_LINK_LIBRARIES "json-c;z;ssl;crypto;cbor"
+  INTERFACE_LINK_LIBRARIES "json-c;z;ssl;crypto;websockets;cap;nghttp2;cbor"
 )
 
-# Import target "UMICP::umicp_static" for configuration "Debug"
-set_property(TARGET UMICP::umicp_static APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
+# Import target "UMICP::umicp_static" for configuration "Release"
+set_property(TARGET UMICP::umicp_static APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(UMICP::umicp_static PROPERTIES
-  IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG "CXX"
-  IMPORTED_LOCATION_DEBUG "/mnt/f/Node/cmmv-hive/umicp/cpp/build/libumicp.a"
+  IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
+  IMPORTED_LOCATION_RELEASE "/mnt/f/Node/cmmv-hive/umicp/cpp/build/libumicp.a"
   )
 
-# Import target "UMICP::umicp_shared" for configuration "Debug"
-set_property(TARGET UMICP::umicp_shared APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
+# Import target "UMICP::umicp_shared" for configuration "Release"
+set_property(TARGET UMICP::umicp_shared APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(UMICP::umicp_shared PROPERTIES
-  IMPORTED_LOCATION_DEBUG "/mnt/f/Node/cmmv-hive/umicp/cpp/build/libumicp.so.1.0.0"
-  IMPORTED_SONAME_DEBUG "libumicp.so.1"
+  IMPORTED_LOCATION_RELEASE "/mnt/f/Node/cmmv-hive/umicp/cpp/build/libumicp.so.1.0.0"
+  IMPORTED_SONAME_RELEASE "libumicp.so.1"
   )
 
 # This file does not depend on other imported targets which have

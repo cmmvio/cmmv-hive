@@ -86,7 +86,7 @@ Result<ByteBuffer> SecurityManager::sign_data(const ByteBuffer& data) {
     if (!impl_->keys_generated_) {
         return Result<ByteBuffer>(ErrorCode::AUTHENTICATION_FAILED, "No keys generated");
     }
-    
+
     if (data.empty()) {
         return Result<ByteBuffer>(ErrorCode::INVALID_ARGUMENT, "Data cannot be empty");
     }

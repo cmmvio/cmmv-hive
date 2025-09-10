@@ -6,5 +6,5 @@ CXX_DEFINES = -Dumicp_shared_EXPORTS
 
 CXX_INCLUDES = -I/mnt/f/Node/cmmv-hive/umicp/cpp/include -I/usr/include/json-c
 
-CXX_FLAGS = -g -std=c++17 -fPIC -Wall -Wextra -Wpedantic -Wno-unused-parameter -Werror -flto -ftree-vectorize
+CXX_FLAGS = -O3 -DNDEBUG -std=c++17 -fPIC -Wall -Wextra -Wpedantic -Wno-unused-parameter -Werror -flto -ftree-vectorize
 
