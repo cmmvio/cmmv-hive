@@ -289,6 +289,71 @@ protocol_tests/fast:
 .PHONY : protocol_tests/fast
 
 #=============================================================================
+# Target rules for targets named edge_case_tests
+
+# Build rule for target.
+edge_case_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 edge_case_tests
+.PHONY : edge_case_tests
+
+# fast build rule for target.
+edge_case_tests/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/edge_case_tests.dir/build.make tests/CMakeFiles/edge_case_tests.dir/build
+.PHONY : edge_case_tests/fast
+
+#=============================================================================
+# Target rules for targets named error_tests
+
+# Build rule for target.
+error_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 error_tests
+.PHONY : error_tests
+
+# fast build rule for target.
+error_tests/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/error_tests.dir/build.make tests/CMakeFiles/error_tests.dir/build
+.PHONY : error_tests/fast
+
+#=============================================================================
+# Target rules for targets named concurrency_tests
+
+# Build rule for target.
+concurrency_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 concurrency_tests
+.PHONY : concurrency_tests
+
+# fast build rule for target.
+concurrency_tests/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/concurrency_tests.dir/build.make tests/CMakeFiles/concurrency_tests.dir/build
+.PHONY : concurrency_tests/fast
+
+#=============================================================================
+# Target rules for targets named memory_tests
+
+# Build rule for target.
+memory_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 memory_tests
+.PHONY : memory_tests
+
+# fast build rule for target.
+memory_tests/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/memory_tests.dir/build.make tests/CMakeFiles/memory_tests.dir/build
+.PHONY : memory_tests/fast
+
+#=============================================================================
+# Target rules for targets named stress_tests
+
+# Build rule for target.
+stress_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stress_tests
+.PHONY : stress_tests
+
+# fast build rule for target.
+stress_tests/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/stress_tests.dir/build.make tests/CMakeFiles/stress_tests.dir/build
+.PHONY : stress_tests/fast
+
+#=============================================================================
 # Target rules for targets named performance_tests
 
 # Build rule for target.
@@ -315,6 +380,71 @@ test_unit/fast:
 .PHONY : test_unit/fast
 
 #=============================================================================
+# Target rules for targets named test_edge_cases
+
+# Build rule for target.
+test_edge_cases: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_edge_cases
+.PHONY : test_edge_cases
+
+# fast build rule for target.
+test_edge_cases/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_edge_cases.dir/build.make tests/CMakeFiles/test_edge_cases.dir/build
+.PHONY : test_edge_cases/fast
+
+#=============================================================================
+# Target rules for targets named test_errors
+
+# Build rule for target.
+test_errors: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_errors
+.PHONY : test_errors
+
+# fast build rule for target.
+test_errors/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_errors.dir/build.make tests/CMakeFiles/test_errors.dir/build
+.PHONY : test_errors/fast
+
+#=============================================================================
+# Target rules for targets named test_concurrency
+
+# Build rule for target.
+test_concurrency: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_concurrency
+.PHONY : test_concurrency
+
+# fast build rule for target.
+test_concurrency/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_concurrency.dir/build.make tests/CMakeFiles/test_concurrency.dir/build
+.PHONY : test_concurrency/fast
+
+#=============================================================================
+# Target rules for targets named test_memory
+
+# Build rule for target.
+test_memory: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_memory
+.PHONY : test_memory
+
+# fast build rule for target.
+test_memory/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_memory.dir/build.make tests/CMakeFiles/test_memory.dir/build
+.PHONY : test_memory/fast
+
+#=============================================================================
+# Target rules for targets named test_stress
+
+# Build rule for target.
+test_stress: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_stress
+.PHONY : test_stress
+
+# fast build rule for target.
+test_stress/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_stress.dir/build.make tests/CMakeFiles/test_stress.dir/build
+.PHONY : test_stress/fast
+
+#=============================================================================
 # Target rules for targets named test_performance
 
 # Build rule for target.
@@ -326,6 +456,19 @@ test_performance: cmake_check_build_system
 test_performance/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_performance.dir/build.make tests/CMakeFiles/test_performance.dir/build
 .PHONY : test_performance/fast
+
+#=============================================================================
+# Target rules for targets named test_comprehensive
+
+# Build rule for target.
+test_comprehensive: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_comprehensive
+.PHONY : test_comprehensive
+
+# fast build rule for target.
+test_comprehensive/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_comprehensive.dir/build.make tests/CMakeFiles/test_comprehensive.dir/build
+.PHONY : test_comprehensive/fast
 
 #=============================================================================
 # Target rules for targets named test_all
@@ -624,14 +767,25 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... test_all"
+	@echo "... test_comprehensive"
+	@echo "... test_concurrency"
+	@echo "... test_edge_cases"
+	@echo "... test_errors"
 	@echo "... test_full"
+	@echo "... test_memory"
 	@echo "... test_performance"
 	@echo "... test_quick"
+	@echo "... test_stress"
 	@echo "... test_unit"
 	@echo "... basic_example"
+	@echo "... concurrency_tests"
+	@echo "... edge_case_tests"
+	@echo "... error_tests"
 	@echo "... matrix_tests"
+	@echo "... memory_tests"
 	@echo "... performance_tests"
 	@echo "... protocol_tests"
+	@echo "... stress_tests"
 	@echo "... transport_tests"
 	@echo "... umicp_shared"
 	@echo "... umicp_static"

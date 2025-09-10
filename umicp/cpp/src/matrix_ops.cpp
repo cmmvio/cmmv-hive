@@ -19,6 +19,10 @@ Result<void> MatrixOps::add(const float* a, const float* b, float* result, size_
     if (!a || !b || !result) {
         return Result<void>(ErrorCode::INVALID_ARGUMENT, "Null pointer argument");
     }
+    
+    if (rows == 0 || cols == 0) {
+        return Result<void>(ErrorCode::INVALID_ARGUMENT, "Matrix dimensions must be greater than 0");
+    }
 
 #ifdef __AVX512F__
     // AVX-512 optimized version

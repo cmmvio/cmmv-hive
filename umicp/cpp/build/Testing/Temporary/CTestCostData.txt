@@ -125,4 +125,6 @@ MatrixOpsTest.CosineSimilarity_OrthogonalVectors 2 0.00390945
 MatrixOpsTest.CosineSimilarity_OppositeVectors 2 0.0037782
 MatrixOpsTest.ErrorHandling_NullPointers 2 0.00357945
 MatrixOpsTest.EdgeCase_ZeroSizeOperations 2 0.00380255
+umicp_tests_NOT_BUILT 0 0
 ---
+umicp_tests_NOT_BUILT

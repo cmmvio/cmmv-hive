@@ -25,10 +25,12 @@ protected:
         UMICPTestFixture::SetUp();
 
         // Stress test configuration
-        stress_config_ = TestHelpers::create_test_config();
         stress_config_.max_message_size = 1024 * 1024; // 1MB
-        stress_config_.connection_timeout_ms = 5000;
-        stress_config_.max_connections = 1000;
+        stress_config_.connection_timeout = 5000;
+        stress_config_.enable_binary = true;
+        stress_config_.preferred_format = ContentType::JSON;
+        stress_config_.require_auth = false;
+        stress_config_.require_encryption = false;
 
         // Initialize random number generator
         rng_.seed(std::chrono::high_resolution_clock::now().time_since_epoch().count());
@@ -82,7 +84,8 @@ TEST_F(StressTest, HighVolume_MessagesPerSecond) {
     for (int t = 0; t < num_threads; ++t) {
         threads.emplace_back([&]() {
             for (int i = 0; i < num_messages / num_threads; ++i) {
-                auto result = protocol.send_message(MessageType::DATA, message_data);
+                ByteBuffer data_bytes(message_data.begin(), message_data.end());
+                auto result = protocol.send_data("test-to", data_bytes);
                 if (result.is_success()) {
                     success_count++;
                 } else {
@@ -128,7 +131,8 @@ TEST_F(StressTest, HighVolume_LargeMessages) {
 
     int success_count = 0;
     for (int i = 0; i < num_messages; ++i) {
-        auto result = protocol.send_message(MessageType::DATA, large_message);
+        ByteBuffer data_bytes(large_message.begin(), large_message.end());
+        auto result = protocol.send_data("test-to", data_bytes);
         if (result.is_success()) {
             success_count++;
         }
@@ -221,10 +225,10 @@ TEST_F(StressTest, MatrixOps_VeryLargeVectors) {
 
 TEST_F(StressTest, Serialization_HighFrequency) {
     const int num_operations = 10000;
-    const size_t envelope_size = 1024;
+    // const size_t envelope_size = 1024; // unused
 
-    Envelope test_envelope = TestHelpers::create_test_envelope();
-    test_envelope.payload = generate_random_data(envelope_size);
+    Envelope test_envelope = TestHelpers::create_test_envelope("test-from", "test-to", OperationType::CONTROL);
+    // Note: Envelope doesn't have payload field
 
     auto start_time = std::chrono::high_resolution_clock::now();
 
@@ -294,17 +298,18 @@ TEST_F(StressTest, Security_HighFrequencySigning) {
     const int num_operations = 10000;
     const std::string test_data = generate_random_data(1024);
 
-    SecurityManager security;
-    auto key_result = security.generate_keys();
+    SecurityManager security("test-security");
+    auto key_result = security.generate_keypair();
     ASSERT_TRUE(key_result.is_success());
 
     auto start_time = std::chrono::high_resolution_clock::now();
 
     int success_count = 0;
     for (int i = 0; i < num_operations; ++i) {
-        auto sign_result = security.sign(test_data);
+        ByteBuffer data_bytes(test_data.begin(), test_data.end());
+        auto sign_result = security.sign_data(data_bytes);
         if (sign_result.is_success()) {
-            auto verify_result = security.verify(test_data, *sign_result.value);
+            auto verify_result = security.verify_signature(data_bytes, *sign_result.value);
             if (verify_result.is_success() && *verify_result.value) {
                 success_count++;
             }
@@ -441,7 +446,8 @@ TEST_F(StressTest, Stability_LongRunning) {
     std::thread sender_thread([&]() {
         while (running) {
             std::string data = generate_random_data(1024);
-            auto result = protocol.send_message(MessageType::DATA, data);
+            ByteBuffer data_bytes(data.begin(), data.end());
+            auto result = protocol.send_data("test-to", data_bytes);
 
             if (result.is_success()) {
                 message_count++;

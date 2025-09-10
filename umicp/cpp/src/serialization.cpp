@@ -18,6 +18,19 @@ namespace umicp {
 // ===============================================
 
 Result<std::string> JsonSerializer::serialize_envelope(const Envelope& envelope) {
+    // Validate envelope
+    if (envelope.msg_id.empty()) {
+        return Result<std::string>(ErrorCode::INVALID_ARGUMENT, "Message ID cannot be empty");
+    }
+    
+    if (envelope.from.empty()) {
+        return Result<std::string>(ErrorCode::INVALID_ARGUMENT, "From field cannot be empty");
+    }
+    
+    if (envelope.to.empty()) {
+        return Result<std::string>(ErrorCode::INVALID_ARGUMENT, "To field cannot be empty");
+    }
+    
     std::ostringstream json;
     json << "{";
     json << "\"v\":\"" << envelope.version << "\",";
@@ -86,6 +99,11 @@ Result<std::string> JsonSerializer::serialize_envelope(const Envelope& envelope)
 }
 
 Result<Envelope> JsonSerializer::deserialize_envelope(const std::string& json_str) {
+    // Validate input
+    if (json_str.empty()) {
+        return Result<Envelope>(ErrorCode::INVALID_ARGUMENT, "JSON string cannot be empty");
+    }
+    
     // Basic JSON parsing for MVP
     // In production, would use a proper JSON library like nlohmann/json
     Envelope envelope;

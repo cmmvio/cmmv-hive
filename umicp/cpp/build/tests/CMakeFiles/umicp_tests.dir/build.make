@@ -153,10 +153,66 @@ tests/CMakeFiles/umicp_tests.dir/unit/test_protocol.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/umicp_tests.dir/unit/test_protocol.cpp.s"
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_protocol.cpp -o CMakeFiles/umicp_tests.dir/unit/test_protocol.cpp.s
 
+tests/CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.o: tests/CMakeFiles/umicp_tests.dir/flags.make
+tests/CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_matrix_ops_edge_cases.cpp
+tests/CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.o: tests/CMakeFiles/umicp_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object tests/CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.o"
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.o -MF CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.o.d -o CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_matrix_ops_edge_cases.cpp
+
+tests/CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.i"
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_matrix_ops_edge_cases.cpp > CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.i
+
+tests/CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.s"
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_matrix_ops_edge_cases.cpp -o CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.s
+
+tests/CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.o: tests/CMakeFiles/umicp_tests.dir/flags.make
+tests/CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_error_conditions.cpp
+tests/CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.o: tests/CMakeFiles/umicp_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object tests/CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.o"
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.o -MF CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.o.d -o CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_error_conditions.cpp
+
+tests/CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.i"
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_error_conditions.cpp > CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.i
+
+tests/CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.s"
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_error_conditions.cpp -o CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.s
+
+tests/CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.o: tests/CMakeFiles/umicp_tests.dir/flags.make
+tests/CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_concurrency_comprehensive.cpp
+tests/CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.o: tests/CMakeFiles/umicp_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object tests/CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.o"
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.o -MF CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.o.d -o CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_concurrency_comprehensive.cpp
+
+tests/CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.i"
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_concurrency_comprehensive.cpp > CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.i
+
+tests/CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.s"
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_concurrency_comprehensive.cpp -o CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.s
+
+tests/CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.o: tests/CMakeFiles/umicp_tests.dir/flags.make
+tests/CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_memory_management.cpp
+tests/CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.o: tests/CMakeFiles/umicp_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object tests/CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.o"
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.o -MF CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.o.d -o CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_memory_management.cpp
+
+tests/CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.i"
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_memory_management.cpp > CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.i
+
+tests/CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.s"
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/f/Node/cmmv-hive/umicp/cpp/tests/unit/test_memory_management.cpp -o CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.s
+
 tests/CMakeFiles/umicp_tests.dir/integration/test_s2s_transport.cpp.o: tests/CMakeFiles/umicp_tests.dir/flags.make
 tests/CMakeFiles/umicp_tests.dir/integration/test_s2s_transport.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/tests/integration/test_s2s_transport.cpp
 tests/CMakeFiles/umicp_tests.dir/integration/test_s2s_transport.cpp.o: tests/CMakeFiles/umicp_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object tests/CMakeFiles/umicp_tests.dir/integration/test_s2s_transport.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object tests/CMakeFiles/umicp_tests.dir/integration/test_s2s_transport.cpp.o"
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/umicp_tests.dir/integration/test_s2s_transport.cpp.o -MF CMakeFiles/umicp_tests.dir/integration/test_s2s_transport.cpp.o.d -o CMakeFiles/umicp_tests.dir/integration/test_s2s_transport.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/tests/integration/test_s2s_transport.cpp
 
 tests/CMakeFiles/umicp_tests.dir/integration/test_s2s_transport.cpp.i: cmake_force
@@ -170,7 +226,7 @@ tests/CMakeFiles/umicp_tests.dir/integration/test_s2s_transport.cpp.s: cmake_for
 tests/CMakeFiles/umicp_tests.dir/integration/test_protocol_integration.cpp.o: tests/CMakeFiles/umicp_tests.dir/flags.make
 tests/CMakeFiles/umicp_tests.dir/integration/test_protocol_integration.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/tests/integration/test_protocol_integration.cpp
 tests/CMakeFiles/umicp_tests.dir/integration/test_protocol_integration.cpp.o: tests/CMakeFiles/umicp_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object tests/CMakeFiles/umicp_tests.dir/integration/test_protocol_integration.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object tests/CMakeFiles/umicp_tests.dir/integration/test_protocol_integration.cpp.o"
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/umicp_tests.dir/integration/test_protocol_integration.cpp.o -MF CMakeFiles/umicp_tests.dir/integration/test_protocol_integration.cpp.o.d -o CMakeFiles/umicp_tests.dir/integration/test_protocol_integration.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/tests/integration/test_protocol_integration.cpp
 
 tests/CMakeFiles/umicp_tests.dir/integration/test_protocol_integration.cpp.i: cmake_force
@@ -184,7 +240,7 @@ tests/CMakeFiles/umicp_tests.dir/integration/test_protocol_integration.cpp.s: cm
 tests/CMakeFiles/umicp_tests.dir/performance/test_matrix_performance.cpp.o: tests/CMakeFiles/umicp_tests.dir/flags.make
 tests/CMakeFiles/umicp_tests.dir/performance/test_matrix_performance.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/tests/performance/test_matrix_performance.cpp
 tests/CMakeFiles/umicp_tests.dir/performance/test_matrix_performance.cpp.o: tests/CMakeFiles/umicp_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object tests/CMakeFiles/umicp_tests.dir/performance/test_matrix_performance.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object tests/CMakeFiles/umicp_tests.dir/performance/test_matrix_performance.cpp.o"
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/umicp_tests.dir/performance/test_matrix_performance.cpp.o -MF CMakeFiles/umicp_tests.dir/performance/test_matrix_performance.cpp.o.d -o CMakeFiles/umicp_tests.dir/performance/test_matrix_performance.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/tests/performance/test_matrix_performance.cpp
 
 tests/CMakeFiles/umicp_tests.dir/performance/test_matrix_performance.cpp.i: cmake_force
@@ -198,7 +254,7 @@ tests/CMakeFiles/umicp_tests.dir/performance/test_matrix_performance.cpp.s: cmak
 tests/CMakeFiles/umicp_tests.dir/performance/test_transport_performance.cpp.o: tests/CMakeFiles/umicp_tests.dir/flags.make
 tests/CMakeFiles/umicp_tests.dir/performance/test_transport_performance.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/tests/performance/test_transport_performance.cpp
 tests/CMakeFiles/umicp_tests.dir/performance/test_transport_performance.cpp.o: tests/CMakeFiles/umicp_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object tests/CMakeFiles/umicp_tests.dir/performance/test_transport_performance.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object tests/CMakeFiles/umicp_tests.dir/performance/test_transport_performance.cpp.o"
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/umicp_tests.dir/performance/test_transport_performance.cpp.o -MF CMakeFiles/umicp_tests.dir/performance/test_transport_performance.cpp.o.d -o CMakeFiles/umicp_tests.dir/performance/test_transport_performance.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/tests/performance/test_transport_performance.cpp
 
 tests/CMakeFiles/umicp_tests.dir/performance/test_transport_performance.cpp.i: cmake_force
@@ -209,10 +265,24 @@ tests/CMakeFiles/umicp_tests.dir/performance/test_transport_performance.cpp.s: c
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/umicp_tests.dir/performance/test_transport_performance.cpp.s"
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/f/Node/cmmv-hive/umicp/cpp/tests/performance/test_transport_performance.cpp -o CMakeFiles/umicp_tests.dir/performance/test_transport_performance.cpp.s
 
+tests/CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.o: tests/CMakeFiles/umicp_tests.dir/flags.make
+tests/CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/tests/stress/test_stress_comprehensive.cpp
+tests/CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.o: tests/CMakeFiles/umicp_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object tests/CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.o"
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.o -MF CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.o.d -o CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/tests/stress/test_stress_comprehensive.cpp
+
+tests/CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.i"
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/f/Node/cmmv-hive/umicp/cpp/tests/stress/test_stress_comprehensive.cpp > CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.i
+
+tests/CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.s"
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/f/Node/cmmv-hive/umicp/cpp/tests/stress/test_stress_comprehensive.cpp -o CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.s
+
 tests/CMakeFiles/umicp_tests.dir/utils/test_helpers.cpp.o: tests/CMakeFiles/umicp_tests.dir/flags.make
 tests/CMakeFiles/umicp_tests.dir/utils/test_helpers.cpp.o: /mnt/f/Node/cmmv-hive/umicp/cpp/tests/utils/test_helpers.cpp
 tests/CMakeFiles/umicp_tests.dir/utils/test_helpers.cpp.o: tests/CMakeFiles/umicp_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object tests/CMakeFiles/umicp_tests.dir/utils/test_helpers.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object tests/CMakeFiles/umicp_tests.dir/utils/test_helpers.cpp.o"
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/umicp_tests.dir/utils/test_helpers.cpp.o -MF CMakeFiles/umicp_tests.dir/utils/test_helpers.cpp.o.d -o CMakeFiles/umicp_tests.dir/utils/test_helpers.cpp.o -c /mnt/f/Node/cmmv-hive/umicp/cpp/tests/utils/test_helpers.cpp
 
 tests/CMakeFiles/umicp_tests.dir/utils/test_helpers.cpp.i: cmake_force
@@ -231,10 +301,15 @@ umicp_tests_OBJECTS = \
 "CMakeFiles/umicp_tests.dir/unit/test_security.cpp.o" \
 "CMakeFiles/umicp_tests.dir/unit/test_transport.cpp.o" \
 "CMakeFiles/umicp_tests.dir/unit/test_protocol.cpp.o" \
+"CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.o" \
+"CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.o" \
+"CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.o" \
+"CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.o" \
 "CMakeFiles/umicp_tests.dir/integration/test_s2s_transport.cpp.o" \
 "CMakeFiles/umicp_tests.dir/integration/test_protocol_integration.cpp.o" \
 "CMakeFiles/umicp_tests.dir/performance/test_matrix_performance.cpp.o" \
 "CMakeFiles/umicp_tests.dir/performance/test_transport_performance.cpp.o" \
+"CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.o" \
 "CMakeFiles/umicp_tests.dir/utils/test_helpers.cpp.o"
 
 # External object files for target umicp_tests
@@ -246,10 +321,15 @@ tests/umicp_tests: tests/CMakeFiles/umicp_tests.dir/unit/test_serialization.cpp.
 tests/umicp_tests: tests/CMakeFiles/umicp_tests.dir/unit/test_security.cpp.o
 tests/umicp_tests: tests/CMakeFiles/umicp_tests.dir/unit/test_transport.cpp.o
 tests/umicp_tests: tests/CMakeFiles/umicp_tests.dir/unit/test_protocol.cpp.o
+tests/umicp_tests: tests/CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.o
+tests/umicp_tests: tests/CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.o
+tests/umicp_tests: tests/CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.o
+tests/umicp_tests: tests/CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.o
 tests/umicp_tests: tests/CMakeFiles/umicp_tests.dir/integration/test_s2s_transport.cpp.o
 tests/umicp_tests: tests/CMakeFiles/umicp_tests.dir/integration/test_protocol_integration.cpp.o
 tests/umicp_tests: tests/CMakeFiles/umicp_tests.dir/performance/test_matrix_performance.cpp.o
 tests/umicp_tests: tests/CMakeFiles/umicp_tests.dir/performance/test_transport_performance.cpp.o
+tests/umicp_tests: tests/CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.o
 tests/umicp_tests: tests/CMakeFiles/umicp_tests.dir/utils/test_helpers.cpp.o
 tests/umicp_tests: tests/CMakeFiles/umicp_tests.dir/build.make
 tests/umicp_tests: libumicp.a
@@ -257,7 +337,7 @@ tests/umicp_tests: /usr/lib/x86_64-linux-gnu/libgtest.a
 tests/umicp_tests: /usr/lib/x86_64-linux-gnu/libgtest_main.a
 tests/umicp_tests: /usr/lib/x86_64-linux-gnu/libgtest.a
 tests/umicp_tests: tests/CMakeFiles/umicp_tests.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable umicp_tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/f/Node/cmmv-hive/umicp/cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Linking CXX executable umicp_tests"
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/umicp_tests.dir/link.txt --verbose=$(VERBOSE)
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build/tests && /usr/bin/cmake -D TEST_TARGET=umicp_tests -D TEST_EXECUTABLE=/mnt/f/Node/cmmv-hive/umicp/cpp/build/tests/umicp_tests -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/mnt/f/Node/cmmv-hive/umicp/cpp/build/tests -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=umicp_tests_TESTS -D CTEST_FILE=/mnt/f/Node/cmmv-hive/umicp/cpp/build/tests/umicp_tests[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
 

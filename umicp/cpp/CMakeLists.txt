@@ -36,6 +36,10 @@ pkg_check_modules(JSON REQUIRED json-c)
 pkg_check_modules(ZLIB REQUIRED zlib)
 pkg_check_modules(OPENSSL REQUIRED openssl)
 
+# WebSocket and HTTP/2 dependencies
+pkg_check_modules(LIBWEBSOCKETS REQUIRED libwebsockets)
+pkg_check_modules(NGHTTP2 REQUIRED libnghttp2)
+
 # Optional packages
 pkg_check_modules(CBOR libcbor)
 pkg_check_modules(MSGPACK libmsgpack)
@@ -46,6 +50,8 @@ include_directories(
     ${JSON_INCLUDE_DIRS}
     ${ZLIB_INCLUDE_DIRS}
     ${OPENSSL_INCLUDE_DIRS}
+    ${LIBWEBSOCKETS_INCLUDE_DIRS}
+    ${NGHTTP2_INCLUDE_DIRS}
     ${CBOR_INCLUDE_DIRS}
 )
 
@@ -54,6 +60,8 @@ link_directories(
     ${JSON_LIBRARY_DIRS}
     ${ZLIB_LIBRARY_DIRS}
     ${OPENSSL_LIBRARY_DIRS}
+    ${LIBWEBSOCKETS_LIBRARY_DIRS}
+    ${NGHTTP2_LIBRARY_DIRS}
     ${CBOR_LIBRARY_DIRS}
 )
 
@@ -63,6 +71,8 @@ set(UMICP_SOURCES
     src/frame.cpp
     src/protocol.cpp
     src/transport.cpp
+    src/websocket_lws.cpp
+    src/http2_transport.cpp
     src/buffer.cpp
     src/config.cpp
     src/matrix_ops.cpp
@@ -92,6 +102,8 @@ target_link_libraries(umicp_static
     ${JSON_LIBRARIES}
     ${ZLIB_LIBRARIES}
     ${OPENSSL_LIBRARIES}
+    ${LIBWEBSOCKETS_LIBRARIES}
+    ${NGHTTP2_LIBRARIES}
     ${CBOR_LIBRARIES}
 )
 
@@ -101,6 +113,8 @@ target_link_libraries(umicp_shared
     ${JSON_LIBRARIES}
     ${ZLIB_LIBRARIES}
     ${OPENSSL_LIBRARIES}
+    ${LIBWEBSOCKETS_LIBRARIES}
+    ${NGHTTP2_LIBRARIES}
     ${CBOR_LIBRARIES}
 )
 

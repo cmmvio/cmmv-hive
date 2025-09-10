@@ -46,6 +46,7 @@ public:
 class MockTransport : public Transport {
 public:
     explicit MockTransport(const TransportConfig& config);
+    virtual ~MockTransport() = default;
 
     // Transport interface
     Result<void> connect() override;

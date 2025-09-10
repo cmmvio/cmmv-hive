@@ -56,7 +56,7 @@ public:
 
         // For MVP, simulate connection success
         // In real implementation, this would use libwebsockets or similar
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
         connected_.store(true);
         connecting_.store(false);
@@ -94,6 +94,10 @@ public:
     Result<void> send(const ByteBuffer& data) {
         if (!connected_.load()) {
             return Result<void>(ErrorCode::NETWORK_ERROR, "Not connected");
+        }
+
+        if (data.empty()) {
+            return Result<void>(ErrorCode::INVALID_ARGUMENT, "Data cannot be empty");
         }
 
         // For MVP, simulate sending data
@@ -305,83 +309,12 @@ std::string WebSocketTransport::get_endpoint() const {
 }
 
 // ===============================================
-// HTTP/2 Transport Implementation (Stub)
+// HTTP/2 Transport Implementation
 // ===============================================
 
-class HTTP2Transport::Impl {
-public:
-    TransportConfig config_;
-    std::atomic<bool> connected_{false};
-    TransportStats stats_;
-
-    explicit Impl(const TransportConfig& config) : config_(config) {
-        stats_.last_activity = std::chrono::steady_clock::now();
-    }
-};
-
-HTTP2Transport::HTTP2Transport(const TransportConfig& config)
-    : impl_(std::make_unique<Impl>(config)) {
-}
-
-HTTP2Transport::~HTTP2Transport() = default;
-
-Result<void> HTTP2Transport::connect() {
-    return Result<void>(ErrorCode::NOT_IMPLEMENTED, "HTTP/2 transport not implemented yet");
-}
-
-Result<void> HTTP2Transport::disconnect() {
-    return Result<void>(ErrorCode::NOT_IMPLEMENTED, "HTTP/2 transport not implemented yet");
-}
-
-bool HTTP2Transport::is_connected() const {
-    return false;
-}
-
-Result<void> HTTP2Transport::send(const ByteBuffer& /* data */) {
-    return Result<void>(ErrorCode::NOT_IMPLEMENTED, "HTTP/2 transport not implemented yet");
-}
-
-Result<void> HTTP2Transport::send_envelope(const Envelope& /* envelope */) {
-    return Result<void>(ErrorCode::NOT_IMPLEMENTED, "HTTP/2 transport not implemented yet");
-}
-
-Result<void> HTTP2Transport::send_frame(const Frame& /* frame */) {
-    return Result<void>(ErrorCode::NOT_IMPLEMENTED, "HTTP/2 transport not implemented yet");
-}
-
-Result<void> HTTP2Transport::configure(const TransportConfig& config) {
-    impl_->config_ = config;
-    return Result<void>();
-}
-
-TransportConfig HTTP2Transport::get_config() const {
-    return impl_->config_;
-}
-
-void HTTP2Transport::set_message_callback(MessageCallback /* callback */) {}
-void HTTP2Transport::set_connection_callback(ConnectionCallback /* callback */) {}
-void HTTP2Transport::set_error_callback(ErrorCallback /* callback */) {}
-
-TransportStats HTTP2Transport::get_stats() const {
-    TransportStats stats_copy;
-    stats_copy.bytes_sent = impl_->stats_.bytes_sent;
-    stats_copy.bytes_received = impl_->stats_.bytes_received;
-    stats_copy.messages_sent = impl_->stats_.messages_sent;
-    stats_copy.messages_received = impl_->stats_.messages_received;
-    stats_copy.connection_count = impl_->stats_.connection_count;
-    stats_copy.last_activity = impl_->stats_.last_activity;
-    return stats_copy;
-}
-
-void HTTP2Transport::reset_stats() {
-    impl_->stats_ = TransportStats{};
-    impl_->stats_.last_activity = std::chrono::steady_clock::now();
-}
-
-std::string HTTP2Transport::get_endpoint() const {
-    const auto& config = impl_->config_;
-    return "https://" + config.host + ":" + std::to_string(config.port) + config.path;
-}
+// HTTP/2 implementation is now in http2_transport.cpp
+// Include the implementation
+#include "http2_transport.h"
 
 // ===============================================
 // Transport Factory

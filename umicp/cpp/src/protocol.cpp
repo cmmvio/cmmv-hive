@@ -27,6 +27,23 @@ Protocol::Protocol(std::string local_id)
 Protocol::~Protocol() = default;
 
 Result<void> Protocol::configure(const UMICPConfig& config) {
+    // Validate configuration parameters
+    if (config.max_message_size == 0) {
+        return Result<void>(ErrorCode::INVALID_ARGUMENT, "max_message_size must be greater than 0");
+    }
+
+    if (config.max_connections == 0) {
+        return Result<void>(ErrorCode::INVALID_ARGUMENT, "max_connections must be greater than 0");
+    }
+
+    if (config.connection_timeout_ms == 0) {
+        return Result<void>(ErrorCode::INVALID_ARGUMENT, "connection_timeout_ms must be greater than 0");
+    }
+
+    if (config.heartbeat_interval_ms == 0) {
+        return Result<void>(ErrorCode::INVALID_ARGUMENT, "heartbeat_interval_ms must be greater than 0");
+    }
+
     config_ = config;
     return Result<void>();
 }
@@ -51,9 +68,9 @@ Result<void> Protocol::connect() {
         return Result<void>(ErrorCode::INVALID_ARGUMENT, "No transport configured");
     }
 
-    // If already connected, return success
+    // If already connected, return error
     if (is_connected()) {
-        return Result<void>();
+        return Result<void>(ErrorCode::INVALID_ARGUMENT, "Already connected");
     }
 
     // Set up transport callbacks before connecting
@@ -101,6 +118,24 @@ bool Protocol::is_connected() const {
 
 Result<std::string> Protocol::send_control(const std::string& to, OperationType op,
                                          const std::string& command, const std::string& params) {
+    // Validate input parameters
+    if (to.empty()) {
+        return Result<std::string>(ErrorCode::INVALID_ARGUMENT, "Destination 'to' cannot be empty");
+    }
+
+    if (command.empty()) {
+        return Result<std::string>(ErrorCode::INVALID_ARGUMENT, "Command cannot be empty");
+    }
+
+    // Validate operation type
+    if (op < OperationType::CONTROL || op > OperationType::ERROR) {
+        return Result<std::string>(ErrorCode::INVALID_ARGUMENT, "Invalid operation type");
+    }
+
+    if (!transport_ || !transport_->is_connected()) {
+        return Result<std::string>(ErrorCode::NETWORK_ERROR, "Transport not connected");
+    }
+
     auto envelope_result = create_envelope(to, op);
     if (!envelope_result.is_success()) {
         return Result<std::string>(envelope_result.code, envelope_result.error_message.value());
@@ -138,6 +173,20 @@ Result<std::string> Protocol::send_control(const std::string& to, OperationType 
 
 Result<std::string> Protocol::send_data(const std::string& to, const ByteBuffer& data,
                                        const PayloadHint& hint) {
+    // Validate input parameters
+    if (to.empty()) {
+        return Result<std::string>(ErrorCode::INVALID_ARGUMENT, "Destination 'to' cannot be empty");
+    }
+
+    if (data.empty()) {
+        return Result<std::string>(ErrorCode::INVALID_ARGUMENT, "Data cannot be empty");
+    }
+
+    if (data.size() > config_.max_message_size) {
+        return Result<std::string>(ErrorCode::BUFFER_OVERFLOW,
+            "Message size exceeds maximum allowed size");
+    }
+
     auto envelope_result = create_envelope(to, OperationType::DATA);
     if (!envelope_result.is_success()) {
         return Result<std::string>(envelope_result.code, envelope_result.error_message.value());

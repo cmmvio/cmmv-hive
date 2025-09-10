@@ -55,10 +55,15 @@ set(TEST_SOURCES
     unit/test_security.cpp
     unit/test_transport.cpp
     unit/test_protocol.cpp
+    unit/test_matrix_ops_edge_cases.cpp
+    unit/test_error_conditions.cpp
+    unit/test_concurrency_comprehensive.cpp
+    unit/test_memory_management.cpp
     integration/test_s2s_transport.cpp
     integration/test_protocol_integration.cpp
     performance/test_matrix_performance.cpp
     performance/test_transport_performance.cpp
+    stress/test_stress_comprehensive.cpp
     utils/test_helpers.cpp
 )
 
@@ -97,6 +102,26 @@ target_link_libraries(transport_tests umicp_static ${GTEST_LIBRARIES} ${GTEST_MA
 add_executable(protocol_tests unit/test_protocol.cpp utils/test_helpers.cpp test_main.cpp)
 target_link_libraries(protocol_tests umicp_static ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
 
+# Edge case tests
+add_executable(edge_case_tests unit/test_matrix_ops_edge_cases.cpp utils/test_helpers.cpp test_main.cpp)
+target_link_libraries(edge_case_tests umicp_static ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
+
+# Error condition tests
+add_executable(error_tests unit/test_error_conditions.cpp utils/test_helpers.cpp test_main.cpp)
+target_link_libraries(error_tests umicp_static ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
+
+# Concurrency tests
+add_executable(concurrency_tests unit/test_concurrency_comprehensive.cpp utils/test_helpers.cpp test_main.cpp)
+target_link_libraries(concurrency_tests umicp_static ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
+
+# Memory management tests
+add_executable(memory_tests unit/test_memory_management.cpp utils/test_helpers.cpp test_main.cpp)
+target_link_libraries(memory_tests umicp_static ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
+
+# Stress tests
+add_executable(stress_tests stress/test_stress_comprehensive.cpp utils/test_helpers.cpp test_main.cpp)
+target_link_libraries(stress_tests umicp_static ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
+
 # Performance tests (separate executable)
 add_executable(performance_tests
     performance/test_matrix_performance.cpp
@@ -120,10 +145,50 @@ add_custom_target(test_unit
     COMMENT "Running unit tests"
 )
 
+add_custom_target(test_edge_cases
+    COMMAND edge_case_tests
+    DEPENDS edge_case_tests
+    COMMENT "Running edge case tests"
+)
+
+add_custom_target(test_errors
+    COMMAND error_tests
+    DEPENDS error_tests
+    COMMENT "Running error condition tests"
+)
+
+add_custom_target(test_concurrency
+    COMMAND concurrency_tests
+    DEPENDS concurrency_tests
+    COMMENT "Running concurrency tests"
+)
+
+add_custom_target(test_memory
+    COMMAND memory_tests
+    DEPENDS memory_tests
+    COMMENT "Running memory management tests"
+)
+
+add_custom_target(test_stress
+    COMMAND stress_tests
+    DEPENDS stress_tests
+    COMMENT "Running stress tests"
+)
+
 add_custom_target(test_performance
     COMMAND performance_tests
     DEPENDS performance_tests
     COMMENT "Running performance benchmarks"
+)
+
+add_custom_target(test_comprehensive
+    COMMAND edge_case_tests
+    COMMAND error_tests
+    COMMAND concurrency_tests
+    COMMAND memory_tests
+    COMMAND stress_tests
+    DEPENDS edge_case_tests error_tests concurrency_tests memory_tests stress_tests
+    COMMENT "Running comprehensive test suite"
 )
 
 add_custom_target(test_all

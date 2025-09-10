@@ -228,6 +228,76 @@ protocol_tests/fast:
 .PHONY : protocol_tests/fast
 
 # Convenience name for target.
+tests/CMakeFiles/edge_case_tests.dir/rule:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/edge_case_tests.dir/rule
+.PHONY : tests/CMakeFiles/edge_case_tests.dir/rule
+
+# Convenience name for target.
+edge_case_tests: tests/CMakeFiles/edge_case_tests.dir/rule
+.PHONY : edge_case_tests
+
+# fast build rule for target.
+edge_case_tests/fast:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/edge_case_tests.dir/build.make tests/CMakeFiles/edge_case_tests.dir/build
+.PHONY : edge_case_tests/fast
+
+# Convenience name for target.
+tests/CMakeFiles/error_tests.dir/rule:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/error_tests.dir/rule
+.PHONY : tests/CMakeFiles/error_tests.dir/rule
+
+# Convenience name for target.
+error_tests: tests/CMakeFiles/error_tests.dir/rule
+.PHONY : error_tests
+
+# fast build rule for target.
+error_tests/fast:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/error_tests.dir/build.make tests/CMakeFiles/error_tests.dir/build
+.PHONY : error_tests/fast
+
+# Convenience name for target.
+tests/CMakeFiles/concurrency_tests.dir/rule:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/concurrency_tests.dir/rule
+.PHONY : tests/CMakeFiles/concurrency_tests.dir/rule
+
+# Convenience name for target.
+concurrency_tests: tests/CMakeFiles/concurrency_tests.dir/rule
+.PHONY : concurrency_tests
+
+# fast build rule for target.
+concurrency_tests/fast:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/concurrency_tests.dir/build.make tests/CMakeFiles/concurrency_tests.dir/build
+.PHONY : concurrency_tests/fast
+
+# Convenience name for target.
+tests/CMakeFiles/memory_tests.dir/rule:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/memory_tests.dir/rule
+.PHONY : tests/CMakeFiles/memory_tests.dir/rule
+
+# Convenience name for target.
+memory_tests: tests/CMakeFiles/memory_tests.dir/rule
+.PHONY : memory_tests
+
+# fast build rule for target.
+memory_tests/fast:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/memory_tests.dir/build.make tests/CMakeFiles/memory_tests.dir/build
+.PHONY : memory_tests/fast
+
+# Convenience name for target.
+tests/CMakeFiles/stress_tests.dir/rule:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/stress_tests.dir/rule
+.PHONY : tests/CMakeFiles/stress_tests.dir/rule
+
+# Convenience name for target.
+stress_tests: tests/CMakeFiles/stress_tests.dir/rule
+.PHONY : stress_tests
+
+# fast build rule for target.
+stress_tests/fast:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/stress_tests.dir/build.make tests/CMakeFiles/stress_tests.dir/build
+.PHONY : stress_tests/fast
+
+# Convenience name for target.
 tests/CMakeFiles/performance_tests.dir/rule:
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/performance_tests.dir/rule
 .PHONY : tests/CMakeFiles/performance_tests.dir/rule
@@ -256,6 +326,76 @@ test_unit/fast:
 .PHONY : test_unit/fast
 
 # Convenience name for target.
+tests/CMakeFiles/test_edge_cases.dir/rule:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_edge_cases.dir/rule
+.PHONY : tests/CMakeFiles/test_edge_cases.dir/rule
+
+# Convenience name for target.
+test_edge_cases: tests/CMakeFiles/test_edge_cases.dir/rule
+.PHONY : test_edge_cases
+
+# fast build rule for target.
+test_edge_cases/fast:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_edge_cases.dir/build.make tests/CMakeFiles/test_edge_cases.dir/build
+.PHONY : test_edge_cases/fast
+
+# Convenience name for target.
+tests/CMakeFiles/test_errors.dir/rule:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_errors.dir/rule
+.PHONY : tests/CMakeFiles/test_errors.dir/rule
+
+# Convenience name for target.
+test_errors: tests/CMakeFiles/test_errors.dir/rule
+.PHONY : test_errors
+
+# fast build rule for target.
+test_errors/fast:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_errors.dir/build.make tests/CMakeFiles/test_errors.dir/build
+.PHONY : test_errors/fast
+
+# Convenience name for target.
+tests/CMakeFiles/test_concurrency.dir/rule:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_concurrency.dir/rule
+.PHONY : tests/CMakeFiles/test_concurrency.dir/rule
+
+# Convenience name for target.
+test_concurrency: tests/CMakeFiles/test_concurrency.dir/rule
+.PHONY : test_concurrency
+
+# fast build rule for target.
+test_concurrency/fast:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_concurrency.dir/build.make tests/CMakeFiles/test_concurrency.dir/build
+.PHONY : test_concurrency/fast
+
+# Convenience name for target.
+tests/CMakeFiles/test_memory.dir/rule:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_memory.dir/rule
+.PHONY : tests/CMakeFiles/test_memory.dir/rule
+
+# Convenience name for target.
+test_memory: tests/CMakeFiles/test_memory.dir/rule
+.PHONY : test_memory
+
+# fast build rule for target.
+test_memory/fast:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_memory.dir/build.make tests/CMakeFiles/test_memory.dir/build
+.PHONY : test_memory/fast
+
+# Convenience name for target.
+tests/CMakeFiles/test_stress.dir/rule:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_stress.dir/rule
+.PHONY : tests/CMakeFiles/test_stress.dir/rule
+
+# Convenience name for target.
+test_stress: tests/CMakeFiles/test_stress.dir/rule
+.PHONY : test_stress
+
+# fast build rule for target.
+test_stress/fast:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_stress.dir/build.make tests/CMakeFiles/test_stress.dir/build
+.PHONY : test_stress/fast
+
+# Convenience name for target.
 tests/CMakeFiles/test_performance.dir/rule:
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_performance.dir/rule
 .PHONY : tests/CMakeFiles/test_performance.dir/rule
@@ -268,6 +408,20 @@ test_performance: tests/CMakeFiles/test_performance.dir/rule
 test_performance/fast:
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_performance.dir/build.make tests/CMakeFiles/test_performance.dir/build
 .PHONY : test_performance/fast
+
+# Convenience name for target.
+tests/CMakeFiles/test_comprehensive.dir/rule:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_comprehensive.dir/rule
+.PHONY : tests/CMakeFiles/test_comprehensive.dir/rule
+
+# Convenience name for target.
+test_comprehensive: tests/CMakeFiles/test_comprehensive.dir/rule
+.PHONY : test_comprehensive
+
+# fast build rule for target.
+test_comprehensive/fast:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_comprehensive.dir/build.make tests/CMakeFiles/test_comprehensive.dir/build
+.PHONY : test_comprehensive/fast
 
 # Convenience name for target.
 tests/CMakeFiles/test_all.dir/rule:
@@ -388,6 +542,33 @@ performance/test_transport_performance.cpp.s:
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/performance_tests.dir/build.make tests/CMakeFiles/performance_tests.dir/performance/test_transport_performance.cpp.s
 .PHONY : performance/test_transport_performance.cpp.s
 
+stress/test_stress_comprehensive.o: stress/test_stress_comprehensive.cpp.o
+.PHONY : stress/test_stress_comprehensive.o
+
+# target to build an object file
+stress/test_stress_comprehensive.cpp.o:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.o
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/stress_tests.dir/build.make tests/CMakeFiles/stress_tests.dir/stress/test_stress_comprehensive.cpp.o
+.PHONY : stress/test_stress_comprehensive.cpp.o
+
+stress/test_stress_comprehensive.i: stress/test_stress_comprehensive.cpp.i
+.PHONY : stress/test_stress_comprehensive.i
+
+# target to preprocess a source file
+stress/test_stress_comprehensive.cpp.i:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.i
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/stress_tests.dir/build.make tests/CMakeFiles/stress_tests.dir/stress/test_stress_comprehensive.cpp.i
+.PHONY : stress/test_stress_comprehensive.cpp.i
+
+stress/test_stress_comprehensive.s: stress/test_stress_comprehensive.cpp.s
+.PHONY : stress/test_stress_comprehensive.s
+
+# target to generate assembly for a file
+stress/test_stress_comprehensive.cpp.s:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/stress/test_stress_comprehensive.cpp.s
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/stress_tests.dir/build.make tests/CMakeFiles/stress_tests.dir/stress/test_stress_comprehensive.cpp.s
+.PHONY : stress/test_stress_comprehensive.cpp.s
+
 test_main.o: test_main.cpp.o
 .PHONY : test_main.o
 
@@ -397,6 +578,11 @@ test_main.cpp.o:
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/matrix_tests.dir/build.make tests/CMakeFiles/matrix_tests.dir/test_main.cpp.o
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/transport_tests.dir/build.make tests/CMakeFiles/transport_tests.dir/test_main.cpp.o
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/protocol_tests.dir/build.make tests/CMakeFiles/protocol_tests.dir/test_main.cpp.o
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/edge_case_tests.dir/build.make tests/CMakeFiles/edge_case_tests.dir/test_main.cpp.o
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/error_tests.dir/build.make tests/CMakeFiles/error_tests.dir/test_main.cpp.o
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/concurrency_tests.dir/build.make tests/CMakeFiles/concurrency_tests.dir/test_main.cpp.o
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/memory_tests.dir/build.make tests/CMakeFiles/memory_tests.dir/test_main.cpp.o
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/stress_tests.dir/build.make tests/CMakeFiles/stress_tests.dir/test_main.cpp.o
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/performance_tests.dir/build.make tests/CMakeFiles/performance_tests.dir/test_main.cpp.o
 .PHONY : test_main.cpp.o
 
@@ -409,6 +595,11 @@ test_main.cpp.i:
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/matrix_tests.dir/build.make tests/CMakeFiles/matrix_tests.dir/test_main.cpp.i
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/transport_tests.dir/build.make tests/CMakeFiles/transport_tests.dir/test_main.cpp.i
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/protocol_tests.dir/build.make tests/CMakeFiles/protocol_tests.dir/test_main.cpp.i
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/edge_case_tests.dir/build.make tests/CMakeFiles/edge_case_tests.dir/test_main.cpp.i
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/error_tests.dir/build.make tests/CMakeFiles/error_tests.dir/test_main.cpp.i
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/concurrency_tests.dir/build.make tests/CMakeFiles/concurrency_tests.dir/test_main.cpp.i
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/memory_tests.dir/build.make tests/CMakeFiles/memory_tests.dir/test_main.cpp.i
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/stress_tests.dir/build.make tests/CMakeFiles/stress_tests.dir/test_main.cpp.i
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/performance_tests.dir/build.make tests/CMakeFiles/performance_tests.dir/test_main.cpp.i
 .PHONY : test_main.cpp.i
 
@@ -421,8 +612,67 @@ test_main.cpp.s:
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/matrix_tests.dir/build.make tests/CMakeFiles/matrix_tests.dir/test_main.cpp.s
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/transport_tests.dir/build.make tests/CMakeFiles/transport_tests.dir/test_main.cpp.s
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/protocol_tests.dir/build.make tests/CMakeFiles/protocol_tests.dir/test_main.cpp.s
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/edge_case_tests.dir/build.make tests/CMakeFiles/edge_case_tests.dir/test_main.cpp.s
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/error_tests.dir/build.make tests/CMakeFiles/error_tests.dir/test_main.cpp.s
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/concurrency_tests.dir/build.make tests/CMakeFiles/concurrency_tests.dir/test_main.cpp.s
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/memory_tests.dir/build.make tests/CMakeFiles/memory_tests.dir/test_main.cpp.s
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/stress_tests.dir/build.make tests/CMakeFiles/stress_tests.dir/test_main.cpp.s
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/performance_tests.dir/build.make tests/CMakeFiles/performance_tests.dir/test_main.cpp.s
 .PHONY : test_main.cpp.s
+
+unit/test_concurrency_comprehensive.o: unit/test_concurrency_comprehensive.cpp.o
+.PHONY : unit/test_concurrency_comprehensive.o
+
+# target to build an object file
+unit/test_concurrency_comprehensive.cpp.o:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.o
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/concurrency_tests.dir/build.make tests/CMakeFiles/concurrency_tests.dir/unit/test_concurrency_comprehensive.cpp.o
+.PHONY : unit/test_concurrency_comprehensive.cpp.o
+
+unit/test_concurrency_comprehensive.i: unit/test_concurrency_comprehensive.cpp.i
+.PHONY : unit/test_concurrency_comprehensive.i
+
+# target to preprocess a source file
+unit/test_concurrency_comprehensive.cpp.i:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.i
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/concurrency_tests.dir/build.make tests/CMakeFiles/concurrency_tests.dir/unit/test_concurrency_comprehensive.cpp.i
+.PHONY : unit/test_concurrency_comprehensive.cpp.i
+
+unit/test_concurrency_comprehensive.s: unit/test_concurrency_comprehensive.cpp.s
+.PHONY : unit/test_concurrency_comprehensive.s
+
+# target to generate assembly for a file
+unit/test_concurrency_comprehensive.cpp.s:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_concurrency_comprehensive.cpp.s
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/concurrency_tests.dir/build.make tests/CMakeFiles/concurrency_tests.dir/unit/test_concurrency_comprehensive.cpp.s
+.PHONY : unit/test_concurrency_comprehensive.cpp.s
+
+unit/test_error_conditions.o: unit/test_error_conditions.cpp.o
+.PHONY : unit/test_error_conditions.o
+
+# target to build an object file
+unit/test_error_conditions.cpp.o:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.o
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/error_tests.dir/build.make tests/CMakeFiles/error_tests.dir/unit/test_error_conditions.cpp.o
+.PHONY : unit/test_error_conditions.cpp.o
+
+unit/test_error_conditions.i: unit/test_error_conditions.cpp.i
+.PHONY : unit/test_error_conditions.i
+
+# target to preprocess a source file
+unit/test_error_conditions.cpp.i:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.i
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/error_tests.dir/build.make tests/CMakeFiles/error_tests.dir/unit/test_error_conditions.cpp.i
+.PHONY : unit/test_error_conditions.cpp.i
+
+unit/test_error_conditions.s: unit/test_error_conditions.cpp.s
+.PHONY : unit/test_error_conditions.s
+
+# target to generate assembly for a file
+unit/test_error_conditions.cpp.s:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_error_conditions.cpp.s
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/error_tests.dir/build.make tests/CMakeFiles/error_tests.dir/unit/test_error_conditions.cpp.s
+.PHONY : unit/test_error_conditions.cpp.s
 
 unit/test_matrix_ops.o: unit/test_matrix_ops.cpp.o
 .PHONY : unit/test_matrix_ops.o
@@ -450,6 +700,60 @@ unit/test_matrix_ops.cpp.s:
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_matrix_ops.cpp.s
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/matrix_tests.dir/build.make tests/CMakeFiles/matrix_tests.dir/unit/test_matrix_ops.cpp.s
 .PHONY : unit/test_matrix_ops.cpp.s
+
+unit/test_matrix_ops_edge_cases.o: unit/test_matrix_ops_edge_cases.cpp.o
+.PHONY : unit/test_matrix_ops_edge_cases.o
+
+# target to build an object file
+unit/test_matrix_ops_edge_cases.cpp.o:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.o
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/edge_case_tests.dir/build.make tests/CMakeFiles/edge_case_tests.dir/unit/test_matrix_ops_edge_cases.cpp.o
+.PHONY : unit/test_matrix_ops_edge_cases.cpp.o
+
+unit/test_matrix_ops_edge_cases.i: unit/test_matrix_ops_edge_cases.cpp.i
+.PHONY : unit/test_matrix_ops_edge_cases.i
+
+# target to preprocess a source file
+unit/test_matrix_ops_edge_cases.cpp.i:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.i
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/edge_case_tests.dir/build.make tests/CMakeFiles/edge_case_tests.dir/unit/test_matrix_ops_edge_cases.cpp.i
+.PHONY : unit/test_matrix_ops_edge_cases.cpp.i
+
+unit/test_matrix_ops_edge_cases.s: unit/test_matrix_ops_edge_cases.cpp.s
+.PHONY : unit/test_matrix_ops_edge_cases.s
+
+# target to generate assembly for a file
+unit/test_matrix_ops_edge_cases.cpp.s:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_matrix_ops_edge_cases.cpp.s
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/edge_case_tests.dir/build.make tests/CMakeFiles/edge_case_tests.dir/unit/test_matrix_ops_edge_cases.cpp.s
+.PHONY : unit/test_matrix_ops_edge_cases.cpp.s
+
+unit/test_memory_management.o: unit/test_memory_management.cpp.o
+.PHONY : unit/test_memory_management.o
+
+# target to build an object file
+unit/test_memory_management.cpp.o:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.o
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/memory_tests.dir/build.make tests/CMakeFiles/memory_tests.dir/unit/test_memory_management.cpp.o
+.PHONY : unit/test_memory_management.cpp.o
+
+unit/test_memory_management.i: unit/test_memory_management.cpp.i
+.PHONY : unit/test_memory_management.i
+
+# target to preprocess a source file
+unit/test_memory_management.cpp.i:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.i
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/memory_tests.dir/build.make tests/CMakeFiles/memory_tests.dir/unit/test_memory_management.cpp.i
+.PHONY : unit/test_memory_management.cpp.i
+
+unit/test_memory_management.s: unit/test_memory_management.cpp.s
+.PHONY : unit/test_memory_management.s
+
+# target to generate assembly for a file
+unit/test_memory_management.cpp.s:
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/umicp_tests.dir/build.make tests/CMakeFiles/umicp_tests.dir/unit/test_memory_management.cpp.s
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/memory_tests.dir/build.make tests/CMakeFiles/memory_tests.dir/unit/test_memory_management.cpp.s
+.PHONY : unit/test_memory_management.cpp.s
 
 unit/test_protocol.o: unit/test_protocol.cpp.o
 .PHONY : unit/test_protocol.o
@@ -562,6 +866,11 @@ utils/test_helpers.cpp.o:
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/matrix_tests.dir/build.make tests/CMakeFiles/matrix_tests.dir/utils/test_helpers.cpp.o
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/transport_tests.dir/build.make tests/CMakeFiles/transport_tests.dir/utils/test_helpers.cpp.o
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/protocol_tests.dir/build.make tests/CMakeFiles/protocol_tests.dir/utils/test_helpers.cpp.o
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/edge_case_tests.dir/build.make tests/CMakeFiles/edge_case_tests.dir/utils/test_helpers.cpp.o
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/error_tests.dir/build.make tests/CMakeFiles/error_tests.dir/utils/test_helpers.cpp.o
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/concurrency_tests.dir/build.make tests/CMakeFiles/concurrency_tests.dir/utils/test_helpers.cpp.o
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/memory_tests.dir/build.make tests/CMakeFiles/memory_tests.dir/utils/test_helpers.cpp.o
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/stress_tests.dir/build.make tests/CMakeFiles/stress_tests.dir/utils/test_helpers.cpp.o
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/performance_tests.dir/build.make tests/CMakeFiles/performance_tests.dir/utils/test_helpers.cpp.o
 .PHONY : utils/test_helpers.cpp.o
 
@@ -574,6 +883,11 @@ utils/test_helpers.cpp.i:
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/matrix_tests.dir/build.make tests/CMakeFiles/matrix_tests.dir/utils/test_helpers.cpp.i
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/transport_tests.dir/build.make tests/CMakeFiles/transport_tests.dir/utils/test_helpers.cpp.i
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/protocol_tests.dir/build.make tests/CMakeFiles/protocol_tests.dir/utils/test_helpers.cpp.i
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/edge_case_tests.dir/build.make tests/CMakeFiles/edge_case_tests.dir/utils/test_helpers.cpp.i
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/error_tests.dir/build.make tests/CMakeFiles/error_tests.dir/utils/test_helpers.cpp.i
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/concurrency_tests.dir/build.make tests/CMakeFiles/concurrency_tests.dir/utils/test_helpers.cpp.i
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/memory_tests.dir/build.make tests/CMakeFiles/memory_tests.dir/utils/test_helpers.cpp.i
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/stress_tests.dir/build.make tests/CMakeFiles/stress_tests.dir/utils/test_helpers.cpp.i
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/performance_tests.dir/build.make tests/CMakeFiles/performance_tests.dir/utils/test_helpers.cpp.i
 .PHONY : utils/test_helpers.cpp.i
 
@@ -586,6 +900,11 @@ utils/test_helpers.cpp.s:
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/matrix_tests.dir/build.make tests/CMakeFiles/matrix_tests.dir/utils/test_helpers.cpp.s
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/transport_tests.dir/build.make tests/CMakeFiles/transport_tests.dir/utils/test_helpers.cpp.s
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/protocol_tests.dir/build.make tests/CMakeFiles/protocol_tests.dir/utils/test_helpers.cpp.s
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/edge_case_tests.dir/build.make tests/CMakeFiles/edge_case_tests.dir/utils/test_helpers.cpp.s
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/error_tests.dir/build.make tests/CMakeFiles/error_tests.dir/utils/test_helpers.cpp.s
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/concurrency_tests.dir/build.make tests/CMakeFiles/concurrency_tests.dir/utils/test_helpers.cpp.s
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/memory_tests.dir/build.make tests/CMakeFiles/memory_tests.dir/utils/test_helpers.cpp.s
+	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/stress_tests.dir/build.make tests/CMakeFiles/stress_tests.dir/utils/test_helpers.cpp.s
 	cd /mnt/f/Node/cmmv-hive/umicp/cpp/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/performance_tests.dir/build.make tests/CMakeFiles/performance_tests.dir/utils/test_helpers.cpp.s
 .PHONY : utils/test_helpers.cpp.s
 
@@ -603,11 +922,22 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... test_all"
+	@echo "... test_comprehensive"
+	@echo "... test_concurrency"
+	@echo "... test_edge_cases"
+	@echo "... test_errors"
+	@echo "... test_memory"
 	@echo "... test_performance"
+	@echo "... test_stress"
 	@echo "... test_unit"
+	@echo "... concurrency_tests"
+	@echo "... edge_case_tests"
+	@echo "... error_tests"
 	@echo "... matrix_tests"
+	@echo "... memory_tests"
 	@echo "... performance_tests"
 	@echo "... protocol_tests"
+	@echo "... stress_tests"
 	@echo "... transport_tests"
 	@echo "... umicp_tests"
 	@echo "... integration/test_protocol_integration.o"
@@ -622,12 +952,27 @@ help:
 	@echo "... performance/test_transport_performance.o"
 	@echo "... performance/test_transport_performance.i"
 	@echo "... performance/test_transport_performance.s"
+	@echo "... stress/test_stress_comprehensive.o"
+	@echo "... stress/test_stress_comprehensive.i"
+	@echo "... stress/test_stress_comprehensive.s"
 	@echo "... test_main.o"
 	@echo "... test_main.i"
 	@echo "... test_main.s"
+	@echo "... unit/test_concurrency_comprehensive.o"
+	@echo "... unit/test_concurrency_comprehensive.i"
+	@echo "... unit/test_concurrency_comprehensive.s"
+	@echo "... unit/test_error_conditions.o"
+	@echo "... unit/test_error_conditions.i"
+	@echo "... unit/test_error_conditions.s"
 	@echo "... unit/test_matrix_ops.o"
 	@echo "... unit/test_matrix_ops.i"
 	@echo "... unit/test_matrix_ops.s"
+	@echo "... unit/test_matrix_ops_edge_cases.o"
+	@echo "... unit/test_matrix_ops_edge_cases.i"
+	@echo "... unit/test_matrix_ops_edge_cases.s"
+	@echo "... unit/test_memory_management.o"
+	@echo "... unit/test_memory_management.i"
+	@echo "... unit/test_memory_management.s"
 	@echo "... unit/test_protocol.o"
 	@echo "... unit/test_protocol.i"
 	@echo "... unit/test_protocol.s"
