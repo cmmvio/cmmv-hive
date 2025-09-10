@@ -908,9 +908,30 @@
 
             parseCommentBody(comment) {
                 // Safely handle undefined/null comment
-                if (!comment || typeof comment !== 'object') {
-                    console.warn('[PARSE] Invalid comment object:', comment);
-                    return typeof comment === 'string' ? comment : 'Mensagem inválida';
+                if (!comment) {
+                    console.warn('[PARSE] Null/undefined comment:', comment);
+                    return 'Mensagem inválida';
+                }
+
+                // If it's a string, treat it as body text directly
+                if (typeof comment === 'string') {
+                    return comment
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\\n/g, '<br>')  // Convert literal \n escape sequences
+                        .replace(/\n/g, '<br>')   // Convert actual line breaks
+                        .replace(/^-\s+/gm, '• ')
+                        .replace(/^(\d+)\.\s+/gm, '$1. ');
+                }
+
+                // If it's not an object, convert to string and process
+                if (typeof comment !== 'object') {
+                    const textContent = String(comment);
+                    return textContent
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\\n/g, '<br>')  // Convert literal \n escape sequences
+                        .replace(/\n/g, '<br>')   // Convert actual line breaks
+                        .replace(/^-\s+/gm, '• ')
+                        .replace(/^(\d+)\.\s+/gm, '$1. ');
                 }
 
                 // Use translated text if available, otherwise use original body
@@ -974,7 +995,8 @@
                 // Handle regular markdown
                 return bodyText
                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/\n/g, '<br>')
+                    .replace(/\\n/g, '<br>')  // Convert literal \n escape sequences
+                    .replace(/\n/g, '<br>')   // Convert actual line breaks
                     .replace(/^-\s+/gm, '• ')
                     .replace(/^(\d+)\.\s+/gm, '$1. ');
             }
@@ -1242,6 +1264,26 @@
                 }
             }
 
+            async refreshCostsReport() {
+                const costsContent = document.getElementById('costs-content');
+                costsContent.innerHTML = '<div class="loading-status">🔄 Atualizando relatório de custos...</div>';
+
+                try {
+                    // Force refresh cache
+                    await fetch('/api/costs/refresh', { method: 'POST' });
+
+                    // Reload the costs report
+                    const response = await fetch('/api/costs');
+                    const data = await response.json();
+                    this.renderCostsReport(data);
+
+                    console.log('[COSTS] Cache refreshed and report reloaded');
+                } catch (error) {
+                    console.error('[COSTS] Error refreshing:', error);
+                    costsContent.innerHTML = '<div class="loading-status">❌ Erro ao atualizar relatório de custos</div>';
+                }
+            }
+
             renderCostsReport(data) {
                 const costsContent = document.getElementById('costs-content');
 
@@ -1262,10 +1304,19 @@
 
                 let html = '';
 
+                // Header with refresh button
+                html += `
+                    <div class="costs-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h4 style="margin: 0;">📊 Resumo Geral</h4>
+                        <button onclick="chatInterface.refreshCostsReport()" style="padding: 5px 10px; font-size: 12px; cursor: pointer;">
+                            🔄 Atualizar
+                        </button>
+                    </div>
+                `;
+
                 // Summary section
                 html += `
                     <div class="cost-summary">
-                        <h4>📊 Resumo Geral</h4>
                         <div class="cost-metric">
                             <span class="cost-metric-label">Total de Custos:</span>
                             <span class="cost-metric-value">$${data.summary.totalCost.toFixed(4)}</span>

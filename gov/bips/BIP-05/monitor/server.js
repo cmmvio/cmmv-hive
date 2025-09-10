@@ -294,7 +294,7 @@ let WORKING_APIS = [];
 const API_CACHE_FILE = path.join(__dirname, 'api-test-cache.json');
 const CACHE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
 
-// Provider to models mapping - comprehensive list from MODELS_CHECKLIST.md
+// Provider to models mapping - matches actual MODEL_CATEGORIES for cost reporting
 const PROVIDER_MODELS = {
     'openai': [
         'gpt-4o',           // GPT-4o — multimodal reasoning
@@ -308,29 +308,32 @@ const PROVIDER_MODELS = {
         'claude-3-5-haiku-latest',    // Claude-3.5-Haiku — fast responses
         'claude-3-5-sonnet-latest',   // Claude-4-Sonnet — performance proposal
         'claude-3-opus-latest',       // Claude-4-Opus — complex reasoning
-        'claude-3-7-sonnet-latest'    // Claude-3.7-Sonnet — advanced contextual understanding
+        'claude-4-sonnet-20250514',   // Claude-4-Sonnet — performance proposal
+        'claude-4-opus-20250514',     // Claude-4-Opus — complex reasoning
+        'claude-3-haiku-20240307',    // Claude-3-Haiku — fast responses
+        'claude-3-7-sonnet-20250219'  // Claude-3.7-Sonnet — advanced contextual understanding
     ],
     'gemini': [
-        'gemini-2.0-flash-lite',      // Gemini 2.0 — lightweight
         'gemini-2.0-flash',           // Gemini 2.0 — multimodal analysis
-        'gemini-2.5-pro-latest',      // Gemini 2.5 Pro — i18n/l10n
-        'gemini-2.5-flash-latest'     // Gemini 2.5 Flash — fast processing
+        'gemini-2.5-flash',           // Gemini 2.5 Flash — fast processing
+        'gemini-2.5-flash-lite',      // Gemini 2.5 Flash Lite — lightweight
+        'gemini-1.5-flash',           // Gemini 1.5 Flash — standard
+        'gemini-1.5-flash-8b',        // Gemini 1.5 Flash 8B — optimized
+        'gemini-1.5-pro',             // Gemini 1.5 Pro — advanced
+        'gemini-2.5-pro-preview-05-06' // Gemini 2.5 Pro Preview — latest
     ],
     'xai': [
-        'grok-3-mini',      // Grok-3-mini — lightweight
-        'grok-3',           // Grok-3 — adaptive learning consensus
-        'grok-beta'         // Grok Core Fast-1 equivalent
+        'grok-3-mini',                // Grok-3-mini — fast responses
+        'grok-code-fast-1',           // Grok Code — coding tasks
+        'grok-3',                     // Grok-3 — general purpose
+        'grok-3-fast-beta',           // Grok-3 Fast Beta — beta version
+        'grok-4',                     // Grok-4 — advanced version
+        'grok-3-fast-latest',         // Grok-3 Fast Latest — latest fast
+        'grok-2'                      // Grok-2 — previous generation
     ],
     'deepseek': [
-        'deepseek-chat',    // DeepSeek-V3 — advanced reasoning (excluding R1-0528)
-        'deepseek-coder'    // DeepSeek-Coder — technical analysis
-    ],
-    'groq': [
-        'llama-3.1-70b-versatile',    // Llama-3.1-70B — high performance
-        'llama-3.1-8b-instant',       // Llama-3.1-8B — fast responses
-        'llama-3.3-70b-versatile',    // Llama-3.3-70B — operational contributor
-        'openai/gpt-oss-120',         // GPT-OSS-120B — high capacity open source
-        'qwen/qwen3-32b'              // Qwen3-32B — operational contributor
+        'deepseek-chat',              // DeepSeek Chat — conversational
+        'deepseek-coder'              // DeepSeek Coder — code-focused
     ]
 };
 
@@ -386,6 +389,63 @@ function saveApiCache(workingProviders, failedProviders, costReports = []) {
         }
     } catch (error) {
         console.log(`[API CACHE] ❌ Error saving cache: ${error.message}`);
+    }
+}
+
+// Update cache with new cost data from live interactions
+function updateCacheWithCostData(modelId, costInfo) {
+    if (!costInfo || (!costInfo.inputTokens && !costInfo.totalCost)) {
+        console.log(`[CACHE UPDATE] 🚫 No valid cost data to update for ${modelId}`);
+        return;
+    }
+
+    try {
+        const cachedResults = loadApiCache();
+        if (!cachedResults) {
+            console.log(`[CACHE UPDATE] ❌ No existing cache to update`);
+            return;
+        }
+
+        const provider = modelId.split('/')[0];
+        const hasCostData = (costInfo.inputTokens !== null && costInfo.inputTokens !== undefined) ||
+                           (costInfo.totalCost !== null && costInfo.totalCost !== undefined);
+
+        const newCostReport = {
+            provider,
+            model: modelId,
+            hasCostData,
+            ...costInfo,
+            testTimestamp: new Date().toISOString()
+        };
+
+        // Check if this model already has a cost report
+        const existingIndex = cachedResults.costReports.findIndex(r => r.model === modelId);
+
+        if (existingIndex >= 0) {
+            // Update existing report
+            cachedResults.costReports[existingIndex] = newCostReport;
+            console.log(`[CACHE UPDATE] 🔄 Updated cost data for ${modelId}`);
+        } else {
+            // Add new cost report
+            cachedResults.costReports.push(newCostReport);
+            console.log(`[CACHE UPDATE] ➕ Added new cost data for ${modelId}`);
+        }
+
+        // Update summary statistics
+        cachedResults.summary.modelsWithCostData = cachedResults.costReports.filter(r => r.hasCostData).length;
+        cachedResults.summary.totalCostReports = cachedResults.costReports.length;
+
+        // Save updated cache
+        fs.writeFileSync(API_CACHE_FILE, JSON.stringify(cachedResults, null, 2), 'utf8');
+
+        if (hasCostData) {
+            console.log(`[CACHE UPDATE] 💰 Updated cost for ${modelId}:`);
+            console.log(`[CACHE UPDATE]   - Input tokens: ${costInfo.inputTokens || 'N/A'}`);
+            console.log(`[CACHE UPDATE]   - Output tokens: ${costInfo.outputTokens || 'N/A'}`);
+            console.log(`[CACHE UPDATE]   - Total cost: $${costInfo.totalCost || 'N/A'}`);
+        }
+    } catch (error) {
+        console.log(`[CACHE UPDATE] ❌ Error updating cache with cost data: ${error.message}`);
     }
 }
 
@@ -744,6 +804,11 @@ async function callLLMViaAider(modelId, prompt) {
                     // Extract cost information from the response
                     const costInfo = extractCostInfo(response, modelId);
 
+                    // Update cache with new cost data if available
+                    if (costInfo && (costInfo.inputTokens !== null || costInfo.totalCost !== null)) {
+                        updateCacheWithCostData(modelId, costInfo);
+                    }
+
                     // Return both response and cost information
                     const result = {
                         response: response,
@@ -776,19 +841,89 @@ async function callLLMViaAider(modelId, prompt) {
     }
 }
 
+// Function to get available models from cache
+function getAvailableModelsFromCache() {
+    try {
+        if (fs.existsSync(API_CACHE_FILE)) {
+            const cacheData = JSON.parse(fs.readFileSync(API_CACHE_FILE, 'utf8'));
+            const workingModels = [];
+
+            // Add cursor models (always available)
+            workingModels.push(...MODEL_CATEGORIES.cursor_models);
+
+            // Add aider models from working providers
+            if (cacheData.workingProviders) {
+                cacheData.workingProviders.forEach(provider => {
+                    Object.keys(MODEL_CATEGORIES.aider_models).forEach(modelId => {
+                        if (modelId.startsWith(provider + '/')) {
+                            workingModels.push(modelId);
+                        }
+                    });
+                });
+            }
+
+            return workingModels.sort();
+        }
+    } catch (error) {
+        console.log(`[MODELS CACHE] Error reading available models: ${error.message}`);
+    }
+
+    // Fallback to cursor models only
+    return MODEL_CATEGORIES.cursor_models;
+}
+
 // Main LLM call dispatcher - decides between cursor-agent and aider
 async function callLLM(modelId, prompt) {
+    // Get available models for auto prompt
+    const availableModels = getAvailableModelsFromCache();
+
+    if (modelId === 'auto') {
+        console.log(`[AUTO MODEL] Available models loaded: ${availableModels.length} models`);
+        console.log(`[AUTO MODEL] Models: ${availableModels.join(', ')}`);
+    }
+
+    // Get current issues for auto prompt
+    let issuesInfo = '';
+    if (modelId === 'auto') {
+        try {
+            const issuesData = JSON.parse(fs.readFileSync(issuesFile, 'utf8'));
+            if (issuesData.issues && issuesData.issues.length > 0) {
+                issuesInfo = '\nISSUES EXISTENTES (use o ID correto):\n' +
+                    issuesData.issues.map(issue => `- ID ${issue.id}: "${issue.title}"`).join('\n') + '\n';
+            }
+        } catch (error) {
+            console.log(`[AUTO MODEL] Error reading issues: ${error.message}`);
+        }
+
+        if (issuesInfo) {
+            console.log(`[AUTO MODEL] Issues information loaded for auto prompt:`);
+            console.log(issuesInfo);
+        }
+    }
+
     // Enhanced system prompt with identity validation
     const systemPrompt = (modelId === 'auto') ? `Você é 'auto', o modelo mediador do BIP-05.
 
 PRIVILÉGIOS:
 - Pode adicionar comentários no issues.json com segurança.
+- Pode criar novos tópicos/issues no issues.json.
 - Pode orquestrar pedidos de opinião de outros modelos usando as APIs internas do servidor.
+
+MODELOS DISPONÍVEIS (sempre use estes nomes exatos):
+${availableModels.map(model => `- ${model}`).join('\n')}
+${issuesInfo}
+APIS DISPONÍVEIS:
+- POST /api/create-issue {"title":"","body":"","labels":[],"priority":"high|medium|low"}
+- POST /api/models/opinions {"targetModels":["model1","model2"],"requestedBy":"auto"}
+- POST /api/models/option {"modelId":"model","topic":"","issueId":NUMERO_CORRETO}
 
 COMO ORQUESTRAR (saída de comando):
 - Ao final da sua resposta, se desejar iniciar a coleta de opiniões, emita UMA linha começando com AUTO_CMD: seguida de JSON puro em uma das formas:
-  AUTO_CMD: {"orchestrate":{"topic":"<tópico>","issueId":<número>,"models":["prov/model",...]}}
-  AUTO_CMD: {"option":{"topic":"<tópico>","issueId":<número>,"modelId":"prov/model"}}
+  AUTO_CMD: {"orchestrate":{"topic":"<tópico>","issueId":<NUMERO_CORRETO>,"models":["modelo_exato_da_lista",...]}}
+  AUTO_CMD: {"option":{"topic":"<tópico>","issueId":<NUMERO_CORRETO>,"modelId":"modelo_exato_da_lista"}}
+  AUTO_CMD: {"create_issue":{"title":"<título>","body":"<descrição>","labels":["label1","label2"],"priority":"high|medium|low"}}
+- IMPORTANTE: Use APENAS os nomes de modelos da lista "MODELOS DISPONÍVEIS" acima
+- IMPORTANTE: Use APENAS os IDs de issues da lista "ISSUES EXISTENTES" acima
 - Não coloque texto adicional na mesma linha do AUTO_CMD além do JSON.
 
 REGRAS DE IDENTIDADE:
@@ -925,8 +1060,16 @@ async function callLLMViaCursorAgent(modelId, fullPrompt) {
                     }
                 }
 
+                // Check if we have AUTO_CMD and if so, wait for it to be complete
+                const hasAutoCmd = stdout.includes('AUTO_CMD:');
+                const canResolveEarly = !hasAutoCmd || (hasAutoCmd &&
+                    stdout.indexOf('AUTO_CMD:') !== -1 &&
+                    stdout.slice(stdout.indexOf('AUTO_CMD:')).includes('{') &&
+                    stdout.slice(stdout.indexOf('AUTO_CMD:')).includes('}'));
+
                 if (responseEndings.some(ending => stdout.trim().endsWith(ending)) &&
                     stdout.length > 500 && // Resposta substancial
+                    canResolveEarly &&
                     !isResolved) {
 
                     console.log(`[CURSOR-AGENT DEBUG] Response appears complete, resolving early (${stdout.length} chars)`);
@@ -1138,6 +1281,33 @@ app.get('/api/status', (req, res) => {
             expires_in_minutes: Math.max(0, Math.round((CACHE_DURATION - (Date.now() - cacheInfo.timestamp)) / 60000))
         } : { from_cache: false }
     });
+});
+
+// API endpoint to refresh cost cache
+app.post('/api/costs/refresh', (req, res) => {
+    try {
+        const cachedResults = loadApiCache();
+        if (!cachedResults) {
+            return res.status(404).json({
+                success: false,
+                message: 'No cache data found. Run API tests first.'
+            });
+        }
+
+        console.log(`[COSTS REFRESH] 🔄 Cache refreshed manually`);
+        res.json({
+            success: true,
+            message: 'Cost cache refreshed successfully',
+            timestamp: new Date().toISOString(),
+            costReports: cachedResults.costReports?.length || 0
+        });
+    } catch (error) {
+        console.error('[COSTS REFRESH] Error refreshing cache:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
 });
 
 // API endpoint to get cost reports
@@ -1423,6 +1593,24 @@ app.post('/api/model', async (req, res) => {
                         completed: session?.completedModels || [],
                         failed: session?.failedModels || []
                     };
+                } else if (cmd.create_issue) {
+                    const { title, body, labels = [], priority = 'medium' } = cmd.create_issue;
+                    console.log(`[AUTO_CMD] 📝 Create issue received → title="${title}"`);
+                    broadcastChatMessage({
+                        type: 'simple_response',
+                        author: 'auto',
+                        text: `📝 Criando novo tópico: "${title}"...`
+                    });
+                    const result = await createNewIssue(title, body, labels, priority);
+                    orchestrated = {
+                        type: 'create_issue',
+                        result: result
+                    };
+                    broadcastChatMessage({
+                        type: 'simple_response',
+                        author: 'auto',
+                        text: result.message
+                    });
                 }
             } catch (e) {
                 console.log(`[AUTO_CMD] ⚠️  Parsing failed: ${e.message}`);
@@ -1638,6 +1826,70 @@ function sanitizeForJSON(text) {
         // REMOVED: .replace(/\b/g, '\\b') - This was incorrectly escaping word boundaries!
 }
 
+// Function to create a new issue/topic in issues.json
+async function createNewIssue(title, body, labels = [], priority = 'medium') {
+    try {
+        logInfo('CREATE_ISSUE', 'Starting new issue creation', {
+            title: title,
+            bodyLength: body.length,
+            labels: labels,
+            priority: priority
+        });
+
+        const issuesData = JSON.parse(fs.readFileSync(issuesFile, 'utf8'));
+
+        // Get next ID
+        const existingIds = issuesData.issues ? issuesData.issues.map(issue => issue.id) : [];
+        const nextId = existingIds.length > 0 ? Math.max(...existingIds) + 1 : 1;
+
+        // Create new issue
+        const newIssue = {
+            id: nextId,
+            title: title,
+            author: 'auto',
+            created_at: new Date().toISOString(),
+            status: 'open',
+            labels: labels,
+            priority: priority,
+            locale: 'pt-BR',
+            body: sanitizeForJSON(body),
+            body_original: sanitizeForJSON(body),
+            comments: []
+        };
+
+        // Add to issues array
+        if (!issuesData.issues) {
+            issuesData.issues = [];
+        }
+        issuesData.issues.push(newIssue);
+
+        // Atomic write to prevent corruption
+        const tempFile = issuesFile + '.tmp';
+        fs.writeFileSync(tempFile, JSON.stringify(issuesData, null, 2), 'utf8');
+        fs.renameSync(tempFile, issuesFile);
+
+        logInfo('CREATE_ISSUE', 'New issue created successfully', {
+            issueId: nextId,
+            title: title,
+            totalIssues: issuesData.issues.length
+        });
+
+        return {
+            success: true,
+            issueId: nextId,
+            title: title,
+            message: `Issue #${nextId} criado com sucesso: "${title}"`
+        };
+
+    } catch (error) {
+        logError('CREATE_ISSUE', 'Failed to create new issue', {
+            title: title,
+            error: error.message
+        });
+        throw error;
+    }
+}
+
 // Function to collect opinion from a single model
 async function collectSingleModelOpinion(sessionId, modelId, topic, issueId) {
     const session = activeOpinionSessions.get(sessionId);
@@ -1753,15 +2005,22 @@ ${contextPack}
             try {
                 const issuesData = JSON.parse(fs.readFileSync(issuesFile, 'utf8'));
                 if (issuesData.issues && issuesData.issues.length > 0) {
-                    // Add to specified issue or first issue
-                    const targetIssue = issuesData.issues.find(issue => issue.id === issueId) || issuesData.issues[0];
-                    targetIssue.comments.push(opinion);
+                    // Find the specific issue by ID
+                    const targetIssue = issuesData.issues.find(issue => issue.id === issueId);
+                    if (targetIssue) {
+                        targetIssue.comments.push(opinion);
+                        console.log(`[SAVE] ✅ Opinion added to issue ${issueId}: "${targetIssue.title}"`);
+                    } else {
+                        console.error(`[SAVE] ❌ Issue ${issueId} not found! Available issues:`, issuesData.issues.map(i => `${i.id}: ${i.title}`));
+                        throw new Error(`Issue ${issueId} not found`);
+                    }
                 } else {
                     issuesData.issues = [{
                         id: issueId,
                         title: `Opiniões sobre: ${topic}`,
                         comments: [opinion]
                     }];
+                    console.log(`[SAVE] ✅ Created new issue ${issueId}: "${topic}"`);
                 }
 
                 // Atomic write to prevent corruption
@@ -1779,11 +2038,18 @@ ${contextPack}
             // Update session
             session.pendingModels = session.pendingModels.filter(m => m !== modelId);
             session.completedModels.push(modelId);
-            session.responses.push({
+            const sessionResponse = {
                 modelId,
                 response,
                 timestamp: new Date().toISOString(),
                 success: true
+            };
+            session.responses.push(sessionResponse);
+            console.log(`[OPINIONS DEBUG] Added response to session:`, {
+                sessionId,
+                modelId,
+                responseLength: response.length,
+                responsePreview: response.slice(0, 100) + '...'
             });
 
             console.log(`[OPINIONS] ✅ ${modelId} completed successfully`);
@@ -1846,20 +2112,37 @@ function parseAutoCmdFromText(text) {
     if (typeof text !== 'string') return null;
     const idx = text.indexOf('AUTO_CMD:');
     if (idx === -1) return null;
-    // Take from AUTO_CMD: to end of line
-    const after = text.slice(idx + 'AUTO_CMD:'.length);
+
+    // Take from AUTO_CMD: to end of text
+    const after = text.slice(idx + 'AUTO_CMD:'.length).trim();
+
     // Try to extract JSON between first '{' and last '}'
     const s = after.indexOf('{');
     const e = after.lastIndexOf('}');
-    if (s === -1 || e === -1 || e <= s) return null;
+
+    if (s === -1 || e === -1 || e <= s) {
+        console.log(`[AUTO_CMD] ❌ No valid JSON brackets found in: "${after.slice(0, 100)}..."`);
+        return null;
+    }
+
     const candidate = after.slice(s, e + 1).trim();
+    console.log(`[AUTO_CMD] 🔍 Attempting to parse JSON: "${candidate.slice(0, 200)}${candidate.length > 200 ? '...' : ''}"`);
+
     try {
-        return JSON.parse(candidate);
+        const parsed = JSON.parse(candidate);
+        console.log(`[AUTO_CMD] ✅ Successfully parsed JSON:`, Object.keys(parsed));
+        return parsed;
     } catch (e1) {
+        console.log(`[AUTO_CMD] ⚠️  Initial JSON parse failed: ${e1.message}`);
+
         // Sanitize common trailing quote or markdown artifacts
         const cleaned = candidate.replace(/"$/,'').replace(/`+/g,'').trim();
-        try { return JSON.parse(cleaned); } catch {
-            console.log(`[AUTO_CMD] ⚠️  JSON parse failed: ${e1.message}`);
+        try {
+            const parsed = JSON.parse(cleaned);
+            console.log(`[AUTO_CMD] ✅ Successfully parsed cleaned JSON:`, Object.keys(parsed));
+            return parsed;
+        } catch (e2) {
+            console.log(`[AUTO_CMD] ❌ Both JSON parse attempts failed. Original: ${e1.message}, Cleaned: ${e2.message}`);
             return null;
         }
     }
@@ -1868,15 +2151,46 @@ function parseAutoCmdFromText(text) {
 // Helper: normalize model id short forms (e.g., 'grok-3' -> 'xai/grok-3')
 function normalizeModelId(modelId) {
     if (!modelId || typeof modelId !== 'string') return modelId;
-    if (modelId.includes('/')) return modelId;
+
+    console.log(`[NORMALIZE DEBUG] Input modelId: "${modelId}"`);
+
+    // Special handling for models with incorrect provider prefixes
+    if (modelId.startsWith('prov/')) {
+        const baseModel = modelId.slice(5); // Remove 'prov/' prefix
+        console.log(`[NORMALIZE DEBUG] Detected prov/ prefix, base model: "${baseModel}"`);
+
+        // Check if base model is in cursor_models
+        if (MODEL_CATEGORIES.cursor_models.includes(baseModel)) {
+            console.log(`[NORMALIZE DEBUG] Found "${baseModel}" in cursor_models, returning as-is`);
+            return baseModel;
+        }
+    }
+
+    // If already has a valid provider, return as-is
+    if (modelId.includes('/') && !modelId.startsWith('prov/')) {
+        console.log(`[NORMALIZE DEBUG] Already has provider, returning as-is: "${modelId}"`);
+        return modelId;
+    }
+
+    // Remove prov/ prefix if present (incorrect provider)
+    const cleanModelId = modelId.startsWith('prov/') ? modelId.slice(5) : modelId;
+
+    // Check cursor models first (exact match)
+    if (MODEL_CATEGORIES.cursor_models.includes(cleanModelId)) {
+        console.log(`[NORMALIZE DEBUG] Found "${cleanModelId}" in cursor_models`);
+        return cleanModelId;
+    }
+
     // Try to find a provider key that ends with '/modelId'
     const aiderKeys = Object.keys(MODEL_CATEGORIES.aider_models || {});
-    const match = aiderKeys.find(k => k.endsWith('/' + modelId));
-    if (match) return match;
-    // Also accept cursor models if short name matches exactly
-    const cursorMatch = (MODEL_CATEGORIES.cursor_models || []).find(k => k.endsWith('/' + modelId) || k === modelId);
-    if (cursorMatch) return cursorMatch;
-    return modelId; // leave as-is if unknown
+    const match = aiderKeys.find(k => k.endsWith('/' + cleanModelId));
+    if (match) {
+        console.log(`[NORMALIZE DEBUG] Found aider match: "${match}"`);
+        return match;
+    }
+
+    console.log(`[NORMALIZE DEBUG] No match found, returning cleaned: "${cleanModelId}"`);
+    return cleanModelId; // return cleaned version
 }
 
 // Build a concise context pack from BIP files and the target issue
@@ -2156,6 +2470,33 @@ app.post('/api/logs/clear', (req, res) => {
             requestedType: req.body.type
         });
 
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// REST endpoint for creating new issues
+app.post('/api/create-issue', async (req, res) => {
+    const { title, body, labels = [], priority = 'medium' } = req.body;
+
+    try {
+        if (!title || !body) {
+            return res.status(400).json({
+                success: false,
+                error: 'Title and body are required'
+            });
+        }
+
+        const result = await createNewIssue(title, body, labels, priority);
+
+        res.status(201).json({
+            success: true,
+            ...result
+        });
+    } catch (error) {
+        console.error('Error in /api/create-issue:', error);
         res.status(500).json({
             success: false,
             error: error.message
@@ -2815,6 +3156,13 @@ function normalizeChatEnvelope(messageData) {
         text = messageData.body.trim();
     }
 
+    // Ensure we have a valid type first
+    let type = messageData.type || 'chat_message';
+    const validTypes = ['chat_message', 'simple_response', 'typing', 'stop_typing', 'error', 'opinion_update', 'hello_progress'];
+    if (!validTypes.includes(type)) {
+        type = 'chat_message';
+    }
+
     // Ensure we always have valid text (except for typing indicators)
     if (!text) {
         // Typing indicators legitimately have empty text
@@ -2832,13 +3180,6 @@ function normalizeChatEnvelope(messageData) {
     let author = messageData.author || 'Sistema';
     if (typeof author !== 'string' || !author.trim()) {
         author = 'Sistema';
-    }
-
-    // Ensure we have a valid type
-    let type = messageData.type || 'chat_message';
-    const validTypes = ['chat_message', 'simple_response', 'typing', 'stop_typing', 'error', 'opinion_update', 'hello_progress'];
-    if (!validTypes.includes(type)) {
-        type = 'chat_message';
     }
 
     const normalized = {
@@ -3080,11 +3421,27 @@ async function handleSimpleResponse(text) {
                                     responses: session?.responses || []
                                 };
                                 console.log(`[AUTO_CMD] ✅ Orchestration completed:`, orchestrated);
-                                broadcastChatMessage({
-                                    type: 'simple_response',
-                                    author: 'auto',
-                                    text: `✅ Orquestração concluída! ${orchestrated.completed.length} modelos responderam com sucesso.`
-                                });
+
+                                // Send each model's response to frontend
+                                if (orchestrated.responses && orchestrated.responses.length > 0) {
+                                    orchestrated.responses.forEach(resp => {
+                                        if (resp.success && resp.response) {
+                                            broadcastChatMessage({
+                                                type: 'simple_response',
+                                                author: resp.modelId,
+                                                text: resp.response,
+                                                timestamp: resp.timestamp
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    // Fallback to summary message if no detailed responses
+                                    broadcastChatMessage({
+                                        type: 'simple_response',
+                                        author: 'auto',
+                                        text: `✅ Orquestração concluída! ${orchestrated.completed.length} modelos responderam com sucesso.`
+                                    });
+                                }
                             }).catch(error => {
                                 console.error(`[AUTO_CMD] ❌ Orchestration failed:`, error);
                                 broadcastChatMessage({
@@ -3120,17 +3477,76 @@ async function handleSimpleResponse(text) {
                             // Execute single model opinion asynchronously
                             collectSingleModelOpinion(sessionId, nm, t || text, iid || 1).then(() => {
                                 console.log(`[AUTO_CMD] ✅ Single model opinion completed for ${nm}`);
-                                broadcastChatMessage({
-                                    type: 'simple_response',
-                                    author: 'auto',
-                                    text: `✅ Opinião de ${nm} coletada com sucesso!`
+
+                                // Get the session and send the actual response
+                                const session = activeOpinionSessions.get(sessionId);
+                                console.log(`[AUTO_CMD DEBUG] Session check for ${nm}:`, {
+                                    hasSession: !!session,
+                                    responsesCount: session?.responses?.length || 0,
+                                    sessionId: sessionId
                                 });
+                                if (session && session.responses && session.responses.length > 0) {
+                                    const lastResponse = session.responses[session.responses.length - 1];
+                                    console.log(`[AUTO_CMD DEBUG] Last response check:`, {
+                                        lastResponseModelId: lastResponse.modelId,
+                                        expectedModelId: nm,
+                                        success: lastResponse.success,
+                                        hasResponse: !!lastResponse.response,
+                                        match: lastResponse.modelId === nm
+                                    });
+                                    if (lastResponse.success && lastResponse.response && lastResponse.modelId === nm) {
+                                        broadcastChatMessage({
+                                            type: 'simple_response',
+                                            author: lastResponse.modelId,
+                                            text: lastResponse.response,
+                                            timestamp: lastResponse.timestamp
+                                        });
+                                    } else {
+                                        // Fallback message
+                                        broadcastChatMessage({
+                                            type: 'simple_response',
+                                            author: 'auto',
+                                            text: `✅ Opinião de ${nm} coletada com sucesso!`
+                                        });
+                                    }
+                                } else {
+                                    // Fallback message
+                                    broadcastChatMessage({
+                                        type: 'simple_response',
+                                        author: 'auto',
+                                        text: `✅ Opinião de ${nm} coletada com sucesso!`
+                                    });
+                                }
                             }).catch(error => {
                                 console.error(`[AUTO_CMD] ❌ Single model opinion failed for ${nm}:`, error);
                                 broadcastChatMessage({
                                     type: 'simple_response',
                                     author: 'auto',
                                     text: `❌ Erro ao coletar opinião de ${nm}: ${error.message}`
+                                });
+                            });
+                        } else if (cmd.create_issue) {
+                            const { title, body, labels = [], priority = 'medium' } = cmd.create_issue;
+                            console.log(`[AUTO_CMD] 📝 Create issue received via WebSocket → title="${title}"`);
+                            broadcastChatMessage({
+                                type: 'simple_response',
+                                author: 'auto',
+                                text: `📝 Criando novo tópico: "${title}"...`
+                            });
+
+                            createNewIssue(title, body, labels, priority).then(result => {
+                                broadcastChatMessage({
+                                    type: 'simple_response',
+                                    author: 'auto',
+                                    text: result.message
+                                });
+                                console.log(`[CREATE_ISSUE] ✅ Issue created successfully: ${result.issueId}`);
+                            }).catch(error => {
+                                console.error(`[AUTO_CMD] ❌ Create issue failed:`, error);
+                                broadcastChatMessage({
+                                    type: 'simple_response',
+                                    author: 'auto',
+                                    text: `❌ Erro ao criar tópico: ${error.message}`
                                 });
                             });
                         }
