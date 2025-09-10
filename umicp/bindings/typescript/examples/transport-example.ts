@@ -4,13 +4,13 @@
  * using native Node.js libraries with advanced features
  */
 
-import WebSocket from 'ws';
+import WebSocket, { WebSocketServer } from 'ws';
 import * as http2 from 'http2';
 import { EventEmitter } from 'events';
-import { Envelope, UMICP, OperationType, PayloadType, EncodingType } from '../src/index.js';
+import { Envelope, UMICP, OperationType, PayloadType, EncodingType } from '../src/index';
 
 interface WebSocketConfig {
-  url: string;
+  url?: string;
   isServer?: boolean;
   port?: number;
   path?: string;
@@ -29,7 +29,7 @@ interface ConnectionInfo {
 
 class AdvancedWebSocketTransport extends EventEmitter {
   private ws: WebSocket | null = null;
-  private wss: WebSocket.Server | null = null;
+  private wss: WebSocketServer | null = null;
   private config: WebSocketConfig;
   private reconnectAttempts = 0;
   private reconnectTimer: NodeJS.Timeout | null = null;
@@ -74,7 +74,7 @@ class AdvancedWebSocketTransport extends EventEmitter {
           maxPayload: this.config.maxPayload
         };
 
-        this.wss = new WebSocket.Server(options);
+        this.wss = new WebSocketServer(options);
 
         this.wss.on('connection', (ws: WebSocket, request) => {
           const connectionId = this.generateConnectionId();
@@ -85,7 +85,6 @@ class AdvancedWebSocketTransport extends EventEmitter {
           };
 
           this.connections.set(ws, connectionInfo);
-          console.log(`Client ${connectionId} connected from ${connectionInfo.remoteAddress}`);
 
           // Configure WebSocket
           ws.on('message', (data: WebSocket.Data) => {
@@ -93,7 +92,6 @@ class AdvancedWebSocketTransport extends EventEmitter {
           });
 
           ws.on('close', (code: number, reason: Buffer) => {
-            console.log(`Client ${connectionId} disconnected: ${code} - ${reason.toString()}`);
             this.connections.delete(ws);
             this.emit('clientDisconnected', connectionInfo);
           });
@@ -115,7 +113,6 @@ class AdvancedWebSocketTransport extends EventEmitter {
         });
 
         this.wss.on('listening', () => {
-          console.log(`WebSocket server listening on port ${port}`);
           this.emit('serverStarted', port);
           this.startHeartbeat();
           resolve(true);
@@ -142,6 +139,10 @@ class AdvancedWebSocketTransport extends EventEmitter {
 
     return new Promise((resolve) => {
       try {
+        if (!this.config.url) {
+          throw new Error('URL is required for client connection');
+        }
+
         const options: WebSocket.ClientOptions = {
           perMessageDeflate: this.config.perMessageDeflate,
           maxPayload: this.config.maxPayload
@@ -150,7 +151,6 @@ class AdvancedWebSocketTransport extends EventEmitter {
         this.ws = new WebSocket(this.config.url, options);
 
         this.ws.on('open', () => {
-          console.log('Connected to WebSocket server');
           this.reconnectAttempts = 0;
           this.isReconnecting = false;
           this.startHeartbeat();
@@ -163,7 +163,6 @@ class AdvancedWebSocketTransport extends EventEmitter {
         });
 
         this.ws.on('close', (code: number, reason: Buffer) => {
-          console.log(`Disconnected from WebSocket server: ${code} - ${reason.toString()}`);
           this.stopHeartbeat();
           this.emit('disconnected', code, reason);
 
@@ -199,18 +198,37 @@ class AdvancedWebSocketTransport extends EventEmitter {
       const message = data.toString();
       const connectionInfo = this.connections.get(ws);
 
-      console.log(`Received message from ${connectionInfo?.id || 'unknown'}:`, message);
-
-      // Try to parse as JSON
+      // Try to parse as JSON first
       try {
         const parsedMessage = JSON.parse(message);
-        this.emit('message', parsedMessage, connectionInfo);
+
+        // Check if this looks like a serialized UMICP envelope
+        if (parsedMessage && typeof parsedMessage === 'object' &&
+            ('from' in parsedMessage || 'to' in parsedMessage || 'operation' in parsedMessage)) {
+          // Try to deserialize as UMICP envelope
+          try {
+            const { UMICP } = require('../src/index');
+            const envelope = UMICP.deserializeEnvelope(message);
+            this.emit('message', envelope, connectionInfo);
+            return;
+          } catch (envelopeError) {
+            // If envelope deserialization fails, fall back to parsed JSON
+            this.emit('message', parsedMessage, connectionInfo);
+            return;
+          }
+        }
+
+        // Regular JSON object
+        if (parsedMessage && typeof parsedMessage === 'object') {
+          this.emit('message', parsedMessage, connectionInfo);
+        } else {
+          this.emit('message', message, connectionInfo);
+        }
       } catch {
         // If not JSON, emit as raw string
         this.emit('message', message, connectionInfo);
       }
     } catch (error) {
-      console.error('Error handling message:', error);
       this.emit('messageError', error);
     }
   }
@@ -226,7 +244,6 @@ class AdvancedWebSocketTransport extends EventEmitter {
     this.reconnectAttempts++;
 
     const interval = this.config.reconnectInterval || 3000;
-    console.log(`Scheduling reconnect attempt ${this.reconnectAttempts}/${this.config.maxReconnectAttempts} in ${interval}ms`);
 
     this.reconnectTimer = setTimeout(() => {
       this.connectClient().then(success => {
@@ -259,7 +276,16 @@ class AdvancedWebSocketTransport extends EventEmitter {
 
   send(message: string | object, targetConnection?: string): boolean {
     try {
-      const data = typeof message === 'string' ? message : JSON.stringify(message);
+      let data: string;
+      if (typeof message === 'string') {
+        data = message;
+      } else if (message && typeof message === 'object' && 'serialize' in message && typeof message.serialize === 'function') {
+        // Handle Envelope objects with serialize method
+        data = message.serialize();
+      } else {
+        // Handle regular objects
+        data = JSON.stringify(message);
+      }
 
       if (this.config.isServer && this.wss) {
         // Server mode - broadcast or send to specific client
@@ -319,7 +345,8 @@ class AdvancedWebSocketTransport extends EventEmitter {
 
   isConnected(): boolean {
     if (this.config.isServer) {
-      return this.wss !== null && this.wss.clients.size > 0;
+      // For server, check if the server instance exists (it's listening if it exists)
+      return this.wss !== null;
     } else {
       return this.ws !== null && this.ws.readyState === WebSocket.OPEN;
     }
@@ -353,7 +380,7 @@ class AdvancedWebSocketTransport extends EventEmitter {
     }
   }
 
-  disconnect(): boolean {
+  async disconnect(): Promise<boolean> {
     try {
       this.stopHeartbeat();
 
@@ -363,15 +390,36 @@ class AdvancedWebSocketTransport extends EventEmitter {
       }
 
       if (this.wss) {
+        // Close all client connections first
+        const closePromises: Promise<void>[] = [];
         this.wss.clients.forEach(client => {
-          client.close(1000, 'Server shutdown');
+          closePromises.push(new Promise<void>((resolve) => {
+            if (client.readyState === WebSocket.OPEN) {
+              client.once('close', () => resolve());
+              client.close(1000, 'Server shutdown');
+            } else {
+              resolve();
+            }
+          }));
         });
-        this.wss.close();
+
+        // Wait for all clients to disconnect
+        await Promise.all(closePromises);
+
+        // Close the server
+        await new Promise<void>((resolve) => {
+          this.wss!.close(() => resolve());
+        });
         this.wss = null;
       }
 
       if (this.ws) {
-        this.ws.close(1000, 'Client disconnect');
+        if (this.ws.readyState === WebSocket.OPEN) {
+          await new Promise<void>((resolve) => {
+            this.ws!.once('close', () => resolve());
+            this.ws!.close(1000, 'Client disconnect');
+          });
+        }
         this.ws = null;
       }
 

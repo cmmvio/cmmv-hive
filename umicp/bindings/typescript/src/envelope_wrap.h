@@ -27,6 +27,7 @@ private:
     Napi::Value GetHash(const Napi::CallbackInfo& info);
     Napi::Value GetFrom(const Napi::CallbackInfo& info);
     Napi::Value GetTo(const Napi::CallbackInfo& info);
+    Napi::Value GetOperation(const Napi::CallbackInfo& info);
     Napi::Value GetMessageId(const Napi::CallbackInfo& info);
     Napi::Value GetCapabilities(const Napi::CallbackInfo& info);
 

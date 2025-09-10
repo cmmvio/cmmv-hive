@@ -8,11 +8,12 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
+#include <vector>
 
 using namespace umicp;
 
 Napi::Object EnvelopeWrap::Init(Napi::Env env, Napi::Object exports) {
-    Napi::Function func = DefineClass(env, "Envelope", {
+    std::vector<Napi::ClassPropertyDescriptor<EnvelopeWrap>> properties = {
         InstanceMethod("setFrom", &EnvelopeWrap::SetFrom),
         InstanceMethod("setTo", &EnvelopeWrap::SetTo),
         InstanceMethod("setOperation", &EnvelopeWrap::SetOperation),
@@ -25,6 +26,7 @@ Napi::Object EnvelopeWrap::Init(Napi::Env env, Napi::Object exports) {
         InstanceMethod("getHash", &EnvelopeWrap::GetHash),
         InstanceMethod("getFrom", &EnvelopeWrap::GetFrom),
         InstanceMethod("getTo", &EnvelopeWrap::GetTo),
+        InstanceMethod("getOperation", &EnvelopeWrap::GetOperation),
         InstanceMethod("getMessageId", &EnvelopeWrap::GetMessageId),
         InstanceMethod("getCapabilities", &EnvelopeWrap::GetCapabilities),
 
@@ -33,7 +35,9 @@ Napi::Object EnvelopeWrap::Init(Napi::Env env, Napi::Object exports) {
         StaticMethod("deserialize", &EnvelopeWrap::DeserializeEnvelope),
         StaticMethod("validate", &EnvelopeWrap::ValidateEnvelope),
         StaticMethod("hash", &EnvelopeWrap::HashEnvelope)
-    });
+    };
+
+    Napi::Function func = DefineClass(env, "Envelope", properties);
 
     exports.Set("Envelope", func);
     return exports;
@@ -272,6 +276,11 @@ Napi::Value EnvelopeWrap::GetFrom(const Napi::CallbackInfo& info) {
 Napi::Value EnvelopeWrap::GetTo(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     return Napi::String::New(env, envelope_.to);
+}
+
+Napi::Value EnvelopeWrap::GetOperation(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    return Napi::Number::New(env, static_cast<int32_t>(envelope_.op));
 }
 
 Napi::Value EnvelopeWrap::GetMessageId(const Napi::CallbackInfo& info) {

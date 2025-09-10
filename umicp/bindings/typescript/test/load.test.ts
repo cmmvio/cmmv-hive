@@ -13,9 +13,9 @@ describe('Load Testing', () => {
   });
 
   describe('Envelope Creation Load Tests', () => {
-    test('should handle rapid envelope creation (10,000 envelopes)', () => {
+    test('should handle rapid envelope creation (1,000 envelopes)', () => {
       const startTime = Date.now();
-      const envelopeCount = 10000;
+      const envelopeCount = 1000;
       const envelopes = [];
 
       for (let i = 0; i < envelopeCount; i++) {

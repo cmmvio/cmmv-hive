@@ -252,6 +252,10 @@ export class Envelope {
     return this.nativeEnvelope.getCapabilities();
   }
 
+  getOperation(): OperationType {
+    return this.nativeEnvelope.getOperation();
+  }
+
   // Static methods
   static create(options: EnvelopeOptions = {}): Envelope {
     return new Envelope(options);

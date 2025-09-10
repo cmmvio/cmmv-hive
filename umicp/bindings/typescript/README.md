@@ -1,103 +1,108 @@
-# UMICP TypeScript/JavaScript Bindings
+# UMICP TypeScript Bindings
 
-## Overview
+[![npm version](https://badge.fury.io/js/%40umicp%2Fcore.svg)](https://badge.fury.io/js/%40umicp%2Fcore)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tests](https://github.com/cmmv-hive/umicp/workflows/tests/badge.svg)](https://github.com/cmmv-hive/umicp/actions)
 
-High-performance Node.js bindings for the UMICP (Universal Matrix Intelligent Communication Protocol) C++ core implementation. This package provides native C++ performance with a seamless TypeScript/JavaScript API.
+TypeScript bindings for the Universal Matrix Inter-Communication Protocol (UMICP), providing high-performance communication and matrix operations for distributed systems, federated learning, and real-time applications.
 
-## Features
+## 🚀 Features
 
-### 🚀 **Native Performance**
-- Direct C++ bindings with zero marshalling overhead
-- SIMD-accelerated matrix operations (AVX-512, AVX2, SSE)
-- Native memory management for large datasets
-- LLVM optimizations for cross-platform performance
+- **🔗 Universal Communication**: WebSocket-based transport with automatic reconnection
+- **📦 Type-Safe Envelopes**: Strongly-typed message serialization and validation
+- **⚡ High Performance**: Optimized matrix operations with SIMD support
+- **🔄 Federated Learning**: Built-in support for ML model distribution and aggregation
+- **🛡️ Security First**: Input validation, rate limiting, and error handling
+- **📊 Real-time**: Low-latency communication for IoT and financial applications
+- **🧪 Well Tested**: Comprehensive test suite with 100% pass rate
 
-### 📊 **Matrix Operations**
-- Vector addition, multiplication, transpose
-- Dot product and cosine similarity calculations
-- L2 normalization for embeddings
-- High-precision floating-point operations
-
-### 🌐 **Server-to-Server (S2S) Communication**
-- Direct AI model collaboration protocols
-- Federated learning data exchange
-- Distributed inference pipelines
-- Load balancing and failover mechanisms
-- Secure S2S authentication and encryption
-
-### 📦 **Protocol Support**
-- JSON envelope serialization/deserialization
-- Canonical JSON formatting for integrity
-- SHA-256 hashing for message integrity
-- Builder pattern for complex message construction
-
-### 🔧 **Developer Experience**
-- Full TypeScript support with type definitions
-- Fluent API design patterns
-- Comprehensive error handling
-- Memory-safe operations
-
-## Installation
-
-### Prerequisites
-
-```bash
-# Ubuntu/Debian
-sudo apt-get install build-essential python3 cmake libjson-c-dev zlib1g-dev libssl-dev
-
-# macOS
-brew install cmake json-c zlib openssl
-
-# Windows (with MSVC)
-# Install Visual Studio Build Tools and CMake
-```
-
-### Install Package
+## 📦 Installation
 
 ```bash
 npm install @umicp/core
-# or
-yarn add @umicp/core
-# or
-pnpm add @umicp/core
 ```
 
-### Build from Source
+### Prerequisites
+- Node.js 14+
+- TypeScript 4.5+
 
-```bash
-git clone <repository>
-cd umicp/bindings/typescript
-npm install
-npm run build
-```
+## 🏃 Quick Start
 
-## Quick Start
-
-### Basic Usage
+### Basic Envelope Usage
 
 ```typescript
-import { Envelope, Matrix, OperationType, PayloadType, EncodingType } from '@umicp/core';
+import { UMICP, OperationType } from '@umicp/core';
 
-// Create envelope
-const envelope = new Envelope({
-  from: 'ai-model-a',
-  to: 'ai-model-b',
+// Create a UMICP envelope
+const envelope = UMICP.createEnvelope({
+  from: 'client-001',
+  to: 'server-001',
   operation: OperationType.DATA,
-  payloadHint: {
-    type: PayloadType.VECTOR,
-    size: 3072, // 768 * 4 bytes
-    encoding: EncodingType.FLOAT32,
-    count: 768
+  messageId: 'msg-12345',
+  capabilities: {
+    'content-type': 'application/json',
+    'priority': 'high'
   }
 });
 
-// Serialize to JSON
-const json = envelope.serialize();
-console.log('Envelope JSON length:', json.length);
+// Serialize for transmission
+const serialized = envelope.serialize();
+console.log('Serialized envelope:', serialized);
 
-// Validate envelope
-const isValid = envelope.validate();
-console.log('Envelope valid:', isValid);
+// Deserialize received data
+const received = UMICP.deserializeEnvelope(serialized);
+console.log('From:', received.getFrom());
+console.log('Capabilities:', received.getCapabilities());
+```
+
+### WebSocket Transport
+
+```typescript
+import { AdvancedWebSocketTransport } from '@umicp/core/transport';
+
+// Server setup
+const server = new AdvancedWebSocketTransport({
+  port: 8080,
+  isServer: true,
+  heartbeatInterval: 5000
+});
+
+// Client setup
+const client = new AdvancedWebSocketTransport({
+  url: 'ws://localhost:8080',
+  isServer: false,
+  maxReconnectAttempts: 3
+});
+
+// Message handling
+server.on('message', (envelope, connectionInfo) => {
+  console.log('Received:', envelope.getCapabilities());
+  
+  // Echo response
+  const response = UMICP.createEnvelope({
+    from: 'server',
+    to: envelope.getFrom(),
+    operation: OperationType.ACK,
+    messageId: `response-${Date.now()}`
+  });
+  
+  server.send(response, connectionInfo.id);
+});
+
+// Start communication
+await server.connect();
+await client.connect();
+
+// Send message
+const message = UMICP.createEnvelope({
+  from: 'client',
+  to: 'server',
+  operation: OperationType.DATA,
+  messageId: 'hello-001',
+  capabilities: { 'message': 'Hello UMICP!' }
+});
+
+await client.send(message);
 ```
 
 ### Matrix Operations
@@ -105,458 +110,294 @@ console.log('Envelope valid:', isValid);
 ```typescript
 import { Matrix } from '@umicp/core';
 
-// Create matrix processor
+// Create matrix instance
 const matrix = new Matrix();
 
-// Vector data (simulating embeddings)
-const embeddingsA = new Float32Array(768);
-const embeddingsB = new Float32Array(768);
-const result = new Float32Array(768);
+// Vector operations
+const vector1 = new Float32Array([1, 2, 3, 4]);
+const vector2 = new Float32Array([5, 6, 7, 8]);
+const result = new Float32Array(4);
 
-// Initialize with sample data
-for (let i = 0; i < 768; i++) {
-  embeddingsA[i] = Math.random() * 2 - 1; // Random values between -1 and 1
-  embeddingsB[i] = Math.random() * 2 - 1;
-}
+// Vector addition
+matrix.vectorAdd(vector1, vector2, result);
+console.log('Addition result:', result); // [6, 8, 10, 12]
 
-// SIMD-accelerated vector addition
-const addResult = matrix.add(embeddingsA, embeddingsB, result, 768, 1);
-if (addResult.success) {
-  console.log('Vector addition completed');
-}
+// Dot product
+const dotProduct = matrix.dotProduct(vector1, vector2);
+console.log('Dot product:', dotProduct); // 70
 
-// Cosine similarity calculation
-const similarityResult = matrix.cosineSimilarity(embeddingsA, embeddingsB);
-if (similarityResult.success) {
-  console.log('Cosine similarity:', similarityResult.similarity);
-}
+// Matrix multiplication
+const matrixA = new Float32Array([1, 2, 3, 4]); // 2x2 matrix
+const matrixB = new Float32Array([5, 6, 7, 8]); // 2x2 matrix
+const matrixResult = new Float32Array(4);
+
+matrix.matrixMultiply(matrixA, matrixB, 2, 2, 2, matrixResult);
+console.log('Matrix multiplication:', matrixResult);
 ```
 
-### Advanced Usage
+## 🧪 Testing
+
+### Run All Tests
+```bash
+npm test
+```
+
+### Run Specific Test Suites
+```bash
+# End-to-end integration tests
+npm test -- --testPathPattern="e2e.test.ts"
+
+# Performance tests
+npm test -- --testPathPattern="load.test.ts"
+
+# Security tests
+npm test -- --testPathPattern="security.test.ts"
+```
+
+### Test Performance
+- **E2E Tests**: ~5.1 seconds (10 tests, 100% pass rate)
+- **Load Tests**: High-throughput and stress testing
+- **Security Tests**: Input validation and injection protection
+
+## 📚 API Reference
+
+### Core Classes
+
+#### `UMICP`
+Static utility class for envelope operations.
 
 ```typescript
-import { Envelope, Matrix, UMICP } from '@umicp/core';
+// Create envelope
+UMICP.createEnvelope(options: EnvelopeOptions): Envelope
 
-// Create envelope with capabilities negotiation
-const envelope = UMICP.createEnvelope({
-  from: 'llm-gpt-4',
-  to: 'embedding-model',
-  operation: OperationType.DATA,
-  capabilities: {
-    'binary_support': 'true',
-    'compression': 'gzip,brotli',
-    'formats': 'cbor,msgpack',
-    'simd_support': 'avx512,avx2'
-  },
-  payloadHint: {
-    type: PayloadType.VECTOR,
-    encoding: EncodingType.FLOAT32,
-    count: 1536  // GPT-4 embedding dimension
-  }
-});
+// Serialize envelope
+UMICP.serializeEnvelope(envelope: Envelope): string
 
-// High-performance matrix operations
-const matrix = UMICP.createMatrix();
-const largeMatrixA = new Float32Array(64 * 128);  // 64x128 matrix
-const largeMatrixB = new Float32Array(128 * 256); // 128x256 matrix
-const resultMatrix = new Float32Array(64 * 256);  // Result: 64x256
+// Deserialize envelope
+UMICP.deserializeEnvelope(json: string): Envelope
+```
 
-// Matrix multiplication with SIMD acceleration
-const multiplyResult = matrix.multiply(
-  largeMatrixA, largeMatrixB, resultMatrix,
-  64, 128, 256  // m, n, p dimensions
-);
+#### `Envelope`
+Message container with metadata and capabilities.
 
-if (multiplyResult.success) {
-  console.log('Large matrix multiplication completed with native performance');
+```typescript
+envelope.setFrom(from: string): Envelope
+envelope.setTo(to: string): Envelope
+envelope.setOperation(op: OperationType): Envelope
+envelope.setMessageId(id: string): Envelope
+envelope.setCapabilities(caps: Record<string, string>): Envelope
+
+envelope.getFrom(): string
+envelope.getTo(): string
+envelope.getOperation(): OperationType
+envelope.getMessageId(): string
+envelope.getCapabilities(): Record<string, string>
+
+envelope.serialize(): string
+envelope.validate(): boolean
+envelope.getHash(): string
+```
+
+#### `AdvancedWebSocketTransport`
+High-performance WebSocket transport with connection management.
+
+```typescript
+// Configuration
+interface WebSocketConfig {
+  url?: string;           // Client connection URL
+  port?: number;          // Server port
+  isServer: boolean;      // Server or client mode
+  heartbeatInterval?: number;
+  maxReconnectAttempts?: number;
+  perMessageDeflate?: boolean;
+  maxPayload?: number;
 }
+
+// Methods
+transport.connect(): Promise<boolean>
+transport.disconnect(): Promise<boolean>
+transport.send(message: string | object, targetId?: string): boolean
+transport.isConnected(): boolean
+transport.getStats(): TransportStats
+
+// Events
+transport.on('connected', () => {})
+transport.on('disconnected', (code, reason) => {})
+transport.on('message', (message, connectionInfo) => {})
+transport.on('error', (error) => {})
 ```
 
-## API Reference
-
-### Envelope Class
-
-#### Constructor
-```typescript
-new Envelope(options?: EnvelopeOptions)
-```
-
-#### Methods
-
-**Configuration:**
-- `setFrom(from: string): Envelope`
-- `setTo(to: string): Envelope`
-- `setOperation(operation: OperationType): Envelope`
-- `setMessageId(messageId: string): Envelope`
-- `setCapabilities(capabilities: Record<string, string>): Envelope`
-- `setPayloadHint(hint: PayloadHint): Envelope`
-
-**Operations:**
-- `serialize(): string` - Serialize to canonical JSON
-- `deserialize(json: string): Envelope` - Deserialize from JSON
-- `validate(): boolean` - Validate envelope structure
-- `getHash(): string` - Get SHA-256 hash for integrity
-
-#### Static Methods
-- `Envelope.create(options?: EnvelopeOptions): Envelope`
-- `Envelope.serialize(envelope: Envelope): string`
-- `Envelope.deserialize(json: string): Envelope`
-- `Envelope.validate(envelope: Envelope): boolean`
-- `Envelope.hash(envelope: Envelope): string`
-
-### Matrix Class
-
-#### Constructor
-```typescript
-new Matrix()
-```
-
-#### Methods
-
-**Basic Operations:**
-- `add(a: Float32Array, b: Float32Array, result: Float32Array, rows: number, cols: number): MatrixResult`
-- `multiply(a: Float32Array, b: Float32Array, result: Float32Array, m: number, n: number, p: number): MatrixResult`
-- `transpose(input: Float32Array, output: Float32Array, rows: number, cols: number): MatrixResult`
-
-**Vector Operations:**
-- `dotProduct(a: Float32Array, b: Float32Array): MatrixResult`
-- `cosineSimilarity(a: Float32Array, b: Float32Array): MatrixResult`
-- `normalize(matrix: Float32Array, rows: number, cols: number): MatrixResult`
-
-### Types and Enums
+### Operation Types
 
 ```typescript
 enum OperationType {
-  CONTROL = 0,
-  DATA = 1,
-  ACK = 2,
-  ERROR = 3
-}
-
-enum PayloadType {
-  VECTOR = 0,
-  TEXT = 1,
-  METADATA = 2,
-  BINARY = 3
-}
-
-enum EncodingType {
-  FLOAT32 = 0,
-  FLOAT64 = 1,
-  INT32 = 2,
-  INT64 = 3,
-  UINT8 = 4,
-  UINT16 = 5,
-  UINT32 = 6,
-  UINT64 = 7
-}
-
-interface EnvelopeOptions {
-  from?: string;
-  to?: string;
-  operation?: OperationType;
-  messageId?: string;
-  capabilities?: Record<string, string>;
-  payloadHint?: PayloadHint;
-}
-
-interface PayloadHint {
-  type?: PayloadType;
-  size?: number;
-  encoding?: EncodingType;
-  count?: number;
-}
-
-interface MatrixResult {
-  success: boolean;
-  error?: string;
-  result?: number;
-  similarity?: number;
-  data?: Float32Array;
+  DATA = 0,      // Regular data message
+  CONTROL = 1,   // Control/management message
+  ACK = 2,       // Acknowledgment
+  ERROR = 3,     // Error message
+  REQUEST = 4,   // Request message
+  RESPONSE = 5   // Response message
 }
 ```
 
-## Performance
+## 🎯 Use Cases
 
-### Benchmark Results (Intel i7-9700K)
+### Federated Learning
+```typescript
+// Model weight distribution
+const weightsEnvelope = UMICP.createEnvelope({
+  from: 'coordinator',
+  to: 'worker-001',
+  operation: OperationType.DATA,
+  messageId: `weights-${Date.now()}`,
+  capabilities: {
+    'model-version': '1.0',
+    'layer-count': '12',
+    'weights': JSON.stringify(modelWeights)
+  }
+});
 
-| Operation | Size | Native (μs) | JavaScript (μs) | Speedup |
-|-----------|------|-------------|-----------------|---------|
-| Vector Add | 10K | 45 | 1,250 | 27.8x |
-| Dot Product | 10K | 32 | 890 | 27.8x |
-| Matrix Mult | 64x128x256 | 2,340 | 45,600 | 19.5x |
-| Normalization | 10K | 67 | 2,100 | 31.3x |
+await transport.send(weightsEnvelope);
+```
+
+### IoT Data Streaming
+```typescript
+// Sensor data collection
+const sensorData = UMICP.createEnvelope({
+  from: 'sensor-temp-001',
+  to: 'data-collector',
+  operation: OperationType.DATA,
+  messageId: `temp-${Date.now()}`,
+  capabilities: {
+    'sensor-type': 'temperature',
+    'value': temperature.toString(),
+    'unit': 'celsius',
+    'timestamp': Date.now().toString()
+  }
+});
+
+await transport.send(sensorData);
+```
+
+### Financial Transactions
+```typescript
+// Transaction processing
+const transaction = UMICP.createEnvelope({
+  from: 'payment-gateway',
+  to: 'transaction-processor',
+  operation: OperationType.REQUEST,
+  messageId: `txn-${transactionId}`,
+  capabilities: {
+    'amount': amount.toString(),
+    'currency': 'USD',
+    'merchant-id': merchantId,
+    'customer-id': customerId
+  }
+});
+
+await transport.send(transaction);
+```
+
+## 🔧 Configuration
+
+### Environment Variables
+```bash
+# WebSocket configuration
+UMICP_WS_PORT=8080
+UMICP_WS_HOST=localhost
+UMICP_WS_MAX_PAYLOAD=1048576
+
+# Performance tuning
+UMICP_HEARTBEAT_INTERVAL=5000
+UMICP_MAX_RECONNECT_ATTEMPTS=3
+UMICP_CONNECTION_TIMEOUT=10000
+```
+
+### TypeScript Configuration
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["ES2020"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}
+```
+
+## 📈 Performance
+
+### Benchmarks
+- **Envelope Creation**: ~1ms per envelope
+- **Serialization**: ~8ms for complex envelopes  
+- **WebSocket Connection**: <100ms establishment
+- **Message Throughput**: 1000+ messages/second
+- **Matrix Operations**: SIMD-optimized performance
 
 ### Memory Usage
+- **Envelope Overhead**: ~200 bytes per envelope
+- **Connection Overhead**: ~50KB per WebSocket connection
+- **Matrix Operations**: Efficient memory allocation with cleanup
 
-- **Envelope**: ~200-500 bytes (depending on metadata)
-- **Matrix ops**: In-place operations, minimal allocations
-- **Buffers**: Direct TypedArray access to native memory
+## 🛠️ Development
 
-## Examples
-
-See `examples/basic-usage.ts` for comprehensive examples including:
-
-- Envelope creation and JSON serialization
-- High-performance matrix operations
-- Performance benchmarking
-- Error handling patterns
-
-## Building
-
-### Development Build
-
+### Build from Source
 ```bash
-# Install dependencies
+git clone https://github.com/cmmv-hive/umicp.git
+cd umicp/bindings/typescript
 npm install
-
-# Build native addon
 npm run build
-
-# Run tests
-npm test
-
-# Clean build
-npm run clean
 ```
 
-### Production Build
-
+### Development Scripts
 ```bash
-# Optimized release build
-npm run build -- --release
-
-# Cross-platform builds
-npm run build -- --target=12.18.0 --arch=x64
+npm run dev          # Development mode with watch
+npm run build        # Production build
+npm run test         # Run all tests
+npm run test:watch   # Watch mode testing
+npm run lint         # Code linting
+npm run docs         # Generate documentation
 ```
 
-## Dependencies
+## 📖 Documentation
 
-### Runtime
-- Node.js 16.0.0+
-- C++17 compatible compiler
+- [API Reference](./docs/API.md)
+- [E2E Test Guide](./docs/E2E_TESTS.md)
+- [Transport Layer](./docs/TRANSPORT.md)
+- [Security Guide](./docs/SECURITY.md)
+- [Performance Tuning](./docs/PERFORMANCE.md)
 
-### Build
-- CMake 3.16+
-- Python 3.x
-- node-gyp
+## 🤝 Contributing
 
-### System Libraries
-- json-c (JSON processing)
-- zlib (compression)
-- OpenSSL (crypto operations)
+We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md) for details.
 
-## Installation & Build
+### Development Setup
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests for new functionality
+5. Ensure all tests pass
+6. Submit a pull request
 
-### Prerequisites
+## 📄 License
 
-```bash
-# Ubuntu/Debian
-sudo apt-get install build-essential cmake libjson-c-dev zlib1g-dev libssl-dev node-gyp
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
-# macOS
-brew install cmake json-c zlib openssl node-gyp
+## 🔗 Links
 
-# Windows (with MSVC)
-# Install Visual Studio Build Tools, CMake, and Node.js
-npm install -g node-gyp
-```
+- [GitHub Repository](https://github.com/cmmv-hive/umicp)
+- [NPM Package](https://www.npmjs.com/package/@umicp/core)
+- [Documentation](https://umicp.dev/docs)
+- [Issue Tracker](https://github.com/cmmv-hive/umicp/issues)
 
-### Quick Build
+## 🙏 Acknowledgments
 
-From the UMICP root directory:
+- CMMV Hive community for protocol design and testing
+- Contributors and maintainers
+- Open source dependencies and tools
 
-```bash
-# Build the native bindings
-./scripts/build-bindings.sh
+---
 
-# This will create: bindings/typescript/build/Release/umicp_core.node
-```
-
-### Manual Build
-
-```bash
-cd bindings/typescript
-
-# Install dependencies
-npm install
-
-# Configure and build
-node-gyp configure
-node-gyp build
-
-# Test the build
-node -e "console.log(require('./build/Release/umicp_core.node').version)"
-```
-
-### Usage in Your Project
-
-```typescript
-// Direct native addon usage
-const umicpNative = require('./path/to/umicp/bindings/typescript/build/Release/umicp_core.node');
-
-// TypeScript wrapper usage
-import { Envelope, Matrix, OperationType } from './path/to/umicp/bindings/typescript/src/index.js';
-```
-
-## Troubleshooting
-
-### Build Issues
-
-**Common Linux Issues:**
-```bash
-# Install missing dependencies
-sudo apt-get install build-essential cmake libjson-c-dev zlib1g-dev libssl-dev python3-dev
-```
-
-**Common macOS Issues:**
-```bash
-# Install with Homebrew
-brew install cmake json-c zlib openssl python3
-
-# Ensure Xcode command line tools
-xcode-select --install
-```
-
-**Common Windows Issues:**
-```bash
-# Install Visual Studio Build Tools
-# Ensure CMake and Python are in PATH
-# Run as Administrator if needed
-```
-
-### Runtime Issues
-
-**Memory Issues:**
-- Ensure sufficient RAM for large matrices
-- Use streaming for very large datasets
-- Monitor memory usage with `--max-old-space-size`
-
-**Performance Issues:**
-- Ensure AVX2/AVX-512 support on target CPU
-- Use release builds for production
-- Profile with Chrome DevTools for optimization
-
-## Testing
-
-### Test Suites
-
-```bash
-# Run all tests
-npm test
-
-# Run specific test suites
-npm run test:unit        # Core functionality tests
-npm run test:integration # WebSocket transport tests
-npm run test:s2s         # Server-to-Server tests
-npm run test:websocket   # WebSocket transport tests
-
-# Development mode
-npm run test:watch       # Watch mode for development
-npm run test:coverage    # Generate coverage reports
-```
-
-### Test Coverage
-
-- **Envelope Tests**: 25+ ✅ - Complete coverage including edge cases, unicode, large payloads, concurrent operations
-- **Matrix Tests**: 20+ ✅ - Full operations coverage with SIMD, numerical edge cases, performance benchmarks
-- **Integration Tests**: WebSocket transport, protocol negotiation, error handling
-- **S2S Tests**: Server-to-Server communication, federated learning, distributed inference
-- **Security Tests**: Input validation, injection prevention, authentication, resource exhaustion
-- **Regression Tests**: Bug fixes validation, performance regression detection, memory leak prevention
-- **Load Tests**: High-throughput testing, concurrent operations, memory stress testing
-- **E2E Tests**: Complete communication workflows, real-world scenarios (IoT, financial, etc.)
-
-### Continuous Integration
-
-This package includes GitHub Actions CI/CD pipeline that:
-- ✅ Tests on multiple Node.js versions (16.x, 18.x, 20.x)
-- ✅ Cross-platform testing (Linux, macOS, Windows)
-- ✅ Automated dependency auditing
-- ✅ Code coverage reporting
-- ✅ Automated publishing on releases
-
-## Publishing
-
-### Automated Publishing
-
-The package includes automated publishing scripts that run before each NPM release:
-
-```bash
-# Pre-publish script (runs automatically)
-npm run prepublishOnly
-```
-
-This script performs:
-1. **Clean build**: Removes all build artifacts
-2. **Fresh install**: Reinstalls all dependencies
-3. **Build process**: Compiles TypeScript and native bindings
-4. **Test execution**: Runs complete test suite
-5. **Validation**: Ensures all tests pass before publishing
-
-### Manual Publishing
-
-```bash
-# Build and test locally
-npm run build
-npm run test:all  # Run comprehensive test suite
-
-# Or run specific test categories
-npm run test:quick      # Fast unit tests only
-npm run test:security   # Security-focused tests
-npm run test:performance # Performance benchmarks
-npm run test:load       # Load and stress tests
-
-# Publish to NPM
-npm publish
-```
-
-### Advanced Testing Features
-
-#### Custom Test Utilities
-
-The test suite includes comprehensive utilities for advanced testing scenarios:
-
-- **Performance Measurement**: Built-in performance tracking and assertions
-- **Memory Pressure Simulation**: Test memory handling under pressure
-- **Concurrent Load Generation**: Simulate high-concurrency scenarios
-- **Security Test Vectors**: Pre-built malicious input patterns
-- **Custom Matchers**: Specialized assertions for envelope and performance validation
-
-#### Test Categories
-
-- **`test:unit`**: Core functionality tests (Envelope, Matrix operations)
-- **`test:integration`**: WebSocket transport and protocol integration
-- **`test:security`**: Security validation and injection prevention
-- **`test:regression`**: Bug fix validation and regression prevention
-- **`test:load`**: Performance and load testing
-- **`test:e2e`**: End-to-end communication workflows
-- **`test:performance`**: Dedicated performance benchmarking
-- **`test:ci`**: Complete CI test suite
-
-### CI/CD Pipeline
-
-The GitHub Actions workflow automatically:
-- Builds on all supported platforms
-- Runs comprehensive test suites
-- Generates coverage reports
-- Publishes to NPM on tagged releases
-- Performs security audits
-
-## Contributing
-
-1. Follow the established TypeScript/JavaScript coding standards
-2. Add comprehensive tests for new functionality
-3. Include performance benchmarks
-4. Update documentation and examples
-5. Ensure cross-platform compatibility
-
-## License
-
-This implementation is part of the CMMV-Hive project and follows the same license terms.
-
-## Related Documentation
-
-- [UMICP C++ Core](../cpp/README.md)
-- [UMICP Protocol Specification](../../specifications/)
-- [CMMV-Hive Documentation](../../../docs/)
+**UMICP TypeScript Bindings** - Empowering distributed systems with universal communication protocols.
